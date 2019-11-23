@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.angcyo.tablayout.DslTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tab_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#8D8A8A"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="20dp">
+
+    <include layout="@layout/layout_text_view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#3FA0E1"
+        android:gravity="center"
+        android:text="文本1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="文本2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="文本3"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="文本4"
+        android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="文本5" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+    <include layout="@layout/layout_text_view" />
+
+</com.angcyo.tablayout.DslTabLayout>

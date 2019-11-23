@@ -1,0 +1,2 @@
+include ':Sample', ':TabLayout'
+rootProject.name='DslTabLayout'
