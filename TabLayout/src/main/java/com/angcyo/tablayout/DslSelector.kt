@@ -157,7 +157,13 @@ open class DslSelector {
 
         val selectorViewList = selectorViewList
 
-        if (!select) {
+        if (select) {
+            val sum = selectorViewList.size + 1
+            if (sum > dslSelectorConfig.dslMaxSelectLimit) {
+                //不允许选择
+                return false
+            }
+        } else {
             //取消选择, 检查是否达到了 limit
             val sum = selectorViewList.size - 1
             if (sum < dslSelectorConfig.dslMinSelectLimit) {
@@ -206,6 +212,9 @@ class DslSelectorConfig {
 
     /**取消选择时, 最小需要保持多个选中*/
     var dslMinSelectLimit = 1
+
+    /**选择时, 最大允许多个选中*/
+    var dslMaxSelectLimit = Int.MAX_VALUE
 
     /**是否是多选模式*/
     var dslMultiMode: Boolean = false
