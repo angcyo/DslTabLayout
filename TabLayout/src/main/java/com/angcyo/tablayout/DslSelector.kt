@@ -107,8 +107,10 @@ open class DslSelector {
         val lastSelectorIndex: Int? = selectorIndexList.lastOrNull()
 
         if (_selector(index, select)) {
+            val indexSelectorList = selectorIndexList
+            dslSelectorConfig.dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
             dslSelectorConfig.onSelectViewChange(lastSelectorView, selectorViewList)
-            dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, selectorIndexList)
+            dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, indexSelectorList)
         }
     }
 
@@ -128,8 +130,10 @@ open class DslSelector {
         }
 
         if (result) {
+            val indexSelectorList = selectorIndexList
+            dslSelectorConfig.dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
             dslSelectorConfig.onSelectViewChange(lastSelectorView, selectorViewList)
-            dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, selectorIndexList)
+            dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, indexSelectorList)
         }
     }
 
@@ -207,7 +211,7 @@ open class DslSelector {
  * */
 class DslSelectorConfig {
 
-    /**默认选中索引*/
+    /**当前选中的索引*/
     var dslSelectIndex = 0
 
     /**取消选择时, 最小需要保持多个选中*/
