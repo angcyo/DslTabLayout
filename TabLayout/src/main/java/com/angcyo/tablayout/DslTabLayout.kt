@@ -1,10 +1,12 @@
 package com.angcyo.tablayout
 
 import android.content.Context
+import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.*
 import android.widget.FrameLayout
 import android.widget.OverScroller
+import android.widget.TextView
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -30,6 +32,11 @@ open class DslTabLayout(
     /**在等宽的情况下, 指定item的宽度, 小于0, 平分*/
     var itemWidth = -3
 
+    /**指示器*/
+    var tabIndicator: TabIndicator
+
+    //<editor-fold desc="内部属性">
+
     //fling 速率阈值
     var _minFlingVelocity = 0
     var _maxFlingVelocity = 0
@@ -53,7 +60,93 @@ open class DslTabLayout(
         _minFlingVelocity = vc.scaledMinimumFlingVelocity
         _maxFlingVelocity = vc.scaledMaximumFlingVelocity
         //_touchSlop = vc.scaledTouchSlop
+
+        tabIndicator = TabIndicator(this)
+        tabIndicator.initAttribute(context, attributeSet)
+
+        tabIndicator.indicatorDrawable =
+            context.resources.getDrawable(R.drawable.indicator_bottom_line)
+
+        //开启绘制
+        setWillNotDraw(false)
     }
+
+    val dslSelector: DslSelector by lazy {
+        DslSelector().install(this) {
+
+            onStyleItemView = { itemView, index, _ ->
+                if (index >= 4) {
+                    (itemView as? TextView)?.text = "!文本控件| $index"
+                }
+            }
+
+            onSelectIndexChange = { _, selectList ->
+                setCurrentItem(selectList.last())
+            }
+        }
+    }
+
+    //</editor-fold desc="内部属性">
+
+    //<editor-fold desc="可操作性方法">
+
+    fun setCurrentItem(index: Int) {
+        scrollToCenter(index)
+        postInvalidate()
+    }
+
+    /**将[index]位置显示在TabLayout的中心*/
+    fun scrollToCenter(index: Int) {
+        val childCenterX = tabIndicator.getChildCenterX(index)
+        val viewCenterX = measuredWidth / 2
+
+        if (childCenterX > viewCenterX) {
+            startScroll(childCenterX - viewCenterX - scrollX)
+        } else {
+            startScroll(-scrollX)
+        }
+    }
+
+    //</editor-fold desc="可操作性方法">
+
+    //<editor-fold desc="初始化相关">
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+    }
+
+    override fun onViewAdded(child: View?) {
+        super.onViewAdded(child)
+        dslSelector.updateStyle()
+        dslSelector.updateClickListener()
+    }
+
+    override fun onViewRemoved(child: View?) {
+        super.onViewRemoved(child)
+    }
+
+    override fun draw(canvas: Canvas) {
+        tabIndicator.setBounds(0, 0, measuredWidth, measuredHeight)
+        super.draw(canvas)
+        //绘制在child的上面
+        if (tabIndicator.indicatorStyle == TabIndicator.INDICATOR_STYLE_BOTTOM) {
+            tabIndicator.draw(canvas)
+        }
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        //绘制在child的后面
+        if (tabIndicator.indicatorStyle == TabIndicator.INDICATOR_STYLE_BACKGROUND) {
+            tabIndicator.draw(canvas)
+        }
+    }
+
+    //</editor-fold desc="初始化相关">
 
     //<editor-fold desc="布局相关">
 
@@ -213,6 +306,8 @@ open class DslTabLayout(
         if (changed) {
             //tabIndicator.curIndex = currentItem
         }
+
+        "changed $changed".loge()
     }
 
     //</editor-fold desc="布局相关">
@@ -243,10 +338,20 @@ open class DslTabLayout(
         var layoutWidth: String? = null
         var layoutHeight: String? = null
 
+        /**
+         * 宽高[WRAP_CONTENT]时, 内容view的定位索引
+         * [TabIndicator.indicatorContentIndex]
+         * */
+        var indicatorContentIndex = -1
+
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val a = c.obtainStyledAttributes(attrs, R.styleable.DslTabLayout_Layout)
             layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_r_layout_width)
             layoutHeight = a.getString(R.styleable.DslTabLayout_Layout_r_layout_height)
+            indicatorContentIndex = a.getInt(
+                R.styleable.DslTabLayout_Layout_r_indicator_content_index,
+                indicatorContentIndex
+            )
             a.recycle()
         }
 
@@ -307,9 +412,12 @@ open class DslTabLayout(
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
         if (needScroll) {
+            if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
+                _overScroller.abortAnimation()
+            }
             return super.onInterceptTouchEvent(ev) || _gestureDetector.onTouchEvent(ev)
         }
-        return return super.onInterceptTouchEvent(ev)
+        return super.onInterceptTouchEvent(ev)
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -324,7 +432,7 @@ open class DslTabLayout(
             }
             return true
         } else {
-            return return super.onTouchEvent(event)
+            return super.onTouchEvent(event)
         }
     }
 
@@ -342,11 +450,11 @@ open class DslTabLayout(
             //速率小于0 , 手指向左滑动
             //速率大于0 , 手指向右滑动
 
-            startFling(-velocity.toInt(), 0, _childAllWidthSum + paddingLeft + paddingRight, 0)
+            startFling(-velocity.toInt(), _childAllWidthSum + paddingLeft + paddingRight)
         }
     }
 
-    fun startFling(velocityX: Int, velocityY: Int, maxX: Int, maxY: Int) {
+    fun startFling(velocityX: Int, maxX: Int) {
 
         fun velocity(velocity: Int): Int {
             return if (velocity > 0) {
@@ -357,23 +465,27 @@ open class DslTabLayout(
         }
 
         val vX = velocity(velocityX)
-        val vY = velocity(velocityY)
 
         _overScroller.abortAnimation()
         _overScroller.fling(
             scrollX,
             scrollY,
             vX,
-            vY,
+            0,
             0,
             maxX,
             0,
-            maxY,
+            0,
             measuredWidth,
-            measuredHeight
+            0
         )
 
         postInvalidate()
+    }
+
+    fun startScroll(dx: Int) {
+        _overScroller.abortAnimation()
+        _overScroller.startScroll(scrollX, scrollY, dx, 0)
     }
 
     open fun onScrollChange(distance: Float): Boolean {

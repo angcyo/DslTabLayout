@@ -103,9 +103,11 @@
 
     <attr name="r_layout_width" format="string"/>
     <attr name="r_layout_height" format="string"/>
+    <attr name="r_indicator_content_index" format="integer"/>
 
     <declare-styleable name="DslTabLayout_Layout">
         <attr name="r_layout_width"/>
         <attr name="r_layout_height"/>
+        <attr name="r_indicator_content_index"/>
     </declare-styleable>
 </resources>

@@ -1,5 +1,6 @@
 package com.angcyo.tablayout
 
+import android.content.res.Resources
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -10,6 +11,11 @@ import android.view.View
  * @author angcyo
  * @date 2019/11/23
  */
+internal val dpi: Int
+    get() = dp.toInt()
+
+internal val dp: Float
+    get() = Resources.getSystem().displayMetrics.density
 
 internal val View.dpi: Int
     get() = context.resources.displayMetrics.density.toInt()
@@ -19,6 +25,12 @@ internal val View.screenWidth: Int
 
 internal val View.screenHeight: Int
     get() = context.resources.displayMetrics.heightPixels
+
+internal val View.viewDrawWidth: Int
+    get() = measuredWidth - paddingLeft - paddingRight
+
+internal val View.viewDrawHeight: Int
+    get() = measuredHeight - paddingTop - paddingBottom
 
 /**Match_Parent*/
 internal fun exactlyMeasure(size: Int): Int =

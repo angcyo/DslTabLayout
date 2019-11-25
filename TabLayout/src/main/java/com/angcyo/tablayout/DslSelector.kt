@@ -14,7 +14,7 @@ import android.view.ViewGroup
 
 open class DslSelector {
 
-    lateinit var parent: ViewGroup
+    var parent: ViewGroup? = null
     var dslSelectorConfig: DslSelectorConfig = DslSelectorConfig()
 
     //可见view列表
@@ -22,8 +22,8 @@ open class DslSelector {
         get() {
             field.clear()
 
-            for (i in 0 until parent.childCount) {
-                parent.getChildAt(i).apply {
+            for (i in 0 until (parent?.childCount ?: 0)) {
+                parent?.getChildAt(i)?.apply {
                     if (visibility == View.VISIBLE) {
                         field.add(this)
                     }
@@ -91,8 +91,8 @@ open class DslSelector {
 
     /**更新child的点击事件*/
     fun updateClickListener() {
-        for (i in 0 until parent.childCount) {
-            parent.getChildAt(i).apply {
+        for (i in 0 until (parent?.childCount ?: 0)) {
+            parent?.getChildAt(i)?.apply {
                 setOnClickListener(_onChildClickListener)
             }
         }
