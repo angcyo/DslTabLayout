@@ -9,7 +9,7 @@
 
     <TextView
         style="@style/TabItemStyle"
-        android:text="关注" />
+        android:text="R" />
 
     <TextView
         style="@style/TabItemStyle"
@@ -23,7 +23,7 @@
 
     <TextView
         style="@style/TabItemStyle"
-        android:text="排行榜" />
+        android:text="排行榜3" />
 
     <TextView
         style="@style/TabItemStyle"
@@ -61,11 +61,11 @@
 
     <TextView
         style="@style/TabItemStyle"
-        android:text="前端" />
+        android:text="前->端" />
 
     <TextView
         style="@style/TabItemStyle"
-        android:text="设计" />
+        android:text="设" />
 
     <TextView
         style="@style/TabItemStyle"
