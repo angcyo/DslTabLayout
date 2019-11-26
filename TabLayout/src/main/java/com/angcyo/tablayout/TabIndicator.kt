@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ViewGroup
+import kotlin.math.max
 
 /**
  * 指示器
@@ -77,7 +78,7 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
      * */
     fun getChildCenterX(index: Int): Int {
 
-        var result = 0
+        var result = if (index > 0) tabLayout.maxWidth else 0
 
         tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
             val lp = childView.layoutParams as DslTabLayout.LayoutParams
@@ -177,10 +178,6 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         return result + indicatorHeightOffset
     }
 
-    //当前选中的index
-    val currentSelectIndex: Int
-        get() = tabLayout.dslSelector.dslSelectorConfig.dslSelectIndex
-
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
         if (!isVisible || indicatorStyle == INDICATOR_STYLE_NONE || indicatorDrawable == null) {
@@ -188,7 +185,23 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
             return
         }
 
-        val currentIndex = currentSelectIndex
+        val childSize = tabLayout.dslSelector.visibleViewList.size
+
+        var currentIndex = currentIndex
+
+        if (_targetIndex in 0 until childSize) {
+            currentIndex = max(0, currentIndex)
+        }
+
+        if (currentIndex in 0 until childSize) {
+
+        } else {
+            //无效的index
+            return
+        }
+
+        //"绘制$currentIndex:$currentSelectIndex $positionOffset".logi()
+
         val drawCenterX = getChildCenterX(currentIndex)
         val drawWidth = getIndicatorDrawWidth(currentIndex)
         val drawHeight = getIndicatorDrawHeight(currentIndex)
@@ -205,9 +218,51 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
             }
         } + indicatorYOffset
 
+        //动画过程中的left
+        var animLeft = drawLeft
+        //width
+        var animWidth = drawWidth
+
+        if (_targetIndex in 0 until childSize && _targetIndex != currentIndex) {
+
+            //动画过程参数计算变量
+            val animStartLeft = drawLeft
+            val animStartWidth = drawWidth
+            val animEndWidth = getIndicatorDrawWidth(_targetIndex)
+            val animEndLeft = getChildCenterX(_targetIndex) - animEndWidth / 2 + indicatorXOffset
+
+            if (_targetIndex > currentIndex) {
+                //目标在右边
+                animLeft = (animStartLeft + (animEndLeft - animStartLeft) * positionOffset).toInt()
+            } else {
+                //目标在左边
+                animLeft =
+                    (animStartLeft - (animStartLeft - animEndLeft) * positionOffset).toInt()
+            }
+
+            //动画过程中的宽度
+            animWidth =
+                (animStartWidth + (animEndWidth - animStartWidth) * positionOffset).toInt()
+        }
+
         indicatorDrawable?.apply {
-            setBounds(drawLeft, drawTop, drawLeft + drawWidth, drawTop + drawHeight)
+            setBounds(animLeft, drawTop, animLeft + animWidth, drawTop + drawHeight)
             draw(canvas)
         }
     }
+
+    /**
+     * 距离[_targetIndex]的偏移比例.[0->1]的过程
+     * */
+    var positionOffset: Float = 0f
+        set(value) {
+            field = value
+            invalidateSelf()
+        }
+
+    /**当前绘制的index*/
+    var currentIndex: Int = -1
+
+    /**滚动目标的index*/
+    var _targetIndex = -1
 }

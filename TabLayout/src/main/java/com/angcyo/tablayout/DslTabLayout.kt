@@ -1,12 +1,18 @@
 package com.angcyo.tablayout
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.*
+import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.OverScroller
 import android.widget.TextView
+import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -34,6 +40,12 @@ open class DslTabLayout(
 
     /**指示器*/
     var tabIndicator: TabIndicator
+
+    /**指示器动画时长*/
+    var tabIndicatorAnimationDuration = 240L
+
+    /**默认选中位置*/
+    var tabDefaultIndex = 0
 
     //<editor-fold desc="内部属性">
 
@@ -71,6 +83,7 @@ open class DslTabLayout(
         setWillNotDraw(false)
     }
 
+    //childView选择器
     val dslSelector: DslSelector by lazy {
         DslSelector().install(this) {
 
@@ -80,8 +93,15 @@ open class DslTabLayout(
                 }
             }
 
-            onSelectIndexChange = { _, selectList ->
-                setCurrentItem(selectList.last())
+            onSelectIndexChange = { fromIndex, selectList ->
+                "选择:[$fromIndex]->${selectList}".logi()
+
+                val toIndex = selectList.last()
+                _animateToItem(fromIndex, toIndex)
+                _viewPager?.setCurrentItem(toIndex, true)
+
+                _scrollToCenter(toIndex)
+                postInvalidate()
             }
         }
     }
@@ -90,20 +110,21 @@ open class DslTabLayout(
 
     //<editor-fold desc="可操作性方法">
 
+    /**当前选中item的索引*/
+    val currentItemIndex: Int
+        get() = dslSelector.dslSelectIndex
+
+    /**设置tab的位置*/
     fun setCurrentItem(index: Int) {
-        scrollToCenter(index)
-        postInvalidate()
+        dslSelector.selector(index)
     }
 
-    /**将[index]位置显示在TabLayout的中心*/
-    fun scrollToCenter(index: Int) {
-        val childCenterX = tabIndicator.getChildCenterX(index)
-        val viewCenterX = measuredWidth / 2
-
-        if (childCenterX > viewCenterX) {
-            startScroll(childCenterX - viewCenterX - scrollX)
-        } else {
-            startScroll(-scrollX)
+    /**自动关联[ViewPager]*/
+    fun setupViewPager(viewPager: ViewPager) {
+        if (_viewPager != viewPager) {
+            _viewPager?.removeOnPageChangeListener(_onViewPageCChangeListener)
+            _viewPager = viewPager
+            viewPager.addOnPageChangeListener(_onViewPageCChangeListener)
         }
     }
 
@@ -144,6 +165,10 @@ open class DslTabLayout(
         if (tabIndicator.indicatorStyle == TabIndicator.INDICATOR_STYLE_BACKGROUND) {
             tabIndicator.draw(canvas)
         }
+    }
+
+    override fun verifyDrawable(who: Drawable): Boolean {
+        return super.verifyDrawable(who) || who == tabIndicator
     }
 
     //</editor-fold desc="初始化相关">
@@ -303,11 +328,10 @@ open class DslTabLayout(
             left += childView.measuredWidth + lp.rightMargin
         }
 
-        if (changed) {
-            //tabIndicator.curIndex = currentItem
+        if (dslSelector.dslSelectIndex < 0) {
+            //还没有选中
+            setCurrentItem(tabDefaultIndex)
         }
-
-        "changed $changed".loge()
     }
 
     //</editor-fold desc="布局相关">
@@ -442,7 +466,11 @@ open class DslTabLayout(
 
     /**[parent]宽度外的滚动距离*/
     val maxScrollX: Int
-        get() = max(_childAllWidthSum + paddingLeft + paddingRight - measuredWidth, 0)
+        get() = max(maxWidth - measuredWidth, 0)
+
+    /**view最大的宽度*/
+    val maxWidth: Int
+        get() = _childAllWidthSum + paddingLeft + paddingRight
 
     open fun onFlingChange(velocity: Float /*瞬时值*/) {
         if (needScroll) {
@@ -450,7 +478,7 @@ open class DslTabLayout(
             //速率小于0 , 手指向左滑动
             //速率大于0 , 手指向右滑动
 
-            startFling(-velocity.toInt(), _childAllWidthSum + paddingLeft + paddingRight)
+            startFling(-velocity.toInt(), maxWidth)
         }
     }
 
@@ -515,11 +543,126 @@ open class DslTabLayout(
         if (_overScroller.computeScrollOffset()) {
             scrollTo(_overScroller.currX, _overScroller.currY)
             postInvalidate()
-            if (_overScroller.currX <= 0 || _overScroller.currX >= maxScrollX) {
+            if (_overScroller.currX < 0 || _overScroller.currX > maxScrollX) {
                 _overScroller.abortAnimation()
             }
         }
     }
 
+    /**将[index]位置显示在TabLayout的中心*/
+    fun _scrollToCenter(index: Int) {
+        if (!needScroll) {
+            return
+        }
+        val childCenterX = tabIndicator.getChildCenterX(index)
+        val viewCenterX = measuredWidth / 2
+
+        if (childCenterX > viewCenterX) {
+            startScroll(childCenterX - viewCenterX - scrollX)
+        } else {
+            startScroll(-scrollX)
+        }
+    }
+
     //</editor-fold desc="滚动相关">
+
+    //<editor-fold desc="动画相关">
+
+    val _scrollAnimator: ValueAnimator by lazy {
+        ValueAnimator().apply {
+            interpolator = LinearInterpolator()
+            duration = tabIndicatorAnimationDuration
+            addUpdateListener {
+                tabIndicator.positionOffset = it.animatedValue as Float
+            }
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationCancel(animation: Animator?) {
+                    onAnimationEnd(animation)
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    _onAnimateEnd()
+                }
+            })
+        }
+    }
+
+    val isAnimatorStart: Boolean
+        get() = _scrollAnimator.isStarted
+
+    fun _animateToItem(fromIndex: Int, toIndex: Int) {
+        if (toIndex == fromIndex) {
+            return
+        }
+
+        tabIndicator.currentIndex = max(0, fromIndex)
+        tabIndicator._targetIndex = toIndex
+
+        if (tabIndicator.currentIndex == tabIndicator._targetIndex) {
+            return
+        }
+        "_animateToItem ${tabIndicator.currentIndex} ${tabIndicator._targetIndex}".loge()
+        _scrollAnimator.setFloatValues(tabIndicator.positionOffset, 1f)
+        _scrollAnimator.start()
+    }
+
+    fun _onAnimateEnd() {
+        tabIndicator.currentIndex = dslSelector.dslSelectIndex
+        tabIndicator._targetIndex = tabIndicator.currentIndex
+        tabIndicator.positionOffset = 0f
+        //结束_viewPager的滚动动画, 系统没有直接结束的api, 固用此方法代替.
+        //_viewPager?.setCurrentItem(tabIndicator.currentIndex, false)
+    }
+
+    //</editor-fold desc="动画相关">
+
+    //<editor-fold desc="ViewPager 相关">
+
+    var _viewPager: ViewPager? = null
+    var _viewPagerScrollState = ViewPager.SCROLL_STATE_IDLE
+    val _onViewPageCChangeListener: ViewPager.SimpleOnPageChangeListener =
+        object : ViewPager.SimpleOnPageChangeListener() {
+            override fun onPageScrollStateChanged(state: Int) {
+                "$state".logi()
+                _viewPagerScrollState = state
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    _onAnimateEnd()
+                }
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                if (isAnimatorStart) {
+                    //动画已经开始了
+                    return
+                }
+
+                val currentItem = _viewPager?.currentItem ?: 0
+                "$currentItem:$position $positionOffset $positionOffsetPixels state:$_viewPagerScrollState".logw()
+
+                if (position < currentItem) {
+                    //Page 目标在左
+                    if (_viewPagerScrollState == ViewPager.SCROLL_STATE_DRAGGING) {
+                        tabIndicator._targetIndex = min(currentItem, position)
+                    }
+                    tabIndicator.positionOffset = 1 - positionOffset
+                } else {
+                    //Page 目标在右
+                    if (_viewPagerScrollState == ViewPager.SCROLL_STATE_DRAGGING) {
+                        tabIndicator._targetIndex = max(currentItem, position + 1)
+                    }
+                    tabIndicator.positionOffset = positionOffset
+                }
+            }
+
+            override fun onPageSelected(position: Int) {
+                setCurrentItem(position)
+            }
+        }
+
+    //</editor-fold desc="ViewPager 相关">
+
 }

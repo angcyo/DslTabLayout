@@ -9,13 +9,21 @@ import com.angcyo.dsladapter.DslViewHolder
  * @author angcyo
  * @date 2019/11/23
  */
-class SlidingFragment : BaseDslFragment() {
+class SlidingFragment : BaseTabLayoutFragment() {
     override fun initBaseView(viewHolder: DslViewHolder, savedInstanceState: Bundle?) {
         super.initBaseView(viewHolder, savedInstanceState)
 
         renderAdapter {
             DslTabLayoutItem()() {
+                onItemBindOverride = { itemHolder, _, _ ->
+                    addTabLayout(itemHolder.v(R.id.tab_layout))
+                }
+            }
 
+            DslViewPagerItem(childFragmentManager)() {
+                onItemBindOverride = { itemHolder, _, _ ->
+                    setViewPager(itemHolder.v(R.id.view_pager))
+                }
             }
         }
     }

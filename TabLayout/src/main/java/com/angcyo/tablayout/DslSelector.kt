@@ -66,16 +66,20 @@ open class DslSelector {
         selector(visibleViewList.indexOf(it), !it.isSelected)
     }
 
+    /**当前选中的索引*/
+    var dslSelectIndex = -1
+
     /**安装*/
     fun install(viewGroup: ViewGroup, config: DslSelectorConfig.() -> Unit = {}): DslSelector {
+        dslSelectIndex = -1
         parent = viewGroup
         dslSelectorConfig.config()
 
         updateStyle()
         updateClickListener()
 
-        if (dslSelectorConfig.dslSelectIndex in 0 until visibleViewList.size) {
-            selector(dslSelectorConfig.dslSelectIndex)
+        if (dslSelectIndex in 0 until visibleViewList.size) {
+            selector(dslSelectIndex)
         }
 
         return this
@@ -84,7 +88,7 @@ open class DslSelector {
     /**更新样式*/
     fun updateStyle() {
         visibleViewList.forEachIndexed { index, view ->
-            val selector = dslSelectorConfig.dslSelectIndex == index || view.isSelected
+            val selector = dslSelectIndex == index || view.isSelected
             dslSelectorConfig.onStyleItemView(view, index, selector)
         }
     }
@@ -108,7 +112,7 @@ open class DslSelector {
 
         if (_selector(index, select)) {
             val indexSelectorList = selectorIndexList
-            dslSelectorConfig.dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
+            dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
             dslSelectorConfig.onSelectViewChange(lastSelectorView, selectorViewList)
             dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, indexSelectorList)
         }
@@ -131,7 +135,7 @@ open class DslSelector {
 
         if (result) {
             val indexSelectorList = selectorIndexList
-            dslSelectorConfig.dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
+            dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
             dslSelectorConfig.onSelectViewChange(lastSelectorView, selectorViewList)
             dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, indexSelectorList)
         }
@@ -210,9 +214,6 @@ open class DslSelector {
  * Dsl配置项
  * */
 class DslSelectorConfig {
-
-    /**当前选中的索引*/
-    var dslSelectIndex = 0
 
     /**取消选择时, 最小需要保持多个选中*/
     var dslMinSelectLimit = 1
