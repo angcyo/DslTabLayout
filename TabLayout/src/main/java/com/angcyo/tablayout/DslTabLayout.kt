@@ -82,14 +82,10 @@ open class DslTabLayout(
     //childView选择器
     val dslSelector: DslSelector by lazy {
         DslSelector().install(this) {
-            tabLayoutConfig?.let {
-                onStyleItemView = it.onStyleItemView
-                onSelectViewChange = it.onSelectViewChange
-                onSelectItemView = it.onSelectItemView
-            }
-
             onSelectIndexChange = { fromIndex, selectList ->
-                "选择:[$fromIndex]->${selectList}".logi()
+                if (tabLayoutConfig == null) {
+                    "选择:[$fromIndex]->${selectList}".logi()
+                }
 
                 val toIndex = selectList.last()
                 _animateToItem(fromIndex, toIndex)
@@ -109,6 +105,18 @@ open class DslTabLayout(
 
     /**回调监听器和样式配置器*/
     var tabLayoutConfig: DslTabLayoutConfig? = null
+        set(value) {
+            field = value
+
+            field?.let {
+                //接管回调
+                dslSelector.dslSelectorConfig.apply {
+                    onStyleItemView = it.onStyleItemView
+                    onSelectViewChange = it.onSelectViewChange
+                    onSelectItemView = it.onSelectItemView
+                }
+            }
+        }
 
     /**当前选中item的索引*/
     val currentItemIndex: Int
@@ -126,6 +134,21 @@ open class DslTabLayout(
             _viewPager = viewPager
             viewPager.addOnPageChangeListener(_onViewPageCChangeListener)
         }
+    }
+
+    /**配置一个新的[DslTabLayoutConfig]给[DslTabLayout]*/
+    fun setTabLayoutConfig(config: DslTabLayoutConfig.() -> Unit = {}) {
+        tabLayoutConfig = DslTabLayoutConfig()
+        configTabLayoutConfig(config)
+    }
+
+    /**配置[DslTabLayoutConfig]*/
+    fun configTabLayoutConfig(config: DslTabLayoutConfig.() -> Unit = {}) {
+        if (tabLayoutConfig == null) {
+            tabLayoutConfig = DslTabLayoutConfig()
+        }
+        tabLayoutConfig?.config()
+        dslSelector.updateStyle()
     }
 
     //</editor-fold desc="可操作性方法">
@@ -206,6 +229,28 @@ open class DslTabLayout(
             }
         }
 
+        //等宽时, child宽度的测量模式
+        val childEquWidthSpec = if (itemIsEquWidth) {
+            exactlyMeasure(
+                if (itemWidth > 0) {
+                    itemWidth
+                } else {
+                    var excludeWidth = paddingLeft + paddingRight
+                    for (k in 0 until childCount) {
+                        val child = getChildAt(k)
+                        if (child.visibility == View.GONE) {
+                            continue
+                        }
+                        val elp = child.layoutParams as LayoutParams
+                        excludeWidth += elp.leftMargin + elp.rightMargin
+                    }
+                    (widthSize - excludeWidth) / childCount
+                }
+            )
+        } else {
+            -1
+        }
+
         //...end
 
         _childAllWidthSum = 0
@@ -259,15 +304,9 @@ open class DslTabLayout(
 
             //计算宽度测量模式
             childWidthSpec = when {
-                itemIsEquWidth -> {
-                    exactlyMeasure(if (itemWidth > 0) itemWidth else (widthSize - paddingLeft - paddingRight) / childCount)
-                }
-                widthHeight[0] > 0 -> {
-                    exactlyMeasure(widthHeight[0])
-                }
-                else -> {
-                    atmostMeasure(widthSize - paddingLeft - paddingRight)
-                }
+                itemIsEquWidth -> childEquWidthSpec
+                widthHeight[0] > 0 -> exactlyMeasure(widthHeight[0])
+                else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
             }
 
             childView.measure(childWidthSpec, childHeightSpec)
@@ -601,13 +640,30 @@ open class DslTabLayout(
         if (tabIndicator.currentIndex == tabIndicator._targetIndex) {
             return
         }
-        "_animateToItem ${tabIndicator.currentIndex} ${tabIndicator._targetIndex}".loge()
+        //"_animateToItem ${tabIndicator.currentIndex} ${tabIndicator._targetIndex}".loge()
         _scrollAnimator.setFloatValues(tabIndicator.positionOffset, 1f)
         _scrollAnimator.start()
     }
 
     fun _onAnimateValue(value: Float) {
         tabIndicator.positionOffset = value
+        tabLayoutConfig?.onPageIndexScrolled(
+            tabIndicator.currentIndex,
+            tabIndicator._targetIndex,
+            value
+        )
+        tabLayoutConfig?.let {
+            dslSelector.visibleViewList.apply {
+                val targetView = getOrNull(tabIndicator._targetIndex)
+                if (targetView != null) {
+                    it.onPageViewScrolled(
+                        getOrNull(tabIndicator.currentIndex),
+                        targetView,
+                        value
+                    )
+                }
+            }
+        }
     }
 
     fun _onAnimateEnd() {
@@ -627,7 +683,7 @@ open class DslTabLayout(
     val _onViewPageCChangeListener: ViewPager.SimpleOnPageChangeListener =
         object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageScrollStateChanged(state: Int) {
-                "$state".logi()
+                //"$state".logi()
                 _viewPagerScrollState = state
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
                     _onAnimateEnd()
@@ -645,20 +701,20 @@ open class DslTabLayout(
                 }
 
                 val currentItem = _viewPager?.currentItem ?: 0
-                "$currentItem:$position $positionOffset $positionOffsetPixels state:$_viewPagerScrollState".logw()
+                //"$currentItem:$position $positionOffset $positionOffsetPixels state:$_viewPagerScrollState".logw()
 
                 if (position < currentItem) {
                     //Page 目标在左
                     if (_viewPagerScrollState == ViewPager.SCROLL_STATE_DRAGGING) {
                         tabIndicator._targetIndex = min(currentItem, position)
                     }
-                    tabIndicator.positionOffset = 1 - positionOffset
+                    _onAnimateValue(1 - positionOffset)
                 } else {
                     //Page 目标在右
                     if (_viewPagerScrollState == ViewPager.SCROLL_STATE_DRAGGING) {
                         tabIndicator._targetIndex = max(currentItem, position + 1)
                     }
-                    tabIndicator.positionOffset = positionOffset
+                    _onAnimateValue(positionOffset)
                 }
             }
 

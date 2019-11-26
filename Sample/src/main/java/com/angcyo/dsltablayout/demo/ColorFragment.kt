@@ -41,10 +41,12 @@ fun getColorFragmentList(count: Int): List<ColorFragment> {
         ColorFragment().apply {
             arguments = Bundle().apply {
                 putString("text", "Fragment $i")
-                putInt("color", Color.rgb(nextInt(122, 222), nextInt(122, 222), nextInt(122, 222)))
+                putInt("color", randomColor())
             }
             result.add(this)
         }
     }
     return result
 }
+
+fun randomColor(): Int = Color.rgb(nextInt(122, 222), nextInt(122, 222), nextInt(122, 222))

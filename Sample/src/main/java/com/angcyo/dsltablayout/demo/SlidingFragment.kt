@@ -146,6 +146,80 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 
+            //其他特性
+            DslTabLayoutItem()() {
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        setBackgroundColor(randomColor())
+                        addTabLayout(this)
+                        tabIndicator.indicatorWidth = 10 * dpi
+                        tabIndicator.indicatorEnableFlow = true
+                        tabIndicator.indicatorDrawable =
+                            getDrawable(R.drawable.indicator_white_line)
+                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+
+                        setTabLayoutConfig {
+                            tabSelectorColor = resources.getColor(R.color.colorAccent)
+                            tabUnSelectorColor = resources.getColor(R.color.colorPrimaryDark)
+                        }
+                    }
+                }
+            }
+            DslTabLayoutItem()() {
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        setBackgroundColor(randomColor())
+                        addTabLayout(this)
+                        tabIndicator.indicatorWidth = 10 * dpi
+                        tabIndicator.indicatorEnableFlow = true
+                        tabIndicator.indicatorDrawable =
+                            getDrawable(R.drawable.indicator_white_line)
+                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+
+                        setTabLayoutConfig {
+                            tabEnableGradientColor = true
+                            tabTextBold = true
+                        }
+                    }
+                }
+            }
+            DslTabLayoutItem()() {
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        setBackgroundColor(randomColor())
+                        addTabLayout(this)
+                        tabIndicator.indicatorWidth = 10 * dpi
+                        tabIndicator.indicatorEnableFlow = true
+                        tabIndicator.indicatorDrawable =
+                            getDrawable(R.drawable.indicator_white_line)
+                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+
+                        setTabLayoutConfig {
+                            tabEnableGradientScale = true
+                        }
+                    }
+                }
+            }
+            DslTabLayoutItem()() {
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        setBackgroundColor(randomColor())
+                        addTabLayout(this)
+                        tabIndicator.indicatorWidth = 10 * dpi
+                        tabIndicator.indicatorEnableFlow = true
+                        tabIndicator.indicatorDrawable =
+                            getDrawable(R.drawable.indicator_white_line)
+                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+
+                        setTabLayoutConfig {
+                            tabEnableGradientScale = true
+                            tabEnableGradientColor = true
+                            tabTextBold = true
+                        }
+                    }
+                }
+            }
+
             DslViewPagerItem(childFragmentManager)() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     setViewPager(itemHolder.v(R.id.view_pager))

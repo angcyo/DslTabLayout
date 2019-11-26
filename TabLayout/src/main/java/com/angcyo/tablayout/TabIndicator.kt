@@ -52,7 +52,7 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
      * MATCH_PARENT: [childView]的宽度
      * 40dp: 固定值
      * */
-    var indicatorWidth = ViewGroup.LayoutParams.WRAP_CONTENT
+    var indicatorWidth = ViewGroup.LayoutParams.MATCH_PARENT
     /**宽度补偿*/
     var indicatorWidthOffset = 0
 
@@ -62,14 +62,14 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
      * MATCH_PARENT: [childView]的高度
      * 40dp: 固定值
      * */
-    var indicatorHeight = 4 * dpi
+    var indicatorHeight = 3 * dpi
     /**高度补偿*/
     var indicatorHeightOffset = 0
 
     /**XY轴方向补偿*/
     var indicatorXOffset = 0
 
-    /**会根据[indicatorStyle]自动取反*/
+    /**会根据[indicatorStyle]自动取负值*/
     var indicatorYOffset = 2 * dpi
 
     /**

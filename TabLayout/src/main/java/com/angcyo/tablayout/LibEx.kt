@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.core.math.MathUtils
 
 /**
  *
@@ -116,4 +117,20 @@ internal fun View.calcLayoutWidthHeight(
         }
     }
     return size
+}
+
+internal fun evaluateColor(fraction: Float /*0-1*/, startColor: Int, endColor: Int): Int {
+    val fraction = MathUtils.clamp(fraction, 0f, 1f)
+    val startA = startColor shr 24 and 0xff
+    val startR = startColor shr 16 and 0xff
+    val startG = startColor shr 8 and 0xff
+    val startB = startColor and 0xff
+    val endA = endColor shr 24 and 0xff
+    val endR = endColor shr 16 and 0xff
+    val endG = endColor shr 8 and 0xff
+    val endB = endColor and 0xff
+    return startA + (fraction * (endA - startA)).toInt() shl 24 or
+            (startR + (fraction * (endR - startR)).toInt() shl 16) or
+            (startG + (fraction * (endG - startG)).toInt() shl 8) or
+            startB + (fraction * (endB - startB)).toInt()
 }
