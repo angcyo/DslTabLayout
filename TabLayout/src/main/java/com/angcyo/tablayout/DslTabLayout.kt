@@ -11,7 +11,6 @@ import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.OverScroller
-import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
 import kotlin.math.max
@@ -59,11 +58,11 @@ open class DslTabLayout(
     init {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
         itemIsEquWidth =
-            typedArray.getBoolean(R.styleable.DslTabLayout_r_item_is_equ_width, itemIsEquWidth)
+            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_item_is_equ_width, itemIsEquWidth)
         itemWidth =
-            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_r_item_width, itemWidth)
+            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_dsl_item_width, itemWidth)
         itemDefaultHeight = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_r_item_default_height,
+            R.styleable.DslTabLayout_dsl_item_default_height,
             itemDefaultHeight
         )
         typedArray.recycle()
@@ -76,9 +75,6 @@ open class DslTabLayout(
         tabIndicator = TabIndicator(this)
         tabIndicator.initAttribute(context, attributeSet)
 
-        tabIndicator.indicatorDrawable =
-            context.resources.getDrawable(R.drawable.indicator_bottom_line)
-
         //开启绘制
         setWillNotDraw(false)
     }
@@ -86,13 +82,6 @@ open class DslTabLayout(
     //childView选择器
     val dslSelector: DslSelector by lazy {
         DslSelector().install(this) {
-
-            onStyleItemView = { itemView, index, _ ->
-                if (index >= 4) {
-                    (itemView as? TextView)?.text = "!文本控件| $index"
-                }
-            }
-
             onSelectIndexChange = { fromIndex, selectList ->
                 "选择:[$fromIndex]->${selectList}".logi()
 
@@ -154,7 +143,7 @@ open class DslTabLayout(
         tabIndicator.setBounds(0, 0, measuredWidth, measuredHeight)
         super.draw(canvas)
         //绘制在child的上面
-        if (tabIndicator.indicatorStyle == TabIndicator.INDICATOR_STYLE_BOTTOM) {
+        if (tabIndicator.indicatorStyle > 0x10) {
             tabIndicator.draw(canvas)
         }
     }
@@ -162,7 +151,7 @@ open class DslTabLayout(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         //绘制在child的后面
-        if (tabIndicator.indicatorStyle == TabIndicator.INDICATOR_STYLE_BACKGROUND) {
+        if (tabIndicator.indicatorStyle <= 0x10) {
             tabIndicator.draw(canvas)
         }
     }
@@ -370,10 +359,10 @@ open class DslTabLayout(
 
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val a = c.obtainStyledAttributes(attrs, R.styleable.DslTabLayout_Layout)
-            layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_r_layout_width)
-            layoutHeight = a.getString(R.styleable.DslTabLayout_Layout_r_layout_height)
+            layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_dsl_layout_width)
+            layoutHeight = a.getString(R.styleable.DslTabLayout_Layout_dsl_layout_height)
             indicatorContentIndex = a.getInt(
-                R.styleable.DslTabLayout_Layout_r_indicator_content_index,
+                R.styleable.DslTabLayout_Layout_dsl_layout_indicator_content_index,
                 indicatorContentIndex
             )
             a.recycle()

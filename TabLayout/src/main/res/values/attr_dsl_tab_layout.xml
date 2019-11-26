@@ -1,113 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="r_indicator_type" format="enum">
-        <enum name="TYPE_NONE" value="0"/>
-        <enum name="TYPE_BOTTOM_LINE" value="1"/>
-        <enum name="TYPE_ROUND_RECT_BLOCK" value="2"/>
-        <enum name="TYPE_BOTTOM_FLOW_LINE" value="3"/>
-        <enum name="INDICATOR_TYPE_BOTTOM_GRADIENT_LINE" value="4"/>
-    </attr>
-
-    <!--自定义Drawable, 同样受到r_indicator_type的影响, 决定了bounds-->
-    <attr name="r_indicator_drawable" format="reference"/>
-    <attr name="r_indicator_color" format="color"/>
-    <attr name="r_indicator_width" format="dimension"/>
-    <attr name="r_indicator_height" format="dimension"/>
-    <attr name="r_indicator_offset_width" format="dimension"/>
-    <attr name="r_indicator_offset_height" format="dimension"/>
-    <attr name="r_indicator_round_size" format="dimension"/>
-
-    <attr name="r_indicator_enable_anim" format="boolean"/>
-    <attr name="r_indicator_enable_anim_overshoot" format="boolean"/>
-
-    <!--绘制边框-->
-    <attr name="r_border_show" format="boolean"/>
-    <attr name="r_border_color" format="color"/>
-    <attr name="r_border_fill_color" format="color"/>
-    <!--<attr name="r_border_width" format="dimension" />-->
-    <attr name="r_border_round_size" format="dimension"/>
-
-    <!--使用Drawable的大小, 设置r_indicator_width, r_indicator_height-->
-    <attr name="r_use_indicator_drawable_size" format="boolean"/>
-    <attr name="r_use_child_view_index" format="integer"/>
-
-    <declare-styleable name="RDrawBorder">
-        <attr name="r_border_show"/>
-        <attr name="r_border_width"/>
-        <attr name="r_border_color"/>
-        <attr name="r_border_fill_color"/>
-        <attr name="r_border_round_size"/>
-    </declare-styleable>
-
-    <declare-styleable name="RTabIndicator">
-        <attr name="r_indicator_type"/>
-        <attr name="r_indicator_drawable"/>
-        <attr name="r_use_child_view_index"/>
-        <attr name="r_use_indicator_drawable_size"/>
-        <attr name="r_indicator_color"/>
-        <attr name="r_indicator_width"/>
-        <attr name="r_indicator_height"/>
-        <attr name="r_indicator_offset_y"/>
-        <attr name="r_indicator_offset_width"/>
-        <attr name="r_indicator_offset_height"/>
-        <attr name="r_indicator_round_size"/>
-        <attr name="r_indicator_enable_anim"/>
-        <attr name="r_indicator_enable_anim_overshoot"/>
-
-        <attr name="r_gradient_end_color"/>
-        <attr name="r_gradient_start_color"/>
-    </declare-styleable>
 
     <declare-styleable name="DslTabLayout">
-        <!--首次设置tabLayoutListener时, 是否通知回调-->
-        <attr name="r_first_notify_listener" format="boolean"/>
-        <attr name="r_item_is_equ_width" format="boolean"/>
-        <attr name="r_current_item" format="integer"/>
+        <attr name="dsl_item_is_equ_width" format="boolean" />
+        <attr name="dsl_current_item" format="integer" />
         <!--指定item的宽度-->
-        <attr name="r_item_width" format="dimension"/>
-        <attr name="r_item_default_height" format="dimension"/>
-        <attr name="r_auto_set_item_selector_status" format="boolean"/>
+        <attr name="dsl_item_width" format="dimension" />
+        <attr name="dsl_item_default_height" format="dimension" />
 
-        <attr name="r_use_child_view_index"/>
-        <attr name="r_use_indicator_drawable_size"/>
-        <attr name="r_indicator_drawable"/>
-        <attr name="r_indicator_type"/>
-        <attr name="r_indicator_color"/>
-        <attr name="r_indicator_width"/>
-        <attr name="r_indicator_height"/>
-        <attr name="r_indicator_offset_y"/>
-        <attr name="r_indicator_offset_width"/>
-        <attr name="r_indicator_offset_height"/>
-        <attr name="r_indicator_round_size"/>
-        <attr name="r_indicator_enable_anim"/>
-        <attr name="r_indicator_enable_anim_overshoot"/>
+        <!--指示器相关属性-->
+        <attr name="dsl_indicator_drawable" format="reference" />
 
-        <attr name="r_border_show"/>
-        <attr name="r_border_fill_color"/>
-        <attr name="r_border_color"/>
-        <attr name="r_border_width"/>
-        <attr name="r_border_round_size"/>
-
-        <attr name="r_border_show_type" format="enum">
-            <enum name="SHOW_TYPE_BACKGROUND" value="1"/>
-            <enum name="SHOW_TYPE_FOREGROUND" value="2"/>
+        <attr name="dsl_indicator_style" format="enum">
+            <enum name="STYLE_NONE" value="0" />
+            <enum name="STYLE_TOP" value="0x11" />
+            <enum name="STYLE_BOTTOM" value="0x12" />
+            <enum name="STYLE_BACKGROUND" value="0x1" />
         </attr>
 
-        <attr name="r_item_normal_background_color" format="color"/>
-        <attr name="r_item_selected_background_color" format="color"/>
-        <attr name="r_auto_set_item_background" format="boolean"/>
+        <attr name="dsl_indicator_enable_flow" format="boolean" />
 
-        <attr name="r_gradient_end_color"/>
-        <attr name="r_gradient_start_color"/>
+        <attr name="dsl_indicator_width" format="dimension|flags">
+            <flag name="WRAP_CONTENT" value="-2" />
+            <flag name="MATCH_PARENT" value="-1" />
+        </attr>
+        <attr name="dsl_indicator_width_offset" format="dimension" />
+
+        <attr name="dsl_indicator_height" format="dimension|flags">
+            <flag name="WRAP_CONTENT" value="-2" />
+            <flag name="MATCH_PARENT" value="-1" />
+        </attr>
+        <attr name="dsl_indicator_height_offset" format="dimension" />
+        <attr name="dsl_indicator_x_offset" format="dimension" />
+        <attr name="dsl_indicator_y_offset" format="dimension" />
+
+        <attr name="dsl_indicator_content_index" format="integer" />
+        <!--end...-->
+
     </declare-styleable>
 
-    <attr name="r_layout_width" format="string"/>
-    <attr name="r_layout_height" format="string"/>
-    <attr name="r_indicator_content_index" format="integer"/>
+    <attr name="dsl_layout_width" format="string" />
+    <attr name="dsl_layout_height" format="string" />
+    <attr name="dsl_layout_indicator_content_index" format="integer" />
 
     <declare-styleable name="DslTabLayout_Layout">
-        <attr name="r_layout_width"/>
-        <attr name="r_layout_height"/>
-        <attr name="r_indicator_content_index"/>
+        <attr name="dsl_layout_width" />
+        <attr name="dsl_layout_height" />
+        <attr name="dsl_layout_indicator_content_index" />
     </declare-styleable>
 </resources>

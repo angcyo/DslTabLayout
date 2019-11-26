@@ -20,11 +20,15 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         //不绘制指示器
         const val INDICATOR_STYLE_NONE = 0
 
-        //指示器绘制在[itemView]的底部
-        const val INDICATOR_STYLE_BOTTOM = 1
-
         //指示器绘制[itemView]的背部, [itemView] 请不要设置background, 否则可能看不见
-        const val INDICATOR_STYLE_BACKGROUND = 2
+        const val INDICATOR_STYLE_BACKGROUND = 0x1
+
+        //指示器绘制在[itemView]的顶部
+        const val INDICATOR_STYLE_TOP = 0x11
+
+        //指示器绘制在[itemView]的底部
+        const val INDICATOR_STYLE_BOTTOM = 0x12
+
     }
 
     /**指示器绘制的样式*/
@@ -58,7 +62,9 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
     /**XY轴方向补偿*/
     var indicatorXOffset = 0
-    var indicatorYOffset = -2 * dpi
+
+    /**会根据[indicatorStyle]自动取反*/
+    var indicatorYOffset = 2 * dpi
 
     /**
      * 宽高[WRAP_CONTENT]时, 内容view的定位索引
@@ -71,6 +77,48 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
         super.initAttribute(context, attributeSet)
+
+        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
+
+        indicatorDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_dsl_indicator_drawable)
+        //context.resources.getDrawable(R.drawable.indicator_bottom_line)
+        indicatorStyle =
+            typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_style, indicatorStyle)
+        indicatorEnableFlow = typedArray.getBoolean(
+            R.styleable.DslTabLayout_dsl_indicator_enable_flow,
+            indicatorEnableFlow
+        )
+
+        indicatorWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_indicator_width,
+            indicatorWidth
+        )
+        indicatorHeight = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_indicator_height,
+            indicatorHeight
+        )
+        indicatorWidthOffset = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_indicator_width_offset,
+            indicatorWidthOffset
+        )
+        indicatorHeightOffset = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_indicator_height_offset,
+            indicatorHeightOffset
+        )
+        indicatorXOffset = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_indicator_x_offset,
+            indicatorXOffset
+        )
+        indicatorYOffset = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_indicator_y_offset,
+            indicatorYOffset
+        )
+        indicatorContentIndex = typedArray.getInt(
+            R.styleable.DslTabLayout_dsl_indicator_content_index,
+            indicatorContentIndex
+        )
+
+        typedArray.recycle()
     }
 
     /**
@@ -210,13 +258,17 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         val drawTop = when (indicatorStyle) {
             INDICATOR_STYLE_BOTTOM -> {
                 //底部绘制
-                viewHeight - drawHeight
+                viewHeight - drawHeight - indicatorYOffset
+            }
+            INDICATOR_STYLE_TOP -> {
+                //底部绘制
+                0 + indicatorYOffset
             }
             else -> {
                 //居中绘制
-                paddingTop + viewDrawHeight / 2 - drawHeight / 2
+                paddingTop + viewDrawHeight / 2 - drawHeight / 2 + indicatorYOffset
             }
-        } + indicatorYOffset
+        }
 
         //动画过程中的left
         var animLeft = drawLeft

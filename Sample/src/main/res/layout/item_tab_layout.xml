@@ -1,70 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.angcyo.tablayout.DslTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/tab_layout"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#8D8A8A"
-    android:paddingLeft="10dp"
-    android:paddingTop="10dp"
-    android:paddingBottom="20dp">
-
-    <include layout="@layout/layout_text_view" />
+    android:layout_height="40dp"
+    android:background="#666466"
+    app:dsl_indicator_drawable="@drawable/indicator_bottom_line">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#3FA0E1"
-        android:gravity="center"
-        android:text="文本1" />
+        style="@style/TabItemStyle"
+        android:text="关注" />
 
     <TextView
+        style="@style/TabItemStyle"
+        android:text="最新" />
+
+    <ImageView
+        style="@style/TabItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="文本2" />
+        android:src="@drawable/ic_png" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="文本3"
-        android:visibility="gone" />
+        style="@style/TabItemStyle"
+        android:text="排行榜" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="文本4"
-        android:visibility="gone" />
+        style="@style/TabItemStyle"
+        android:drawableLeft="@drawable/ic_android"
+        android:text="Android" />
+
+    <LinearLayout
+        style="@style/TabItemStyle"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TabItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="组合" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_swift" />
+
+        <TextView
+            style="@style/TabItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="0dp"
+            android:text="Swift" />
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:text="文本5" />
+        style="@style/TabItemStyle"
+        android:text="Vue" />
 
-    <include layout="@layout/layout_text_view" />
+    <TextView
+        style="@style/TabItemStyle"
+        android:text="前端" />
 
-    <include layout="@layout/layout_text_view" />
+    <TextView
+        style="@style/TabItemStyle"
+        android:text="设计" />
 
-    <include layout="@layout/layout_text_view" />
-
-    <include layout="@layout/layout_text_view" />
-
-    <include layout="@layout/layout_text_view" />
-
-    <include layout="@layout/layout_text_view" />
-
-    <include layout="@layout/layout_text_view" />
-
-    <include layout="@layout/layout_text_view" />
-
-    <include layout="@layout/layout_text_view" />
-
-    <include layout="@layout/layout_text_view" />
+    <TextView
+        style="@style/TabItemStyle"
+        android:text="其他资源" />
 
 </com.angcyo.tablayout.DslTabLayout>

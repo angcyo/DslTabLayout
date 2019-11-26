@@ -41,7 +41,7 @@ class DslViewPagerItem(val fragmentManager: FragmentManager) : DslAdapterItem() 
                 }
 
             itemHolder.clickItem {
-                currentItem = if (currentItem == 5) 0 else 5
+                currentItem = if (currentItem >= 5) 0 else 5
             }
         }
     }

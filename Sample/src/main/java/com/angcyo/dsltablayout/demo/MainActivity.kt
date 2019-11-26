@@ -1,7 +1,10 @@
 package com.angcyo.dsltablayout.demo
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
@@ -29,4 +32,8 @@ fun FragmentManager.show(fragment: Fragment) {
         add(R.id.frame_layout, fragment, fragment.javaClass.simpleName)
         commitNowAllowingStateLoss()
     }
+}
+
+fun Fragment.getDrawable(@DrawableRes id: Int): Drawable? {
+    return ContextCompat.getDrawable(requireContext(), id)
 }
