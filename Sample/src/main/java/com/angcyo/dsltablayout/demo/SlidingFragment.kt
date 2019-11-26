@@ -26,6 +26,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         setBackgroundColor("#666466".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 4 * dpi
+                        tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
@@ -66,6 +67,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         setBackgroundColor("#EE6F5E".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
+                        tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorHeight = 10 * dpi
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.ic_triangle)
@@ -124,9 +126,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.ic_love)
                         tabIndicator.indicatorHeight = -1
-                        tabIndicator.indicatorWidth = 55 * dpi
-//                        tabIndicator.indicatorWidthOffset = 20 * dpi
-//                        tabIndicator.indicatorHeightOffset = -15 * dpi
+                        tabIndicator.indicatorWidth = 40 * dpi
+                        tabIndicator.indicatorHeight = 40 * dpi
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BACKGROUND
                     }
                 }

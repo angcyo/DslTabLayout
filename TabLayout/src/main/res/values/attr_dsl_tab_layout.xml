@@ -19,6 +19,7 @@
         </attr>
 
         <attr name="dsl_indicator_enable_flow" format="boolean" />
+        <attr name="dsl_indicator_flow_step" format="integer" />
 
         <attr name="dsl_indicator_width" format="dimension|flags">
             <flag name="WRAP_CONTENT" value="-2" />

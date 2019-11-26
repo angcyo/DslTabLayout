@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ViewGroup
+import kotlin.math.absoluteValue
 import kotlin.math.max
 
 /**
@@ -34,8 +35,13 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
     /**指示器绘制的样式*/
     var indicatorStyle = INDICATOR_STYLE_BOTTOM
 
-    /**指示器在流向下一个位置时, 是否采用[Flow]流线的方式改变宽度*/
-    var indicatorEnableFlow: Boolean = true
+    /**
+     * 指示器在流向下一个位置时, 是否采用[Flow]流线的方式改变宽度
+     * */
+    var indicatorEnableFlow: Boolean = false
+
+    /**当目标和当前的索引差值<=此值时, [Flow]效果才有效*/
+    var indicatorFlowStep: Int = 1
 
     /**指示器绘制实体*/
     var indicatorDrawable: Drawable? = null
@@ -81,14 +87,14 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
         indicatorDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_dsl_indicator_drawable)
-        //context.resources.getDrawable(R.drawable.indicator_bottom_line)
         indicatorStyle =
             typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_style, indicatorStyle)
+        indicatorFlowStep =
+            typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_flow_step, indicatorFlowStep)
         indicatorEnableFlow = typedArray.getBoolean(
             R.styleable.DslTabLayout_dsl_indicator_enable_flow,
             indicatorEnableFlow
         )
-
         indicatorWidth = typedArray.getDimensionPixelOffset(
             R.styleable.DslTabLayout_dsl_indicator_width,
             indicatorWidth
@@ -283,18 +289,50 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
             val animEndWidth = getIndicatorDrawWidth(_targetIndex)
             val animEndLeft = getChildCenterX(_targetIndex) - animEndWidth / 2 + indicatorXOffset
 
-            if (_targetIndex > currentIndex) {
-                //目标在右边
-                animLeft = (animStartLeft + (animEndLeft - animStartLeft) * positionOffset).toInt()
-            } else {
-                //目标在左边
-                animLeft =
-                    (animStartLeft - (animStartLeft - animEndLeft) * positionOffset).toInt()
-            }
+            if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
+                //激活了流动效果
 
-            //动画过程中的宽度
-            animWidth =
-                (animStartWidth + (animEndWidth - animStartWidth) * positionOffset).toInt()
+                val flowEndWidth: Int
+                if (_targetIndex > currentIndex) {
+                    flowEndWidth = animEndLeft - animStartLeft + animEndWidth
+
+                    //目标在右边
+                    animLeft = if (positionOffset >= 0.5) {
+                        (animStartLeft + (animEndLeft - animStartLeft) * (positionOffset - 0.5) / 0.5f).toInt()
+                    } else {
+                        animStartLeft
+                    }
+                } else {
+                    flowEndWidth = animStartLeft - animEndLeft + animStartWidth
+
+                    //目标在左边
+                    animLeft = if (positionOffset >= 0.5) {
+                        animEndLeft
+                    } else {
+                        (animStartLeft - (animStartLeft - animEndLeft) * positionOffset / 0.5f).toInt()
+                    }
+                }
+
+                animWidth = if (positionOffset >= 0.5) {
+                    (flowEndWidth - (flowEndWidth - animEndWidth) * (positionOffset - 0.5) / 0.5f).toInt()
+                } else {
+                    (animStartWidth + (flowEndWidth - animStartWidth) * positionOffset / 0.5f).toInt()
+                }
+            } else {
+                if (_targetIndex > currentIndex) {
+                    //目标在右边
+                    animLeft =
+                        (animStartLeft + (animEndLeft - animStartLeft) * positionOffset).toInt()
+                } else {
+                    //目标在左边
+                    animLeft =
+                        (animStartLeft - (animStartLeft - animEndLeft) * positionOffset).toInt()
+                }
+
+                //动画过程中的宽度
+                animWidth =
+                    (animStartWidth + (animEndWidth - animStartWidth) * positionOffset).toInt()
+            }
         }
 
         indicatorDrawable?.apply {
