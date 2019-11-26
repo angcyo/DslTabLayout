@@ -213,7 +213,7 @@ open class DslSelector {
 /**
  * Dsl配置项
  * */
-class DslSelectorConfig {
+open class DslSelectorConfig {
 
     /**取消选择时, 最小需要保持多个选中*/
     var dslMinSelectLimit = 1

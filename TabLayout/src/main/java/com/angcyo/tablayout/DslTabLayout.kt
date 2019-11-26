@@ -82,6 +82,12 @@ open class DslTabLayout(
     //childView选择器
     val dslSelector: DslSelector by lazy {
         DslSelector().install(this) {
+            tabLayoutConfig?.let {
+                onStyleItemView = it.onStyleItemView
+                onSelectViewChange = it.onSelectViewChange
+                onSelectItemView = it.onSelectItemView
+            }
+
             onSelectIndexChange = { fromIndex, selectList ->
                 "选择:[$fromIndex]->${selectList}".logi()
 
@@ -91,6 +97,8 @@ open class DslTabLayout(
 
                 _scrollToCenter(toIndex)
                 postInvalidate()
+
+                tabLayoutConfig?.onSelectIndexChange?.invoke(fromIndex, selectList)
             }
         }
     }
@@ -98,6 +106,9 @@ open class DslTabLayout(
     //</editor-fold desc="内部属性">
 
     //<editor-fold desc="可操作性方法">
+
+    /**回调监听器和样式配置器*/
+    var tabLayoutConfig: DslTabLayoutConfig? = null
 
     /**当前选中item的索引*/
     val currentItemIndex: Int
@@ -562,7 +573,7 @@ open class DslTabLayout(
             interpolator = LinearInterpolator()
             duration = tabIndicatorAnimationDuration
             addUpdateListener {
-                tabIndicator.positionOffset = it.animatedValue as Float
+                _onAnimateValue(it.animatedValue as Float)
             }
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationCancel(animation: Animator?) {
@@ -593,6 +604,10 @@ open class DslTabLayout(
         "_animateToItem ${tabIndicator.currentIndex} ${tabIndicator._targetIndex}".loge()
         _scrollAnimator.setFloatValues(tabIndicator.positionOffset, 1f)
         _scrollAnimator.start()
+    }
+
+    fun _onAnimateValue(value: Float) {
+        tabIndicator.positionOffset = value
     }
 
     fun _onAnimateEnd() {
@@ -653,5 +668,5 @@ open class DslTabLayout(
         }
 
     //</editor-fold desc="ViewPager 相关">
-
 }
+
