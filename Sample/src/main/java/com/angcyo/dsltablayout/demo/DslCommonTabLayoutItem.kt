@@ -24,6 +24,11 @@ class DslCommonTabLayoutItem : DslAdapterItem() {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
         itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+
+            if (itemLayoutId == R.layout.item_common_tab_layout2) {
+                setBackgroundColor(randomColor())
+            }
+
             tabIndicator.indicatorDrawable =
                 itemHolder.itemView.context.getDrawable2(R.drawable.indicator_white_line)
         }

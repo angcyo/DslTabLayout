@@ -179,12 +179,14 @@ open class DslTabLayout(
 
     override fun onViewAdded(child: View?) {
         super.onViewAdded(child)
+        dslSelector.updateVisibleList()
         dslSelector.updateStyle()
         dslSelector.updateClickListener()
     }
 
     override fun onViewRemoved(child: View?) {
         super.onViewRemoved(child)
+        dslSelector.updateVisibleList()
     }
 
     override fun draw(canvas: Canvas) {
@@ -216,6 +218,8 @@ open class DslTabLayout(
     var _childAllWidthSum = 0
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        dslSelector.updateVisibleList()
+
         //super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         var widthSize = MeasureSpec.getSize(widthMeasureSpec)
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
@@ -341,13 +345,7 @@ open class DslTabLayout(
         setMeasuredDimension(widthSize, heightSize)
     }
 
-    //所有可见的View列表
-    val _childVisibleViewList = mutableListOf<View>()
-
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-
-        _childVisibleViewList.clear()
-
         var left = paddingLeft
         var top: Int
 
@@ -356,10 +354,6 @@ open class DslTabLayout(
 
             if (childView.visibility == View.GONE) {
                 continue
-            }
-
-            if (childView.visibility == View.VISIBLE) {
-                _childVisibleViewList.add(childView)
             }
 
             val lp = childView.layoutParams as LayoutParams
@@ -645,7 +639,7 @@ open class DslTabLayout(
         get() = _scrollAnimator.isStarted
 
     fun _animateToItem(fromIndex: Int, toIndex: Int) {
-        if (toIndex == fromIndex) {
+        if (toIndex == fromIndex || isInEditMode) {
             return
         }
 

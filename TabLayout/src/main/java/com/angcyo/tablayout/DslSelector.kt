@@ -19,19 +19,6 @@ open class DslSelector {
 
     //可见view列表
     val visibleViewList: MutableList<View> = mutableListOf()
-        get() {
-            field.clear()
-
-            for (i in 0 until (parent?.childCount ?: 0)) {
-                parent?.getChildAt(i)?.apply {
-                    if (visibility == View.VISIBLE) {
-                        field.add(this)
-                    }
-                }
-            }
-
-            return field
-        }
 
     /**
      * 选中的索引列表
@@ -83,6 +70,7 @@ open class DslSelector {
     fun install(viewGroup: ViewGroup, config: DslSelectorConfig.() -> Unit = {}): DslSelector {
         dslSelectIndex = -1
         parent = viewGroup
+        updateVisibleList()
         dslSelectorConfig.config()
 
         updateStyle()
@@ -105,11 +93,28 @@ open class DslSelector {
 
     /**更新child的点击事件*/
     fun updateClickListener() {
-        for (i in 0 until (parent?.childCount ?: 0)) {
-            parent?.getChildAt(i)?.apply {
-                setOnClickListener(_onChildClickListener)
+        parent?.apply {
+            for (i in 0 until childCount) {
+                getChildAt(i)?.let {
+                    it.setOnClickListener(_onChildClickListener)
+                }
             }
         }
+    }
+
+    /**更新可见视图列表*/
+    fun updateVisibleList(): List<View> {
+        visibleViewList.clear()
+        parent?.apply {
+            for (i in 0 until childCount) {
+                getChildAt(i)?.let {
+                    if (it.visibility == View.VISIBLE) {
+                        visibleViewList.add(it)
+                    }
+                }
+            }
+        }
+        return visibleViewList
     }
 
     /**

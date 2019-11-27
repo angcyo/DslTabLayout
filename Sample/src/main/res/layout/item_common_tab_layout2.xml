@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.angcyo.tablayout.DslTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:minHeight="50dp"
+    app:dsl_indicator_color="@color/colorAccent"
+    app:dsl_indicator_drawable="@drawable/indicator_bottom_line"
+    app:dsl_item_is_equ_width="true"
+    app:dsl_tab_deselect_color="#383838"
+    app:dsl_tab_select_color="@color/colorAccent"
+    tools:dsl_default_index="1">
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:text="首页" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:text="消息" />
+
+    <ImageView
+        style="@style/TabCommonItemStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:src="@drawable/ic_add" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:text="联系人" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:text="更多" />
+
+</com.angcyo.tablayout.DslTabLayout>
