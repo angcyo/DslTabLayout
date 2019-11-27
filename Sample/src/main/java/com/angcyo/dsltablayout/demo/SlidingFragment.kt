@@ -53,6 +53,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         setBackgroundColor("#379DE4".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
+                        tabIndicator.indicatorHeight = 4 * dpi
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
@@ -108,6 +109,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         setBackgroundColor("#A632A5".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
+                        tabIndicator.indicatorHeight = 4 * dpi
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
@@ -177,25 +179,9 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
 
                         setTabLayoutConfig {
-                            tabEnableGradientColor = true
-                            tabTextBold = true
-                        }
-                    }
-                }
-            }
-            DslTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor(randomColor())
-                        addTabLayout(this)
-                        tabIndicator.indicatorWidth = 10 * dpi
-                        tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
-
-                        setTabLayoutConfig {
                             tabEnableGradientScale = true
+                            tabEnableGradientColor = true
+                            tabSelectorColor = resources.getColor(R.color.colorAccent)
                         }
                     }
                 }

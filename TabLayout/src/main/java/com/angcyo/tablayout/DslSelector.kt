@@ -62,8 +62,18 @@ open class DslSelector {
             return field
         }
 
+    //child 点击事件处理
     val _onChildClickListener = View.OnClickListener {
-        selector(visibleViewList.indexOf(it), !it.isSelected)
+        val index = visibleViewList.indexOf(it)
+        val select = if (dslSelectorConfig.dslMultiMode) {
+            !it.isSelected
+        } else {
+            true
+        }
+
+        if (!interceptSelector(index, select)) {
+            selector(visibleViewList.indexOf(it), select)
+        }
     }
 
     /**当前选中的索引*/
@@ -104,17 +114,22 @@ open class DslSelector {
 
     /**
      * 操作单个
+     * @param index 操作目标的索引值
      * @param select 选中 or 取消选中
+     * @param notify 是否需要通知事件
      * */
-    fun selector(index: Int, select: Boolean = true) {
-        val lastSelectorView: View? = selectorViewList.lastOrNull()
+    fun selector(index: Int, select: Boolean = true, notify: Boolean = true) {
+        val selectorIndexList = selectorIndexList
         val lastSelectorIndex: Int? = selectorIndexList.lastOrNull()
+        val reselect = !dslSelectorConfig.dslMultiMode &&
+                selectorIndexList.isNotEmpty() &&
+                selectorIndexList.contains(index)
 
         if (_selector(index, select)) {
-            val indexSelectorList = selectorIndexList
-            dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
-            dslSelectorConfig.onSelectViewChange(lastSelectorView, selectorViewList)
-            dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, indexSelectorList)
+            dslSelectIndex = this.selectorIndexList.lastOrNull() ?: -1
+            if (notify) {
+                notifySelectChange(lastSelectorIndex ?: -1, reselect)
+            }
         }
     }
 
@@ -123,8 +138,8 @@ open class DslSelector {
      * @param select 选中 or 取消选中
      * [selector]
      * */
-    fun selector(indexList: MutableList<Int>, select: Boolean = true) {
-        val lastSelectorView: View? = selectorViewList.lastOrNull()
+    fun selector(indexList: MutableList<Int>, select: Boolean = true, notify: Boolean = true) {
+        val selectorIndexList = selectorIndexList
         val lastSelectorIndex: Int? = selectorIndexList.lastOrNull()
 
         var result = false
@@ -134,37 +149,73 @@ open class DslSelector {
         }
 
         if (result) {
-            val indexSelectorList = selectorIndexList
-            dslSelectIndex = indexSelectorList.lastOrNull() ?: -1
-            dslSelectorConfig.onSelectViewChange(lastSelectorView, selectorViewList)
-            dslSelectorConfig.onSelectIndexChange(lastSelectorIndex ?: -1, indexSelectorList)
+            dslSelectIndex = this.selectorIndexList.lastOrNull() ?: -1
+            if (notify) {
+                notifySelectChange(lastSelectorIndex ?: -1, false)
+            }
         }
+    }
+
+    /**通知事件*/
+    fun notifySelectChange(lastSelectorIndex: Int, reselect: Boolean) {
+        val indexSelectorList = selectorIndexList
+        dslSelectorConfig.onSelectViewChange(
+            visibleViewList.getOrNull(lastSelectorIndex),
+            selectorViewList,
+            reselect
+        )
+        dslSelectorConfig.onSelectIndexChange(lastSelectorIndex, indexSelectorList, reselect)
+    }
+
+    /**当前的操作是否被拦截*/
+    fun interceptSelector(index: Int, select: Boolean): Boolean {
+        val visibleViewList = visibleViewList
+        if (index !in 0 until visibleViewList.size) {
+            return true
+        }
+        return dslSelectorConfig.onSelectItemView(visibleViewList[index], index, select)
     }
 
     /**@return 是否发生过改变*/
     fun _selector(index: Int, select: Boolean): Boolean {
-
-        val selectorIndexList = selectorIndexList
-
-        if (select && selectorIndexList.contains(index)) {
-            return false
-        } else if (!select && !selectorIndexList.contains(index)) {
-            return false
-        }
-
         val visibleViewList = visibleViewList
-
-        if (index in 0 until visibleViewList.size) {
-
-        } else {
+        //超范围过滤
+        if (index !in 0 until visibleViewList.size) {
             "index out of list.".logi()
             return false
         }
 
-        var result = false
-
+        val selectorIndexList = selectorIndexList
         val selectorViewList = selectorViewList
 
+        if (selectorIndexList.isNotEmpty()) {
+            if (select) {
+                //需要选中某项
+
+                if (dslSelectorConfig.dslMultiMode) {
+                    //多选模式
+                    if (selectorIndexList.contains(index)) {
+                        //已经选中
+                        return false
+                    }
+                } else {
+                    //单选模式
+                    if (selectorIndexList.contains(index)) {
+                        //已经选中
+                        return true
+                    }
+                }
+
+            } else {
+                //需要取消选中
+                if (!selectorIndexList.contains(index)) {
+                    //目标已经是未选中
+                    return false
+                }
+            }
+        }
+
+        //Limit 过滤
         if (select) {
             val sum = selectorViewList.size + 1
             if (sum > dslSelectorConfig.dslMaxSelectLimit) {
@@ -183,30 +234,27 @@ open class DslSelector {
         val selectorView = visibleViewList[index]
 
         //更新选中样式
-        if (!dslSelectorConfig.onSelectItemView(selectorView, index, select)) {
-            selectorView.isSelected = select
+        selectorView.isSelected = select
 
-            if (dslSelectorConfig.dslMultiMode) {
-                //多选
-            } else {
-                //单选
+        if (dslSelectorConfig.dslMultiMode) {
+            //多选
+        } else {
+            //单选
 
-                //取消之前
-                selectorViewList.forEach { view ->
-                    //更新样式
-                    val indexOf = visibleViewList.indexOf(view)
-                    if (!dslSelectorConfig.onSelectItemView(view, indexOf, false)) {
-                        view.isSelected = false
-                        dslSelectorConfig.onStyleItemView(view, indexOf, false)
-                    }
+            //取消之前
+            selectorViewList.forEach { view ->
+                //更新样式
+                val indexOf = visibleViewList.indexOf(view)
+                if (!dslSelectorConfig.onSelectItemView(view, indexOf, false)) {
+                    view.isSelected = false
+                    dslSelectorConfig.onStyleItemView(view, indexOf, false)
                 }
             }
-
-            dslSelectorConfig.onStyleItemView(selectorView, index, select)
-            result = true
         }
 
-        return result
+        dslSelectorConfig.onStyleItemView(selectorView, index, select)
+
+        return true
     }
 }
 
@@ -229,26 +277,28 @@ open class DslSelectorConfig {
      * [onSelectItemView]
      * */
     var onStyleItemView: (itemView: View, index: Int, select: Boolean) -> Unit =
-        { itemView, index, select ->
+        { _, _, _ ->
 
         }
 
     /**
      * 选中[View]改变回调
      * @param fromView 单选模式下有效, 表示之前选中的[View]
+     * @param reselect 是否是重复选择, 只在单选模式下有效
      * */
-    var onSelectViewChange: (fromView: View?, selectList: List<View>) -> Unit =
-        { fromView, selectList ->
+    var onSelectViewChange: (fromView: View?, selectList: List<View>, reselect: Boolean) -> Unit =
+        { _, _, _ ->
 
         }
 
     /**
      * 选中改变回调
+     * [onSelectViewChange]
      * @param fromIndex 单选模式下有效, 表示之前选中的[View], 在可见性[child]列表中的索引
      * */
-    var onSelectIndexChange: (fromIndex: Int, selectList: List<Int>) -> Unit =
-        { fromIndex, selectList ->
-            "选择:[$fromIndex]->${selectList}".logi()
+    var onSelectIndexChange: (fromIndex: Int, selectList: List<Int>, reselect: Boolean) -> Unit =
+        { fromIndex, selectList, reselect ->
+            "选择:[$fromIndex]->${selectList} reselect:$reselect".logi()
         }
 
     /**
@@ -258,7 +308,7 @@ open class DslSelectorConfig {
      * @param select 选中 or 取消选中
      * */
     var onSelectItemView: (itemView: View, index: Int, select: Boolean) -> Boolean =
-        { itemView, index, select ->
+        { _, _, _ ->
             false
         }
 }

@@ -41,7 +41,7 @@ open class DslTabLayoutConfig : DslSelectorConfig() {
 
     /**更新item的样式*/
     open fun onUpdateItemStyle(itemView: View, index: Int, select: Boolean) {
-        "$itemView\n$index\n$select".logw()
+        //"$itemView\n$index\n$select".logw()
 
         (itemView as? TextView)?.apply {
             //文本加粗
@@ -74,7 +74,7 @@ open class DslTabLayoutConfig : DslSelectorConfig() {
      * [onPageIndexScrolled]
      * */
     open fun onPageViewScrolled(fromView: View?, toView: View, positionOffset: Float) {
-        "$fromView\n$toView\n$positionOffset".logi()
+        //"$fromView\n$toView\n$positionOffset".logi()
 
         if (fromView != toView) {
             if (tabEnableGradientColor) {

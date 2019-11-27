@@ -82,9 +82,9 @@ open class DslTabLayout(
     //childView选择器
     val dslSelector: DslSelector by lazy {
         DslSelector().install(this) {
-            onSelectIndexChange = { fromIndex, selectList ->
+            onSelectIndexChange = { fromIndex, selectList, reselect ->
                 if (tabLayoutConfig == null) {
-                    "选择:[$fromIndex]->${selectList}".logi()
+                    "选择:[$fromIndex]->${selectList} reselect:$reselect".logi()
                 }
 
                 val toIndex = selectList.last()
@@ -94,7 +94,7 @@ open class DslTabLayout(
                 _scrollToCenter(toIndex)
                 postInvalidate()
 
-                tabLayoutConfig?.onSelectIndexChange?.invoke(fromIndex, selectList)
+                tabLayoutConfig?.onSelectIndexChange?.invoke(fromIndex, selectList, reselect)
             }
         }
     }
@@ -123,8 +123,11 @@ open class DslTabLayout(
         get() = dslSelector.dslSelectIndex
 
     /**设置tab的位置*/
-    fun setCurrentItem(index: Int) {
-        dslSelector.selector(index)
+    fun setCurrentItem(index: Int, notify: Boolean = true) {
+        if (currentItemIndex == index) {
+            return
+        }
+        dslSelector.selector(index, true, notify)
     }
 
     /**自动关联[ViewPager]*/
