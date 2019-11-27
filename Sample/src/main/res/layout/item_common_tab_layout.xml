@@ -10,8 +10,8 @@
     app:dsl_indicator_color="@color/colorAccent"
     app:dsl_indicator_drawable="@drawable/indicator_bottom_line"
     app:dsl_item_is_equ_width="true"
-    app:dsl_tab_deselect_color="@color/text"
     app:dsl_tab_select_color="@color/colorAccent"
+    app:dsl_tab_deselect_color="@color/text"
     tools:dsl_default_index="1">
 
     <TextView

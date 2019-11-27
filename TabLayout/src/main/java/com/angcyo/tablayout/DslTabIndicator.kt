@@ -49,15 +49,14 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
     /**指示器绘制实体*/
     var indicatorDrawable: Drawable? = null
         set(value) {
-            field = value
-            tintDrawableColor(field, indicatorColor)
+            field = tintDrawableColor(value, indicatorColor)
         }
 
     /**过滤[indicatorDrawable]的颜色*/
     var indicatorColor: Int = NO_COLOR
         set(value) {
             field = value
-            tintDrawableColor(indicatorDrawable, field)
+            indicatorDrawable = indicatorDrawable
         }
 
     /**

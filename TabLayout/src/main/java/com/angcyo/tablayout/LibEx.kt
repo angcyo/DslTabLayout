@@ -7,6 +7,8 @@ import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.math.MathUtils
 
@@ -140,13 +142,34 @@ internal fun evaluateColor(fraction: Float /*0-1*/, startColor: Int, endColor: I
 }
 
 internal fun Drawable?.tintDrawableColor(color: Int): Drawable? {
+
     if (this == null) {
         return this
     }
+
+    val wrappedDrawable =
+        DrawableCompat.wrap(this).mutate()
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        DrawableCompat.setTint(this, color)
+        DrawableCompat.setTint(wrappedDrawable, color)
     } else {
-        this.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        wrappedDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     }
-    return this
+
+    return wrappedDrawable
+}
+
+internal fun View?.tintDrawableColor(color: Int) {
+    when (this) {
+        is TextView -> {
+            val drawables = arrayOfNulls<Drawable?>(4)
+            compoundDrawables.forEachIndexed { index, drawable ->
+                drawables[index] = drawable?.tintDrawableColor(color)
+            }
+            setCompoundDrawables(drawables[0], drawables[1], drawables[2], drawables[3])
+        }
+        is ImageView -> {
+            setImageDrawable(drawable?.tintDrawableColor(color))
+        }
+    }
 }

@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.angcyo.tablayout.DslTabIndicator.Companion.NO_COLOR
 
@@ -200,15 +199,6 @@ open class DslTabLayoutConfig : DslSelectorConfig() {
     }
 
     open fun _updateIcoColor(view: View?, color: Int) {
-        when (view) {
-            is TextView -> {
-                view.compoundDrawables.forEach {
-                    it?.tintDrawableColor(color)
-                }
-            }
-            is ImageView -> {
-                view.drawable?.tintDrawableColor(color)
-            }
-        }
+        view?.tintDrawableColor(color)
     }
 }

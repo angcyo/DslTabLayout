@@ -18,13 +18,41 @@ class CommonFragment : BaseTabLayoutFragment() {
 
         renderAdapter {
 
+            //            DslCommonTabLayoutItem()() {
+//                onItemBindOverride = { itemHolder, _, _ ->
+//                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+//                        addTabLayout(this)
+//                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_NONE
+//                    }
+//                }
+//            }
+//
             DslCommonTabLayoutItem()() {
+                itemTopInsert = 10 * dpi
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 4 * dpi
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
+                    }
+                }
+            }
+
+            DslCommonTabLayoutItem()() {
+                itemTopInsert = 10 * dpi
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        addTabLayout(this)
+                        tabIndicator.indicatorWidth = 20 * dpi
+                        tabIndicator.indicatorEnableFlow = true
+                        tabIndicator.indicatorColor = randomColor()
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
+
+                        configTabLayoutConfig {
+                            tabEnableGradientColor = true
+                            tabSelectColor = tabIndicator.indicatorColor
+                        }
                     }
                 }
             }
