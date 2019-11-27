@@ -239,6 +239,10 @@ open class DslTabLayout(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
+        if (drawBorder) {
+            tabBorder?.drawBorderBackground(canvas)
+        }
+
         //绘制在child的后面
         if (tabIndicator.indicatorStyle <= 0x10) {
             tabIndicator.draw(canvas)

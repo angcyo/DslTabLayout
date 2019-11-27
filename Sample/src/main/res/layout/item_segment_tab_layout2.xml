@@ -9,16 +9,17 @@
 
     <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/tab_layout"
-        android:layout_width="200dp"
+        android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:minHeight="40dp"
-        app:dsl_border_radius_size="10dp"
-        app:dsl_border_stroke_color="@color/colorAccent"
+        app:dsl_border_radius_size="45dp"
+        app:dsl_border_solid_color="@color/white"
+        app:dsl_border_stroke_color="#2296E1"
         app:dsl_draw_border="true"
         app:dsl_indicator_style="STYLE_NONE"
         app:dsl_item_is_equ_width="true"
-        app:dsl_tab_deselect_color="@color/colorAccent"
+        app:dsl_tab_deselect_color="#2296E1"
         app:dsl_tab_select_color="@color/white"
         tools:dsl_default_index="1">
 
@@ -29,6 +30,10 @@
         <TextView
             style="@style/TabCommonItemStyle"
             android:text="消息" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:text="联系人" />
 
     </com.angcyo.tablayout.DslTabLayout>
 

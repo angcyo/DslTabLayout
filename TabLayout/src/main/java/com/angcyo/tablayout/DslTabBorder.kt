@@ -3,7 +3,6 @@ package com.angcyo.tablayout
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.view.ViewCompat
@@ -23,19 +22,22 @@ open class DslTabBorder : DslGradientDrawable() {
      * */
     var borderDrawItemBackground: Boolean = true
 
+    var borderBackgroundDrawable: Drawable? = null
+
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
         super.initAttribute(context, attributeSet)
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
-        gradientSolidColor =
+        val borderBackgroundColor =
             typedArray.getColor(R.styleable.DslTabLayout_dsl_border_solid_color, gradientSolidColor)
+
         gradientStrokeColor = typedArray.getColor(
             R.styleable.DslTabLayout_dsl_border_stroke_color,
             gradientStrokeColor
         )
         gradientStrokeWidth = typedArray.getDimensionPixelOffset(
             R.styleable.DslTabLayout_dsl_border_stroke_width,
-            gradientStrokeWidth
+            2 * dpi
         )
         val radiusSize =
             typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_dsl_border_radius_size, 0)
@@ -53,6 +55,11 @@ open class DslTabBorder : DslGradientDrawable() {
 
         if (originDrawable == null) {
             //无自定义的drawable, 那么自绘.
+            borderBackgroundDrawable = DslGradientDrawable().configDrawable {
+                gradientSolidColor = borderBackgroundColor
+                gradientRadii = this@DslTabBorder.gradientRadii
+            }
+
             updateDrawable()
         }
     }
@@ -61,6 +68,20 @@ open class DslTabBorder : DslGradientDrawable() {
         super.draw(canvas)
 
         originDrawable?.apply {
+            setBounds(
+                paddingLeft,
+                paddingBottom,
+                viewWidth - paddingRight,
+                viewHeight - paddingBottom
+            )
+            draw(canvas)
+        }
+    }
+
+    fun drawBorderBackground(canvas: Canvas) {
+        super.draw(canvas)
+
+        borderBackgroundDrawable?.apply {
             setBounds(
                 paddingLeft,
                 paddingBottom,
@@ -91,31 +112,30 @@ open class DslTabBorder : DslGradientDrawable() {
             val isFirst = index == 0
             val isLast = index == tabLayout.dslSelector.visibleViewList.size - 1
 
-            val drawable = GradientDrawable()
+            val drawable = DslGradientDrawable().configDrawable {
+                gradientSolidColor = this@DslTabBorder.gradientStrokeColor
 
-            with(drawable) {
-                setColor(gradientStrokeColor)
                 if (isFirst && isLast) {
-                    cornerRadii = gradientRadii
+                    gradientRadii = this@DslTabBorder.gradientRadii
                 } else if (isFirst) {
-                    cornerRadii = floatArrayOf(
-                        gradientRadii[0],
-                        gradientRadii[1],
+                    gradientRadii = floatArrayOf(
+                        this@DslTabBorder.gradientRadii[0],
+                        this@DslTabBorder.gradientRadii[1],
                         0f,
                         0f,
                         0f,
                         0f,
-                        gradientRadii[6],
-                        gradientRadii[7]
+                        this@DslTabBorder.gradientRadii[6],
+                        this@DslTabBorder.gradientRadii[7]
                     )
                 } else if (isLast) {
-                    cornerRadii = floatArrayOf(
+                    gradientRadii = floatArrayOf(
                         0f,
                         0f,
-                        gradientRadii[2],
-                        gradientRadii[3],
-                        gradientRadii[4],
-                        gradientRadii[5],
+                        this@DslTabBorder.gradientRadii[2],
+                        this@DslTabBorder.gradientRadii[3],
+                        this@DslTabBorder.gradientRadii[4],
+                        this@DslTabBorder.gradientRadii[5],
                         0f,
                         0f
                     )

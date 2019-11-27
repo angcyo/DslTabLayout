@@ -24,6 +24,15 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 }
             }
 
+            DslSegmentTabLayoutItem()() {
+                itemLayoutId = R.layout.item_segment_tab_layout2
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        addTabLayout(this)
+                    }
+                }
+            }
+
 //            DslSegmentTabLayoutItem()() {
 //
 //            }

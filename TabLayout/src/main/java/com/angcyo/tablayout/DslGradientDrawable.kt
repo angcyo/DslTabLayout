@@ -24,9 +24,9 @@ open class DslGradientDrawable : DslDrawable() {
     var gradientSolidColor = Color.TRANSPARENT
 
     /**边框的颜色*/
-    var gradientStrokeColor = Color.WHITE
+    var gradientStrokeColor = Color.TRANSPARENT
     /**边框的宽度*/
-    var gradientStrokeWidth = 2 * dpi
+    var gradientStrokeWidth = 0
     /**蚂蚁线的宽度*/
     var gradientDashWidth = 0f
     /**蚂蚁线之间的间距*/
@@ -58,9 +58,10 @@ open class DslGradientDrawable : DslDrawable() {
         invalidateSelf()
     }
 
-    open fun configDrawable(config: DslGradientDrawable.() -> Unit) {
+    open fun configDrawable(config: DslGradientDrawable.() -> Unit): GradientDrawable {
         this.config()
         updateDrawable()
+        return originDrawable as GradientDrawable
     }
 
     /**构建[GradientDrawable]*/
