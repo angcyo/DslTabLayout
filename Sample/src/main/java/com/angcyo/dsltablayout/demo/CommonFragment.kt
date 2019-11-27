@@ -112,7 +112,7 @@ class CommonFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorColor = Color.parseColor("#40000000")
                         tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_round_background)
+                            getDrawable(R.drawable.indicator_round_background_tran)
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
 
                         configTabLayoutConfig {

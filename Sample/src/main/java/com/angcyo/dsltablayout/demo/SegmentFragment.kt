@@ -33,6 +33,24 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 }
             }
 
+            DslSegmentTabLayoutItem()() {
+                itemLayoutId = R.layout.item_segment_tab_layout3
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        addTabLayout(this)
+                    }
+                }
+            }
+
+            DslSegmentTabLayoutItem()() {
+                itemLayoutId = R.layout.item_segment_tab_layout4
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        addTabLayout(this)
+                    }
+                }
+            }
+
 //            DslSegmentTabLayoutItem()() {
 //
 //            }

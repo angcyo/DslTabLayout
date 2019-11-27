@@ -103,7 +103,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_round_background)
+                            getDrawable(R.drawable.indicator_round_background_tran)
                         tabIndicator.indicatorHeight = -2
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorWidthOffset = 20 * dpi

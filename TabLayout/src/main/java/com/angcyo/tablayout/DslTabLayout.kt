@@ -682,12 +682,17 @@ open class DslTabLayout(
         get() = _scrollAnimator.isStarted
 
     fun _animateToItem(fromIndex: Int, toIndex: Int) {
-        if (toIndex == fromIndex || isInEditMode) {
+        if (toIndex == fromIndex) {
             return
         }
 
         tabIndicator.currentIndex = max(0, fromIndex)
         tabIndicator._targetIndex = toIndex
+
+        if (isInEditMode) {
+            tabIndicator.currentIndex = toIndex
+            return
+        }
 
         if (tabIndicator.currentIndex == tabIndicator._targetIndex) {
             return

@@ -66,7 +66,7 @@
         <attr name="dsl_border_solid_color" format="color" />
         <attr name="dsl_border_stroke_width" format="dimension" />
         <attr name="dsl_border_radius_size" format="dimension" />
-        <attr name="dsl_border_draw_item_background" format="dimension" />
+        <attr name="dsl_border_draw_item_background" format="boolean" />
         <!--end...-->
 
     </declare-styleable>

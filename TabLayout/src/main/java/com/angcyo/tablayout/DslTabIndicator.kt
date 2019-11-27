@@ -103,17 +103,23 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
             typedArray.getColor(R.styleable.DslTabLayout_dsl_indicator_color, indicatorColor)
         indicatorStyle =
             typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_style, indicatorStyle)
+
+        if (indicatorStyle == INDICATOR_STYLE_BACKGROUND) {
+            indicatorYOffset = 0
+            indicatorHeight = -1
+        }
+
         indicatorFlowStep =
             typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_flow_step, indicatorFlowStep)
         indicatorEnableFlow = typedArray.getBoolean(
             R.styleable.DslTabLayout_dsl_indicator_enable_flow,
             indicatorEnableFlow
         )
-        indicatorWidth = typedArray.getDimensionPixelOffset(
+        indicatorWidth = typedArray.getLayoutDimension(
             R.styleable.DslTabLayout_dsl_indicator_width,
             indicatorWidth
         )
-        indicatorHeight = typedArray.getDimensionPixelOffset(
+        indicatorHeight = typedArray.getLayoutDimension(
             R.styleable.DslTabLayout_dsl_indicator_height,
             indicatorHeight
         )
