@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
-import com.angcyo.tablayout.TabIndicator
+import com.angcyo.tablayout.DslTabIndicator
 
 /**
  *
@@ -19,40 +19,40 @@ class SlidingFragment : BaseTabLayoutFragment() {
         renderAdapter {
 
             //指示器在顶部
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 4 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
                     }
                 }
             }
 
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
                     }
                 }
             }
 
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
                         tabIndicator.indicatorHeight = 4 * dpi
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
                     }
                 }
             }
 
             //指示器在底部
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
@@ -60,45 +60,45 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorHeight = 10 * dpi
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.ic_triangle)
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
             }
 
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
             }
 
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
             }
 
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
                         tabIndicator.indicatorHeight = 4 * dpi
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
             }
 
             //指示器在背部
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
@@ -108,11 +108,11 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorWidthOffset = 20 * dpi
                         tabIndicator.indicatorHeightOffset = -15 * dpi
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BACKGROUND
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
                     }
                 }
             }
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
@@ -121,56 +121,56 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorHeight = -1
                         tabIndicator.indicatorWidth = 40 * dpi
                         tabIndicator.indicatorHeight = 40 * dpi
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BACKGROUND
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
                     }
                 }
             }
 
             //其他特性
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
 
                         setTabLayoutConfig {
-                            tabSelectorColor = resources.getColor(R.color.colorAccent)
-                            tabUnSelectorColor = resources.getColor(R.color.colorPrimaryDark)
+                            tabSelectColor = resources.getColor(R.color.colorAccent)
+                            tabDeselectColor = resources.getColor(R.color.colorPrimaryDark)
                         }
                     }
                 }
             }
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
 
                         setTabLayoutConfig {
                             tabEnableGradientScale = true
                             tabEnableGradientColor = true
-                            tabSelectorColor = resources.getColor(R.color.colorAccent)
+                            tabSelectColor = resources.getColor(R.color.colorAccent)
                         }
                     }
                 }
             }
-            DslTabLayoutItem()() {
+            DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                         tabIndicator.indicatorColor = randomColor()
 
                         setTabLayoutConfig {
                             tabEnableGradientScale = true
                             tabEnableGradientColor = true
-                            tabTextBold = true
+                            tabEnableTextBold = true
                         }
                     }
                 }

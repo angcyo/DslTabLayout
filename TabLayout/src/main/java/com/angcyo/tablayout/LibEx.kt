@@ -1,9 +1,13 @@
 package com.angcyo.tablayout
 
 import android.content.res.Resources
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.math.MathUtils
 
 /**
@@ -133,4 +137,16 @@ internal fun evaluateColor(fraction: Float /*0-1*/, startColor: Int, endColor: I
             (startR + (fraction * (endR - startR)).toInt() shl 16) or
             (startG + (fraction * (endG - startG)).toInt() shl 8) or
             startB + (fraction * (endB - startB)).toInt()
+}
+
+internal fun Drawable?.tintDrawableColor(color: Int): Drawable? {
+    if (this == null) {
+        return this
+    }
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        DrawableCompat.setTint(this, color)
+    } else {
+        this.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+    }
+    return this
 }

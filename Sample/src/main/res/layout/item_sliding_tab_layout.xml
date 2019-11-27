@@ -8,34 +8,34 @@
     app:dsl_indicator_drawable="@drawable/indicator_bottom_line">
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:text="R" />
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:text="最新" />
 
     <ImageView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_png" />
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:text="排行榜3" />
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:drawableLeft="@drawable/ic_android"
         android:text="Android" />
 
     <LinearLayout
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:orientation="horizontal">
 
         <TextView
-            style="@style/TabItemStyle"
+            style="@style/TabSlidingItemStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="0dp"
@@ -47,7 +47,7 @@
             android:src="@drawable/ic_swift" />
 
         <TextView
-            style="@style/TabItemStyle"
+            style="@style/TabSlidingItemStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="0dp"
@@ -56,19 +56,19 @@
     </LinearLayout>
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:text="Vue" />
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:text="前->端" />
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:text="设" />
 
     <TextView
-        style="@style/TabItemStyle"
+        style="@style/TabSlidingItemStyle"
         android:text="其他资源" />
 
 </com.angcyo.tablayout.DslTabLayout>

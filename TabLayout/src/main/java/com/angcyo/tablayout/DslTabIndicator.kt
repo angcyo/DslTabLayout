@@ -2,12 +2,9 @@ package com.angcyo.tablayout
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.DrawableCompat
 import kotlin.math.absoluteValue
 import kotlin.math.max
 
@@ -18,7 +15,7 @@ import kotlin.math.max
  * @date 2019/11/25
  * Copyright (c) 2019 ShenZhen O&M Cloud Co., Ltd. All rights reserved.
  */
-open class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
+open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
     companion object {
         //非颜色值
@@ -85,7 +82,6 @@ open class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
     /**XY轴方向补偿*/
     var indicatorXOffset = 0
-
     /**会根据[indicatorStyle]自动取负值*/
     var indicatorYOffset = 2 * dpi
 
@@ -150,12 +146,7 @@ open class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         if (drawable == null || color == NO_COLOR) {
             return this
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            DrawableCompat.setTint(drawable, color)
-        } else {
-            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
-        }
-        return drawable
+        return drawable.tintDrawableColor(color)
     }
 
     /**

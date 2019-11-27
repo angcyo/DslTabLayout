@@ -10,9 +10,10 @@ import com.angcyo.tablayout.DslTabLayout
  * @author angcyo
  * @date 2019/11/23
  */
-class DslTabLayoutItem : DslAdapterItem() {
+class DslCommonTabLayoutItem : DslAdapterItem() {
+
     init {
-        itemLayoutId = R.layout.item_tab_layout
+        itemLayoutId = R.layout.item_common_tab_layout
     }
 
     override fun onItemBind(
@@ -23,7 +24,6 @@ class DslTabLayoutItem : DslAdapterItem() {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
         itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-            setBackgroundColor(randomColor())
             tabIndicator.indicatorDrawable =
                 itemHolder.itemView.context.getDrawable2(R.drawable.indicator_white_line)
         }

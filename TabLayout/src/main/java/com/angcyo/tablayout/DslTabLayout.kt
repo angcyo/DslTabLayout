@@ -25,7 +25,7 @@ import kotlin.math.min
 
 open class DslTabLayout(
     context: Context,
-    attributeSet: AttributeSet? = null
+    val attributeSet: AttributeSet? = null
 ) : ViewGroup(context, attributeSet) {
 
     /**在未指定[minHeight]的[wrap_content]情况下的高度*/
@@ -38,13 +38,34 @@ open class DslTabLayout(
     var itemWidth = -3
 
     /**指示器*/
-    var tabIndicator: TabIndicator
+    var tabIndicator: DslTabIndicator = DslTabIndicator(this)
+        set(value) {
+            field = value
+            field.initAttribute(context, attributeSet)
+        }
 
     /**指示器动画时长*/
     var tabIndicatorAnimationDuration = 240L
 
     /**默认选中位置*/
     var tabDefaultIndex = 0
+
+    /**回调监听器和样式配置器*/
+    var tabLayoutConfig: DslTabLayoutConfig? = null
+        set(value) {
+            field = value
+
+            field?.let {
+                //接管回调
+                dslSelector.dslSelectorConfig.apply {
+                    onStyleItemView = it.onStyleItemView
+                    onSelectViewChange = it.onSelectViewChange
+                    onSelectItemView = it.onSelectItemView
+                }
+
+                it.initAttribute(context, attributeSet)
+            }
+        }
 
     //<editor-fold desc="内部属性">
 
@@ -54,32 +75,6 @@ open class DslTabLayout(
 
     //scroll 阈值
     var _touchSlop = 0
-
-    init {
-        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
-        itemIsEquWidth =
-            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_item_is_equ_width, itemIsEquWidth)
-        itemWidth =
-            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_dsl_item_width, itemWidth)
-        itemDefaultHeight = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_item_default_height,
-            itemDefaultHeight
-        )
-        tabDefaultIndex =
-            typedArray.getInt(R.styleable.DslTabLayout_dsl_default_index, tabDefaultIndex)
-        typedArray.recycle()
-
-        val vc = ViewConfiguration.get(context)
-        _minFlingVelocity = vc.scaledMinimumFlingVelocity
-        _maxFlingVelocity = vc.scaledMaximumFlingVelocity
-        //_touchSlop = vc.scaledTouchSlop
-
-        tabIndicator = TabIndicator(this)
-        tabIndicator.initAttribute(context, attributeSet)
-
-        //开启绘制
-        setWillNotDraw(false)
-    }
 
     //childView选择器
     val dslSelector: DslSelector by lazy {
@@ -101,24 +96,38 @@ open class DslTabLayout(
         }
     }
 
+    init {
+        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
+        itemIsEquWidth =
+            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_item_is_equ_width, itemIsEquWidth)
+        itemWidth =
+            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_dsl_item_width, itemWidth)
+        itemDefaultHeight = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_item_default_height,
+            itemDefaultHeight
+        )
+        tabDefaultIndex =
+            typedArray.getInt(R.styleable.DslTabLayout_dsl_default_index, tabDefaultIndex)
+        typedArray.recycle()
+
+        val vc = ViewConfiguration.get(context)
+        _minFlingVelocity = vc.scaledMinimumFlingVelocity
+        _maxFlingVelocity = vc.scaledMaximumFlingVelocity
+        //_touchSlop = vc.scaledTouchSlop
+
+        //直接初始化的变量, 不会触发set方法.
+        tabIndicator.initAttribute(context, attributeSet)
+
+        //样式配置器
+        tabLayoutConfig = DslTabLayoutConfig()
+
+        //开启绘制
+        setWillNotDraw(false)
+    }
+
     //</editor-fold desc="内部属性">
 
     //<editor-fold desc="可操作性方法">
-
-    /**回调监听器和样式配置器*/
-    var tabLayoutConfig: DslTabLayoutConfig? = null
-        set(value) {
-            field = value
-
-            field?.let {
-                //接管回调
-                dslSelector.dslSelectorConfig.apply {
-                    onStyleItemView = it.onStyleItemView
-                    onSelectViewChange = it.onSelectViewChange
-                    onSelectItemView = it.onSelectItemView
-                }
-            }
-        }
 
     /**当前选中item的索引*/
     val currentItemIndex: Int
@@ -423,13 +432,14 @@ open class DslTabLayout(
             a.recycle()
         }
 
-        constructor(width: Int, height: Int) : super(width, height)
         constructor(source: ViewGroup.LayoutParams) : super(source) {
             if (source is LayoutParams) {
                 this.layoutWidth = source.layoutWidth
                 this.layoutHeight = source.layoutHeight
             }
         }
+
+        constructor(width: Int, height: Int) : super(width, height)
 
         constructor(width: Int, height: Int, gravity: Int) : super(width, height, gravity)
     }

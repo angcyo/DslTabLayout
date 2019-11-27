@@ -39,6 +39,21 @@
         <attr name="dsl_indicator_content_index" format="integer" />
         <!--end...-->
 
+        <!--TabLayoutConfig相关属性-->
+        <attr name="dsl_tab_select_color" format="color" />
+        <attr name="dsl_tab_deselect_color" format="color" />
+        <attr name="dsl_tab_ico_select_color" format="color" />
+        <attr name="dsl_tab_ico_deselect_color" format="color" />
+        <attr name="dsl_tab_enable_text_color" format="boolean" />
+        <attr name="dsl_tab_enable_ico_color" format="boolean" />
+        <attr name="dsl_tab_enable_text_bold" format="boolean" />
+        <attr name="dsl_tab_enable_gradient_color" format="boolean" />
+        <attr name="dsl_tab_enable_ico_gradient_color" format="boolean" />
+        <attr name="dsl_tab_enable_gradient_scale" format="boolean" />
+        <attr name="dsl_tab_min_scale" format="float" />
+        <attr name="dsl_tab_max_scale" format="float" />
+        <!--end...-->
+
     </declare-styleable>
 
     <attr name="dsl_layout_width" format="string" />
