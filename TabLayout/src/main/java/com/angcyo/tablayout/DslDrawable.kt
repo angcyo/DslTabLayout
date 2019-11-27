@@ -9,14 +9,14 @@ import android.util.AttributeSet
 import android.view.View
 
 /**
- *
+ * 基础自绘Drawable
  * Email:angcyo@126.com
  * @author angcyo
  * @date 2019/11/25
  * Copyright (c) 2019 ShenZhen O&M Cloud Co., Ltd. All rights reserved.
  */
 
-open class DslDrawable : Drawable() {
+abstract class DslDrawable : Drawable() {
 
     /**画笔*/
     val textPaint: TextPaint by lazy {

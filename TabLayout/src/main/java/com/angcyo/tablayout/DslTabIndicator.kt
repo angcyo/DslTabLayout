@@ -143,7 +143,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
     open fun tintDrawableColor(drawable: Drawable?, color: Int): Drawable? {
         if (drawable == null || color == NO_COLOR) {
-            return this
+            return drawable
         }
         return drawable.tintDrawableColor(color)
     }

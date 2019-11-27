@@ -14,7 +14,7 @@ import com.angcyo.tablayout.DslTabIndicator.Companion.NO_COLOR
  * @date 2019/11/26
  * Copyright (c) 2019 ShenZhen O&M Cloud Co., Ltd. All rights reserved.
  */
-open class DslTabLayoutConfig : DslSelectorConfig() {
+open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig() {
 
     /**是否开启文本颜色*/
     var tabEnableTextColor = true
@@ -142,6 +142,10 @@ open class DslTabLayoutConfig : DslSelectorConfig() {
         if (tabEnableGradientScale) {
             itemView.scaleX = if (select) tabMaxScale else tabMinScale
             itemView.scaleY = if (select) tabMaxScale else tabMinScale
+        }
+
+        if (tabLayout.drawBorder) {
+            tabLayout.tabBorder?.updateItemBackground(tabLayout, itemView, index, select)
         }
     }
 

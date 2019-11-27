@@ -7,8 +7,10 @@
         <!--指定item的宽度-->
         <attr name="dsl_item_width" format="dimension" />
         <attr name="dsl_item_default_height" format="dimension" />
+        <attr name="dsl_draw_border" format="boolean" />
+        <attr name="dsl_draw_divider" format="boolean" />
 
-        <!--指示器相关属性-->
+        <!--indicator 指示器相关属性-->
         <attr name="dsl_indicator_drawable" format="reference" />
         <attr name="dsl_indicator_color" format="color" />
 
@@ -39,7 +41,7 @@
         <attr name="dsl_indicator_content_index" format="integer" />
         <!--end...-->
 
-        <!--TabLayoutConfig相关属性-->
+        <!--TabLayoutConfig 相关属性-->
         <attr name="dsl_tab_select_color" format="color" />
         <attr name="dsl_tab_deselect_color" format="color" />
         <attr name="dsl_tab_ico_select_color" format="color" />
@@ -52,6 +54,19 @@
         <attr name="dsl_tab_enable_gradient_scale" format="boolean" />
         <attr name="dsl_tab_min_scale" format="float" />
         <attr name="dsl_tab_max_scale" format="float" />
+        <!--end...-->
+
+        <!--Divider 分割线相关属性-->
+
+        <!--end...-->
+
+        <!--Border 边框相关属性-->
+        <attr name="dsl_border_drawable" format="reference" />
+        <attr name="dsl_border_stroke_color" format="color" />
+        <attr name="dsl_border_solid_color" format="color" />
+        <attr name="dsl_border_stroke_width" format="dimension" />
+        <attr name="dsl_border_radius_size" format="dimension" />
+        <attr name="dsl_border_draw_item_background" format="dimension" />
         <!--end...-->
 
     </declare-styleable>

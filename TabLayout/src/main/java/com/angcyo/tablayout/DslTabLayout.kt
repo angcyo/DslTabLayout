@@ -67,6 +67,24 @@ open class DslTabLayout(
             }
         }
 
+    /**边框绘制*/
+    var tabBorder: DslTabBorder? = null
+        set(value) {
+            field = value
+            field?.callback = this
+            field?.initAttribute(context, attributeSet)
+        }
+    var drawBorder = false
+
+    /**垂直分割线*/
+    var tabDivider: DslTabDivider? = null
+        set(value) {
+            field = value
+            field?.callback = this
+            field?.initAttribute(context, attributeSet)
+        }
+    var drawDivider = false
+
     //<editor-fold desc="内部属性">
 
     //fling 速率阈值
@@ -108,6 +126,12 @@ open class DslTabLayout(
         )
         tabDefaultIndex =
             typedArray.getInt(R.styleable.DslTabLayout_dsl_default_index, tabDefaultIndex)
+
+        drawDivider =
+            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_draw_divider, drawDivider)
+        drawBorder =
+            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_draw_border, drawBorder)
+
         typedArray.recycle()
 
         val vc = ViewConfiguration.get(context)
@@ -115,11 +139,18 @@ open class DslTabLayout(
         _maxFlingVelocity = vc.scaledMaximumFlingVelocity
         //_touchSlop = vc.scaledTouchSlop
 
+        if (drawBorder) {
+            tabBorder = DslTabBorder()
+        }
+        if (drawDivider) {
+            tabDivider = DslTabDivider()
+        }
+
         //直接初始化的变量, 不会触发set方法.
         tabIndicator.initAttribute(context, attributeSet)
 
         //样式配置器
-        tabLayoutConfig = DslTabLayoutConfig()
+        tabLayoutConfig = DslTabLayoutConfig(this)
 
         //开启绘制
         setWillNotDraw(false)
@@ -152,14 +183,14 @@ open class DslTabLayout(
 
     /**配置一个新的[DslTabLayoutConfig]给[DslTabLayout]*/
     fun setTabLayoutConfig(config: DslTabLayoutConfig.() -> Unit = {}) {
-        tabLayoutConfig = DslTabLayoutConfig()
+        tabLayoutConfig = DslTabLayoutConfig(this)
         configTabLayoutConfig(config)
     }
 
     /**配置[DslTabLayoutConfig]*/
     fun configTabLayoutConfig(config: DslTabLayoutConfig.() -> Unit = {}) {
         if (tabLayoutConfig == null) {
-            tabLayoutConfig = DslTabLayoutConfig()
+            tabLayoutConfig = DslTabLayoutConfig(this)
         }
         tabLayoutConfig?.config()
         dslSelector.updateStyle()
@@ -192,7 +223,14 @@ open class DslTabLayout(
     override fun draw(canvas: Canvas) {
         tabIndicator.setBounds(0, 0, measuredWidth, measuredHeight)
         super.draw(canvas)
+
         //绘制在child的上面
+        if (drawDivider) {
+            tabDivider?.draw(canvas)
+        }
+        if (drawBorder) {
+            tabBorder?.draw(canvas)
+        }
         if (tabIndicator.indicatorStyle > 0x10) {
             tabIndicator.draw(canvas)
         }
@@ -200,6 +238,7 @@ open class DslTabLayout(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
         //绘制在child的后面
         if (tabIndicator.indicatorStyle <= 0x10) {
             tabIndicator.draw(canvas)
