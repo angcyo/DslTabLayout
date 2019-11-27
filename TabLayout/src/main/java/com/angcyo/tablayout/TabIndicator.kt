@@ -2,9 +2,12 @@ package com.angcyo.tablayout
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.DrawableCompat
 import kotlin.math.absoluteValue
 import kotlin.math.max
 
@@ -15,9 +18,12 @@ import kotlin.math.max
  * @date 2019/11/25
  * Copyright (c) 2019 ShenZhen O&M Cloud Co., Ltd. All rights reserved.
  */
-class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
+open class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
     companion object {
+        //非颜色值
+        const val NO_COLOR = -2
+
         //不绘制指示器
         const val INDICATOR_STYLE_NONE = 0
 
@@ -45,6 +51,17 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
     /**指示器绘制实体*/
     var indicatorDrawable: Drawable? = null
+        set(value) {
+            field = value
+            tintDrawableColor(field, indicatorColor)
+        }
+
+    /**过滤[indicatorDrawable]的颜色*/
+    var indicatorColor: Int = NO_COLOR
+        set(value) {
+            field = value
+            tintDrawableColor(indicatorDrawable, field)
+        }
 
     /**
      * 指示器的宽度
@@ -87,6 +104,8 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
         indicatorDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_dsl_indicator_drawable)
+        indicatorColor =
+            typedArray.getColor(R.styleable.DslTabLayout_dsl_indicator_color, indicatorColor)
         indicatorStyle =
             typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_style, indicatorStyle)
         indicatorFlowStep =
@@ -127,10 +146,22 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         typedArray.recycle()
     }
 
+    open fun tintDrawableColor(drawable: Drawable?, color: Int): Drawable? {
+        if (drawable == null || color == NO_COLOR) {
+            return this
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            DrawableCompat.setTint(drawable, color)
+        } else {
+            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        }
+        return drawable
+    }
+
     /**
      * [childview]对应的中心x坐标
      * */
-    fun getChildCenterX(index: Int): Int {
+    open fun getChildCenterX(index: Int): Int {
 
         var result = if (index > 0) tabLayout.maxWidth else 0
 
@@ -164,7 +195,7 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         return result
     }
 
-    fun getIndicatorDrawWidth(index: Int): Int {
+    open fun getIndicatorDrawWidth(index: Int): Int {
         var result = indicatorWidth
 
         when (indicatorWidth) {
@@ -198,7 +229,7 @@ class TabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         return result + indicatorWidthOffset
     }
 
-    fun getIndicatorDrawHeight(index: Int): Int {
+    open fun getIndicatorDrawHeight(index: Int): Int {
         var result = indicatorHeight
 
         when (indicatorHeight) {

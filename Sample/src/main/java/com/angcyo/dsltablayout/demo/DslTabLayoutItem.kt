@@ -2,6 +2,7 @@ package com.angcyo.dsltablayout.demo
 
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.tablayout.DslTabLayout
 
 /**
  *
@@ -20,5 +21,11 @@ class DslTabLayoutItem : DslAdapterItem() {
         adapterItem: DslAdapterItem
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
+
+        itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+            setBackgroundColor(randomColor())
+            tabIndicator.indicatorDrawable =
+                itemHolder.itemView.context.getDrawable2(R.drawable.indicator_white_line)
+        }
     }
 }

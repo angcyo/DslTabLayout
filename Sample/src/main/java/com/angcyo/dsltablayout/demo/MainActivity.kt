@@ -1,5 +1,6 @@
 package com.angcyo.dsltablayout.demo
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.annotation.DrawableRes
@@ -34,6 +35,10 @@ fun FragmentManager.show(fragment: Fragment) {
     }
 }
 
+fun Context.getDrawable2(@DrawableRes id: Int): Drawable? {
+    return ContextCompat.getDrawable(this, id)
+}
+
 fun Fragment.getDrawable(@DrawableRes id: Int): Drawable? {
-    return ContextCompat.getDrawable(requireContext(), id)
+    return requireContext().getDrawable2(id)
 }

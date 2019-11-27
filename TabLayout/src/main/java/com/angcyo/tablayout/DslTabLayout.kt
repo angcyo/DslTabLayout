@@ -65,6 +65,8 @@ open class DslTabLayout(
             R.styleable.DslTabLayout_dsl_item_default_height,
             itemDefaultHeight
         )
+        tabDefaultIndex =
+            typedArray.getInt(R.styleable.DslTabLayout_dsl_default_index, tabDefaultIndex)
         typedArray.recycle()
 
         val vc = ViewConfiguration.get(context)

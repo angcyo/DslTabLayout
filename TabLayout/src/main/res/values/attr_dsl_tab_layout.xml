@@ -3,13 +3,14 @@
 
     <declare-styleable name="DslTabLayout">
         <attr name="dsl_item_is_equ_width" format="boolean" />
-        <attr name="dsl_current_item" format="integer" />
+        <attr name="dsl_default_index" format="integer" />
         <!--指定item的宽度-->
         <attr name="dsl_item_width" format="dimension" />
         <attr name="dsl_item_default_height" format="dimension" />
 
         <!--指示器相关属性-->
         <attr name="dsl_indicator_drawable" format="reference" />
+        <attr name="dsl_indicator_color" format="color" />
 
         <attr name="dsl_indicator_style" format="enum">
             <enum name="STYLE_NONE" value="0" />

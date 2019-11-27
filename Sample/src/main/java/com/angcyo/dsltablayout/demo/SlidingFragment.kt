@@ -1,7 +1,6 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
-import androidx.core.graphics.toColorInt
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
@@ -23,12 +22,9 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#666466".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 4 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
                     }
                 }
@@ -37,11 +33,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#009688".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
                     }
                 }
@@ -50,12 +43,9 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#379DE4".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
                         tabIndicator.indicatorHeight = 4 * dpi
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_TOP
                     }
                 }
@@ -65,7 +55,6 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#EE6F5E".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorHeight = 10 * dpi
@@ -79,11 +68,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#7F3737".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
@@ -92,12 +78,9 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#D6B654".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
@@ -106,12 +89,9 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#A632A5".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
                         tabIndicator.indicatorHeight = 4 * dpi
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
@@ -121,7 +101,6 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#6B8DB3".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.indicator_round_background)
@@ -136,7 +115,6 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor("#F7CE4A".toColorInt())
                         addTabLayout(this)
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.ic_love)
@@ -152,12 +130,9 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor(randomColor())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
 
                         setTabLayoutConfig {
@@ -170,12 +145,9 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor(randomColor())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
 
                         setTabLayoutConfig {
@@ -189,13 +161,11 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        setBackgroundColor(randomColor())
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorDrawable =
-                            getDrawable(R.drawable.indicator_white_line)
                         tabIndicator.indicatorStyle = TabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorColor = randomColor()
 
                         setTabLayoutConfig {
                             tabEnableGradientScale = true
