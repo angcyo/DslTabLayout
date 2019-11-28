@@ -24,6 +24,11 @@ open class DslTabBorder : DslGradientDrawable() {
 
     var borderBackgroundDrawable: Drawable? = null
 
+    /**宽度补偿*/
+    var borderBackgroundWidthOffset: Int = 0
+    /**高度补偿*/
+    var borderBackgroundHeightOffset: Int = 0
+
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
         super.initAttribute(context, attributeSet)
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
@@ -51,13 +56,25 @@ open class DslTabBorder : DslGradientDrawable() {
             borderDrawItemBackground
         )
 
+        borderBackgroundWidthOffset = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_border_item_background_width_offset,
+            borderBackgroundWidthOffset
+        )
+
+        borderBackgroundHeightOffset = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_dsl_border_item_background_height_offset,
+            borderBackgroundHeightOffset
+        )
+
         typedArray.recycle()
 
         if (originDrawable == null) {
             //无自定义的drawable, 那么自绘.
-            borderBackgroundDrawable = DslGradientDrawable().configDrawable {
+            DslGradientDrawable().configDrawable {
                 gradientSolidColor = borderBackgroundColor
                 gradientRadii = this@DslTabBorder.gradientRadii
+
+                borderBackgroundDrawable = originDrawable
             }
 
             updateDrawable()
@@ -113,6 +130,9 @@ open class DslTabBorder : DslGradientDrawable() {
             val isLast = index == tabLayout.dslSelector.visibleViewList.size - 1
 
             val drawable = DslGradientDrawable().configDrawable {
+                gradientWidthOffset = borderBackgroundWidthOffset
+                gradientHeightOffset = borderBackgroundHeightOffset
+
                 gradientSolidColor = this@DslTabBorder.gradientStrokeColor
 
                 if (isFirst && isLast) {

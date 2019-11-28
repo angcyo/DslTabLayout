@@ -9,6 +9,7 @@
         <attr name="dsl_item_default_height" format="dimension" />
         <attr name="dsl_draw_border" format="boolean" />
         <attr name="dsl_draw_divider" format="boolean" />
+        <attr name="dsl_draw_indicator" format="boolean" />
 
         <!--indicator 指示器相关属性-->
         <attr name="dsl_indicator_drawable" format="reference" />
@@ -57,7 +58,21 @@
         <!--end...-->
 
         <!--Divider 分割线相关属性-->
-
+        <attr name="dsl_divider_drawable" format="reference" />
+        <attr name="dsl_divider_stroke_color" format="color" />
+        <attr name="dsl_divider_solid_color" format="color" />
+        <attr name="dsl_divider_stroke_width" format="dimension" />
+        <attr name="dsl_divider_radius_size" format="dimension" />
+        <attr name="dsl_divider_margin_left" format="dimension" />
+        <attr name="dsl_divider_margin_right" format="dimension" />
+        <attr name="dsl_divider_margin_top" format="dimension" />
+        <attr name="dsl_divider_margin_bottom" format="dimension" />
+        <attr name="dsl_divider_width" format="dimension" />
+        <attr name="dsl_divider_show_mode" format="flags">
+            <flag name="SHOW_DIVIDER_BEGINNING" value="1" />
+            <flag name="SHOW_DIVIDER_MIDDLE" value="2" />
+            <flag name="SHOW_DIVIDER_END" value="4" />
+        </attr>
         <!--end...-->
 
         <!--Border 边框相关属性-->
@@ -67,6 +82,8 @@
         <attr name="dsl_border_stroke_width" format="dimension" />
         <attr name="dsl_border_radius_size" format="dimension" />
         <attr name="dsl_border_draw_item_background" format="boolean" />
+        <attr name="dsl_border_item_background_height_offset" format="dimension" />
+        <attr name="dsl_border_item_background_width_offset" format="dimension" />
         <!--end...-->
 
     </declare-styleable>

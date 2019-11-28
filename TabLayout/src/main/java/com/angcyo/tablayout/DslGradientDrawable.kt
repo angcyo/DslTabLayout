@@ -1,5 +1,6 @@
 package com.angcyo.tablayout
 
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -53,15 +54,21 @@ open class DslGradientDrawable : DslDrawable() {
 
     var originDrawable: Drawable? = null
 
+    /**宽度补偿*/
+    var gradientWidthOffset: Int = 0
+
+    /**高度补偿*/
+    var gradientHeightOffset: Int = 0
+
     open fun updateDrawable() {
         originDrawable = generateDrawable()
         invalidateSelf()
     }
 
-    open fun configDrawable(config: DslGradientDrawable.() -> Unit): GradientDrawable {
+    open fun configDrawable(config: DslGradientDrawable.() -> Unit): DslGradientDrawable {
         this.config()
         updateDrawable()
-        return originDrawable as GradientDrawable
+        return this
     }
 
     /**构建[GradientDrawable]*/
@@ -95,6 +102,19 @@ open class DslGradientDrawable : DslDrawable() {
         }
 
         return drawable
+    }
+
+    override fun draw(canvas: Canvas) {
+        super.draw(canvas)
+        originDrawable?.apply {
+            setBounds(
+                this@DslGradientDrawable.bounds.left - gradientWidthOffset / 2,
+                this@DslGradientDrawable.bounds.top - gradientHeightOffset / 2,
+                this@DslGradientDrawable.bounds.right + gradientWidthOffset / 2,
+                this@DslGradientDrawable.bounds.bottom + gradientHeightOffset / 2
+            )
+            draw(canvas)
+        }
     }
 
     //<editor-fold desc="圆角相关配置">

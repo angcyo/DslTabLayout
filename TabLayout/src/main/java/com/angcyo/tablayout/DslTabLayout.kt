@@ -37,6 +37,9 @@ open class DslTabLayout(
     /**在等宽的情况下, 指定item的宽度, 小于0, 平分*/
     var itemWidth = -3
 
+    /**是否绘制指示器*/
+    var drawIndicator = true
+
     /**指示器*/
     var tabIndicator: DslTabIndicator = DslTabIndicator(this)
         set(value) {
@@ -127,6 +130,8 @@ open class DslTabLayout(
         tabDefaultIndex =
             typedArray.getInt(R.styleable.DslTabLayout_dsl_default_index, tabDefaultIndex)
 
+        drawIndicator =
+            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_draw_indicator, drawIndicator)
         drawDivider =
             typedArray.getBoolean(R.styleable.DslTabLayout_dsl_draw_divider, drawDivider)
         drawBorder =
@@ -226,12 +231,32 @@ open class DslTabLayout(
 
         //绘制在child的上面
         if (drawDivider) {
-            tabDivider?.draw(canvas)
+            var left = 0
+            val childCount = dslSelector.visibleViewList.size
+            tabDivider?.apply {
+                val top = paddingTop + dividerMarginTop
+                val bottom = measuredHeight - paddingBottom - dividerMarginBottom
+                dslSelector.visibleViewList.forEachIndexed { index, view ->
+
+                    if (haveBeforeDivider(index, childCount)) {
+                        left = view.left - dividerMarginRight - dividerWidth
+                        setBounds(left, top, left + dividerWidth, bottom)
+                        draw(canvas)
+                    }
+
+                    if (haveAfterDivider(index, childCount)) {
+                        left = view.right + dividerMarginLeft
+                        setBounds(left, top, left + dividerWidth, bottom)
+                        draw(canvas)
+                    }
+                }
+
+            }
         }
         if (drawBorder) {
             tabBorder?.draw(canvas)
         }
-        if (tabIndicator.indicatorStyle > 0x10) {
+        if (drawIndicator && tabIndicator.indicatorStyle > 0x10) {
             tabIndicator.draw(canvas)
         }
     }
@@ -244,7 +269,7 @@ open class DslTabLayout(
         }
 
         //绘制在child的后面
-        if (tabIndicator.indicatorStyle <= 0x10) {
+        if (drawIndicator && tabIndicator.indicatorStyle <= 0x10) {
             tabIndicator.draw(canvas)
         }
     }
@@ -262,6 +287,8 @@ open class DslTabLayout(
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         dslSelector.updateVisibleList()
+
+        val visibleChildList = dslSelector.visibleViewList
 
         //super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         var widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -290,6 +317,11 @@ open class DslTabLayout(
             }
         }
 
+        //分割线需要排除的宽度
+        val dividerExclude =
+            if (drawDivider) tabDivider?.run { dividerWidth + dividerMarginLeft + dividerMarginRight }
+                ?: 0 else 0
+
         //等宽时, child宽度的测量模式
         val childEquWidthSpec = if (itemIsEquWidth) {
             exactlyMeasure(
@@ -297,14 +329,27 @@ open class DslTabLayout(
                     itemWidth
                 } else {
                     var excludeWidth = paddingLeft + paddingRight
-                    for (k in 0 until childCount) {
-                        val child = getChildAt(k)
-                        if (child.visibility == View.GONE) {
-                            continue
+                    visibleChildList.forEachIndexed { index, child ->
+                        if (drawDivider) {
+                            if (tabDivider?.haveBeforeDivider(
+                                    index,
+                                    visibleChildList.size
+                                ) == true
+                            ) {
+                                excludeWidth += dividerExclude
+                            }
+                            if (tabDivider?.haveAfterDivider(
+                                    index,
+                                    visibleChildList.size
+                                ) == true
+                            ) {
+                                excludeWidth += dividerExclude
+                            }
                         }
-                        val elp = child.layoutParams as LayoutParams
-                        excludeWidth += elp.leftMargin + elp.rightMargin
+                        val lp = child.layoutParams as LayoutParams
+                        excludeWidth += lp.leftMargin + lp.rightMargin
                     }
+
                     (widthSize - excludeWidth) / childCount
                 }
             )
@@ -318,11 +363,7 @@ open class DslTabLayout(
 
         var wrapContentHeight = false
 
-        for (i in 0 until childCount) {
-            val childView = getChildAt(i)
-            if (childView.visibility == View.GONE) {
-                continue
-            }
+        visibleChildList.forEachIndexed { index, childView ->
 
             val lp = childView.layoutParams as LayoutParams
             //不支持竖向margin支持
@@ -378,6 +419,23 @@ open class DslTabLayout(
                 heightSize += paddingTop + paddingBottom
             }
 
+            if (drawDivider) {
+                if (tabDivider?.haveBeforeDivider(
+                        index,
+                        visibleChildList.size
+                    ) == true
+                ) {
+                    _childAllWidthSum += dividerExclude
+                }
+                if (tabDivider?.haveAfterDivider(
+                        index,
+                        visibleChildList.size
+                    ) == true
+                ) {
+                    _childAllWidthSum += dividerExclude
+                }
+            }
+
             _childAllWidthSum += childView.measuredWidth + lp.leftMargin + lp.rightMargin
         }
 
@@ -392,16 +450,26 @@ open class DslTabLayout(
         var left = paddingLeft
         var top: Int
 
-        for (i in 0 until childCount) {
-            val childView = getChildAt(i)
+        val dividerExclude =
+            if (drawDivider) tabDivider?.run { dividerWidth + dividerMarginLeft + dividerMarginRight }
+                ?: 0 else 0
 
-            if (childView.visibility == View.GONE) {
-                continue
-            }
+        val visibleChildList = dslSelector.visibleViewList
+        visibleChildList.forEachIndexed { index, childView ->
 
             val lp = childView.layoutParams as LayoutParams
 
             left += lp.leftMargin
+
+            if (drawDivider) {
+                if (tabDivider?.haveBeforeDivider(
+                        index,
+                        visibleChildList.size
+                    ) == true
+                ) {
+                    left += dividerExclude
+                }
+            }
 
             top = if (lp.gravity.have(Gravity.CENTER_VERTICAL)) {
                 measuredHeight / 2 - childView.measuredHeight / 2
