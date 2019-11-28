@@ -43,7 +43,7 @@ open class BaseDslFragment : Fragment() {
 
     open fun initBaseView(viewHolder: DslViewHolder, savedInstanceState: Bundle?) {
         dslAdapter = DslAdapter()
-        viewHolder.rv(R.id.base_recycler_view).apply {
+        viewHolder.rv(R.id.base_recycler_view)?.apply {
             layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.VERTICAL,

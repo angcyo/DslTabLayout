@@ -291,7 +291,7 @@ open class DslSelectorConfig {
      * @param fromView 单选模式下有效, 表示之前选中的[View]
      * @param reselect 是否是重复选择, 只在单选模式下有效
      * */
-    var onSelectViewChange: (fromView: View?, selectList: List<View>, reselect: Boolean) -> Unit =
+    var onSelectViewChange: (fromView: View?, selectViewList: List<View>, reselect: Boolean) -> Unit =
         { _, _, _ ->
 
         }
@@ -301,7 +301,7 @@ open class DslSelectorConfig {
      * [onSelectViewChange]
      * @param fromIndex 单选模式下有效, 表示之前选中的[View], 在可见性[child]列表中的索引
      * */
-    var onSelectIndexChange: (fromIndex: Int, selectList: List<Int>, reselect: Boolean) -> Unit =
+    var onSelectIndexChange: (fromIndex: Int, selectIndexList: List<Int>, reselect: Boolean) -> Unit =
         { fromIndex, selectList, reselect ->
             "选择:[$fromIndex]->${selectList} reselect:$reselect".logi()
         }
@@ -311,6 +311,7 @@ open class DslSelectorConfig {
      * @param itemView 操作的[View]
      * @param index [itemView]在可见性view列表中的索引. 非ViewGroup中的索引
      * @param select 选中 or 取消选中
+     * @return true 表示拦截默认处理
      * */
     var onSelectItemView: (itemView: View, index: Int, select: Boolean) -> Boolean =
         { _, _, _ ->

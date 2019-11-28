@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        show(SegmentFragment())
+        show(MainFragment())
+        //show(SegmentFragment())
         //show(CommonFragment())
         //show(SlidingFragment())
     }

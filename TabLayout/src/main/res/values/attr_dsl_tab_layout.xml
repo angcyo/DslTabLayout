@@ -89,8 +89,9 @@
     </declare-styleable>
 
     <declare-styleable name="DslTabLayout_Layout">
-        <attr name="tab_layout_width" format="string" />
-        <attr name="tab_layout_height" format="string" />
-        <attr name="tab_layout_indicator_content_index" format="integer" />
+        <attr name="layout_tab_width" format="string" />
+        <attr name="layout_tab_height" format="string" />
+        <attr name="layout_tab_convex_height" format="dimension" />
+        <attr name="layout_tab_indicator_content_index" format="integer" />
     </declare-styleable>
 </resources>

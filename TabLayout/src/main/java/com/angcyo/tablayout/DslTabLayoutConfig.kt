@@ -62,6 +62,8 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     /**大嘴缩放的比例*/
     var tabMaxScale = 1.2f
 
+    var tabGradientCallback = TabGradientCallback()
+
     init {
         onStyleItemView = { itemView, index, select ->
             onUpdateItemStyle(itemView, index, select)
@@ -184,25 +186,43 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     }
 
     open fun _gradientColor(view: View?, startColor: Int, endColor: Int, percent: Float) {
+        tabGradientCallback.onGradientColor(view, startColor, endColor, percent)
+    }
+
+    open fun _gradientIcoColor(view: View?, startColor: Int, endColor: Int, percent: Float) {
+        tabGradientCallback.onGradientIcoColor(view, startColor, endColor, percent)
+    }
+
+    open fun _gradientScale(view: View?, startScale: Float, endScale: Float, percent: Float) {
+        tabGradientCallback.onGradientScale(view, startScale, endScale, percent)
+    }
+
+    open fun _updateIcoColor(view: View?, color: Int) {
+        tabGradientCallback.onUpdateIcoColor(view, color)
+    }
+}
+
+open class TabGradientCallback {
+    open fun onGradientColor(view: View?, startColor: Int, endColor: Int, percent: Float) {
         (view as? TextView)?.apply {
             setTextColor(evaluateColor(percent, startColor, endColor))
         }
     }
 
-    open fun _gradientIcoColor(view: View?, startColor: Int, endColor: Int, percent: Float) {
-        _updateIcoColor(view, evaluateColor(percent, startColor, endColor))
+    open fun onGradientIcoColor(view: View?, startColor: Int, endColor: Int, percent: Float) {
+        onUpdateIcoColor(view, evaluateColor(percent, startColor, endColor))
     }
 
-    open fun _gradientScale(view: View?, startScale: Float, endScale: Float, percent: Float) {
+    open fun onUpdateIcoColor(view: View?, color: Int) {
+        view?.tintDrawableColor(color)
+    }
+
+    open fun onGradientScale(view: View?, startScale: Float, endScale: Float, percent: Float) {
         view?.apply {
             (startScale + (endScale - startScale) * percent).let {
                 scaleX = it
                 scaleY = it
             }
         }
-    }
-
-    open fun _updateIcoColor(view: View?, color: Int) {
-        view?.tintDrawableColor(color)
     }
 }

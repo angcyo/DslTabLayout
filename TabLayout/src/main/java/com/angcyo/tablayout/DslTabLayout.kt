@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Region
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.*
@@ -58,16 +59,7 @@ open class DslTabLayout(
         set(value) {
             field = value
 
-            field?.let {
-                //接管回调
-                dslSelector.dslSelectorConfig.apply {
-                    onStyleItemView = it.onStyleItemView
-                    onSelectViewChange = it.onSelectViewChange
-                    onSelectItemView = it.onSelectItemView
-                }
-
-                it.initAttribute(context, attributeSet)
-            }
+            field?.initAttribute(context, attributeSet)
         }
 
     /**边框绘制*/
@@ -100,6 +92,15 @@ open class DslTabLayout(
     //childView选择器
     val dslSelector: DslSelector by lazy {
         DslSelector().install(this) {
+            onStyleItemView = { itemView, index, select ->
+                tabLayoutConfig?.onStyleItemView?.invoke(itemView, index, select)
+            }
+            onSelectItemView = { itemView, index, select ->
+                tabLayoutConfig?.onSelectItemView?.invoke(itemView, index, select) ?: false
+            }
+            onSelectViewChange = { fromView, selectViewList, reselect ->
+                tabLayoutConfig?.onSelectViewChange?.invoke(fromView, selectViewList, reselect)
+            }
             onSelectIndexChange = { fromIndex, selectList, reselect ->
                 if (tabLayoutConfig == null) {
                     "选择:[$fromIndex]->${selectList} reselect:$reselect".logi()
@@ -274,6 +275,28 @@ open class DslTabLayout(
         }
     }
 
+    override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
+        val result = super.drawChild(canvas, child, drawingTime)
+        if (_maxConvexHeight > 0) {
+            //有凸起的child
+            (child.layoutParams as? LayoutParams)?.let {
+                if (it.layoutConvexHeight > 0) {
+                    val clipSaveCount = canvas.save()
+                    canvas.clipRect(
+                        0f,
+                        (-_maxConvexHeight).toFloat(),
+                        measuredWidth.toFloat(),
+                        measuredHeight.toFloat(),
+                        Region.Op.REPLACE
+                    )
+                    super.drawChild(canvas, child, drawingTime)
+                    canvas.restoreToCount(clipSaveCount)
+                }
+            }
+        }
+        return result
+    }
+
     override fun verifyDrawable(who: Drawable): Boolean {
         return super.verifyDrawable(who) || who == tabIndicator
     }
@@ -285,6 +308,9 @@ open class DslTabLayout(
     //所有child的总宽度, 不包含parent的padding
     var _childAllWidthSum = 0
 
+    //最大的凸起高度
+    var _maxConvexHeight = 0
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         dslSelector.updateVisibleList()
 
@@ -295,6 +321,8 @@ open class DslTabLayout(
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         var heightSize = MeasureSpec.getSize(heightMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
+
+        _maxConvexHeight = 0
 
         //child高度测量模式
         var childHeightSpec: Int = -1
@@ -370,6 +398,8 @@ open class DslTabLayout(
             lp.topMargin = 0
             lp.bottomMargin = 0
 
+            val childConvexHeight = lp.layoutConvexHeight
+
             val widthHeight = calcLayoutWidthHeight(
                 lp.layoutWidth, lp.layoutHeight,
                 widthSize, heightSize, 0, 0
@@ -411,7 +441,17 @@ open class DslTabLayout(
                 else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
             }
 
-            childView.measure(childWidthSpec, childHeightSpec)
+            if (childConvexHeight > 0) {
+                _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
+                //需要凸起
+                val childConvexHeightSpec = MeasureSpec.makeMeasureSpec(
+                    MeasureSpec.getSize(childHeightSpec) + childConvexHeight,
+                    MeasureSpec.getMode(childHeightSpec)
+                )
+                childView.measure(childWidthSpec, childConvexHeightSpec)
+            } else {
+                childView.measure(childWidthSpec, childHeightSpec)
+            }
 
             if (wrapContentHeight) {
                 heightSize = childView.measuredHeight
@@ -448,7 +488,7 @@ open class DslTabLayout(
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var left = paddingLeft
-        var top: Int
+        var childBottom = measuredHeight - paddingBottom
 
         val dividerExclude =
             if (drawDivider) tabDivider?.run { dividerWidth + dividerMarginLeft + dividerMarginRight }
@@ -471,17 +511,19 @@ open class DslTabLayout(
                 }
             }
 
-            top = if (lp.gravity.have(Gravity.CENTER_VERTICAL)) {
-                measuredHeight / 2 - childView.measuredHeight / 2
+            childBottom = if (lp.gravity.have(Gravity.CENTER_VERTICAL)) {
+                measuredHeight - paddingBottom -
+                        (measuredHeight - paddingLeft - paddingBottom) / 2 -
+                        childView.measuredHeight / 2
             } else {
-                paddingTop + (measuredHeight - paddingTop - paddingBottom) / 2 - childView.measuredHeight / 2
+                measuredHeight - paddingBottom
             }
 
             /*默认垂直居中显示*/
             childView.layout(
-                left, top,
+                left, childBottom - childView.measuredHeight,
                 left + childView.measuredWidth,
-                top + childView.measuredHeight
+                childBottom
             )
             left += childView.measuredWidth + lp.rightMargin
         }
@@ -520,6 +562,9 @@ open class DslTabLayout(
         var layoutWidth: String? = null
         var layoutHeight: String? = null
 
+        /**凸出的高度*/
+        var layoutConvexHeight: Int = 0
+
         /**
          * 宽高[WRAP_CONTENT]时, 内容view的定位索引
          * [TabIndicator.indicatorContentIndex]
@@ -528,10 +573,15 @@ open class DslTabLayout(
 
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val a = c.obtainStyledAttributes(attrs, R.styleable.DslTabLayout_Layout)
-            layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_tab_layout_width)
-            layoutHeight = a.getString(R.styleable.DslTabLayout_Layout_tab_layout_height)
+            layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_layout_tab_width)
+            layoutHeight = a.getString(R.styleable.DslTabLayout_Layout_layout_tab_height)
+            layoutConvexHeight =
+                a.getDimensionPixelOffset(
+                    R.styleable.DslTabLayout_Layout_layout_tab_convex_height,
+                    layoutConvexHeight
+                )
             indicatorContentIndex = a.getInt(
-                R.styleable.DslTabLayout_Layout_tab_layout_indicator_content_index,
+                R.styleable.DslTabLayout_Layout_layout_tab_indicator_content_index,
                 indicatorContentIndex
             )
             a.recycle()
@@ -541,6 +591,7 @@ open class DslTabLayout(
             if (source is LayoutParams) {
                 this.layoutWidth = source.layoutWidth
                 this.layoutHeight = source.layoutHeight
+                this.layoutConvexHeight = source.layoutConvexHeight
             }
         }
 

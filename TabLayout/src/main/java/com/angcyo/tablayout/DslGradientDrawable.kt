@@ -41,6 +41,7 @@ open class DslGradientDrawable : DslDrawable() {
 
     /**颜色渐变*/
     var gradientColors: IntArray? = null
+    var gradientColorsOffsets: FloatArray? = null
     /**渐变中心点坐标*/
     var gradientCenterX = 0.5f
     var gradientCenterY = 0.5f
@@ -50,7 +51,7 @@ open class DslGradientDrawable : DslDrawable() {
     var gradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
     /** 渐变类型 */
     @GradientType
-    private val gradientType = GradientDrawable.LINEAR_GRADIENT
+    var gradientType = GradientDrawable.LINEAR_GRADIENT
 
     var originDrawable: Drawable? = null
 
@@ -97,6 +98,11 @@ open class DslGradientDrawable : DslDrawable() {
                 gradientType = this@DslGradientDrawable.gradientType
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     orientation = gradientOrientation
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    setColors(gradientColors, gradientColorsOffsets)
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    colors = gradientColors
                 }
             }
         }

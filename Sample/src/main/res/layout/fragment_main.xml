@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E0E0E0">
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:background="#30ffffff"
+        app:tab_deselect_color="#666666"
+        app:tab_draw_indicator="false"
+        app:tab_enable_ico_color="false"
+        app:tab_item_is_equ_width="true"
+        app:tab_select_color="@color/colorAccent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/base_bg2_selector_v21"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:lottie_colorFilter="#333AC4"
+                app:lottie_rawRes="@raw/json_play" />
+
+            <com.angcyo.button.DslButton
+                style="@style/TabItemStyle"
+                android:text="Sliding"
+                app:button_normal_text_color="#666666"
+                app:button_text_color="@color/colorAccent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/base_bg2_selector_v21"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_tab_convex_height="20dp">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_view"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:lottie_colorFilter="#333AC4"
+                app:lottie_rawRes="@raw/json_add" />
+
+            <com.angcyo.button.DslButton
+                style="@style/TabItemStyle"
+                android:text="Common"
+                app:button_normal_text_color="#666666"
+                app:button_text_color="@color/colorAccent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/base_bg2_selector_v21"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_view"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:lottie_colorFilter="#333AC4"
+                app:lottie_rawRes="@raw/json_home" />
+
+            <com.angcyo.button.DslButton
+                style="@style/TabItemStyle"
+                android:text="Segment"
+                app:button_normal_text_color="#666666"
+                app:button_text_color="@color/colorAccent" />
+        </LinearLayout>
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+</FrameLayout>
