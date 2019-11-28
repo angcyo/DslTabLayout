@@ -277,7 +277,7 @@ open class DslTabLayout(
 
     override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
         val result = super.drawChild(canvas, child, drawingTime)
-        if (_maxConvexHeight > 0) {
+        if (_maxConvexHeight > 0 && !isInEditMode) {
             //有凸起的child
             (child.layoutParams as? LayoutParams)?.let {
                 if (it.layoutConvexHeight > 0) {
