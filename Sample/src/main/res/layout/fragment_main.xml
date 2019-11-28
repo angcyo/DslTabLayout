@@ -5,10 +5,11 @@
     android:layout_height="match_parent"
     android:background="#E0E0E0">
 
-    <FrameLayout
-        android:id="@+id/frame_layout"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp" />
 
     <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/tab_layout"
