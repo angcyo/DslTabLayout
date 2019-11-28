@@ -69,6 +69,15 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 }
             }
 
+            DslSegmentTabLayoutItem()() {
+                itemLayoutId = R.layout.item_segment_tab_layout7
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        addTabLayout(this)
+                    }
+                }
+            }
+
             DslViewPagerItem(childFragmentManager)() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     setViewPager(itemHolder.v(R.id.view_pager))
