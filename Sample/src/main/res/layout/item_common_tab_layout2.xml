@@ -7,11 +7,11 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:minHeight="50dp"
-    app:dsl_indicator_color="@color/colorAccent"
-    app:dsl_indicator_drawable="@drawable/indicator_bottom_line"
-    app:dsl_item_is_equ_width="true"
-    app:dsl_tab_deselect_color="#383838"
-    app:dsl_tab_select_color="@color/colorAccent"
+    app:tab_indicator_color="@color/colorAccent"
+    app:tab_indicator_drawable="@drawable/indicator_bottom_line"
+    app:tab_item_is_equ_width="true"
+    app:tab_deselect_color="#383838"
+    app:tab_select_color="@color/colorAccent"
     tools:dsl_default_index="1">
 
     <TextView

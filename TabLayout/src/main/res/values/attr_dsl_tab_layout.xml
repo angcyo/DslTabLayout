@@ -2,73 +2,73 @@
 <resources>
 
     <declare-styleable name="DslTabLayout">
-        <attr name="dsl_item_is_equ_width" format="boolean" />
-        <attr name="dsl_default_index" format="integer" />
+        <attr name="tab_item_is_equ_width" format="boolean" />
+        <attr name="tab_default_index" format="integer" />
         <!--指定item的宽度-->
-        <attr name="dsl_item_width" format="dimension" />
-        <attr name="dsl_item_default_height" format="dimension" />
-        <attr name="dsl_draw_border" format="boolean" />
-        <attr name="dsl_draw_divider" format="boolean" />
-        <attr name="dsl_draw_indicator" format="boolean" />
+        <attr name="tab_item_width" format="dimension" />
+        <attr name="tab_item_default_height" format="dimension" />
+        <attr name="tab_draw_border" format="boolean" />
+        <attr name="tab_draw_divider" format="boolean" />
+        <attr name="tab_draw_indicator" format="boolean" />
 
         <!--indicator 指示器相关属性-->
-        <attr name="dsl_indicator_drawable" format="reference" />
-        <attr name="dsl_indicator_color" format="color" />
+        <attr name="tab_indicator_drawable" format="reference" />
+        <attr name="tab_indicator_color" format="color" />
 
-        <attr name="dsl_indicator_style" format="enum">
+        <attr name="tab_indicator_style" format="enum">
             <enum name="STYLE_NONE" value="0" />
             <enum name="STYLE_TOP" value="0x11" />
             <enum name="STYLE_BOTTOM" value="0x12" />
             <enum name="STYLE_BACKGROUND" value="0x1" />
         </attr>
 
-        <attr name="dsl_indicator_enable_flow" format="boolean" />
-        <attr name="dsl_indicator_flow_step" format="integer" />
+        <attr name="tab_indicator_enable_flow" format="boolean" />
+        <attr name="tab_indicator_flow_step" format="integer" />
 
-        <attr name="dsl_indicator_width" format="dimension|flags">
+        <attr name="tab_indicator_width" format="dimension|flags">
             <flag name="WRAP_CONTENT" value="-2" />
             <flag name="MATCH_PARENT" value="-1" />
         </attr>
-        <attr name="dsl_indicator_width_offset" format="dimension" />
+        <attr name="tab_indicator_width_offset" format="dimension" />
 
-        <attr name="dsl_indicator_height" format="dimension|flags">
+        <attr name="tab_indicator_height" format="dimension|flags">
             <flag name="WRAP_CONTENT" value="-2" />
             <flag name="MATCH_PARENT" value="-1" />
         </attr>
-        <attr name="dsl_indicator_height_offset" format="dimension" />
-        <attr name="dsl_indicator_x_offset" format="dimension" />
-        <attr name="dsl_indicator_y_offset" format="dimension" />
+        <attr name="tab_indicator_height_offset" format="dimension" />
+        <attr name="tab_indicator_x_offset" format="dimension" />
+        <attr name="tab_indicator_y_offset" format="dimension" />
 
-        <attr name="dsl_indicator_content_index" format="integer" />
+        <attr name="tab_indicator_content_index" format="integer" />
         <!--end...-->
 
         <!--TabLayoutConfig 相关属性-->
-        <attr name="dsl_tab_select_color" format="color" />
-        <attr name="dsl_tab_deselect_color" format="color" />
-        <attr name="dsl_tab_ico_select_color" format="color" />
-        <attr name="dsl_tab_ico_deselect_color" format="color" />
-        <attr name="dsl_tab_enable_text_color" format="boolean" />
-        <attr name="dsl_tab_enable_ico_color" format="boolean" />
-        <attr name="dsl_tab_enable_text_bold" format="boolean" />
-        <attr name="dsl_tab_enable_gradient_color" format="boolean" />
-        <attr name="dsl_tab_enable_ico_gradient_color" format="boolean" />
-        <attr name="dsl_tab_enable_gradient_scale" format="boolean" />
-        <attr name="dsl_tab_min_scale" format="float" />
-        <attr name="dsl_tab_max_scale" format="float" />
+        <attr name="tab_select_color" format="color" />
+        <attr name="tab_deselect_color" format="color" />
+        <attr name="tab_ico_select_color" format="color" />
+        <attr name="tab_ico_deselect_color" format="color" />
+        <attr name="tab_enable_text_color" format="boolean" />
+        <attr name="tab_enable_ico_color" format="boolean" />
+        <attr name="tab_enable_text_bold" format="boolean" />
+        <attr name="tab_enable_gradient_color" format="boolean" />
+        <attr name="tab_enable_ico_gradient_color" format="boolean" />
+        <attr name="tab_enable_gradient_scale" format="boolean" />
+        <attr name="tab_min_scale" format="float" />
+        <attr name="tab_max_scale" format="float" />
         <!--end...-->
 
         <!--Divider 分割线相关属性-->
-        <attr name="dsl_divider_drawable" format="reference" />
-        <attr name="dsl_divider_stroke_color" format="color" />
-        <attr name="dsl_divider_solid_color" format="color" />
-        <attr name="dsl_divider_stroke_width" format="dimension" />
-        <attr name="dsl_divider_radius_size" format="dimension" />
-        <attr name="dsl_divider_margin_left" format="dimension" />
-        <attr name="dsl_divider_margin_right" format="dimension" />
-        <attr name="dsl_divider_margin_top" format="dimension" />
-        <attr name="dsl_divider_margin_bottom" format="dimension" />
-        <attr name="dsl_divider_width" format="dimension" />
-        <attr name="dsl_divider_show_mode" format="flags">
+        <attr name="tab_divider_drawable" format="reference" />
+        <attr name="tab_divider_stroke_color" format="color" />
+        <attr name="tab_divider_solid_color" format="color" />
+        <attr name="tab_divider_stroke_width" format="dimension" />
+        <attr name="tab_divider_radius_size" format="dimension" />
+        <attr name="tab_divider_margin_left" format="dimension" />
+        <attr name="tab_divider_margin_right" format="dimension" />
+        <attr name="tab_divider_margin_top" format="dimension" />
+        <attr name="tab_divider_margin_bottom" format="dimension" />
+        <attr name="tab_divider_width" format="dimension" />
+        <attr name="tab_divider_show_mode" format="flags">
             <flag name="SHOW_DIVIDER_BEGINNING" value="1" />
             <flag name="SHOW_DIVIDER_MIDDLE" value="2" />
             <flag name="SHOW_DIVIDER_END" value="4" />
@@ -76,25 +76,21 @@
         <!--end...-->
 
         <!--Border 边框相关属性-->
-        <attr name="dsl_border_drawable" format="reference" />
-        <attr name="dsl_border_stroke_color" format="color" />
-        <attr name="dsl_border_solid_color" format="color" />
-        <attr name="dsl_border_stroke_width" format="dimension" />
-        <attr name="dsl_border_radius_size" format="dimension" />
-        <attr name="dsl_border_draw_item_background" format="boolean" />
-        <attr name="dsl_border_item_background_height_offset" format="dimension" />
-        <attr name="dsl_border_item_background_width_offset" format="dimension" />
+        <attr name="tab_border_drawable" format="reference" />
+        <attr name="tab_border_stroke_color" format="color" />
+        <attr name="tab_border_solid_color" format="color" />
+        <attr name="tab_border_stroke_width" format="dimension" />
+        <attr name="tab_border_radius_size" format="dimension" />
+        <attr name="tab_border_draw_item_background" format="boolean" />
+        <attr name="tab_border_item_background_height_offset" format="dimension" />
+        <attr name="tab_border_item_background_width_offset" format="dimension" />
         <!--end...-->
 
     </declare-styleable>
 
-    <attr name="dsl_layout_width" format="string" />
-    <attr name="dsl_layout_height" format="string" />
-    <attr name="dsl_layout_indicator_content_index" format="integer" />
-
     <declare-styleable name="DslTabLayout_Layout">
-        <attr name="dsl_layout_width" />
-        <attr name="dsl_layout_height" />
-        <attr name="dsl_layout_indicator_content_index" />
+        <attr name="tab_layout_width" format="string" />
+        <attr name="tab_layout_height" format="string" />
+        <attr name="tab_layout_indicator_content_index" format="integer" />
     </declare-styleable>
 </resources>

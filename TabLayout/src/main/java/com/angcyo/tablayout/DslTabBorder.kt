@@ -34,35 +34,35 @@ open class DslTabBorder : DslGradientDrawable() {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
         val borderBackgroundColor =
-            typedArray.getColor(R.styleable.DslTabLayout_dsl_border_solid_color, gradientSolidColor)
+            typedArray.getColor(R.styleable.DslTabLayout_tab_border_solid_color, gradientSolidColor)
 
         gradientStrokeColor = typedArray.getColor(
-            R.styleable.DslTabLayout_dsl_border_stroke_color,
+            R.styleable.DslTabLayout_tab_border_stroke_color,
             gradientStrokeColor
         )
         gradientStrokeWidth = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_border_stroke_width,
+            R.styleable.DslTabLayout_tab_border_stroke_width,
             2 * dpi
         )
         val radiusSize =
-            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_dsl_border_radius_size, 0)
+            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_tab_border_radius_size, 0)
 
         cornerRadius(radiusSize.toFloat())
 
-        originDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_dsl_border_drawable)
+        originDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_tab_border_drawable)
 
         borderDrawItemBackground = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_border_draw_item_background,
+            R.styleable.DslTabLayout_tab_border_draw_item_background,
             borderDrawItemBackground
         )
 
         borderBackgroundWidthOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_border_item_background_width_offset,
+            R.styleable.DslTabLayout_tab_border_item_background_width_offset,
             borderBackgroundWidthOffset
         )
 
         borderBackgroundHeightOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_border_item_background_height_offset,
+            R.styleable.DslTabLayout_tab_border_item_background_height_offset,
             borderBackgroundHeightOffset
         )
 

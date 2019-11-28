@@ -32,51 +32,51 @@ open class DslTabDivider : DslGradientDrawable() {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
         dividerWidth = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_divider_width,
+            R.styleable.DslTabLayout_tab_divider_width,
             dividerWidth
         )
         dividerMarginLeft = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_divider_margin_left,
+            R.styleable.DslTabLayout_tab_divider_margin_left,
             dividerMarginLeft
         )
         dividerMarginRight = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_divider_margin_right,
+            R.styleable.DslTabLayout_tab_divider_margin_right,
             dividerMarginRight
         )
         dividerMarginTop = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_divider_margin_top,
+            R.styleable.DslTabLayout_tab_divider_margin_top,
             dividerMarginTop
         )
         dividerMarginBottom = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_divider_margin_bottom,
+            R.styleable.DslTabLayout_tab_divider_margin_bottom,
             dividerMarginBottom
         )
 
         gradientSolidColor = typedArray.getColor(
-            R.styleable.DslTabLayout_dsl_divider_solid_color,
+            R.styleable.DslTabLayout_tab_divider_solid_color,
             gradientSolidColor
         )
 
         gradientStrokeColor = typedArray.getColor(
-            R.styleable.DslTabLayout_dsl_divider_stroke_color,
+            R.styleable.DslTabLayout_tab_divider_stroke_color,
             gradientStrokeColor
         )
         gradientStrokeWidth = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_divider_stroke_width,
+            R.styleable.DslTabLayout_tab_divider_stroke_width,
             0
         )
         val radiusSize =
             typedArray.getDimensionPixelOffset(
-                R.styleable.DslTabLayout_dsl_divider_radius_size,
+                R.styleable.DslTabLayout_tab_divider_radius_size,
                 2 * dpi
             )
 
         cornerRadius(radiusSize.toFloat())
 
-        originDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_dsl_divider_drawable)
+        originDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_tab_divider_drawable)
 
         dividerShowMode =
-            typedArray.getInt(R.styleable.DslTabLayout_dsl_divider_show_mode, dividerShowMode)
+            typedArray.getInt(R.styleable.DslTabLayout_tab_divider_show_mode, dividerShowMode)
 
         typedArray.recycle()
 

@@ -120,22 +120,22 @@ open class DslTabLayout(
     init {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
         itemIsEquWidth =
-            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_item_is_equ_width, itemIsEquWidth)
+            typedArray.getBoolean(R.styleable.DslTabLayout_tab_item_is_equ_width, itemIsEquWidth)
         itemWidth =
-            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_dsl_item_width, itemWidth)
+            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_tab_item_width, itemWidth)
         itemDefaultHeight = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_item_default_height,
+            R.styleable.DslTabLayout_tab_item_default_height,
             itemDefaultHeight
         )
         tabDefaultIndex =
-            typedArray.getInt(R.styleable.DslTabLayout_dsl_default_index, tabDefaultIndex)
+            typedArray.getInt(R.styleable.DslTabLayout_tab_default_index, tabDefaultIndex)
 
         drawIndicator =
-            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_draw_indicator, drawIndicator)
+            typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_indicator, drawIndicator)
         drawDivider =
-            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_draw_divider, drawDivider)
+            typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_divider, drawDivider)
         drawBorder =
-            typedArray.getBoolean(R.styleable.DslTabLayout_dsl_draw_border, drawBorder)
+            typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_border, drawBorder)
 
         typedArray.recycle()
 
@@ -528,10 +528,10 @@ open class DslTabLayout(
 
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val a = c.obtainStyledAttributes(attrs, R.styleable.DslTabLayout_Layout)
-            layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_dsl_layout_width)
-            layoutHeight = a.getString(R.styleable.DslTabLayout_Layout_dsl_layout_height)
+            layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_tab_layout_width)
+            layoutHeight = a.getString(R.styleable.DslTabLayout_Layout_tab_layout_height)
             indicatorContentIndex = a.getInt(
-                R.styleable.DslTabLayout_Layout_dsl_layout_indicator_content_index,
+                R.styleable.DslTabLayout_Layout_tab_layout_indicator_content_index,
                 indicatorContentIndex
             )
             a.recycle()

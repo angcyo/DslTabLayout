@@ -73,45 +73,45 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
         tabSelectColor =
-            typedArray.getColor(R.styleable.DslTabLayout_dsl_tab_select_color, tabSelectColor)
+            typedArray.getColor(R.styleable.DslTabLayout_tab_select_color, tabSelectColor)
         tabDeselectColor =
             typedArray.getColor(
-                R.styleable.DslTabLayout_dsl_tab_deselect_color,
+                R.styleable.DslTabLayout_tab_deselect_color,
                 tabDeselectColor
             )
         tabIcoSelectColor =
-            typedArray.getColor(R.styleable.DslTabLayout_dsl_tab_ico_select_color, NO_COLOR)
+            typedArray.getColor(R.styleable.DslTabLayout_tab_ico_select_color, NO_COLOR)
         tabIcoDeselectColor =
-            typedArray.getColor(R.styleable.DslTabLayout_dsl_tab_ico_deselect_color, NO_COLOR)
+            typedArray.getColor(R.styleable.DslTabLayout_tab_ico_deselect_color, NO_COLOR)
 
         tabEnableTextColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_tab_enable_text_color,
+            R.styleable.DslTabLayout_tab_enable_text_color,
             tabEnableTextColor
         )
         tabEnableGradientColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_tab_enable_gradient_color,
+            R.styleable.DslTabLayout_tab_enable_gradient_color,
             tabEnableGradientColor
         )
         tabEnableIcoColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_tab_enable_ico_color,
+            R.styleable.DslTabLayout_tab_enable_ico_color,
             tabEnableIcoColor
         )
         tabEnableIcoGradientColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_tab_enable_ico_gradient_color,
+            R.styleable.DslTabLayout_tab_enable_ico_gradient_color,
             tabEnableIcoGradientColor
         )
 
         tabEnableTextBold = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_tab_enable_text_bold,
+            R.styleable.DslTabLayout_tab_enable_text_bold,
             tabEnableTextBold
         )
 
         tabEnableGradientScale = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_tab_enable_gradient_scale,
+            R.styleable.DslTabLayout_tab_enable_gradient_scale,
             tabEnableGradientScale
         )
-        tabMinScale = typedArray.getFloat(R.styleable.DslTabLayout_dsl_tab_min_scale, tabMinScale)
-        tabMaxScale = typedArray.getFloat(R.styleable.DslTabLayout_dsl_tab_max_scale, tabMaxScale)
+        tabMinScale = typedArray.getFloat(R.styleable.DslTabLayout_tab_min_scale, tabMinScale)
+        tabMaxScale = typedArray.getFloat(R.styleable.DslTabLayout_tab_max_scale, tabMaxScale)
         typedArray.recycle()
     }
 

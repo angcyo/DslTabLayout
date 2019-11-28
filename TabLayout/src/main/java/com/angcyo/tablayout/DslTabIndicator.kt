@@ -98,11 +98,11 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
 
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
-        indicatorDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_dsl_indicator_drawable)
+        indicatorDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_tab_indicator_drawable)
         indicatorColor =
-            typedArray.getColor(R.styleable.DslTabLayout_dsl_indicator_color, indicatorColor)
+            typedArray.getColor(R.styleable.DslTabLayout_tab_indicator_color, indicatorColor)
         indicatorStyle =
-            typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_style, indicatorStyle)
+            typedArray.getInt(R.styleable.DslTabLayout_tab_indicator_style, indicatorStyle)
 
         if (indicatorStyle == INDICATOR_STYLE_BACKGROUND) {
             indicatorYOffset = 0
@@ -110,37 +110,37 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
         }
 
         indicatorFlowStep =
-            typedArray.getInt(R.styleable.DslTabLayout_dsl_indicator_flow_step, indicatorFlowStep)
+            typedArray.getInt(R.styleable.DslTabLayout_tab_indicator_flow_step, indicatorFlowStep)
         indicatorEnableFlow = typedArray.getBoolean(
-            R.styleable.DslTabLayout_dsl_indicator_enable_flow,
+            R.styleable.DslTabLayout_tab_indicator_enable_flow,
             indicatorEnableFlow
         )
         indicatorWidth = typedArray.getLayoutDimension(
-            R.styleable.DslTabLayout_dsl_indicator_width,
+            R.styleable.DslTabLayout_tab_indicator_width,
             indicatorWidth
         )
         indicatorHeight = typedArray.getLayoutDimension(
-            R.styleable.DslTabLayout_dsl_indicator_height,
+            R.styleable.DslTabLayout_tab_indicator_height,
             indicatorHeight
         )
         indicatorWidthOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_indicator_width_offset,
+            R.styleable.DslTabLayout_tab_indicator_width_offset,
             indicatorWidthOffset
         )
         indicatorHeightOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_indicator_height_offset,
+            R.styleable.DslTabLayout_tab_indicator_height_offset,
             indicatorHeightOffset
         )
         indicatorXOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_indicator_x_offset,
+            R.styleable.DslTabLayout_tab_indicator_x_offset,
             indicatorXOffset
         )
         indicatorYOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_dsl_indicator_y_offset,
+            R.styleable.DslTabLayout_tab_indicator_y_offset,
             indicatorYOffset
         )
         indicatorContentIndex = typedArray.getInt(
-            R.styleable.DslTabLayout_dsl_indicator_content_index,
+            R.styleable.DslTabLayout_tab_indicator_content_index,
             indicatorContentIndex
         )
 
