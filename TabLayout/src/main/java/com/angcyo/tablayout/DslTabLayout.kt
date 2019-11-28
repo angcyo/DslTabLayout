@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Region
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.AttributeSet
 import android.view.*
 import android.view.animation.LinearInterpolator
@@ -275,9 +276,13 @@ open class DslTabLayout(
         }
     }
 
+    //是否有高凸
+    val haveConvex: Boolean
+        get() = _maxConvexHeight > 0 && Build.VERSION.SDK_INT < Build.VERSION_CODES.P
+
     override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
         val result = super.drawChild(canvas, child, drawingTime)
-        if (_maxConvexHeight > 0 && !isInEditMode) {
+        if (haveConvex) {
             //有凸起的child
             (child.layoutParams as? LayoutParams)?.let {
                 if (it.layoutConvexHeight > 0) {
@@ -287,7 +292,10 @@ open class DslTabLayout(
                         (-_maxConvexHeight).toFloat(),
                         measuredWidth.toFloat(),
                         measuredHeight.toFloat(),
-                        Region.Op.REPLACE
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+                            Region.Op.INTERSECT
+                        else
+                            Region.Op.REPLACE
                     )
                     super.drawChild(canvas, child, drawingTime)
                     canvas.restoreToCount(clipSaveCount)
@@ -398,7 +406,8 @@ open class DslTabLayout(
             lp.topMargin = 0
             lp.bottomMargin = 0
 
-            val childConvexHeight = lp.layoutConvexHeight
+            val childConvexHeight =
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) lp.layoutConvexHeight else 0
 
             val widthHeight = calcLayoutWidthHeight(
                 lp.layoutWidth, lp.layoutHeight,
@@ -563,6 +572,7 @@ open class DslTabLayout(
         var layoutHeight: String? = null
 
         /**凸出的高度*/
+        @Deprecated("Android P不支持")
         var layoutConvexHeight: Int = 0
 
         /**
