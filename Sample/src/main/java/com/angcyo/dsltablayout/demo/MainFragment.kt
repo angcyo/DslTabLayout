@@ -31,12 +31,14 @@ class MainFragment : BaseDslFragment() {
                     if (!reselect) {
                         selectList.lastOrNull()?.findViewById<LottieAnimationView>(R.id.lottie_view)
                             ?.apply {
-                                removeAllUpdateListeners()
-                                addAnimatorUpdateListener {
-                                    //如果使用 高凸模式...需要使用顶层view的[invalidate]才能更新`高凸`部分的视图, 否则不需要
-                                    //这和`高凸`模式的实现机制有关
-                                    (viewHolder.v<DslTabLayout>(R.id.tab_layout).parent as View).invalidate()
-                                }
+//                                removeAllUpdateListeners()
+//                                addAnimatorUpdateListener {
+//                                    //如果使用 高凸模式...需要使用顶层view的[invalidate]才能更新`高凸`部分的视图, 否则不需要
+//                                    //这和`高凸`模式的实现机制有关
+//                                    (viewHolder.v<DslTabLayout>(R.id.tab_layout).parent as View).invalidate()
+//                                }
+
+                                //换了一种 高凸模式的实现方式.
                                 playAnimation()
                             }
                     }

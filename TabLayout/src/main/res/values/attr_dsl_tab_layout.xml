@@ -10,6 +10,7 @@
         <attr name="tab_draw_border" format="boolean" />
         <attr name="tab_draw_divider" format="boolean" />
         <attr name="tab_draw_indicator" format="boolean" />
+        <attr name="tab_convex_background" format="reference|color" />
 
         <!--indicator 指示器相关属性-->
         <attr name="tab_indicator_drawable" format="reference" />

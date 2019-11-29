@@ -16,34 +16,44 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:background="#30ffffff"
+        android:background="#00000000"
+        app:tab_convex_background="#FFFFFF"
         app:tab_deselect_color="#666666"
         app:tab_draw_indicator="false"
         app:tab_enable_ico_color="false"
         app:tab_item_is_equ_width="true"
         app:tab_select_color="@color/colorAccent">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/base_bg2_selector_v21"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="#00000000">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie_view"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:lottie_colorFilter="#333AC4"
-                app:lottie_rawRes="@raw/json_play" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/base_bg2_selector_v21"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <com.angcyo.button.DslButton
-                style="@style/TabItemStyle"
-                android:text="Sliding"
-                app:button_normal_text_color="#666666"
-                app:button_text_color="@color/colorAccent" />
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/lottie_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:lottie_colorFilter="#333AC4"
+                    app:lottie_rawRes="@raw/json_play" />
 
-        </LinearLayout>
+                <com.angcyo.button.DslButton
+                    style="@style/TabItemStyle"
+                    android:text="Sliding"
+                    app:button_enable_ripple="false"
+                    app:button_normal_text_color="#666666"
+                    app:button_text_color="@color/colorAccent" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -65,13 +75,14 @@
             <com.angcyo.button.DslButton
                 style="@style/TabItemStyle"
                 android:text="Common"
+                app:button_enable_ripple="false"
                 app:button_normal_text_color="#666666"
                 app:button_text_color="@color/colorAccent" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/base_bg2_selector_v21"
             android:gravity="center"
             android:orientation="vertical">
@@ -86,6 +97,7 @@
             <com.angcyo.button.DslButton
                 style="@style/TabItemStyle"
                 android:text="Segment"
+                app:button_enable_ripple="false"
                 app:button_normal_text_color="#666666"
                 app:button_text_color="@color/colorAccent" />
         </LinearLayout>

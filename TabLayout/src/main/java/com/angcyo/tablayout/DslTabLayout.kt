@@ -5,9 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Region
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.util.AttributeSet
 import android.view.*
 import android.view.animation.LinearInterpolator
@@ -81,6 +79,9 @@ open class DslTabLayout(
         }
     var drawDivider = false
 
+    /**如果使用了高凸模式. 请使用这个属性设置背景色*/
+    var tabConvexBackgroundDrawable: Drawable? = null
+
     //<editor-fold desc="内部属性">
 
     //fling 速率阈值
@@ -139,6 +140,9 @@ open class DslTabLayout(
         drawBorder =
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_border, drawBorder)
 
+        tabConvexBackgroundDrawable =
+            typedArray.getDrawable(R.styleable.DslTabLayout_tab_convex_background)
+
         typedArray.recycle()
 
         val vc = ViewConfiguration.get(context)
@@ -146,15 +150,17 @@ open class DslTabLayout(
         _maxFlingVelocity = vc.scaledMaximumFlingVelocity
         //_touchSlop = vc.scaledTouchSlop
 
+        if (drawIndicator) {
+            //直接初始化的变量, 不会触发set方法.
+            tabIndicator.initAttribute(context, attributeSet)
+        }
+
         if (drawBorder) {
             tabBorder = DslTabBorder()
         }
         if (drawDivider) {
             tabDivider = DslTabDivider()
         }
-
-        //直接初始化的变量, 不会触发set方法.
-        tabIndicator.initAttribute(context, attributeSet)
 
         //样式配置器
         tabLayoutConfig = DslTabLayoutConfig(this)
@@ -228,7 +234,23 @@ open class DslTabLayout(
     }
 
     override fun draw(canvas: Canvas) {
-        tabIndicator.setBounds(0, 0, measuredWidth, measuredHeight)
+        if (drawIndicator) {
+            tabIndicator.setBounds(0, 0, measuredWidth, measuredHeight)
+        }
+
+        //自定义的背景
+        tabConvexBackgroundDrawable?.apply {
+            setBounds(0, _maxConvexHeight, right - left, bottom - top)
+
+            if (scrollX or scrollY == 0) {
+                draw(canvas)
+            } else {
+                canvas.translate(scrollX.toFloat(), scrollY.toFloat())
+                draw(canvas)
+                canvas.translate(-scrollX.toFloat(), -scrollY.toFloat())
+            }
+        }
+
         super.draw(canvas)
 
         //绘制在child的上面
@@ -276,37 +298,12 @@ open class DslTabLayout(
         }
     }
 
-    //是否有高凸
-    val haveConvex: Boolean
-        get() = _maxConvexHeight > 0 && Build.VERSION.SDK_INT < Build.VERSION_CODES.P
-
-    override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
-        val result = super.drawChild(canvas, child, drawingTime)
-        if (haveConvex) {
-            //有凸起的child
-            (child.layoutParams as? LayoutParams)?.let {
-                if (it.layoutConvexHeight > 0) {
-                    val clipSaveCount = canvas.save()
-                    canvas.clipRect(
-                        0f,
-                        (-_maxConvexHeight).toFloat(),
-                        measuredWidth.toFloat(),
-                        measuredHeight.toFloat(),
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-                            Region.Op.INTERSECT
-                        else
-                            Region.Op.REPLACE
-                    )
-                    super.drawChild(canvas, child, drawingTime)
-                    canvas.restoreToCount(clipSaveCount)
-                }
-            }
-        }
-        return result
-    }
-
     override fun verifyDrawable(who: Drawable): Boolean {
-        return super.verifyDrawable(who) || who == tabIndicator
+        return super.verifyDrawable(who) ||
+                who == tabIndicator ||
+                who == tabBorder ||
+                who == tabDivider ||
+                who == tabConvexBackgroundDrawable
     }
 
     //</editor-fold desc="初始化相关">
@@ -406,8 +403,7 @@ open class DslTabLayout(
             lp.topMargin = 0
             lp.bottomMargin = 0
 
-            val childConvexHeight =
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) lp.layoutConvexHeight else 0
+            val childConvexHeight = lp.layoutConvexHeight
 
             val widthHeight = calcLayoutWidthHeight(
                 lp.layoutWidth, lp.layoutHeight,
@@ -492,7 +488,7 @@ open class DslTabLayout(
             widthSize = min(_childAllWidthSum + paddingLeft + paddingRight, widthSize)
         }
 
-        setMeasuredDimension(widthSize, heightSize)
+        setMeasuredDimension(widthSize, heightSize + _maxConvexHeight)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -522,7 +518,7 @@ open class DslTabLayout(
 
             childBottom = if (lp.gravity.have(Gravity.CENTER_VERTICAL)) {
                 measuredHeight - paddingBottom -
-                        (measuredHeight - paddingLeft - paddingBottom) / 2 -
+                        (measuredHeight - paddingLeft - paddingBottom - _maxConvexHeight) / 2 -
                         childView.measuredHeight / 2
             } else {
                 measuredHeight - paddingBottom
@@ -534,6 +530,7 @@ open class DslTabLayout(
                 left + childView.measuredWidth,
                 childBottom
             )
+
             left += childView.measuredWidth + lp.rightMargin
         }
 
@@ -572,7 +569,6 @@ open class DslTabLayout(
         var layoutHeight: String? = null
 
         /**凸出的高度*/
-        @Deprecated("Android P不支持")
         var layoutConvexHeight: Int = 0
 
         /**
@@ -774,6 +770,7 @@ open class DslTabLayout(
         if (!needScroll) {
             return
         }
+
         val childCenterX = tabIndicator.getChildCenterX(index)
         val viewCenterX = measuredWidth / 2
 
