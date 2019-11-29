@@ -2,9 +2,11 @@ package com.angcyo.tablayout
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.ViewGroup
+import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.max
 
@@ -15,7 +17,7 @@ import kotlin.math.max
  * @date 2019/11/25
  * Copyright (c) 2019 ShenZhen O&M Cloud Co., Ltd. All rights reserved.
  */
-open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
+open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() {
 
     companion object {
         //非颜色值
@@ -144,7 +146,74 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslDrawable() {
             indicatorContentIndex
         )
 
+        //代码构建Drawable
+        gradientShape =
+            typedArray.getInt(R.styleable.DslTabLayout_tab_indicator_shape, gradientShape)
+        gradientSolidColor =
+            typedArray.getColor(
+                R.styleable.DslTabLayout_tab_indicator_solid_color,
+                gradientSolidColor
+            )
+        gradientStrokeColor =
+            typedArray.getColor(
+                R.styleable.DslTabLayout_tab_indicator_stroke_color,
+                gradientStrokeColor
+            )
+        gradientStrokeWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_tab_indicator_stroke_width,
+            gradientStrokeWidth
+        )
+        gradientDashWidth = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_tab_indicator_dash_width,
+            gradientDashWidth.toInt()
+        ).toFloat()
+        gradientDashGap = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_tab_indicator_dash_gap,
+            gradientDashGap.toInt()
+        ).toFloat()
+
+        val gradientRadius =
+            typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_tab_indicator_radius, 0)
+        if (gradientRadius > 0) {
+            Arrays.fill(gradientRadii, gradientRadius.toFloat())
+        } else {
+            typedArray.getString(R.styleable.DslTabLayout_tab_indicator_radii)?.let {
+                _fillRadii(gradientRadii, it)
+            }
+        }
+
+        val gradientColors =
+            typedArray.getString(R.styleable.DslTabLayout_tab_indicator_gradient_colors)
+
+        this.gradientColors = if (gradientColors.isNullOrEmpty()) {
+            val startColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_indicator_gradient_start_color,
+                Color.TRANSPARENT
+            )
+            val endColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_indicator_gradient_end_color,
+                Color.TRANSPARENT
+            )
+            if (startColor != endColor) {
+                intArrayOf(startColor, endColor)
+            } else {
+                this.gradientColors
+            }
+        } else {
+            _fillColor(gradientColors) ?: this.gradientColors
+        }
+        //...end
+
         typedArray.recycle()
+
+        if (indicatorDrawable == null && isValidConfig()) {
+            updateDrawable()
+        }
+    }
+
+    override fun updateDrawable() {
+        super.updateDrawable()
+        indicatorDrawable = originDrawable
     }
 
     open fun tintDrawableColor(drawable: Drawable?, color: Int): Drawable? {

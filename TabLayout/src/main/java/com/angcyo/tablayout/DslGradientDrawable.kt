@@ -1,5 +1,6 @@
 package com.angcyo.tablayout
 
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -60,6 +61,37 @@ open class DslGradientDrawable : DslDrawable() {
 
     /**高度补偿*/
     var gradientHeightOffset: Int = 0
+
+    /**当前的配置, 是否能生成有效的[GradientDrawable]*/
+    open fun isValidConfig(): Boolean {
+        return gradientSolidColor != Color.TRANSPARENT ||
+                gradientStrokeColor != Color.TRANSPARENT ||
+                gradientColors != null
+    }
+
+    fun _fillRadii(array: FloatArray, radii: String?) {
+        if (radii.isNullOrEmpty()) {
+            return
+        }
+        val split = radii.split(",")
+        if (split.size != 8) {
+            throw IllegalArgumentException("radii 需要8个值.")
+        } else {
+            val dp = Resources.getSystem().displayMetrics.density
+            for (i in split.indices) {
+                array[i] = split[i].toFloat() * dp
+            }
+        }
+    }
+
+    fun _fillColor(colors: String?): IntArray? {
+        if (colors.isNullOrEmpty()) {
+            return null
+        }
+        val split = colors.split(",")
+
+        return IntArray(split.size) { Color.parseColor(split[it]) }
+    }
 
     open fun updateDrawable() {
         originDrawable = generateDrawable()

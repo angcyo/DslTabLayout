@@ -41,6 +41,23 @@
         <attr name="tab_indicator_y_offset" format="dimension" />
 
         <attr name="tab_indicator_content_index" format="integer" />
+
+        <attr name="tab_indicator_shape" format="enum">
+            <enum name="RECTANGLE" value="0" />
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <attr name="tab_indicator_solid_color" format="color" />
+        <attr name="tab_indicator_stroke_color" format="color" />
+        <attr name="tab_indicator_stroke_width" format="dimension" />
+        <attr name="tab_indicator_dash_width" format="dimension" />
+        <attr name="tab_indicator_dash_gap" format="dimension" />
+        <attr name="tab_indicator_radius" format="dimension" />
+        <attr name="tab_indicator_radii" format="string" />
+        <attr name="tab_indicator_gradient_colors" format="string" />
+        <attr name="tab_indicator_gradient_start_color" format="color" />
+        <attr name="tab_indicator_gradient_end_color" format="color" />
         <!--end...-->
 
         <!--TabLayoutConfig 相关属性-->
