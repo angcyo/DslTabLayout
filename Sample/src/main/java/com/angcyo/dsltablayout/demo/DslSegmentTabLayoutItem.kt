@@ -2,6 +2,7 @@ package com.angcyo.dsltablayout.demo
 
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -13,6 +14,7 @@ import com.angcyo.tablayout.DslTabLayout
 class DslSegmentTabLayoutItem : DslAdapterItem() {
 
     init {
+        itemTopInsert = 10 * dpi
         itemLayoutId = R.layout.item_segment_tab_layout
     }
 
