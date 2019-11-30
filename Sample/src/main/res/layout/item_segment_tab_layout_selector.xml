@@ -3,42 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#20000000">
 
     <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/tab_layout"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/shape_round_background_tran_top"
-        android:paddingLeft="10dp"
-        android:paddingTop="20dp"
-        android:paddingRight="10dp"
-        app:tab_deselect_color="#3C3B3B"
+        android:paddingBottom="8dp"
+        app:tab_deselect_color="#999999"
         app:tab_draw_indicator="false"
-        app:tab_item_is_equ_width="true"
+        app:tab_enable_selector_mode="true"
+        app:tab_select_color="@color/white"
         tools:tab_default_index="0">
 
         <TextView
             style="@style/TabCommonItemStyle"
             android:layout_margin="10dp"
-            android:background="@drawable/shape_round_background_tran_selector"
-            android:text="用户信息" />
+            android:text="滑动选择" />
 
         <TextView
             style="@style/TabCommonItemStyle"
             android:layout_margin="10dp"
-            android:background="@drawable/shape_round_background_tran_selector"
-            android:text="系统信息" />
+            android:text="拍摄" />
 
         <TextView
             style="@style/TabCommonItemStyle"
             android:layout_margin="10dp"
-            android:background="@drawable/shape_round_background_tran_selector"
-            android:text="其他信息" />
+            android:text="录像" />
 
     </com.angcyo.tablayout.DslTabLayout>
+
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/ic_triangle" />
 
 </FrameLayout>

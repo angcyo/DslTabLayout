@@ -82,6 +82,9 @@ open class DslTabLayout(
     /**如果使用了高凸模式. 请使用这个属性设置背景色*/
     var tabConvexBackgroundDrawable: Drawable? = null
 
+    /**是否激活滑动选择模式*/
+    var tabEnableSelectorMode = false
+
     //<editor-fold desc="内部属性">
 
     //fling 速率阈值
@@ -139,6 +142,12 @@ open class DslTabLayout(
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_divider, drawDivider)
         drawBorder =
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_border, drawBorder)
+
+        tabEnableSelectorMode =
+            typedArray.getBoolean(
+                R.styleable.DslTabLayout_tab_enable_selector_mode,
+                tabEnableSelectorMode
+            )
 
         tabConvexBackgroundDrawable =
             typedArray.getDrawable(R.styleable.DslTabLayout_tab_convex_background)
@@ -654,6 +663,7 @@ open class DslTabLayout(
         if (needScroll) {
             if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
                 _overScroller.abortAnimation()
+                _scrollAnimator.cancel()
             }
             return super.onInterceptTouchEvent(ev) || _gestureDetector.onTouchEvent(ev)
         }
@@ -678,11 +688,18 @@ open class DslTabLayout(
 
     /**是否需要滚动*/
     val needScroll: Boolean
-        get() = maxScrollX > 0
+        get() = if (tabEnableSelectorMode) true else maxScrollX > 0
 
     /**[parent]宽度外的滚动距离*/
     val maxScrollX: Int
-        get() = max(maxWidth - measuredWidth, 0)
+        get() = max(
+            maxWidth - measuredWidth + if (tabEnableSelectorMode) viewDrawWidth / 2 else 0,
+            0
+        )
+
+    /**最小滚动的值*/
+    val minScrollX: Int
+        get() = if (tabEnableSelectorMode) -viewDrawWidth / 2 else 0
 
     /**view最大的宽度*/
     val maxWidth: Int
@@ -694,7 +711,15 @@ open class DslTabLayout(
             //速率小于0 , 手指向左滑动
             //速率大于0 , 手指向右滑动
 
-            startFling(-velocity.toInt(), maxWidth)
+            if (tabEnableSelectorMode) {
+                if (velocity < 0) {
+                    setCurrentItem(dslSelector.dslSelectIndex + 1)
+                } else if (velocity > 0) {
+                    setCurrentItem(dslSelector.dslSelectIndex - 1)
+                }
+            } else {
+                startFling(-velocity.toInt(), maxWidth)
+            }
         }
     }
 
@@ -738,10 +763,13 @@ open class DslTabLayout(
             //distance小于0 , 手指向右滑动
             //distance大于0 , 手指向左滑动
 
-            scrollBy(distance.toInt(), 0)
-
             parent.requestDisallowInterceptTouchEvent(true)
 
+            if (tabEnableSelectorMode) {
+                //滑动选择模式下, 不响应scroll事件
+            } else {
+                scrollBy(distance.toInt(), 0)
+            }
             return true
         }
         return false
@@ -750,7 +778,7 @@ open class DslTabLayout(
     override fun scrollTo(x: Int, y: Int) {
         when {
             x > maxScrollX -> super.scrollTo(maxScrollX, y)
-            x < 0 -> super.scrollTo(0, y)
+            x < minScrollX -> super.scrollTo(minScrollX, y)
             else -> super.scrollTo(x, y)
         }
     }
@@ -759,7 +787,7 @@ open class DslTabLayout(
         if (_overScroller.computeScrollOffset()) {
             scrollTo(_overScroller.currX, _overScroller.currY)
             postInvalidate()
-            if (_overScroller.currX < 0 || _overScroller.currX > maxScrollX) {
+            if (_overScroller.currX < minScrollX || _overScroller.currX > maxScrollX) {
                 _overScroller.abortAnimation()
             }
         }
@@ -772,12 +800,25 @@ open class DslTabLayout(
         }
 
         val childCenterX = tabIndicator.getChildCenterX(index)
-        val viewCenterX = measuredWidth / 2
+        val viewDrawCenterX = paddingLeft + viewDrawWidth / 2
 
-        if (childCenterX > viewCenterX) {
-            startScroll(childCenterX - viewCenterX - scrollX)
+        val dx = when {
+            tabEnableSelectorMode -> {
+                val viewCenterX = measuredWidth / 2
+                childCenterX - viewCenterX - scrollX
+            }
+            childCenterX > viewDrawCenterX -> {
+                childCenterX - viewDrawCenterX - scrollX
+            }
+            else -> {
+                -scrollX
+            }
+        }
+
+        if (isInEditMode) {
+            scrollBy(dx, 0)
         } else {
-            startScroll(-scrollX)
+            startScroll(dx)
         }
     }
 

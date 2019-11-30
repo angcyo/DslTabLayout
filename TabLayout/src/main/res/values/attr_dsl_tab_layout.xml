@@ -2,15 +2,24 @@
 <resources>
 
     <declare-styleable name="DslTabLayout">
+        <!--Item是否等宽-->
         <attr name="tab_item_is_equ_width" format="boolean" />
+        <!--默认选中的索引值-->
         <attr name="tab_default_index" format="integer" />
-        <!--指定item的宽度-->
+        <!--等宽模式下, 指定item的宽度. 不指定则平分-->
         <attr name="tab_item_width" format="dimension" />
+        <!--在TabLayout wrap_content时, child match_parent时的高度-->
         <attr name="tab_item_default_height" format="dimension" />
+        <!--是否绘制边框-->
         <attr name="tab_draw_border" format="boolean" />
+        <!--是否绘制分割线-->
         <attr name="tab_draw_divider" format="boolean" />
+        <!--是否绘制指示器-->
         <attr name="tab_draw_indicator" format="boolean" />
+        <!--高凸模式下的背景drawable-->
         <attr name="tab_convex_background" format="reference|color" />
+        <!--是否激活滑动选择模式-->
+        <attr name="tab_enable_selector_mode" format="boolean" />
 
         <!--indicator 指示器相关属性-->
         <attr name="tab_indicator_drawable" format="reference" />

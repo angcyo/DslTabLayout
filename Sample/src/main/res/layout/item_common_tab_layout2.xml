@@ -12,7 +12,7 @@
     app:tab_item_is_equ_width="true"
     app:tab_deselect_color="#383838"
     app:tab_select_color="@color/colorAccent"
-    tools:dsl_default_index="1">
+    tools:tab_default_index="1">
 
     <TextView
         style="@style/TabCommonItemStyle"

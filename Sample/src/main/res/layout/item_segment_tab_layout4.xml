@@ -29,7 +29,7 @@
         app:tab_deselect_color="#E74D6E"
         app:tab_enable_gradient_color="true"
         app:tab_select_color="@color/white"
-        tools:dsl_default_index="0">
+        tools:tab_default_index="0">
 
         <TextView
             style="@style/TabCommonItemStyle"

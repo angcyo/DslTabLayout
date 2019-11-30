@@ -26,7 +26,7 @@
         app:tab_deselect_color="#F7CF4D"
         app:tab_enable_gradient_color="true"
         app:tab_select_color="@color/white"
-        tools:dsl_default_index="1">
+        tools:tab_default_index="1">
 
         <TextView
             style="@style/TabCommonItemStyle"

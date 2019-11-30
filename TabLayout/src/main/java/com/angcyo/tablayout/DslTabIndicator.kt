@@ -329,7 +329,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
     }
 
     override fun draw(canvas: Canvas) {
-        super.draw(canvas)
+        //super.draw(canvas)
         if (!isVisible || indicatorStyle == INDICATOR_STYLE_NONE || indicatorDrawable == null) {
             //不绘制
             return
