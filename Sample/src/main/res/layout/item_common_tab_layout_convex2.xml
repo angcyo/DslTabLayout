@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.angcyo.tablayout.DslTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minHeight="50dp"
+    app:tab_convex_background="@color/white"
+    app:tab_deselect_color="@color/text"
+    app:tab_indicator_color="@color/colorAccent"
+    app:tab_indicator_drawable="@drawable/indicator_bottom_line"
+    app:tab_item_is_equ_width="true"
+    app:tab_select_color="@color/colorAccent"
+    tools:dsl_default_index="1">
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:drawableTop="@drawable/ic_home"
+        android:text="首页" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:drawableTop="@drawable/ic_message"
+        android:text="消息"
+        app:layout_tab_convex_height="10dp" />
+
+    <ImageView
+        style="@style/TabCommonItemStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:layout_tab_convex_height="20dp" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:drawableTop="@drawable/ic_contact"
+        android:text="联系人"
+        app:layout_tab_convex_height="10dp" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:drawableTop="@drawable/ic_setting"
+        android:text="更多" />
+
+</com.angcyo.tablayout.DslTabLayout>

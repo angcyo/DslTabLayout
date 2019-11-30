@@ -44,6 +44,26 @@ class CommonFragment : BaseTabLayoutFragment() {
             }
 
             DslCommonTabLayoutItem()() {
+                itemLayoutId = R.layout.item_common_tab_layout_convex
+                itemTopInsert = 10 * dpi
+                onItemBindOverride = { itemHolder, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        addTabLayout(this)
+                        tabIndicator.indicatorWidth = 20 * dpi
+                        tabIndicator.indicatorEnableFlow = true
+                        tabIndicator.indicatorColor = randomColor()
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
+
+                        configTabLayoutConfig {
+                            tabEnableGradientColor = true
+                            tabSelectColor = tabIndicator.indicatorColor
+                        }
+                    }
+                }
+            }
+
+            DslCommonTabLayoutItem()() {
+                itemLayoutId = R.layout.item_common_tab_layout_convex2
                 itemTopInsert = 10 * dpi
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
@@ -63,24 +83,24 @@ class CommonFragment : BaseTabLayoutFragment() {
 
             //2...
 
-            DslCommonTabLayoutItem()() {
-                itemLayoutId = R.layout.item_common_tab_layout2
-                itemTopInsert = 10 * dpi
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
-                        addTabLayout(this)
-                        tabIndicator.indicatorWidth = 20 * dpi
-                        tabIndicator.indicatorEnableFlow = true
-                        tabIndicator.indicatorColor = Color.WHITE
-                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
-
-                        configTabLayoutConfig {
-                            tabEnableGradientColor = true
-                            tabSelectColor = tabIndicator.indicatorColor
-                        }
-                    }
-                }
-            }
+//            DslCommonTabLayoutItem()() {
+//                itemLayoutId = R.layout.item_common_tab_layout2
+//                itemTopInsert = 10 * dpi
+//                onItemBindOverride = { itemHolder, _, _ ->
+//                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+//                        addTabLayout(this)
+//                        tabIndicator.indicatorWidth = 20 * dpi
+//                        tabIndicator.indicatorEnableFlow = true
+//                        tabIndicator.indicatorColor = Color.WHITE
+//                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
+//
+//                        configTabLayoutConfig {
+//                            tabEnableGradientColor = true
+//                            tabSelectColor = tabIndicator.indicatorColor
+//                        }
+//                    }
+//                }
+//            }
 
             DslCommonTabLayoutItem()() {
                 itemLayoutId = R.layout.item_common_tab_layout2
