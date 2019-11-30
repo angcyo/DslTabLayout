@@ -70,12 +70,10 @@ open class DslTabBorder : DslGradientDrawable() {
 
         if (originDrawable == null) {
             //无自定义的drawable, 那么自绘.
-            DslGradientDrawable().configDrawable {
+            borderBackgroundDrawable = DslGradientDrawable().configDrawable {
                 gradientSolidColor = borderBackgroundColor
                 gradientRadii = this@DslTabBorder.gradientRadii
-
-                borderBackgroundDrawable = originDrawable
-            }
+            }.originDrawable
 
             updateDrawable()
         }
