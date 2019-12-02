@@ -22,35 +22,48 @@
         <attr name="tab_enable_selector_mode" format="boolean" />
 
         <!--indicator 指示器相关属性-->
-        <attr name="tab_indicator_drawable" format="reference" />
-        <attr name="tab_indicator_color" format="color" />
 
+        <!--强制指定指示器的Drawable-->
+        <attr name="tab_indicator_drawable" format="reference" />
+        <!--强制指定Drawable的颜色-->
+        <attr name="tab_indicator_color" format="color" />
+        <!--指示器的绘制类型-->
         <attr name="tab_indicator_style" format="enum">
+            <!--不绘制-->
             <enum name="STYLE_NONE" value="0" />
+            <!--绘制在顶部-->
             <enum name="STYLE_TOP" value="0x11" />
+            <!--绘制在底部-->
             <enum name="STYLE_BOTTOM" value="0x12" />
+            <!--绘制在背面-->
             <enum name="STYLE_BACKGROUND" value="0x1" />
         </attr>
-
+        <!--是否激活流式效果, ViewPager在滚动时, 指示器的宽度由小变大,再由大变小-->
         <attr name="tab_indicator_enable_flow" format="boolean" />
+        <!--tab child的索引相差多少值时, 才开启flow效果-->
         <attr name="tab_indicator_flow_step" format="integer" />
-
+        <!--指示器的宽度-->
         <attr name="tab_indicator_width" format="dimension|flags">
             <flag name="WRAP_CONTENT" value="-2" />
             <flag name="MATCH_PARENT" value="-1" />
         </attr>
+        <!--宽度的补偿-->
         <attr name="tab_indicator_width_offset" format="dimension" />
-
+        <!--同上-->
         <attr name="tab_indicator_height" format="dimension|flags">
             <flag name="WRAP_CONTENT" value="-2" />
             <flag name="MATCH_PARENT" value="-1" />
         </attr>
+        <!--同上-->
         <attr name="tab_indicator_height_offset" format="dimension" />
+        <!--x轴的补偿-->
         <attr name="tab_indicator_x_offset" format="dimension" />
+        <!--y轴的补偿, 会根据[tab_indicator_style]的类型, 自动取负值.-->
         <attr name="tab_indicator_y_offset" format="dimension" />
-
+        <!--指示器child的锚点索引, 用来辅助定位计算指示器的宽度,高度,中点坐标-->
         <attr name="tab_indicator_content_index" format="integer" />
 
+        <!--请参考[GradientDrawable](https://developer.android.google.cn/reference/android/graphics/drawable/GradientDrawable)-->
         <attr name="tab_indicator_shape" format="enum">
             <enum name="RECTANGLE" value="0" />
             <enum name="OVAL" value="1" />
@@ -70,31 +83,48 @@
         <!--end...-->
 
         <!--TabLayoutConfig 相关属性-->
+        <!--item选中时 文本的颜色-->
         <attr name="tab_select_color" format="color" />
+        <!--item未选中时 文本的颜色-->
         <attr name="tab_deselect_color" format="color" />
+        <!--选中时 图标(Drawable)的颜色, 默认是文本的颜色-->
         <attr name="tab_ico_select_color" format="color" />
+        <!--未选中时 图标(Drawable)的颜色, 默认是文本的颜色-->
         <attr name="tab_ico_deselect_color" format="color" />
+        <!--是否激活自动设置文本的颜色-->
         <attr name="tab_enable_text_color" format="boolean" />
+        <!--是否激活自动设置图标的颜色-->
         <attr name="tab_enable_ico_color" format="boolean" />
+        <!--是否激活文本变粗-->
         <attr name="tab_enable_text_bold" format="boolean" />
+        <!--是否激活文本颜色渐变-->
         <attr name="tab_enable_gradient_color" format="boolean" />
+        <!--是否激活图标颜色渐变-->
         <attr name="tab_enable_ico_gradient_color" format="boolean" />
+        <!--是否激活缩放渐变-->
         <attr name="tab_enable_gradient_scale" format="boolean" />
+        <!--缩放渐变的最小值-->
         <attr name="tab_min_scale" format="float" />
+        <!--缩放渐变的最大值-->
         <attr name="tab_max_scale" format="float" />
         <!--end...-->
 
         <!--Divider 分割线相关属性-->
+        <!--强制指定分割线的Drawable-->
         <attr name="tab_divider_drawable" format="reference" />
+        <!--参考[GradientDrawable](https://developer.android.google.cn/reference/android/graphics/drawable/GradientDrawable)-->
         <attr name="tab_divider_stroke_color" format="color" />
         <attr name="tab_divider_solid_color" format="color" />
         <attr name="tab_divider_stroke_width" format="dimension" />
         <attr name="tab_divider_radius_size" format="dimension" />
+        <!--分割线margin距离-->
         <attr name="tab_divider_margin_left" format="dimension" />
         <attr name="tab_divider_margin_right" format="dimension" />
         <attr name="tab_divider_margin_top" format="dimension" />
         <attr name="tab_divider_margin_bottom" format="dimension" />
+        <!--分割线的宽度-->
         <attr name="tab_divider_width" format="dimension" />
+        <!--分割线显示的位置-->
         <attr name="tab_divider_show_mode" format="flags">
             <flag name="SHOW_DIVIDER_BEGINNING" value="1" />
             <flag name="SHOW_DIVIDER_MIDDLE" value="2" />
@@ -103,22 +133,31 @@
         <!--end...-->
 
         <!--Border 边框相关属性-->
+        <!--强制指定边框的Drawable-->
         <attr name="tab_border_drawable" format="reference" />
+        <!--参考[GradientDrawable](https://developer.android.google.cn/reference/android/graphics/drawable/GradientDrawable)-->
         <attr name="tab_border_stroke_color" format="color" />
         <attr name="tab_border_solid_color" format="color" />
         <attr name="tab_border_stroke_width" format="dimension" />
         <attr name="tab_border_radius_size" format="dimension" />
+        <!--边框是否要负责绘制item的背景, 可以自动根据边框的圆角自动配置给item-->
         <attr name="tab_border_draw_item_background" format="boolean" />
+        <!--高度补偿-->
         <attr name="tab_border_item_background_height_offset" format="dimension" />
+        <!--宽度补偿-->
         <attr name="tab_border_item_background_width_offset" format="dimension" />
         <!--end...-->
 
     </declare-styleable>
 
     <declare-styleable name="DslTabLayout_Layout">
+        <!--支持按比例设置宽度, sw屏幕宽度 pw父宽度, 0.5sw:屏幕宽度的0.5倍, 0.3pw:父宽度的0.3倍-->
         <attr name="layout_tab_width" format="string" />
+        <!--同上 sh, ph-->
         <attr name="layout_tab_height" format="string" />
+        <!--高凸模式, 需要高凸的高度-->
         <attr name="layout_tab_convex_height" format="dimension" />
+        <!--单独指定child的锚点索引-->
         <attr name="layout_tab_indicator_content_index" format="integer" />
     </declare-styleable>
 </resources>

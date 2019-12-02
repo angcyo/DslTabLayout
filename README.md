@@ -7,8 +7,11 @@
 
 1. 支持任意类型的`child`视图.
 2. 支持任意类型`Drawable`的`指示器`.
-3. 支持智能开启横向`滚动`.
+3. 支持智能开启`横向滚动`.
 4. 支持`高凸模式`, 允许某个`child`高出一节显示.
+5. 支持`滑动选择模式`, 滑动的时候智能选择`上一个`或`下一个`.
+
+[点击查看全部属性](https://github.com/angcyo/DslTabLayout/wiki/%E5%B1%9E%E6%80%A7%E5%A4%A7%E5%85%A8)
 
 # 效果
 
@@ -20,11 +23,11 @@
 |:--:|
 |![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding.gif)|
 
-|普通效果|
+|普通和高凸效果|
 |:--:|
 |![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common.gif)|
 
-|带边框和分割线效果|
+|带边框,分割线和滑动选择效果|
 |:--:|
 |![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment.gif)|
 
@@ -46,7 +49,7 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo:DslTabLayout:1.0.0'
+    implementation 'com.github.angcyo:DslTabLayout:1.1.0'
 }
 ```
 
