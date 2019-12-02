@@ -11,6 +11,8 @@
 4. 支持`高凸模式`, 允许某个`child`高出一节显示.
 5. 支持`滑动选择模式`, 滑动的时候智能选择`上一个`或`下一个`.
 
+直接当做横向的`LinearLayout`使用方式即可, 无特殊要求.
+
 [点击查看全部属性](https://github.com/angcyo/DslTabLayout/wiki/%E5%B1%9E%E6%80%A7%E5%A4%A7%E5%85%A8)
 
 # 效果
