@@ -15,6 +15,8 @@
 
 [点击查看全部属性](https://github.com/angcyo/DslTabLayout/wiki/%E5%B1%9E%E6%80%A7%E5%A4%A7%E5%85%A8)
 
+[点击查看事件回调](https://github.com/angcyo/DslTabLayout/wiki/Item%E9%80%89%E4%B8%AD%E4%BA%8B%E4%BB%B6)
+
 # 效果
 
 **一个`DSLTabLayout`可实现以下3中效果**
