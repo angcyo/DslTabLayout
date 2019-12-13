@@ -357,25 +357,13 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         val drawHeight = getIndicatorDrawHeight(currentIndex)
 
         val drawLeft = drawCenterX - drawWidth / 2 + indicatorXOffset
-        val drawTop = when (indicatorStyle) {
-            INDICATOR_STYLE_BOTTOM -> {
-                //底部绘制
-                viewHeight - drawHeight - indicatorYOffset
-            }
-            INDICATOR_STYLE_TOP -> {
-                //底部绘制
-                0 + indicatorYOffset
-            }
-            else -> {
-                //居中绘制
-                paddingTop + viewDrawHeight / 2 - drawHeight / 2 + indicatorYOffset
-            }
-        }
 
         //动画过程中的left
         var animLeft = drawLeft
         //width
         var animWidth = drawWidth
+        //动画执行过程中, 高度额外变大的值
+        var animExHeight = 0
 
         if (_targetIndex in 0 until childSize && _targetIndex != currentIndex) {
 
@@ -384,6 +372,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             val animStartWidth = drawWidth
             val animEndWidth = getIndicatorDrawWidth(_targetIndex)
             val animEndLeft = getChildCenterX(_targetIndex) - animEndWidth / 2 + indicatorXOffset
+            val animEndHeight = getIndicatorDrawHeight(_targetIndex)
 
             if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
                 //激活了流动效果
@@ -429,12 +418,45 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
                 animWidth =
                     (animStartWidth + (animEndWidth - animStartWidth) * positionOffset).toInt()
             }
+
+            animExHeight = ((animEndHeight - drawHeight) * positionOffset).toInt()
+        }
+
+        val drawTop = when (indicatorStyle) {
+            INDICATOR_STYLE_BOTTOM -> {
+                //底部绘制
+                viewHeight - drawHeight - indicatorYOffset
+            }
+            INDICATOR_STYLE_TOP -> {
+                //底部绘制
+                0 + indicatorYOffset
+            }
+            else -> {
+                //居中绘制
+                paddingTop + viewDrawHeight / 2 - drawHeight / 2 + indicatorYOffset -
+                        animExHeight +
+                        (tabLayout._maxConvexHeight - _childConvexHeight(currentIndex)) / 2
+            }
         }
 
         indicatorDrawable?.apply {
-            setBounds(animLeft, drawTop, animLeft + animWidth, drawTop + drawHeight)
+            setBounds(
+                animLeft,
+                drawTop,
+                animLeft + animWidth,
+                drawTop + drawHeight + animExHeight
+            )
             draw(canvas)
         }
+    }
+
+    fun _childConvexHeight(index: Int): Int {
+        if (attachView is ViewGroup) {
+            ((attachView as ViewGroup).getChildAt(index).layoutParams as? DslTabLayout.LayoutParams)?.apply {
+                return layoutConvexHeight
+            }
+        }
+        return 0
     }
 
     /**

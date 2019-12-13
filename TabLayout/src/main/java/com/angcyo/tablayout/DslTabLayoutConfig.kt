@@ -64,6 +64,16 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 
     var tabGradientCallback = TabGradientCallback()
 
+    /**返回用于配置文本样式的控件*/
+    var onGetTextStyleView: (itemView: View, index: Int) -> TextView? = { itemView, _ ->
+        itemView as? TextView
+    }
+
+    /**返回用于配置ico样式的控件*/
+    var onGetIcoStyleView: (itemView: View, index: Int) -> View? = { itemView, _ ->
+        itemView as? TextView
+    }
+
     init {
         onStyleItemView = { itemView, index, select ->
             onUpdateItemStyle(itemView, index, select)
@@ -121,7 +131,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     open fun onUpdateItemStyle(itemView: View, index: Int, select: Boolean) {
         //"$itemView\n$index\n$select".logw()
 
-        (itemView as? TextView)?.apply {
+        (onGetTextStyleView(itemView, index))?.apply {
             //文本加粗
             paint?.apply {
                 flags = if (tabEnableTextBold && select) {
@@ -138,7 +148,9 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         }
 
         if (tabEnableIcoColor) {
-            _updateIcoColor(itemView, if (select) tabIcoSelectColor else tabIcoDeselectColor)
+            onGetIcoStyleView(itemView, index)?.apply {
+                _updateIcoColor(this, if (select) tabIcoSelectColor else tabIcoDeselectColor)
+            }
         }
 
         if (tabEnableGradientScale) {
