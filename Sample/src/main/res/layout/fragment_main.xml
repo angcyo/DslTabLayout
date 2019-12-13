@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E0E0E0">
@@ -19,10 +20,15 @@
         android:background="#00000000"
         app:tab_convex_background="#FFFFFF"
         app:tab_deselect_color="#666666"
+        app:tab_draw_badge="true"
         app:tab_draw_indicator="false"
         app:tab_enable_ico_color="true"
         app:tab_item_is_equ_width="true"
-        app:tab_select_color="@color/colorAccent">
+        app:tab_select_color="@color/colorAccent"
+        tools:tab_badge_gravity="left|bottom"
+        tools:tab_badge_offset_x="20dp"
+        tools:tab_badge_offset_y="20dp"
+        tools:tab_badge_text="99+">
 
         <FrameLayout
             android:layout_width="wrap_content"

@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.util.Log
 import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
@@ -87,21 +88,23 @@ open class DslTabLayout(
             field?.callback = this
             field?.initAttribute(context, attributeSet)
         }
-    var drawBadge = true
+    var drawBadge = false
 
     /**快速角标配置项, 方便使用者*/
     val tabBadgeConfigMap = mutableMapOf<Int, TabBadgeConfig>()
 
     /**角标绘制配置*/
     var onTabBadgeConfig: (child: View, tabBadge: DslTabBadge, index: Int) -> Unit =
-        { child, tabBadge, index ->
-            tabBadgeConfigMap.getOrElse(index) {
-                TabBadgeConfig()
-            }.apply {
-                tabBadge.badgeText = badgeText
-                tabBadge.badgeTextColor = badgeTextColor
-                tabBadge.badgeGravity = badgeGravity
-                tabBadge.gradientSolidColor = badgeSolidColor
+        { _, tabBadge, index ->
+            if (!isInEditMode) {
+                tabBadgeConfigMap.getOrElse(index) {
+                    TabBadgeConfig()
+                }.apply {
+                    tabBadge.badgeText = badgeText
+                    tabBadge.badgeTextColor = badgeTextColor
+                    tabBadge.badgeGravity = badgeGravity
+                    tabBadge.gradientSolidColor = badgeSolidColor
+                }
             }
         }
 
@@ -168,6 +171,8 @@ open class DslTabLayout(
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_divider, drawDivider)
         drawBorder =
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_border, drawBorder)
+        drawBadge =
+            typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_badge, drawBadge)
 
         tabEnableSelectorMode =
             typedArray.getBoolean(
@@ -288,6 +293,8 @@ open class DslTabLayout(
     }
 
     override fun draw(canvas: Canvas) {
+        //Log.e("angcyo", "...draw...")
+
         if (drawIndicator) {
             tabIndicator.setBounds(0, 0, measuredWidth, measuredHeight)
         }
@@ -363,6 +370,7 @@ open class DslTabLayout(
 
                 if (indexOf in 0 until dslSelector.visibleViewList.size) {
                     onTabBadgeConfig(child, this, indexOf)
+                    updateOriginDrawable()
                 }
             }
             tabBadge?.draw(canvas)
