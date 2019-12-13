@@ -38,7 +38,7 @@ dependencies {
 
     implementation 'com.airbnb.android:lottie:3.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.github.angcyo:DslAdapter:1.3.0'
+    implementation 'com.github.angcyo:DslAdapter:1.3.1'
     implementation 'com.github.angcyo:RRes:1.0.1'
     implementation 'com.github.angcyo:DslButton:1.0.1'
     implementation project(':TabLayout')
