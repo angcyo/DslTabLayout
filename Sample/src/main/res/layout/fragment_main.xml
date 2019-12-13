@@ -20,7 +20,7 @@
         app:tab_convex_background="#FFFFFF"
         app:tab_deselect_color="#666666"
         app:tab_draw_indicator="false"
-        app:tab_enable_ico_color="false"
+        app:tab_enable_ico_color="true"
         app:tab_item_is_equ_width="true"
         app:tab_select_color="@color/colorAccent">
 
@@ -45,6 +45,7 @@
                     app:lottie_rawRes="@raw/json_play" />
 
                 <com.angcyo.button.DslButton
+                    android:id="@+id/button_view"
                     style="@style/TabItemStyle"
                     android:text="Sliding"
                     app:button_enable_ripple="false"
@@ -73,6 +74,7 @@
                 app:lottie_rawRes="@raw/json_add" />
 
             <com.angcyo.button.DslButton
+                android:id="@+id/button_view"
                 style="@style/TabItemStyle"
                 android:text="Common"
                 app:button_enable_ripple="false"
@@ -95,6 +97,7 @@
                 app:lottie_rawRes="@raw/json_home" />
 
             <com.angcyo.button.DslButton
+                android:id="@+id/button_view"
                 style="@style/TabItemStyle"
                 android:text="Segment"
                 app:button_enable_ripple="false"
