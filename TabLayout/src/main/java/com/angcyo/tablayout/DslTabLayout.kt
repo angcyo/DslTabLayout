@@ -113,12 +113,12 @@ open class DslTabLayout(
 
                 val toIndex = selectList.last()
                 _animateToItem(fromIndex, toIndex)
-                _viewPager?.setCurrentItem(toIndex, true)
 
                 _scrollToCenter(toIndex)
                 postInvalidate()
 
                 tabLayoutConfig?.onSelectIndexChange?.invoke(fromIndex, selectList, reselect)
+                    ?: _viewPager?.setCurrentItem(toIndex, true)
             }
         }
     }
