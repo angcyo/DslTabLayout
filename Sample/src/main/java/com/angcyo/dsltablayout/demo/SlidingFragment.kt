@@ -1,6 +1,8 @@
 package com.angcyo.dsltablayout.demo
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabIndicator
@@ -175,6 +177,47 @@ class SlidingFragment : BaseTabLayoutFragment() {
                             tabEnableGradientScale = true
                             tabEnableGradientColor = true
                             tabEnableTextBold = true
+                        }
+
+                        //角标
+                        onTabBadgeConfig = { child, tabBadge, index ->
+                            tabBadge.badgeOffsetX = 10 * dpi
+                            tabBadge.badgeOffsetY = 4 * dpi
+                            when (index) {
+                                1 -> {
+                                    tabBadge.badgeGravity = Gravity.LEFT or Gravity.TOP
+                                    tabBadge.badgeText = "9"
+                                    tabBadge.badgeOffsetX = 10 * dpi
+                                    tabBadge.badgeOffsetY = 4 * dpi
+                                }
+                                2 -> {
+                                    tabBadge.badgeGravity = Gravity.RIGHT or Gravity.TOP
+                                    tabBadge.badgeText = "99"
+                                }
+                                3 -> {
+                                    tabBadge.badgeGravity = Gravity.RIGHT or Gravity.BOTTOM
+                                    tabBadge.badgeText = "99+"
+                                }
+                                4 -> {
+                                    tabBadge.badgeGravity = Gravity.LEFT or Gravity.BOTTOM
+                                    tabBadge.badgeText = "999+"
+                                }
+                                else -> {
+                                    tabBadge.badgeGravity = Gravity.CENTER
+                                    tabBadge.badgeText = ""
+                                    tabBadge.badgeOffsetX = child.measuredWidth / 2 - 20 * dpi
+                                    tabBadge.badgeOffsetY = -child.measuredHeight / 2 + 12 * dpi
+                                }
+                            }
+
+                            tabBadge.gradientSolidColor = when (index) {
+                                1 -> Color.BLUE
+                                2 -> Color.GREEN
+                                3 -> Color.RED
+                                4 -> Color.RED
+                                else -> if (tabBadge.gradientSolidColor == -1) randomColor() else tabBadge.gradientSolidColor
+                            }
+                            tabBadge.updateOriginDrawable()
                         }
                     }
                 }

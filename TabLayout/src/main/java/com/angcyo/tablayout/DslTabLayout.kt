@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.OverScroller
 import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
+import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 
@@ -79,6 +80,31 @@ open class DslTabLayout(
         }
     var drawDivider = false
 
+    /**未读数角标*/
+    var tabBadge: DslTabBadge? = null
+        set(value) {
+            field = value
+            field?.callback = this
+            field?.initAttribute(context, attributeSet)
+        }
+    var drawBadge = true
+
+    /**快速角标配置项, 方便使用者*/
+    val tabBadgeConfigMap = mutableMapOf<Int, TabBadgeConfig>()
+
+    /**角标绘制配置*/
+    var onTabBadgeConfig: (child: View, tabBadge: DslTabBadge, index: Int) -> Unit =
+        { child, tabBadge, index ->
+            tabBadgeConfigMap.getOrElse(index) {
+                TabBadgeConfig()
+            }.apply {
+                tabBadge.badgeText = badgeText
+                tabBadge.badgeTextColor = badgeTextColor
+                tabBadge.badgeGravity = badgeGravity
+                tabBadge.gradientSolidColor = badgeSolidColor
+            }
+        }
+
     /**如果使用了高凸模式. 请使用这个属性设置背景色*/
     var tabConvexBackgroundDrawable: Drawable? = null
 
@@ -118,7 +144,7 @@ open class DslTabLayout(
                 postInvalidate()
 
                 tabLayoutConfig?.onSelectIndexChange?.invoke(fromIndex, selectList, reselect)
-                    ?: _viewPager?.setCurrentItem(toIndex, true)
+                    ?: _viewPager?.setCurrentItem(toIndex, (toIndex - fromIndex).absoluteValue <= 1)
             }
         }
     }
@@ -170,6 +196,9 @@ open class DslTabLayout(
         if (drawDivider) {
             tabDivider = DslTabDivider()
         }
+        if (drawBadge) {
+            tabBadge = DslTabBadge()
+        }
 
         //样式配置器
         tabLayoutConfig = DslTabLayoutConfig(this)
@@ -204,9 +233,12 @@ open class DslTabLayout(
     }
 
     /**配置一个新的[DslTabLayoutConfig]给[DslTabLayout]*/
-    fun setTabLayoutConfig(config: DslTabLayoutConfig.() -> Unit = {}) {
-        tabLayoutConfig = DslTabLayoutConfig(this)
-        configTabLayoutConfig(config)
+    fun setTabLayoutConfig(
+        config: DslTabLayoutConfig = DslTabLayoutConfig(this),
+        doIt: DslTabLayoutConfig.() -> Unit = {}
+    ) {
+        tabLayoutConfig = config
+        configTabLayoutConfig(doIt)
     }
 
     /**配置[DslTabLayoutConfig]*/
@@ -216,6 +248,19 @@ open class DslTabLayout(
         }
         tabLayoutConfig?.config()
         dslSelector.updateStyle()
+    }
+
+    fun updateTabBadge(index: Int, badgeText: String?) {
+        val badgeConfig = tabBadgeConfigMap.getOrElse(index) { TabBadgeConfig() }
+        badgeConfig.badgeText = badgeText
+
+        updateTabBadge(index, badgeConfig)
+    }
+
+    /**更新角标*/
+    fun updateTabBadge(index: Int, badgeConfig: TabBadgeConfig) {
+        tabBadgeConfigMap[index] = badgeConfig
+        postInvalidate()
     }
 
     //</editor-fold desc="可操作性方法">
@@ -307,12 +352,32 @@ open class DslTabLayout(
         }
     }
 
+    override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
+        val result = super.drawChild(canvas, child, drawingTime)
+
+        if (drawBadge) {
+            tabBadge?.apply {
+                setBounds(child.left, child.top, child.right, child.bottom)
+
+                val indexOf = dslSelector.visibleViewList.indexOf(child)
+
+                if (indexOf in 0 until dslSelector.visibleViewList.size) {
+                    onTabBadgeConfig(child, this, indexOf)
+                }
+            }
+            tabBadge?.draw(canvas)
+        }
+
+        return result
+    }
+
     override fun verifyDrawable(who: Drawable): Boolean {
         return super.verifyDrawable(who) ||
-                who == tabIndicator ||
+                who == tabIndicator /*||
                 who == tabBorder ||
                 who == tabDivider ||
-                who == tabConvexBackgroundDrawable
+                who == tabConvexBackgroundDrawable*/ /*||
+                who == tabBadge 防止循环绘制*/
     }
 
     //</editor-fold desc="初始化相关">

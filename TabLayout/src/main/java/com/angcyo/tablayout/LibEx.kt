@@ -1,6 +1,7 @@
 package com.angcyo.tablayout
 
 import android.content.res.Resources
+import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -173,3 +174,14 @@ internal fun View?.tintDrawableColor(color: Int) {
         }
     }
 }
+
+internal fun Paint?.textWidth(text: String?): Float {
+    if (TextUtils.isEmpty(text)) {
+        return 0f
+    }
+    return this?.run {
+        measureText(text)
+    } ?: 0f
+}
+
+internal fun Paint?.textHeight(): Float = this?.run { descent() - ascent() } ?: 0f

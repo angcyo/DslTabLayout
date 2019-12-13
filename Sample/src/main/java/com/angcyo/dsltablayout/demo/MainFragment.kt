@@ -1,7 +1,9 @@
 package com.angcyo.dsltablayout.demo
 
+import android.graphics.Color
 import android.graphics.ColorFilter
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -12,6 +14,8 @@ import com.airbnb.lottie.SimpleColorFilter
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsladapter.L
+import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.TabGradientCallback
 
@@ -56,36 +60,65 @@ class MainFragment : BaseDslFragment() {
                     }
                 }
 
-                onSelectViewChange = { _, selectList, reselect ->
-                    if (!reselect) {
-                        selectList.lastOrNull()?.findViewById<LottieAnimationView>(R.id.lottie_view)
-                            ?.apply {
-                                //                                removeAllUpdateListeners()
-//                                addAnimatorUpdateListener {
-//                                    //如果使用 高凸模式...需要使用顶层view的[invalidate]才能更新`高凸`部分的视图, 否则不需要
-//                                    //这和`高凸`模式的实现机制有关
-//                                    (viewHolder.v<DslTabLayout>(R.id.tab_layout).parent as View).invalidate()
-//                                }
+                //选中view的回调
+                onSelectViewChange = { fromView, selectViewList, reselect ->
+                    val toView = selectViewList.first()
 
-                                //换了一种 高凸模式的实现方式.
-                                playAnimation()
-                            }
+                    if (reselect) {
+                        //重复选择
+                    } else {
+                        toView.findViewById<LottieAnimationView>(R.id.lottie_view)
+                            ?.playAnimation()
                     }
                 }
+
+                //选中index的回调
+                onSelectIndexChange = { fromIndex, selectIndexList, _ ->
+                    val toIndex = selectIndexList.first()
+
+                    tabLayout._viewPager?.setCurrentItem(toIndex, true)
+
+                    L.i("TabLayout选中改变:[$fromIndex]->[$toIndex]")
+                }
+
+                setupViewPager(viewHolder.v(R.id.view_pager))
+
+                viewHolder.v<ViewPager>(R.id.view_pager).adapter =
+                    object : FragmentStatePagerAdapter(childFragmentManager) {
+                        override fun getItem(position: Int): Fragment {
+                            return fragmentList[position]
+                        }
+
+                        override fun getCount(): Int {
+                            return fragmentList.size
+                        }
+                    }
             }
 
-            setupViewPager(viewHolder.v(R.id.view_pager))
+            //角标
+            onTabBadgeConfig = { child, tabBadge, index ->
+                tabBadge.badgeGravity = when (index) {
+//                    1 -> Gravity.LEFT
+//                    2 -> Gravity.TOP or Gravity.RIGHT
+                    else -> Gravity.CENTER
+                }
+
+                tabBadge.badgeText = when (index) {
+                    1 -> "1"
+                    2 -> "99+"
+                    else -> ""
+                }
+
+                tabBadge.gradientSolidColor = when (index) {
+                    1 -> Color.BLUE
+                    2 -> Color.GREEN
+                    else -> Color.RED
+                }
+                tabBadge.updateOriginDrawable()
+
+                tabBadge.badgeOffsetX = 20 * dpi
+                tabBadge.badgeOffsetY = -20 * dpi
+            }
         }
-
-        viewHolder.v<ViewPager>(R.id.view_pager).adapter =
-            object : FragmentStatePagerAdapter(childFragmentManager) {
-                override fun getItem(position: Int): Fragment {
-                    return fragmentList[position]
-                }
-
-                override fun getCount(): Int {
-                    return fragmentList.size
-                }
-            }
     }
 }

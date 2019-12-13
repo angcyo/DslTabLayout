@@ -207,12 +207,12 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         typedArray.recycle()
 
         if (indicatorDrawable == null && isValidConfig()) {
-            updateDrawable()
+            updateOriginDrawable()
         }
     }
 
-    override fun updateDrawable() {
-        super.updateDrawable()
+    override fun updateOriginDrawable() {
+        super.updateOriginDrawable()
         indicatorDrawable = originDrawable
     }
 

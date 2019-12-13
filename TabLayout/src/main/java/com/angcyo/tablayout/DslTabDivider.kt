@@ -83,7 +83,7 @@ open class DslTabDivider : DslGradientDrawable() {
         if (originDrawable == null) {
             //无自定义的drawable, 那么自绘.
 
-            updateDrawable()
+            updateOriginDrawable()
         }
     }
 

@@ -16,7 +16,7 @@ import java.util.*
  * @date 2019/11/27
  * Copyright (c) 2019 ShenZhen O&M Cloud Co., Ltd. All rights reserved.
  */
-open class DslGradientDrawable : DslDrawable() {
+open class DslGradientDrawable : AbsDslDrawable() {
 
     /**形状*/
     @Shape
@@ -54,6 +54,7 @@ open class DslGradientDrawable : DslDrawable() {
     @GradientType
     var gradientType = GradientDrawable.LINEAR_GRADIENT
 
+    /**真正绘制的[Drawable]*/
     var originDrawable: Drawable? = null
 
     /**宽度补偿*/
@@ -93,22 +94,17 @@ open class DslGradientDrawable : DslDrawable() {
         return IntArray(split.size) { Color.parseColor(split[it]) }
     }
 
-    open fun updateDrawable() {
-        originDrawable = generateDrawable()
-        invalidateSelf()
-    }
+    /**构建或者更新[originDrawable]*/
+    open fun updateOriginDrawable() {
+        val drawable: GradientDrawable? = when (originDrawable) {
+            null -> GradientDrawable()
+            is GradientDrawable -> originDrawable as GradientDrawable
+            else -> {
+                null
+            }
+        }
 
-    open fun configDrawable(config: DslGradientDrawable.() -> Unit): DslGradientDrawable {
-        this.config()
-        updateDrawable()
-        return this
-    }
-
-    /**构建[GradientDrawable]*/
-    open fun generateDrawable(): GradientDrawable {
-        val drawable = GradientDrawable()
-
-        with(drawable) {
+        drawable?.apply {
             shape = gradientShape
             setStroke(
                 gradientStrokeWidth,
@@ -137,9 +133,16 @@ open class DslGradientDrawable : DslDrawable() {
                     colors = gradientColors
                 }
             }
-        }
 
-        return drawable
+            originDrawable = this
+            invalidateSelf()
+        }
+    }
+
+    open fun configDrawable(config: DslGradientDrawable.() -> Unit): DslGradientDrawable {
+        this.config()
+        updateOriginDrawable()
+        return this
     }
 
     override fun draw(canvas: Canvas) {
@@ -160,15 +163,15 @@ open class DslGradientDrawable : DslDrawable() {
     /**
      * 4个角, 8个点 圆角配置
      */
-    open fun cornerRadii(radii: FloatArray) {
+    fun cornerRadii(radii: FloatArray) {
         gradientRadii = radii
     }
 
-    open fun cornerRadius(radii: Float) {
+    fun cornerRadius(radii: Float) {
         Arrays.fill(gradientRadii, radii)
     }
 
-    open fun cornerRadius(
+    fun cornerRadius(
         leftTop: Float = 0f,
         rightTop: Float = 0f,
         rightBottom: Float = 0f,
@@ -187,28 +190,28 @@ open class DslGradientDrawable : DslDrawable() {
     /**
      * 只配置左边的圆角
      */
-    open fun cornerRadiiLeft(radii: Float) {
+    fun cornerRadiiLeft(radii: Float) {
         gradientRadii[0] = radii
         gradientRadii[1] = radii
         gradientRadii[6] = radii
         gradientRadii[7] = radii
     }
 
-    open fun cornerRadiiRight(radii: Float) {
+    fun cornerRadiiRight(radii: Float) {
         gradientRadii[2] = radii
         gradientRadii[3] = radii
         gradientRadii[4] = radii
         gradientRadii[5] = radii
     }
 
-    open fun cornerRadiiTop(radii: Float) {
+    fun cornerRadiiTop(radii: Float) {
         gradientRadii[0] = radii
         gradientRadii[1] = radii
         gradientRadii[2] = radii
         gradientRadii[3] = radii
     }
 
-    open fun cornerRadiiBottom(radii: Float) {
+    fun cornerRadiiBottom(radii: Float) {
         gradientRadii[4] = radii
         gradientRadii[5] = radii
         gradientRadii[6] = radii

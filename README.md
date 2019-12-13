@@ -53,9 +53,11 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo:DslTabLayout:1.1.0'
+    implementation 'com.github.angcyo:DslTabLayout:1.1.2'
 }
 ```
+
+[更新日志](https://github.com/angcyo/DslTabLayout/blob/master/CHANGELOG.md)
 
 # 下载体验
 

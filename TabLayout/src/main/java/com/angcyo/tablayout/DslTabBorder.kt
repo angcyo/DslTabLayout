@@ -75,7 +75,7 @@ open class DslTabBorder : DslGradientDrawable() {
                 gradientRadii = this@DslTabBorder.gradientRadii
             }.originDrawable
 
-            updateDrawable()
+            updateOriginDrawable()
         }
     }
 
