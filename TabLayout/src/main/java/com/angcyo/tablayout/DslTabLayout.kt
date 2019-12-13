@@ -265,19 +265,19 @@ open class DslTabLayout(
         //绘制在child的上面
         if (drawDivider) {
             var left = 0
-            val childCount = dslSelector.visibleViewList.size
+            val visibleChildCount = dslSelector.visibleViewList.size
             tabDivider?.apply {
                 val top = paddingTop + dividerMarginTop
                 val bottom = measuredHeight - paddingBottom - dividerMarginBottom
                 dslSelector.visibleViewList.forEachIndexed { index, view ->
 
-                    if (haveBeforeDivider(index, childCount)) {
+                    if (haveBeforeDivider(index, visibleChildCount)) {
                         left = view.left - dividerMarginRight - dividerWidth
                         setBounds(left, top, left + dividerWidth, bottom)
                         draw(canvas)
                     }
 
-                    if (haveAfterDivider(index, childCount)) {
+                    if (haveAfterDivider(index, visibleChildCount)) {
                         left = view.right + dividerMarginLeft
                         setBounds(left, top, left + dividerWidth, bottom)
                         draw(canvas)
@@ -329,6 +329,7 @@ open class DslTabLayout(
         dslSelector.updateVisibleList()
 
         val visibleChildList = dslSelector.visibleViewList
+        val visibleChildCount = visibleChildList.size
 
         //super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         var widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -392,7 +393,7 @@ open class DslTabLayout(
                         excludeWidth += lp.leftMargin + lp.rightMargin
                     }
 
-                    (widthSize - excludeWidth) / childCount
+                    (widthSize - excludeWidth) / visibleChildCount
                 }
             )
         } else {
