@@ -10,6 +10,7 @@
 3. 支持智能开启`横向滚动`.
 4. 支持`高凸模式`, 允许某个`child`高出一节显示.
 5. 支持`滑动选择模式`, 滑动的时候智能选择`上一个`或`下一个`.
+6. 支持`角标`配置.
 
 直接当做横向的`LinearLayout`使用方式即可, 无特殊要求.
 
@@ -17,13 +18,15 @@
 
 [点击查看事件回调](https://github.com/angcyo/DslTabLayout/wiki/Item%E9%80%89%E4%B8%AD%E4%BA%8B%E4%BB%B6)
 
+[点击查看角标使用](https://github.com/angcyo/DslTabLayout/wiki/%E8%A7%92%E6%A0%87)
+
 # 效果
 
 **一个`DSLTabLayout`可实现以下3中效果**
 
 无需选择, `xml配置`即可, 还不赶紧收下?
 
-|带滚动效果|
+|带滚动效果和角标|
 |:--:|
 |![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding.gif)|
 
@@ -53,7 +56,7 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo:DslTabLayout:1.1.2'
+    implementation 'com.github.angcyo:DslTabLayout:1.2.0'
 }
 ```
 
