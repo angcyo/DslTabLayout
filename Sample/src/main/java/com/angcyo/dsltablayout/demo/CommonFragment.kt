@@ -159,9 +159,15 @@ class CommonFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslViewPagerItem(childFragmentManager)() {
+//            DslViewPagerItem(childFragmentManager)() {
+//                onItemBindOverride = { itemHolder, _, _ ->
+//                    setViewPager(itemHolder.v(R.id.view_pager))
+//                }
+//            }
+//
+            DslViewPager2Item(this@CommonFragment)() {
                 onItemBindOverride = { itemHolder, _, _ ->
-                    setViewPager(itemHolder.v(R.id.view_pager))
+                    setViewPager2(itemHolder.v(R.id.view_pager))
                 }
             }
         }

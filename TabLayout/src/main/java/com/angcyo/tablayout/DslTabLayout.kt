@@ -7,14 +7,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.OverScroller
-import androidx.viewpager.widget.ViewPager
 import kotlin.math.abs
-import kotlin.math.absoluteValue
 import kotlin.math.max
 import kotlin.math.min
 
@@ -147,7 +144,7 @@ open class DslTabLayout(
                 postInvalidate()
 
                 tabLayoutConfig?.onSelectIndexChange?.invoke(fromIndex, selectList, reselect)
-                    ?: _viewPager?.setCurrentItem(toIndex, (toIndex - fromIndex).absoluteValue <= 1)
+                    ?: _viewPagerDelegate?.onSetCurrentItem(fromIndex, toIndex)
             }
         }
     }
@@ -228,13 +225,9 @@ open class DslTabLayout(
         dslSelector.selector(index, true, notify)
     }
 
-    /**自动关联[ViewPager]*/
-    fun setupViewPager(viewPager: ViewPager) {
-        if (_viewPager != viewPager) {
-            _viewPager?.removeOnPageChangeListener(_onViewPageCChangeListener)
-            _viewPager = viewPager
-            viewPager.addOnPageChangeListener(_onViewPageCChangeListener)
-        }
+    /**关联[ViewPagerDelegate]*/
+    fun setupViewPager(viewPagerDelegate: ViewPagerDelegate) {
+        _viewPagerDelegate = viewPagerDelegate
     }
 
     /**配置一个新的[DslTabLayoutConfig]给[DslTabLayout]*/
@@ -976,50 +969,44 @@ open class DslTabLayout(
 
     //<editor-fold desc="ViewPager 相关">
 
-    var _viewPager: ViewPager? = null
-    var _viewPagerScrollState = ViewPager.SCROLL_STATE_IDLE
-    val _onViewPageCChangeListener: ViewPager.SimpleOnPageChangeListener =
-        object : ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageScrollStateChanged(state: Int) {
-                //"$state".logi()
-                _viewPagerScrollState = state
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    _onAnimateEnd()
-                }
-            }
+    var _viewPagerDelegate: ViewPagerDelegate? = null
+    var _viewPagerScrollState = 0
 
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-                if (isAnimatorStart) {
-                    //动画已经开始了
-                    return
-                }
-
-                val currentItem = _viewPager?.currentItem ?: 0
-                //"$currentItem:$position $positionOffset $positionOffsetPixels state:$_viewPagerScrollState".logw()
-
-                if (position < currentItem) {
-                    //Page 目标在左
-                    if (_viewPagerScrollState == ViewPager.SCROLL_STATE_DRAGGING) {
-                        tabIndicator._targetIndex = min(currentItem, position)
-                    }
-                    _onAnimateValue(1 - positionOffset)
-                } else {
-                    //Page 目标在右
-                    if (_viewPagerScrollState == ViewPager.SCROLL_STATE_DRAGGING) {
-                        tabIndicator._targetIndex = max(currentItem, position + 1)
-                    }
-                    _onAnimateValue(positionOffset)
-                }
-            }
-
-            override fun onPageSelected(position: Int) {
-                setCurrentItem(position)
-            }
+    fun onPageScrollStateChanged(state: Int) {
+        //"$state".logi()
+        _viewPagerScrollState = state
+        if (state == ViewPagerDelegate.SCROLL_STATE_IDLE) {
+            _onAnimateEnd()
         }
+    }
+
+    fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        if (isAnimatorStart) {
+            //动画已经开始了
+            return
+        }
+
+        val currentItem = _viewPagerDelegate?.onGetCurrentItem() ?: 0
+        //"$currentItem:$position $positionOffset $positionOffsetPixels state:$_viewPagerScrollState".logw()
+
+        if (position < currentItem) {
+            //Page 目标在左
+            if (_viewPagerScrollState == ViewPagerDelegate.SCROLL_STATE_DRAGGING) {
+                tabIndicator._targetIndex = min(currentItem, position)
+            }
+            _onAnimateValue(1 - positionOffset)
+        } else {
+            //Page 目标在右
+            if (_viewPagerScrollState == ViewPagerDelegate.SCROLL_STATE_DRAGGING) {
+                tabIndicator._targetIndex = max(currentItem, position + 1)
+            }
+            _onAnimateValue(positionOffset)
+        }
+    }
+
+    fun onPageSelected(position: Int) {
+        setCurrentItem(position)
+    }
 
     //</editor-fold desc="ViewPager 相关">
 }

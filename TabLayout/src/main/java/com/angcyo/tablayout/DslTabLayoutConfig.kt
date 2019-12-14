@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import com.angcyo.tablayout.DslTabIndicator.Companion.NO_COLOR
-import kotlin.math.absoluteValue
 
 /**
  * Email:angcyo@126.com
@@ -81,7 +80,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         }
         onSelectIndexChange = { fromIndex, selectIndexList, _ ->
             val toIndex = selectIndexList.last()
-            tabLayout._viewPager?.setCurrentItem(toIndex, (toIndex - fromIndex).absoluteValue <= 1)
+            tabLayout._viewPagerDelegate?.onSetCurrentItem(fromIndex, toIndex)
         }
     }
 

@@ -76,12 +76,12 @@ class MainFragment : BaseDslFragment() {
                 onSelectIndexChange = { fromIndex, selectIndexList, _ ->
                     val toIndex = selectIndexList.first()
 
-                    tabLayout._viewPager?.setCurrentItem(toIndex, true)
+                    tabLayout._viewPagerDelegate?.onSetCurrentItem(toIndex, toIndex)
 
                     L.i("TabLayout选中改变:[$fromIndex]->[$toIndex]")
                 }
 
-                setupViewPager(viewHolder.v(R.id.view_pager))
+                setupViewPager(ViewPager1Delegate(viewHolder.v(R.id.view_pager), this@apply))
 
                 viewHolder.v<ViewPager>(R.id.view_pager).adapter =
                     object : FragmentStatePagerAdapter(childFragmentManager) {
