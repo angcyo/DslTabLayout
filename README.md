@@ -11,6 +11,7 @@
 4. 支持`高凸模式`, 允许某个`child`高出一节显示.
 5. 支持`滑动选择模式`, 滑动的时候智能选择`上一个`或`下一个`.
 6. 支持`角标`配置.
+7. 支持`ViewPager`和`ViewPager2`
 
 直接当做横向的`LinearLayout`使用方式即可, 无特殊要求.
 
@@ -19,6 +20,8 @@
 [点击查看事件回调](https://github.com/angcyo/DslTabLayout/wiki/Item%E9%80%89%E4%B8%AD%E4%BA%8B%E4%BB%B6)
 
 [点击查看角标使用](https://github.com/angcyo/DslTabLayout/wiki/%E8%A7%92%E6%A0%87)
+
+[兼容ViewPager2](https://github.com/angcyo/DslTabLayout/wiki/ViewPager1%E5%92%8CViewPager2)
 
 # 效果
 
@@ -56,7 +59,7 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo:DslTabLayout:1.2.0'
+    implementation 'com.github.angcyo:DslTabLayout:1.3.0'
 }
 ```
 

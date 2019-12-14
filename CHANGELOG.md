@@ -1,3 +1,12 @@
+# 2019-12-14
+
+版本: `1.3.0` ,更新日志:
+
+- 1. 支持`ViewPager2`
+> 库不依赖`ViewPager`和`ViewPager2`,通过`ViewPagerDelegate`转发事件. 
+
+[请查看WIKI使用说明](https://github.com/angcyo/DslTabLayout/wiki/ViewPager1%E5%92%8CViewPager2)
+
 # 2019-12-13 
 
 版本: `1.2.0` ,更新日志:
