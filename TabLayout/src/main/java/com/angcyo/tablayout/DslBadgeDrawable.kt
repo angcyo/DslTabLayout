@@ -55,6 +55,8 @@ open class DslBadgeDrawable : DslGradientDrawable() {
         with(dslGravity) {
             gravity = badgeGravity
             setGravityBounds(bounds)
+            gravityOffsetX = badgeOffsetX
+            gravityOffsetY = badgeOffsetY
 
             val textWidth = textPaint.textWidth(badgeText)
             val textHeight = textPaint.textHeight()
@@ -68,40 +70,25 @@ open class DslBadgeDrawable : DslGradientDrawable() {
                     textPaint.color = gradientSolidColor
 
                     canvas.drawCircle(
-                        (centerX + badgeOffsetX).toFloat(),
-                        (centerY + badgeOffsetY).toFloat(),
+                        centerX.toFloat(),
+                        centerY.toFloat(),
                         badgeCircleRadius.toFloat(),
                         textPaint
                     )
                 } else {
                     textPaint.color = badgeTextColor
 
-                    var textDrawX: Float = centerX - textWidth / 2
-                    var textDrawY: Float = centerY + textHeight / 2
+                    val textDrawX: Float = centerX - textWidth / 2
+                    val textDrawY: Float = centerY + textHeight / 2
 
-                    var bgLeft = centerX - drawWidth / 2
-                    var bgTop = centerY - drawHeight / 2
-
-                    if (_horizontalGravity == Gravity.RIGHT) {
-                        textDrawX -= badgeOffsetX
-                        bgLeft -= badgeOffsetX
-                    } else {
-                        textDrawX += badgeOffsetX
-                        bgLeft += badgeOffsetX
-                    }
-
-                    if (_verticalGravity == Gravity.BOTTOM) {
-                        textDrawY -= badgeOffsetY
-                        bgTop -= badgeOffsetY
-                    } else {
-                        textDrawY += badgeOffsetY
-                        bgTop += badgeOffsetY
-                    }
+                    val bgLeft = _gravityLeft
+                    val bgTop = _gravityTop
 
                     //绘制背景
                     originDrawable?.apply {
                         setBounds(
-                            bgLeft.toInt(), bgTop.toInt(), (bgLeft + drawWidth).toInt(),
+                            bgLeft, bgTop,
+                            (bgLeft + drawWidth).toInt(),
                             (bgTop + drawHeight).toInt()
                         )
                         draw(canvas)

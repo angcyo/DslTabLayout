@@ -19,6 +19,10 @@ class DslGravity {
     /**束缚重力*/
     var gravity: Int = Gravity.LEFT or Gravity.TOP
 
+    /**额外偏移距离, 会根据[Gravity]自动取负值*/
+    var gravityOffsetX: Int = 0
+    var gravityOffsetY: Int = 0
+
     fun setGravityBounds(rectF: RectF) {
         gravityBounds.set(rectF)
     }
@@ -51,6 +55,10 @@ class DslGravity {
     var _isCenterGravity: Boolean = false
     var _targetWidth = 0f
     var _targetHeight = 0f
+    var _gravityLeft = 0
+    var _gravityTop = 0
+    var _gravityRight = 0
+    var _gravityBottom = 0
 
     /**根据[gravity]返回在[gravityBounds]中的[left] [top]位置*/
     fun applyGravity(
@@ -68,21 +76,26 @@ class DslGravity {
         val horizontalGravity = absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK
 
         val centerX = when (horizontalGravity) {
-            Gravity.CENTER_HORIZONTAL -> (gravityBounds.left + gravityBounds.width() / 2).toInt()
-            Gravity.RIGHT -> (gravityBounds.right - _targetWidth / 2).toInt()
-            else -> (gravityBounds.left + _targetWidth / 2).toInt()
+            Gravity.CENTER_HORIZONTAL -> (gravityBounds.left + gravityBounds.width() / 2 + gravityOffsetX).toInt()
+            Gravity.RIGHT -> (gravityBounds.right - _targetWidth / 2 - gravityOffsetX).toInt()
+            else -> (gravityBounds.left + _targetWidth / 2 + gravityOffsetX).toInt()
         }
 
         val centerY = when (verticalGravity) {
-            Gravity.CENTER_VERTICAL -> (gravityBounds.top + gravityBounds.height() / 2).toInt()
-            Gravity.BOTTOM -> (gravityBounds.bottom - _targetHeight / 2).toInt()
-            else -> (gravityBounds.top + _targetHeight / 2).toInt()
+            Gravity.CENTER_VERTICAL -> (gravityBounds.top + gravityBounds.height() / 2 + gravityOffsetY).toInt()
+            Gravity.BOTTOM -> (gravityBounds.bottom - _targetHeight / 2 - gravityOffsetY).toInt()
+            else -> (gravityBounds.top + _targetHeight / 2 + gravityOffsetY).toInt()
         }
 
         _horizontalGravity = horizontalGravity
         _verticalGravity = verticalGravity
         _isCenterGravity = horizontalGravity == Gravity.CENTER_HORIZONTAL &&
                 verticalGravity == Gravity.CENTER_VERTICAL
+
+        _gravityLeft = (centerX - _targetWidth / 2).toInt()
+        _gravityRight = (centerX + _targetWidth / 2).toInt()
+        _gravityTop = (centerY - _targetHeight / 2).toInt()
+        _gravityBottom = (centerY + _targetHeight / 2).toInt()
 
         callback(centerX, centerY)
     }
