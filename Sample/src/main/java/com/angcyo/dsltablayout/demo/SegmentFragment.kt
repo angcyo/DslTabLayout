@@ -3,6 +3,7 @@ package com.angcyo.dsltablayout.demo
 import android.os.Bundle
 import android.view.Gravity
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 
@@ -95,6 +96,45 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
+
+                        configTabLayoutConfig {
+                            onSelectIndexChange = { _, selectIndexList, reselect ->
+                                if (reselect) {
+                                    updateTabBadge(selectIndexList.first()) {
+                                        badgeText = when (badgeText) {
+                                            "" -> null
+                                            else -> ""
+                                        }
+                                        badgeSolidColor = randomColor()
+                                    }
+                                }
+                            }
+                        }
+
+                        updateTabBadge(0) {
+                            badgeText = ""
+                            badgeSolidColor = randomColor()
+                            badgeGravity = Gravity.RIGHT or Gravity.TOP
+                            badgeOffsetX = 10 * dpi
+                            badgeOffsetY = 2 * dpi
+                        }
+
+                        updateTabBadge(1) {
+                            badgeText = "9"
+                            badgeSolidColor = randomColor()
+                            badgeGravity = Gravity.CENTER
+                            badgeOffsetX = 20 * dpi
+                            badgeOffsetY = -6 * dpi
+                        }
+
+                        updateTabBadge(2) {
+                            badgeText = "99+"
+                            badgeSolidColor = randomColor()
+                            badgeGravity = Gravity.CENTER
+                            badgeOffsetX = 10 * dpi
+                            badgeOffsetY = -8 * dpi
+                            badgeTextSize = 9 * dp
+                        }
                     }
                 }
             }

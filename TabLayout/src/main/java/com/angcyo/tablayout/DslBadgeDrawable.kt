@@ -25,7 +25,7 @@ open class DslBadgeDrawable : DslGradientDrawable() {
     var badgeTextColor = Color.WHITE
 
     /**角标的文本, 空字符串会绘制成小圆点*/
-    var badgeText: String? = "99+"
+    var badgeText: String? = null
     /**角标的文本大小*/
     var badgeTextSize: Float = 12 * dp
         set(value) {

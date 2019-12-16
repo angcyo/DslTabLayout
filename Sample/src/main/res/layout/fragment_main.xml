@@ -18,6 +18,9 @@
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:background="#00000000"
+        app:tab_badge_gravity="center"
+        app:tab_badge_offset_x="20dp"
+        app:tab_badge_offset_y="-20dp"
         app:tab_convex_background="#FFFFFF"
         app:tab_deselect_color="#666666"
         app:tab_draw_badge="true"
@@ -25,9 +28,6 @@
         app:tab_enable_ico_color="true"
         app:tab_item_is_equ_width="true"
         app:tab_select_color="@color/colorAccent"
-        tools:tab_badge_gravity="left|bottom"
-        tools:tab_badge_offset_x="20dp"
-        tools:tab_badge_offset_y="20dp"
         tools:tab_badge_text="99+">
 
         <FrameLayout

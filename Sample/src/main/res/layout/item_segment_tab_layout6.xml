@@ -24,6 +24,7 @@
         app:tab_divider_width="1dp"
         app:tab_draw_border="true"
         app:tab_draw_divider="true"
+        app:tab_draw_badge="true"
         app:tab_draw_indicator="false"
         app:tab_item_is_equ_width="true"
         app:tab_deselect_color="#2E9232"

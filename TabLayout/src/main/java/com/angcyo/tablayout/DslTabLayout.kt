@@ -94,14 +94,7 @@ open class DslTabLayout(
     var onTabBadgeConfig: (child: View, tabBadge: DslTabBadge, index: Int) -> Unit =
         { _, tabBadge, index ->
             if (!isInEditMode) {
-                tabBadgeConfigMap.getOrElse(index) {
-                    TabBadgeConfig()
-                }.apply {
-                    tabBadge.badgeText = badgeText
-                    tabBadge.badgeTextColor = badgeTextColor
-                    tabBadge.badgeGravity = badgeGravity
-                    tabBadge.gradientSolidColor = badgeSolidColor
-                }
+                tabBadge.updateBadgeConfig(getBadgeConfig(index))
             }
         }
 
@@ -248,16 +241,23 @@ open class DslTabLayout(
         dslSelector.updateStyle()
     }
 
-    fun updateTabBadge(index: Int, badgeText: String?) {
-        val badgeConfig = tabBadgeConfigMap.getOrElse(index) { TabBadgeConfig() }
-        badgeConfig.badgeText = badgeText
+    fun getBadgeConfig(index: Int): TabBadgeConfig {
+        return tabBadgeConfigMap.getOrElse(index) {
+            tabBadge?.defaultBadgeConfig?.copy() ?: TabBadgeConfig()
+        }
+    }
 
-        updateTabBadge(index, badgeConfig)
+    fun updateTabBadge(index: Int, badgeText: String?) {
+        updateTabBadge(index) {
+            this.badgeText = badgeText
+        }
     }
 
     /**更新角标*/
-    fun updateTabBadge(index: Int, badgeConfig: TabBadgeConfig) {
+    fun updateTabBadge(index: Int, config: TabBadgeConfig.() -> Unit) {
+        val badgeConfig = getBadgeConfig(index)
         tabBadgeConfigMap[index] = badgeConfig
+        badgeConfig.config()
         postInvalidate()
     }
 

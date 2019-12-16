@@ -1,9 +1,7 @@
 package com.angcyo.dsltablayout.demo
 
-import android.graphics.Color
 import android.graphics.ColorFilter
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -15,6 +13,7 @@ import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.L
+import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.TabGradientCallback
@@ -73,12 +72,22 @@ class MainFragment : BaseDslFragment() {
                 }
 
                 //选中index的回调
-                onSelectIndexChange = { fromIndex, selectIndexList, _ ->
+                onSelectIndexChange = { fromIndex, selectIndexList, reselect ->
                     val toIndex = selectIndexList.first()
 
                     tabLayout._viewPagerDelegate?.onSetCurrentItem(toIndex, toIndex)
 
                     L.i("TabLayout选中改变:[$fromIndex]->[$toIndex]")
+
+                    updateTabBadge(selectIndexList.first()) {
+                        if (reselect) {
+                            badgeText = when (badgeText) {
+                                "" -> null
+                                else -> ""
+                            }
+                        }
+                        badgeSolidColor = randomColor()
+                    }
                 }
 
                 setupViewPager(ViewPager1Delegate(viewHolder.v(R.id.view_pager), this@apply))
@@ -95,29 +104,50 @@ class MainFragment : BaseDslFragment() {
                     }
             }
 
-            //角标
-            onTabBadgeConfig = { child, tabBadge, index ->
-                tabBadge.badgeGravity = when (index) {
-//                    1 -> Gravity.LEFT
-//                    2 -> Gravity.TOP or Gravity.RIGHT
-                    else -> Gravity.CENTER
-                }
+            //角标, 相同配置属性, 可以在xml指定
 
-                tabBadge.badgeText = when (index) {
-                    1 -> "1"
-                    2 -> "99+"
-                    else -> ""
-                }
+            //完全自定义配置角标, 会替换库中的默认行为
+//            onTabBadgeConfig = { child, tabBadge, index ->
+//                tabBadge.badgeGravity = when (index) {
+////                    1 -> Gravity.LEFT
+////                    2 -> Gravity.TOP or Gravity.RIGHT
+//                    else -> Gravity.CENTER
+//                }
+//
+//                tabBadge.badgeText = when (index) {
+//                    1 -> "1"
+//                    2 -> "99+"
+//                    else -> ""
+//                }
+//
+//                tabBadge.gradientSolidColor = when (index) {
+//                    1 -> Color.BLUE
+//                    2 -> Color.GREEN
+//                    else -> Color.RED
+//                }
+//                tabBadge.updateOriginDrawable()
+//
+//                tabBadge.badgeOffsetX = 20 * dpi
+//                tabBadge.badgeOffsetY = -20 * dpi
+//            }
 
-                tabBadge.gradientSolidColor = when (index) {
-                    1 -> Color.BLUE
-                    2 -> Color.GREEN
-                    else -> Color.RED
-                }
-                tabBadge.updateOriginDrawable()
+            //简单的更新角标配置
+            updateTabBadge(0) {
+                badgeText = ""
+                badgeSolidColor = randomColor()
+                badgeOffsetX = 10 * dpi
+                badgeOffsetY = -20 * dpi
+            }
 
-                tabBadge.badgeOffsetX = 20 * dpi
-                tabBadge.badgeOffsetY = -20 * dpi
+            updateTabBadge(1) {
+                badgeText = "9"
+                badgeSolidColor = randomColor()
+            }
+
+            updateTabBadge(2) {
+                badgeText = "99+"
+                badgeSolidColor = randomColor()
+                badgeTextSize = 9 * dp
             }
         }
     }
