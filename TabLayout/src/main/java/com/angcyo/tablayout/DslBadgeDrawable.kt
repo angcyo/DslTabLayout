@@ -26,6 +26,12 @@ open class DslBadgeDrawable : DslGradientDrawable() {
 
     /**角标的文本, 空字符串会绘制成小圆点*/
     var badgeText: String? = "99+"
+    /**角标的文本大小*/
+    var badgeTextSize: Float = 12 * dp
+        set(value) {
+            field = value
+            textPaint.textSize = field
+        }
 
     /**圆点状态时的半径大小*/
     var badgeCircleRadius = 4 * dpi

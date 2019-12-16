@@ -18,6 +18,7 @@ open class DslTabBadge : DslBadgeDrawable() {
         gradientSolidColor = Color.RED
         badgePaddingLeft = 4 * dpi
         badgePaddingRight = 4 * dpi
+        badgeTextSize = 12 * dp
     }
 
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
@@ -63,6 +64,10 @@ open class DslTabBadge : DslBadgeDrawable() {
             badgePaddingBottom
         )
         badgeText = typedArray.getString(R.styleable.DslTabLayout_tab_badge_text)
+        badgeTextSize = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_tab_badge_text_size,
+            badgeTextSize.toInt()
+        ).toFloat()
         typedArray.recycle()
         super.initAttribute(context, attributeSet)
     }

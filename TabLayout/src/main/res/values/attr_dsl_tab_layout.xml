@@ -180,6 +180,8 @@
         <attr name="tab_badge_padding_bottom" format="dimension" />
         <!--角标的文本内容, 多用于xml预览-->
         <attr name="tab_badge_text" format="string" />
+        <!--角标的文本字体大小-->
+        <attr name="tab_badge_text_size" format="dimension" />
         <!--end...-->
 
     </declare-styleable>

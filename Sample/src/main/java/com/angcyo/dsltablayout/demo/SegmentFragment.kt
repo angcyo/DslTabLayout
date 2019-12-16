@@ -1,7 +1,9 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
+import android.view.Gravity
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -56,6 +58,34 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
                         addTabLayout(this)
+
+                        //角标
+                        onTabBadgeConfig = { child, tabBadge, index ->
+                            when (index) {
+                                1 -> {
+                                    tabBadge.badgeGravity = Gravity.CENTER
+                                    tabBadge.badgeText = "999+"
+                                    tabBadge.badgeOffsetX = 20 * dpi
+                                    tabBadge.badgeOffsetY = -6 * dpi
+                                }
+                                2 -> {
+                                    tabBadge.badgeGravity = Gravity.LEFT or Gravity.TOP
+                                    tabBadge.badgeText = "99"
+                                    tabBadge.badgeOffsetX = 10 * dpi
+                                    tabBadge.badgeOffsetY = 4 * dpi
+                                }
+                                else -> {
+                                    tabBadge.badgeGravity = Gravity.CENTER
+                                    tabBadge.badgeText = ""
+                                    tabBadge.badgeOffsetX = child.measuredWidth / 2 - 20 * dpi
+                                    tabBadge.badgeOffsetY = -child.measuredHeight / 2 + 12 * dpi
+                                }
+                            }
+
+                            tabBadge.gradientSolidColor = randomColor()
+
+                            tabBadge.updateOriginDrawable()
+                        }
                     }
                 }
             }
