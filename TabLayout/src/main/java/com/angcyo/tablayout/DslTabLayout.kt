@@ -337,6 +337,16 @@ open class DslTabLayout(
         if (drawIndicator && tabIndicator.indicatorStyle > 0x10) {
             tabIndicator.draw(canvas)
         }
+        if (drawBadge) {
+            tabBadge?.apply {
+                dslSelector.visibleViewList.forEachIndexed { index, child ->
+                    setBounds(child.left, child.top, child.right, child.bottom)
+                    onTabBadgeConfig(child, this, index)
+                    updateOriginDrawable()
+                    draw(canvas)
+                }
+            }
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -353,23 +363,7 @@ open class DslTabLayout(
     }
 
     override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
-        val result = super.drawChild(canvas, child, drawingTime)
-
-        if (drawBadge) {
-            tabBadge?.apply {
-                setBounds(child.left, child.top, child.right, child.bottom)
-
-                val indexOf = dslSelector.visibleViewList.indexOf(child)
-
-                if (indexOf in 0 until dslSelector.visibleViewList.size) {
-                    onTabBadgeConfig(child, this, indexOf)
-                    updateOriginDrawable()
-                }
-            }
-            tabBadge?.draw(canvas)
-        }
-
-        return result
+        return super.drawChild(canvas, child, drawingTime)
     }
 
     override fun verifyDrawable(who: Drawable): Boolean {
