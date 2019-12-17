@@ -59,7 +59,7 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo:DslTabLayout:1.3.0'
+    implementation 'com.github.angcyo:DslTabLayout:1.4.0'
 }
 ```
 
