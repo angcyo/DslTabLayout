@@ -21,7 +21,7 @@
 
 [点击查看角标使用](https://github.com/angcyo/DslTabLayout/wiki/%E8%A7%92%E6%A0%87)
 
-[兼容ViewPager2](https://github.com/angcyo/DslTabLayout/wiki/ViewPager1%E5%92%8CViewPager2)
+[关联ViewPager使用(兼容ViewPager2)](https://github.com/angcyo/DslTabLayout/wiki/ViewPager1%E5%92%8CViewPager2)
 
 # 效果
 
