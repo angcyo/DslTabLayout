@@ -62,6 +62,8 @@
         <attr name="tab_indicator_y_offset" format="dimension" />
         <!--指示器child的锚点索引, 用来辅助定位计算指示器的宽度,高度,中点坐标-->
         <attr name="tab_indicator_content_index" format="integer" />
+        <!--切换指示器时, 是否需要动画的支持-->
+        <attr name="tab_indicator_anim" format="boolean" />
 
         <!--请参考[GradientDrawable](https://developer.android.google.cn/reference/android/graphics/drawable/GradientDrawable)-->
         <attr name="tab_indicator_shape" format="enum">

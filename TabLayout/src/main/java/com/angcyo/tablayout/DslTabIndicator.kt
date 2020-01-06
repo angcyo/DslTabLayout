@@ -91,6 +91,9 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
      * */
     var indicatorContentIndex = -1
 
+    /**切换时是否需要动画的支持*/
+    var indicatorAnim = true
+
     init {
         callback = tabLayout
     }
@@ -144,6 +147,10 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         indicatorContentIndex = typedArray.getInt(
             R.styleable.DslTabLayout_tab_indicator_content_index,
             indicatorContentIndex
+        )
+        indicatorAnim = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_indicator_anim,
+            indicatorAnim
         )
 
         //代码构建Drawable
