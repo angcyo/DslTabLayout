@@ -1,3 +1,22 @@
+# 2020-02-22
+
+版本: `1.4.2` ,更新日志:
+
+新增库`Delegate`库:
+
+```groovy
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:1.4.2'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:1.4.2'
+```
+
+原库的使用方式变成了:
+
+```groovy
+    //implementation 'com.github.angcyo:DslTablayout:1.4.2' 之前
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:1.4.2'
+```
+
+
 # 2020-01-06
 
 版本: `1.4.1` ,更新日志:
