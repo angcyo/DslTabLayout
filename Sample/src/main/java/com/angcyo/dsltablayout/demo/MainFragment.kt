@@ -15,6 +15,7 @@ import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.L
 import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
+import com.angcyo.tablayout.delegate.ViewPager1Delegate
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.TabGradientCallback
 
@@ -90,7 +91,7 @@ class MainFragment : BaseDslFragment() {
                     }
                 }
 
-                setupViewPager(ViewPager1Delegate(viewHolder.v(R.id.view_pager), this@apply))
+                ViewPager1Delegate.install(viewHolder.v(R.id.view_pager), this@apply)
 
                 viewHolder.v<ViewPager>(R.id.view_pager).adapter =
                     object : FragmentStatePagerAdapter(childFragmentManager) {

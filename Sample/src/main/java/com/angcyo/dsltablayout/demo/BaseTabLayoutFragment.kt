@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.tablayout.delegate.ViewPager1Delegate
+import com.angcyo.tablayout.delegate2.ViewPager2Delegate
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -27,13 +29,13 @@ open class BaseTabLayoutFragment : BaseDslFragment() {
 
     fun setViewPager(viewPager: ViewPager) {
         tabLayoutList.forEach {
-            it.setupViewPager(ViewPager1Delegate(viewPager, it))
+            ViewPager1Delegate.install(viewPager, it)
         }
     }
 
     fun setViewPager2(viewPager: ViewPager2) {
         tabLayoutList.forEach {
-            it.setupViewPager(ViewPager2Delegate(viewPager, it))
+            ViewPager2Delegate.install(viewPager, it)
         }
     }
 }
