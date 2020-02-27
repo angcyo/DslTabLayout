@@ -589,8 +589,8 @@ open class DslTabLayout(
 
             childBottom = if (lp.gravity.have(Gravity.CENTER_VERTICAL)) {
                 measuredHeight - paddingBottom -
-                        (measuredHeight - paddingLeft - paddingBottom - _maxConvexHeight) / 2 -
-                        childView.measuredHeight / 2
+                        ((measuredHeight - paddingTop - paddingBottom - _maxConvexHeight) / 2 -
+                                childView.measuredHeight / 2)
             } else {
                 measuredHeight - paddingBottom
             }
