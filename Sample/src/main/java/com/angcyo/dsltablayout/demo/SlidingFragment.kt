@@ -35,9 +35,25 @@ class SlidingFragment : BaseTabLayoutFragment() {
             DslSlidingTabLayoutItem()() {
                 onItemBindOverride = { itemHolder, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                        val tabLayout = this
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
+
+                        //动态切换[tabSelectColor] [tabDeselectColor] 属性
+                        configTabLayoutConfig {
+                            onSelectIndexChange = { fromIndex, selectIndexList, reselect ->
+                                val toIndex = selectIndexList.first()
+                                if (toIndex < 3) {
+                                    tabSelectColor = Color.WHITE
+                                    tabDeselectColor = Color.parseColor("#999999")
+                                } else {
+                                    tabSelectColor = Color.RED
+                                    tabDeselectColor = Color.YELLOW
+                                }
+                                tabLayout.dslSelector.updateStyle()
+                            }
+                        }
                     }
                 }
             }
