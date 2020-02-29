@@ -1,3 +1,13 @@
+2020-02-29
+
+版本: `1.4.3-support` ,更新日志:
+
+- 去除`AndroidX`依赖, 兼容`support`版本.
+
+```groovy
+    implementation 'com.github.angcyo.DslTabLayout:TabLayout:1.4.3-support'
+```
+
 2020-02-27
 
 版本: `1.4.3` ,更新日志:
@@ -11,15 +21,15 @@
 新增库`Delegate`库:
 
 ```groovy
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:1.4.2'
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:1.4.2'
+    implementation 'com.github.angcyo.DslTabLayout:ViewPager1Delegate:1.4.2'
+    implementation 'com.github.angcyo.DslTabLayout:ViewPager2Delegate:1.4.2'
 ```
 
 原库的使用方式变成了:
 
 ```groovy
-    //implementation 'com.github.angcyo:DslTablayout:1.4.2' 之前
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:1.4.2'
+    //implementation 'com.github.angcyo:DslTabLayout:1.4.2' 之前
+    implementation 'com.github.angcyo.DslTabLayout:TabLayout:1.4.2'
 ```
 
 
