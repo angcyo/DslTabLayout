@@ -4,7 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
-import androidx.annotation.Px
+import com.angcyo.tablayout.annotation.Px
 
 /**
  * 角标
