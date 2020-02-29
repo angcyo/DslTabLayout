@@ -10,8 +10,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.math.MathUtils
 
 /**
  *
@@ -127,7 +125,7 @@ internal fun View.calcLayoutWidthHeight(
 }
 
 internal fun evaluateColor(fraction: Float /*0-1*/, startColor: Int, endColor: Int): Int {
-    val fraction = MathUtils.clamp(fraction, 0f, 1f)
+    val fraction = SupportCompat.clamp(fraction, 0f, 1f)
     val startA = startColor shr 24 and 0xff
     val startR = startColor shr 16 and 0xff
     val startG = startColor shr 8 and 0xff
@@ -148,13 +146,12 @@ internal fun Drawable?.tintDrawableColor(color: Int): Drawable? {
         return this
     }
 
-    val wrappedDrawable =
-        DrawableCompat.wrap(this).mutate()
+    val wrappedDrawable = SupportCompat.wrap(this)?.mutate()
 
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        DrawableCompat.setTint(wrappedDrawable, color)
+        SupportCompat.setTint(wrappedDrawable, color)
     } else {
-        wrappedDrawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
+        wrappedDrawable?.setColorFilter(color, PorterDuff.Mode.SRC_ATOP)
     }
 
     return wrappedDrawable
