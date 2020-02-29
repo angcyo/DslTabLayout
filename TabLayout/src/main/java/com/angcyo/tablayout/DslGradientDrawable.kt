@@ -8,7 +8,7 @@ import android.graphics.ColorFilter
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
-import androidx.annotation.IntDef
+import com.angcyo.tablayout.annotation.IntDef
 import java.util.*
 
 /**

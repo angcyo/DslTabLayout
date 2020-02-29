@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.view.ViewCompat
 
 /**
  * 边框
@@ -189,9 +188,9 @@ open class DslTabBorder : DslGradientDrawable() {
 
             itemSelectBgDrawable = drawable
 
-            ViewCompat.setBackground(itemView, itemSelectBgDrawable)
+            SupportCompat.setBackground(itemView, itemSelectBgDrawable)
         } else {
-            ViewCompat.setBackground(itemView, itemDeselectBgDrawable)
+            SupportCompat.setBackground(itemView, itemDeselectBgDrawable)
         }
     }
 }
