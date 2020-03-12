@@ -1,4 +1,4 @@
-2020-3-12
+# 2020-3-12
 
 版本: `1.4.4`, 更新日志:
 
@@ -12,7 +12,7 @@ tabLayout.configTabLayoutConfig {
 }
 ```
 
-2020-02-29
+# 2020-02-29
 
 版本: `1.4.3-support` ,更新日志:
 
@@ -22,7 +22,7 @@ tabLayout.configTabLayoutConfig {
     implementation 'com.github.angcyo.DslTabLayout:TabLayout:1.4.3-support'
 ```
 
-2020-02-27
+# 2020-02-27
 
 版本: `1.4.3` ,更新日志:
 
