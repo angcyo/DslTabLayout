@@ -559,6 +559,10 @@ open class DslTabLayout(
             widthSize = min(_childAllWidthSum + paddingLeft + paddingRight, widthSize)
         }
 
+        if (heightMode == MeasureSpec.AT_MOST && visibleChildList.isEmpty()) {
+            heightSize = itemDefaultHeight
+        }
+
         setMeasuredDimension(widthSize, heightSize + _maxConvexHeight)
     }
 
