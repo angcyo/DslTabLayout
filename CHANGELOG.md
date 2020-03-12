@@ -1,3 +1,17 @@
+2020-3-12
+
+版本: `1.4.4`, 更新日志:
+
+- `DslTabLayoutConfig`支持文本大小渐变属性配置.
+
+可以通过:
+```
+tabLayout.configTabLayoutConfig {
+    tabTextMinSize = 9 * dp
+    tabTextMaxSize = 18 * dp
+}
+```
+
 2020-02-29
 
 版本: `1.4.3-support` ,更新日志:
