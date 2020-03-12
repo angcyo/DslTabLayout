@@ -134,7 +134,7 @@ open class DslTabLayout(
                 val toIndex = selectList.last()
                 _animateToItem(fromIndex, toIndex)
 
-                _scrollToCenter(toIndex)
+                _scrollToCenter(toIndex, tabIndicator.indicatorAnim)
                 postInvalidate()
 
                 tabLayoutConfig?.onSelectIndexChange?.invoke(fromIndex, selectList, reselect)
@@ -856,7 +856,7 @@ open class DslTabLayout(
     }
 
     /**将[index]位置显示在TabLayout的中心*/
-    fun _scrollToCenter(index: Int) {
+    fun _scrollToCenter(index: Int, scrollAnim: Boolean) {
         if (!needScroll) {
             return
         }
@@ -877,7 +877,7 @@ open class DslTabLayout(
             }
         }
 
-        if (isInEditMode || !tabIndicator.indicatorAnim) {
+        if (isInEditMode || !scrollAnim) {
             scrollBy(dx, 0)
         } else {
             startScroll(dx)

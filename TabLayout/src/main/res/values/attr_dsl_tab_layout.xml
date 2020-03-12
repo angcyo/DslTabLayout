@@ -109,6 +109,12 @@
         <attr name="tab_min_scale" format="float" />
         <!--缩放渐变的最大值-->
         <attr name="tab_max_scale" format="float" />
+        <!--是否激活文本大小渐变-->
+        <attr name="tab_enable_gradient_text_size" format="boolean" />
+        <!--文本字体大小最小值-->
+        <attr name="tab_text_min_size" format="dimension" />
+        <!--文本字体大小最大值-->
+        <attr name="tab_text_max_size" format="dimension" />
         <!--end...-->
 
         <!--Divider 分割线相关属性-->

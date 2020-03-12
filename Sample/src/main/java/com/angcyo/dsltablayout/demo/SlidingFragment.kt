@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabIndicator
 import com.angcyo.tablayout.DslTabLayout
@@ -65,6 +66,11 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorWidth = -1
                         tabIndicator.indicatorHeight = 4 * dpi
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
+
+                        configTabLayoutConfig {
+                            tabTextMinSize = 9 * dp
+                            tabTextMaxSize = 18 * dp
+                        }
                     }
                 }
             }

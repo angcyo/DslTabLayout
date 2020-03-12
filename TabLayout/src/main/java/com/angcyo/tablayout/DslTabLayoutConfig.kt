@@ -4,9 +4,12 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.angcyo.tablayout.DslTabIndicator.Companion.NO_COLOR
+import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Email:angcyo@126.com
@@ -24,6 +27,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                 tabEnableIcoColor = true
             }
         }
+
     /**是否开启颜色渐变效果*/
     var tabEnableGradientColor = false
         set(value) {
@@ -32,22 +36,28 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                 tabEnableIcoGradientColor = true
             }
         }
+
     /**选中的文本颜色*/
     var tabSelectColor: Int = Color.WHITE //Color.parseColor("#333333")
+
     /**未选中的文本颜色*/
     var tabDeselectColor: Int = Color.parseColor("#999999")
+
     /**是否开启Bold, 文本加粗*/
     var tabEnableTextBold = false
 
     /**是否开启图标颜色*/
     var tabEnableIcoColor = true
+
     /**是否开启图标颜色渐变效果*/
     var tabEnableIcoGradientColor = false
+
     /**选中的图标颜色*/
     var tabIcoSelectColor: Int = NO_COLOR
         get() {
             return if (field == NO_COLOR) tabSelectColor else field
         }
+
     /**未选中的图标颜色*/
     var tabIcoDeselectColor: Int = NO_COLOR
         get() {
@@ -59,8 +69,18 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 
     /**最小缩放的比例*/
     var tabMinScale = 0.8f
+
     /**大嘴缩放的比例*/
     var tabMaxScale = 1.2f
+
+    /**是否开启字体大小渐变效果*/
+    var tabEnableGradientTextSize = true
+
+    /**tab中文本字体未选中时的字体大小, >0时激活*/
+    var tabTextMinSize = -1f
+
+    /**tab中文本字体选中时的字体大小, >0时激活*/
+    var tabTextMaxSize = -1f
 
     var tabGradientCallback = TabGradientCallback()
 
@@ -128,6 +148,24 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         )
         tabMinScale = typedArray.getFloat(R.styleable.DslTabLayout_tab_min_scale, tabMinScale)
         tabMaxScale = typedArray.getFloat(R.styleable.DslTabLayout_tab_max_scale, tabMaxScale)
+
+        tabEnableGradientTextSize = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_enable_gradient_text_size,
+            tabEnableGradientTextSize
+        )
+        if (typedArray.hasValue(R.styleable.DslTabLayout_tab_text_min_size)) {
+            tabTextMinSize = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_text_min_size,
+                tabTextMinSize.toInt()
+            ).toFloat()
+        }
+        if (typedArray.hasValue(R.styleable.DslTabLayout_tab_text_max_size)) {
+            tabTextMaxSize = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_text_max_size,
+                tabTextMaxSize.toInt()
+            ).toFloat()
+        }
+
         typedArray.recycle()
     }
 
@@ -148,6 +186,16 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
             if (tabEnableTextColor) {
                 //文本颜色
                 setTextColor(if (select) tabSelectColor else tabDeselectColor)
+            }
+
+            if (tabTextMaxSize > 0 || tabTextMinSize > 0) {
+                //文本字体大小
+                val minTextSize = min(tabTextMinSize, tabTextMaxSize)
+                val maxTextSize = max(tabTextMinSize, tabTextMaxSize)
+                setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    if (select) maxTextSize else minTextSize
+                )
             }
         }
 
@@ -198,6 +246,34 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                 _gradientScale(fromView, tabMaxScale, tabMinScale, positionOffset)
                 _gradientScale(toView, tabMinScale, tabMaxScale, positionOffset)
             }
+
+            if (tabEnableGradientTextSize &&
+                tabTextMaxSize > 0 &&
+                tabTextMinSize > 0 &&
+                tabTextMinSize != tabTextMaxSize
+            ) {
+
+                val fromIndex = tabLayout.tabIndicator.currentIndex
+                val toIndex = tabLayout.tabIndicator._targetIndex
+
+                //文本字体大小渐变
+                _gradientTextSize(
+                    fromView?.run { onGetTextStyleView(this, fromIndex) },
+                    tabTextMaxSize,
+                    tabTextMinSize,
+                    positionOffset
+                )
+                _gradientTextSize(
+                    onGetTextStyleView(toView, toIndex),
+                    tabTextMinSize,
+                    tabTextMaxSize,
+                    positionOffset
+                )
+
+                if (toIndex == tabLayout.dslSelector.visibleViewList.lastIndex || toIndex == 0) {
+                    tabLayout._scrollToCenter(toIndex, false)
+                }
+            }
         }
     }
 
@@ -211,6 +287,15 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 
     open fun _gradientScale(view: View?, startScale: Float, endScale: Float, percent: Float) {
         tabGradientCallback.onGradientScale(view, startScale, endScale, percent)
+    }
+
+    open fun _gradientTextSize(
+        view: TextView?,
+        startTextSize: Float,
+        endTextSize: Float,
+        percent: Float
+    ) {
+        tabGradientCallback.onGradientTextSize(view, startTextSize, endTextSize, percent)
     }
 
     open fun _updateIcoColor(view: View?, color: Int) {
@@ -239,6 +324,20 @@ open class TabGradientCallback {
                 scaleX = it
                 scaleY = it
             }
+        }
+    }
+
+    open fun onGradientTextSize(
+        view: TextView?,
+        startTextSize: Float,
+        endTextSize: Float,
+        percent: Float
+    ) {
+        view?.apply {
+            setTextSize(
+                TypedValue.COMPLEX_UNIT_PX,
+                (startTextSize + (endTextSize - startTextSize) * percent)
+            )
         }
     }
 }

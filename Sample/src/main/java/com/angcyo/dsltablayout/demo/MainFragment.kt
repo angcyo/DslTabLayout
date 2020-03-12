@@ -15,9 +15,9 @@ import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.L
 import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
-import com.angcyo.tablayout.delegate.ViewPager1Delegate
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.TabGradientCallback
+import com.angcyo.tablayout.delegate.ViewPager1Delegate
 
 /**
  *
@@ -63,12 +63,13 @@ class MainFragment : BaseDslFragment() {
                 //选中view的回调
                 onSelectViewChange = { fromView, selectViewList, reselect ->
                     val toView = selectViewList.first()
-
+                    fromView?.apply { onGetTextStyleView(this, -1)?.visibility = View.GONE }
                     if (reselect) {
                         //重复选择
                     } else {
                         toView.findViewById<LottieAnimationView>(R.id.lottie_view)
                             ?.playAnimation()
+                        onGetTextStyleView(toView, -1)?.visibility = View.VISIBLE
                     }
                 }
 

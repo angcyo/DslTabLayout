@@ -54,9 +54,11 @@
                     android:id="@+id/button_view"
                     style="@style/TabItemStyle"
                     android:text="Sliding"
+                    android:visibility="gone"
                     app:button_enable_ripple="false"
                     app:button_normal_text_color="#666666"
-                    app:button_text_color="@color/colorAccent" />
+                    app:button_text_color="@color/colorAccent"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 
@@ -83,9 +85,11 @@
                 android:id="@+id/button_view"
                 style="@style/TabItemStyle"
                 android:text="Common"
+                android:visibility="gone"
                 app:button_enable_ripple="false"
                 app:button_normal_text_color="#666666"
-                app:button_text_color="@color/colorAccent" />
+                app:button_text_color="@color/colorAccent"
+                tools:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout
@@ -106,9 +110,11 @@
                 android:id="@+id/button_view"
                 style="@style/TabItemStyle"
                 android:text="Segment"
+                android:visibility="gone"
                 app:button_enable_ripple="false"
                 app:button_normal_text_color="#666666"
-                app:button_text_color="@color/colorAccent" />
+                app:button_text_color="@color/colorAccent"
+                tools:visibility="visible" />
         </LinearLayout>
 
     </com.angcyo.tablayout.DslTabLayout>
