@@ -98,7 +98,7 @@ class SegmentFragment : BaseTabLayoutFragment() {
                         addTabLayout(this)
 
                         configTabLayoutConfig {
-                            onSelectIndexChange = { _, selectIndexList, reselect ->
+                            onSelectIndexChange = { _, selectIndexList, reselect, fromUser ->
                                 if (reselect) {
                                     updateTabBadge(selectIndexList.first()) {
                                         badgeText = when (badgeText) {

@@ -98,7 +98,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         onStyleItemView = { itemView, index, select ->
             onUpdateItemStyle(itemView, index, select)
         }
-        onSelectIndexChange = { fromIndex, selectIndexList, _ ->
+        onSelectIndexChange = { fromIndex, selectIndexList, _, _ ->
             val toIndex = selectIndexList.last()
             tabLayout._viewPagerDelegate?.onSetCurrentItem(fromIndex, toIndex)
         }

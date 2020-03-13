@@ -61,7 +61,7 @@ class MainFragment : BaseDslFragment() {
                 }
 
                 //选中view的回调
-                onSelectViewChange = { fromView, selectViewList, reselect ->
+                onSelectViewChange = { fromView, selectViewList, reselect, fromUser ->
                     val toView = selectViewList.first()
                     fromView?.apply { onGetTextStyleView(this, -1)?.visibility = View.GONE }
                     if (reselect) {
@@ -74,7 +74,7 @@ class MainFragment : BaseDslFragment() {
                 }
 
                 //选中index的回调
-                onSelectIndexChange = { fromIndex, selectIndexList, reselect ->
+                onSelectIndexChange = { fromIndex, selectIndexList, reselect, fromUser ->
                     val toIndex = selectIndexList.first()
 
                     tabLayout._viewPagerDelegate?.onSetCurrentItem(toIndex, toIndex)

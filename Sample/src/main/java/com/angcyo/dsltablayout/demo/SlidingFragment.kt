@@ -43,7 +43,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
                         //动态切换[tabSelectColor] [tabDeselectColor] 属性
                         configTabLayoutConfig {
-                            onSelectIndexChange = { fromIndex, selectIndexList, reselect ->
+                            onSelectIndexChange = { fromIndex, selectIndexList, reselect, fromUser ->
                                 val toIndex = selectIndexList.first()
                                 if (toIndex < 3) {
                                     tabSelectColor = Color.WHITE

@@ -1,3 +1,7 @@
+# next
+
+- `onSelectIndexChange` `onSelectViewChange` `onSelectItemView` 支持 `fromUser`
+
 # 2020-3-12
 
 版本: `1.4.4`, 更新日志:
