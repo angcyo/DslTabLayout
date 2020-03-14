@@ -836,6 +836,8 @@ open class DslTabLayout(
     fun startScroll(dx: Int) {
         _overScroller.abortAnimation()
         _overScroller.startScroll(scrollX, scrollY, dx, 0)
+        //api16
+        postInvalidateOnAnimation()
     }
 
     open fun onScrollChange(distance: Float): Boolean {
