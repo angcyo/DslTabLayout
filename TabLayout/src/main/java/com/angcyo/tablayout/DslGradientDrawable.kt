@@ -1,8 +1,10 @@
 package com.angcyo.tablayout
 
+import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.ColorFilter
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
@@ -27,10 +29,13 @@ open class DslGradientDrawable : AbsDslDrawable() {
 
     /**边框的颜色*/
     var gradientStrokeColor = Color.TRANSPARENT
+
     /**边框的宽度*/
     var gradientStrokeWidth = 0
+
     /**蚂蚁线的宽度*/
     var gradientDashWidth = 0f
+
     /**蚂蚁线之间的间距*/
     var gradientDashGap = 0f
 
@@ -43,13 +48,17 @@ open class DslGradientDrawable : AbsDslDrawable() {
     /**颜色渐变*/
     var gradientColors: IntArray? = null
     var gradientColorsOffsets: FloatArray? = null
+
     /**渐变中心点坐标*/
     var gradientCenterX = 0.5f
     var gradientCenterY = 0.5f
-    /**半径*/
+
+    /**渐变半径, 非比例值, 是px值. [GradientDrawable.RADIAL_GRADIENT]类型才有效*/
     var gradientRadius = 0.5f
+
     /** 渐变方向, 默认从左到右 */
     var gradientOrientation = GradientDrawable.Orientation.LEFT_RIGHT
+
     /** 渐变类型 */
     @GradientType
     var gradientType = GradientDrawable.LINEAR_GRADIENT
@@ -85,17 +94,40 @@ open class DslGradientDrawable : AbsDslDrawable() {
         }
     }
 
+    fun fillRadii(radius: Float) {
+        Arrays.fill(gradientRadii, radius)
+    }
+
+    fun fillRadii(radius: Int) {
+        _fillRadii(gradientRadii, radius.toFloat())
+    }
+
+    fun _fillRadii(array: FloatArray, radius: Float) {
+        Arrays.fill(array, radius)
+    }
+
+    fun _fillRadii(array: FloatArray, radius: Int) {
+        _fillRadii(array, radius.toFloat())
+    }
+
     fun _fillColor(colors: String?): IntArray? {
         if (colors.isNullOrEmpty()) {
             return null
         }
         val split = colors.split(",")
 
-        return IntArray(split.size) { Color.parseColor(split[it]) }
+        return IntArray(split.size) {
+            val str = split[it]
+            if (str.startsWith("#")) {
+                Color.parseColor(str)
+            } else {
+                str.toInt()
+            }
+        }
     }
 
     /**构建或者更新[originDrawable]*/
-    open fun updateOriginDrawable() {
+    open fun updateOriginDrawable(): GradientDrawable? {
         val drawable: GradientDrawable? = when (originDrawable) {
             null -> GradientDrawable()
             is GradientDrawable -> originDrawable as GradientDrawable
@@ -105,6 +137,8 @@ open class DslGradientDrawable : AbsDslDrawable() {
         }
 
         drawable?.apply {
+            bounds = this@DslGradientDrawable.bounds
+
             shape = gradientShape
             setStroke(
                 gradientStrokeWidth,
@@ -137,6 +171,8 @@ open class DslGradientDrawable : AbsDslDrawable() {
             originDrawable = this
             invalidateSelf()
         }
+
+        return drawable
     }
 
     open fun configDrawable(config: DslGradientDrawable.() -> Unit): DslGradientDrawable {
@@ -219,6 +255,29 @@ open class DslGradientDrawable : AbsDslDrawable() {
     }
 
     //</editor-fold desc="圆角相关配置">
+
+    //<editor-fold desc="传递属性">
+    override fun setColorFilter(colorFilter: ColorFilter?) {
+        super.setColorFilter(colorFilter)
+        originDrawable?.colorFilter = colorFilter
+    }
+
+    override fun setTintList(tint: ColorStateList?) {
+        super.setTintList(tint)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            originDrawable?.setTintList(tint)
+        }
+    }
+
+    override fun setState(stateSet: IntArray): Boolean {
+        return originDrawable?.setState(stateSet) ?: super.setState(stateSet)
+    }
+
+    override fun getState(): IntArray {
+        return originDrawable?.state ?: super.getState()
+    }
+
+    //</editor-fold desc="传递属性">
 }
 
 @IntDef(
@@ -237,3 +296,11 @@ annotation class Shape
 )
 @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
 annotation class GradientType
+
+/**快速创建[GradientDrawable]*/
+fun dslGradientDrawable(action: DslGradientDrawable.() -> Unit): GradientDrawable {
+    return DslGradientDrawable().run {
+        action()
+        updateOriginDrawable()!!
+    }
+}

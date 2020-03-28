@@ -30,8 +30,8 @@ open class DslTabBorder : DslGradientDrawable() {
     var borderBackgroundHeightOffset: Int = 0
 
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
-        super.initAttribute(context, attributeSet)
-        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
+        val typedArray =
+            context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
         val borderBackgroundColor =
             typedArray.getColor(R.styleable.DslTabLayout_tab_border_solid_color, gradientSolidColor)

@@ -19,6 +19,9 @@ class DslGravity {
     /**束缚重力*/
     var gravity: Int = Gravity.LEFT or Gravity.TOP
 
+    /**使用中心坐标作为定位参考, 否则就是四条边*/
+    var gravityRelativeCenter: Boolean = true
+
     /**额外偏移距离, 会根据[Gravity]自动取负值*/
     var gravityOffsetX: Int = 0
     var gravityOffsetY: Int = 0
@@ -77,14 +80,14 @@ class DslGravity {
 
         val centerX = when (horizontalGravity) {
             Gravity.CENTER_HORIZONTAL -> (gravityBounds.left + gravityBounds.width() / 2 + gravityOffsetX).toInt()
-            Gravity.RIGHT -> (gravityBounds.right - _targetWidth / 2 - gravityOffsetX).toInt()
-            else -> (gravityBounds.left + _targetWidth / 2 + gravityOffsetX).toInt()
+            Gravity.RIGHT -> (gravityBounds.right - if (gravityRelativeCenter) 0f else _targetWidth / 2 - gravityOffsetX).toInt()
+            else -> (gravityBounds.left + gravityOffsetX + if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
         }
 
         val centerY = when (verticalGravity) {
             Gravity.CENTER_VERTICAL -> (gravityBounds.top + gravityBounds.height() / 2 + gravityOffsetY).toInt()
-            Gravity.BOTTOM -> (gravityBounds.bottom - _targetHeight / 2 - gravityOffsetY).toInt()
-            else -> (gravityBounds.top + _targetHeight / 2 + gravityOffsetY).toInt()
+            Gravity.BOTTOM -> (gravityBounds.bottom - gravityOffsetY - if (gravityRelativeCenter) 0f else _targetHeight / 2).toInt()
+            else -> (gravityBounds.top + gravityOffsetY + if (gravityRelativeCenter) 0f else _targetHeight / 2).toInt()
         }
 
         _horizontalGravity = horizontalGravity
@@ -98,5 +101,53 @@ class DslGravity {
         _gravityBottom = (centerY + _targetHeight / 2).toInt()
 
         callback(centerX, centerY)
+    }
+}
+
+fun dslGravity(
+    rect: RectF, //计算的矩形
+    gravity: Int,  //重力
+    width: Float, //放置目标的宽度
+    height: Float, //放置目标的高度
+    offsetX: Int = 0, //额外的偏移,会根据[gravity]进行左右|上下取反
+    offsetY: Int = 0,
+    callback: (dslGravity: DslGravity, centerX: Int, centerY: Int) -> Unit
+): DslGravity {
+    val _dslGravity = DslGravity()
+    _dslGravity.setGravityBounds(rect)
+    _config(_dslGravity, gravity, width, height, offsetX, offsetY, callback)
+    return _dslGravity
+}
+
+
+fun dslGravity(
+    rect: Rect, //计算的矩形
+    gravity: Int,  //重力
+    width: Float, //放置目标的宽度
+    height: Float, //放置目标的高度
+    offsetX: Int = 0, //额外的偏移,会根据[gravity]进行左右|上下取反
+    offsetY: Int = 0,
+    callback: (dslGravity: DslGravity, centerX: Int, centerY: Int) -> Unit
+): DslGravity {
+    val _dslGravity = DslGravity()
+    _dslGravity.setGravityBounds(rect)
+    _config(_dslGravity, gravity, width, height, offsetX, offsetY, callback)
+    return _dslGravity
+}
+
+private fun _config(
+    _dslGravity: DslGravity,
+    gravity: Int,  //重力
+    width: Float, //放置目标的宽度
+    height: Float, //放置目标的高度
+    offsetX: Int = 0, //额外的偏移,会根据[gravity]进行左右|上下取反
+    offsetY: Int = 0,
+    callback: (dslGravity: DslGravity, centerX: Int, centerY: Int) -> Unit
+) {
+    _dslGravity.gravity = gravity
+    _dslGravity.gravityOffsetX = offsetX
+    _dslGravity.gravityOffsetY = offsetY
+    _dslGravity.applyGravity(width, height) { centerX, centerY ->
+        callback(_dslGravity, centerX, centerY)
     }
 }

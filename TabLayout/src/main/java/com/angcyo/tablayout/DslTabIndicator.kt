@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.ViewGroup
 import java.util.*
@@ -99,9 +100,8 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
     }
 
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
-        super.initAttribute(context, attributeSet)
-
-        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
+        val typedArray =
+            context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
 
         indicatorDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_tab_indicator_drawable)
         indicatorColor =
@@ -218,9 +218,10 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         }
     }
 
-    override fun updateOriginDrawable() {
-        super.updateOriginDrawable()
+    override fun updateOriginDrawable(): GradientDrawable? {
+        val drawable = super.updateOriginDrawable()
         indicatorDrawable = originDrawable
+        return drawable
     }
 
     open fun tintDrawableColor(drawable: Drawable?, color: Int): Drawable? {
