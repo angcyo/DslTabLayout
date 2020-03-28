@@ -86,6 +86,7 @@ class SegmentFragment : BaseTabLayoutFragment() {
                             tabBadge.gradientSolidColor = randomColor()
 
                             tabBadge.updateOriginDrawable()
+                            null
                         }
                     }
                 }

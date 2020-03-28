@@ -20,7 +20,7 @@
         android:background="#00000000"
         app:tab_badge_gravity="center"
         app:tab_badge_offset_x="20dp"
-        app:tab_badge_offset_y="-20dp"
+        app:tab_badge_offset_y="-10dp"
         app:tab_convex_background="#FFFFFF"
         app:tab_deselect_color="#666666"
         app:tab_draw_badge="true"

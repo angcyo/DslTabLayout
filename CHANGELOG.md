@@ -1,6 +1,13 @@
-# next
+# 2020-03-28
+
+版本: '1.5.0', 更新日志:
 
 - `onSelectIndexChange` `onSelectViewChange` `onSelectItemView` 支持 `fromUser`
+- `badge` 支持单独为`圆形状态`设置`offset_x` `offset_y`属性
+- `badge` 定位`Gravity`支持定位锚点属性`tab_badge_anchor_child_index`
+- `badge` 定位支持忽略锚点`padding`属性`tab_badge_ignore_child_padding`
+- 调整`DslGravity`定位计算默认输出目标的中心坐标. 可以通过属性`gravityRelativeCenter`关闭.
+
 
 # 2020-3-12
 

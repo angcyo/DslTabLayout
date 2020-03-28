@@ -43,17 +43,18 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
                         //动态切换[tabSelectColor] [tabDeselectColor] 属性
                         configTabLayoutConfig {
-                            onSelectIndexChange = { fromIndex, selectIndexList, reselect, fromUser ->
-                                val toIndex = selectIndexList.first()
-                                if (toIndex < 3) {
-                                    tabSelectColor = Color.WHITE
-                                    tabDeselectColor = Color.parseColor("#999999")
-                                } else {
-                                    tabSelectColor = Color.RED
-                                    tabDeselectColor = Color.YELLOW
+                            onSelectIndexChange =
+                                { fromIndex, selectIndexList, reselect, fromUser ->
+                                    val toIndex = selectIndexList.first()
+                                    if (toIndex < 3) {
+                                        tabSelectColor = Color.WHITE
+                                        tabDeselectColor = Color.parseColor("#999999")
+                                    } else {
+                                        tabSelectColor = Color.RED
+                                        tabDeselectColor = Color.YELLOW
+                                    }
+                                    tabLayout.dslSelector.updateStyle()
                                 }
-                                tabLayout.dslSelector.updateStyle()
-                            }
                         }
                     }
                 }
@@ -203,6 +204,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
                         //角标
                         onTabBadgeConfig = { child, tabBadge, index ->
+                            tabBadge.dslGravity.gravityRelativeCenter = false
                             tabBadge.badgeOffsetX = 10 * dpi
                             tabBadge.badgeOffsetY = 4 * dpi
                             when (index) {
@@ -240,6 +242,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                                 else -> if (tabBadge.gradientSolidColor == -1) randomColor() else tabBadge.gradientSolidColor
                             }
                             tabBadge.updateOriginDrawable()
+                            null
                         }
                     }
                 }
