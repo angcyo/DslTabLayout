@@ -26,6 +26,7 @@ open class DslBadgeDrawable : DslGradientDrawable() {
 
     /**角标的文本, 空字符串会绘制成小圆点*/
     var badgeText: String? = null
+
     /**角标的文本大小*/
     var badgeTextSize: Float = 12 * dp
         set(value) {
@@ -36,9 +37,17 @@ open class DslBadgeDrawable : DslGradientDrawable() {
     /**圆点状态时的半径大小*/
     var badgeCircleRadius = 4 * dpi
 
+    /**原点状态下, 单独配置的偏移*/
+    var badgeCircleOffsetX: Int = 0
+    var badgeCircleOffsetY: Int = 0
+
     /**额外偏移距离, 会根据[Gravity]自动取负值*/
     var badgeOffsetX: Int = 0
     var badgeOffsetY: Int = 0
+
+    /**文本偏移*/
+    var badgeTextOffsetX: Int = 0
+    var badgeTextOffsetY: Int = 0
 
     /**圆点状态时无效*/
     var badgePaddingLeft = 0
@@ -58,21 +67,38 @@ open class DslBadgeDrawable : DslGradientDrawable() {
             return
         }
 
+        val isCircle = TextUtils.isEmpty(badgeText)
+
         with(dslGravity) {
             gravity = badgeGravity
             setGravityBounds(bounds)
-            gravityOffsetX = badgeOffsetX
-            gravityOffsetY = badgeOffsetY
+
+            if (isCircle) {
+                gravityOffsetX = badgeCircleOffsetX
+                gravityOffsetY = badgeCircleOffsetY
+            } else {
+                gravityOffsetX = badgeOffsetX
+                gravityOffsetY = badgeOffsetY
+            }
 
             val textWidth = textPaint.textWidth(badgeText)
             val textHeight = textPaint.textHeight()
 
-            val drawWidth = textWidth + badgePaddingLeft + badgePaddingRight
-            val drawHeight = textHeight + badgePaddingTop + badgePaddingBottom
+            val drawWidth = if (isCircle) {
+                badgeCircleRadius.toFloat()
+            } else {
+                textWidth + badgePaddingLeft + badgePaddingRight
+            }
+
+            val drawHeight = if (isCircle) {
+                badgeCircleRadius.toFloat()
+            } else {
+                textHeight + badgePaddingTop + badgePaddingBottom
+            }
 
             applyGravity(drawWidth, drawHeight) { centerX, centerY ->
 
-                if (TextUtils.isEmpty(badgeText)) {
+                if (isCircle) {
                     textPaint.color = gradientSolidColor
 
                     canvas.drawCircle(
@@ -103,8 +129,8 @@ open class DslBadgeDrawable : DslGradientDrawable() {
                     //绘制文本
                     canvas.drawText(
                         badgeText!!,
-                        textDrawX,
-                        textDrawY - textPaint.descent(),
+                        textDrawX + badgeTextOffsetX,
+                        textDrawY - textPaint.descent() + badgeTextOffsetY,
                         textPaint
                     )
                 }
