@@ -190,6 +190,13 @@
         <attr name="tab_badge_text" format="string" />
         <!--角标的文本字体大小-->
         <attr name="tab_badge_text_size" format="dimension" />
+
+        <!--角标[tab_badge_gravity]定位锚点-->
+        <attr name="tab_badge_anchor_child_index" format="integer" />
+        <!--是否要忽略锚点view的padding-->
+        <attr name="tab_badge_ignore_child_padding" format="boolean" />
+        <attr name="tab_badge_circle_offset_x" format="dimension" />
+        <attr name="tab_badge_circle_offset_y" format="dimension" />
         <!--end...-->
 
     </declare-styleable>

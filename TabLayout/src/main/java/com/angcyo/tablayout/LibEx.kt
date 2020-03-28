@@ -1,13 +1,18 @@
 package com.angcyo.tablayout
 
+import android.app.Activity
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Paint
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
@@ -185,3 +190,110 @@ internal fun Paint?.textWidth(text: String?): Float {
 }
 
 internal fun Paint?.textHeight(): Float = this?.run { descent() - ascent() } ?: 0f
+
+internal fun View.getChildOrNull(index: Int): View? {
+    return if (this is ViewGroup) {
+        return if (index in 0 until childCount) {
+            getChildAt(index)
+        } else {
+            null
+        }
+    } else {
+        this
+    }
+}
+
+/**获取[View]在指定[parent]中的矩形坐标*/
+internal fun View.getLocationInParent(parentView: View? = null, result: Rect = Rect()): Rect {
+    val parent: View? = parentView ?: (parent as? View)
+
+    if (parent == null) {
+        getViewRect(result)
+    } else {
+        result.set(0, 0, 0, 0)
+        if (this != parent) {
+            fun doIt(view: View, parent: View, rect: Rect) {
+                val viewParent = view.parent
+                if (viewParent is View) {
+                    rect.left += view.left
+                    rect.top += view.top
+                    if (viewParent != parent) {
+                        doIt(viewParent, parent, rect)
+                    }
+                }
+            }
+            doIt(this, parent, result)
+        }
+        result.right = result.left + this.measuredWidth
+        result.bottom = result.top + this.measuredHeight
+    }
+
+    return result
+}
+
+/**
+ * 获取View, 相对于手机屏幕的矩形
+ * */
+internal fun View.getViewRect(result: Rect = Rect()): Rect {
+    var offsetX = 0
+    var offsetY = 0
+
+    //横屏, 并且显示了虚拟导航栏的时候. 需要左边偏移
+    //只计算一次
+    (context as? Activity)?.let {
+        it.window.decorView.getGlobalVisibleRect(result)
+        if (result.width() > result.height()) {
+            //横屏了
+            offsetX = navBarHeight(it)
+        }
+    }
+
+    return getViewRect(offsetX, offsetY, result)
+}
+
+/**
+ * 获取View, 相对于手机屏幕的矩形, 带皮阿尼一
+ * */
+internal fun View.getViewRect(offsetX: Int, offsetY: Int, result: Rect = Rect()): Rect {
+    //可见位置的坐标, 超出屏幕的距离会被剃掉
+    //getGlobalVisibleRect(r)
+    val r2 = IntArray(2)
+    //val r3 = IntArray(2)
+    //相对于屏幕的坐标
+    getLocationOnScreen(r2)
+    //相对于窗口的坐标
+    //getLocationInWindow(r3)
+
+    val left = r2[0] + offsetX
+    val top = r2[1] + offsetY
+
+    result.set(left, top, left + measuredWidth, top + measuredHeight)
+    return result
+}
+
+
+/**
+ * 导航栏的高度(如果显示了)
+ */
+internal fun navBarHeight(context: Context): Int {
+    var result = 0
+
+    if (context is Activity) {
+        val decorRect = Rect()
+        val windowRect = Rect()
+
+        context.window.decorView.getGlobalVisibleRect(decorRect)
+        context.window.findViewById<View>(Window.ID_ANDROID_CONTENT)
+            .getGlobalVisibleRect(windowRect)
+
+        if (decorRect.width() > decorRect.height()) {
+            //横屏
+            result = decorRect.width() - windowRect.width()
+        } else {
+            //竖屏
+            result = decorRect.bottom - windowRect.bottom
+        }
+    }
+
+    return result
+}
