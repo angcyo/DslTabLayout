@@ -1,5 +1,11 @@
 # 2020-03-28
 
+版本: '1.5.1', 更新日志:
+
+- 修复 `DslGravity` offset计算问题
+
+# 2020-03-28
+
 版本: '1.5.0', 更新日志:
 
 - `onSelectIndexChange` `onSelectViewChange` `onSelectItemView` 支持 `fromUser`
