@@ -2,7 +2,6 @@ package com.angcyo.dsltablayout.demo
 
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 
 /**

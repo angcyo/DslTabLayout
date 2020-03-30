@@ -40,7 +40,7 @@
         style="@style/TabCommonItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
+        app:srcCompat="@drawable/ic_add"
         app:layout_tab_convex_height="20dp" />
 
     <TextView

@@ -1,2 +1,2 @@
-include ':Sample', ':TabLayout', ':ViewPager1Delegate', ':ViewPager2Delegate'
+include ':Sample', ':TabLayout', ':ViewPager1Delegate'
 rootProject.name='DslTabLayout'

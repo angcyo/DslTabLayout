@@ -1,11 +1,8 @@
 package com.angcyo.dsltablayout.demo
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -74,3 +71,10 @@ fun Context.getDrawable2(@DrawableRes id: Int): Drawable? {
 fun Fragment.getDrawable(@DrawableRes id: Int): Drawable? {
     return requireContext().getDrawable2(id)
 }
+
+@ColorInt
+fun String.toColorInt(): Int = Color.parseColor(this)
+
+val density: Float = Resources.getSystem()?.displayMetrics?.density ?: 0f
+val dp: Float = Resources.getSystem()?.displayMetrics?.density ?: 0f
+val dpi: Int = Resources.getSystem()?.displayMetrics?.density?.toInt() ?: 0

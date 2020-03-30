@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.os.Bundle
 import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabIndicator
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.isHorizontal

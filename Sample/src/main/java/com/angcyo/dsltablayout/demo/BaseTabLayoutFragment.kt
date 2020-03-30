@@ -3,12 +3,10 @@ package com.angcyo.dsltablayout.demo
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.delegate.ViewPager1Delegate
 import com.angcyo.tablayout.delegate2.ViewPager2Delegate
-import com.angcyo.tablayout.isVertical
+import com.angcyo.tablayout.DslTabLayout
 
 /**
  *

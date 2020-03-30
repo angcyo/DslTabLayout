@@ -3,14 +3,11 @@ package com.angcyo.dsltablayout.demo
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
-import android.widget.LinearLayout
-import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabIndicator
 import com.angcyo.tablayout.DslTabLayout
-import com.angcyo.tablayout.isHorizontal
 
 /**
  *
