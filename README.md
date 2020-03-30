@@ -1,7 +1,7 @@
 # DslTabLayout
 :hearts: Android界最万能的`TabLayout`(不仅仅是`TabLayout`). 高能自绘控件, 继承自`ViewGroup`, 非组合控件.
 
-[![](https://img.shields.io/badge/License-MIT-3A77AC)](https://github.com/angcyo/DslTabLayout/blob/master/LICENSE) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)  [![](https://img.shields.io/badge/androidx-yes-80B44D)](https://developer.android.google.cn/jetpack/androidx)
+[![](https://img.shields.io/badge/License-MIT-3A77AC)](https://github.com/angcyo/DslTabLayout/blob/master/LICENSE) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)
 
 # 特性
 
@@ -63,12 +63,10 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:1.5.0'
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:1.5.0-support'
 
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:1.5.0'
-    //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:1.5.0'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:1.5.0-support'
 }
 ```
 
