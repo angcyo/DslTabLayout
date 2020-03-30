@@ -1,12 +1,10 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
+import android.support.v4.view.ViewPager
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.tablayout.delegate.ViewPager1Delegate
-import com.angcyo.tablayout.delegate2.ViewPager2Delegate
 import com.angcyo.tablayout.DslTabLayout
+import com.angcyo.tablayout.delegate.ViewPager1Delegate
 
 /**
  *
@@ -30,12 +28,6 @@ open class BaseTabLayoutFragment : BaseDslFragment() {
     fun setViewPager(viewPager: ViewPager) {
         tabLayoutList.forEach {
             ViewPager1Delegate.install(viewPager, it)
-        }
-    }
-
-    fun setViewPager2(viewPager: ViewPager2) {
-        tabLayoutList.forEach {
-            ViewPager2Delegate.install(viewPager, it)
         }
     }
 }

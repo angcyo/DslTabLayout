@@ -1,6 +1,5 @@
 package com.angcyo.tablayout
 
-import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Paint
@@ -8,6 +7,7 @@ import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -237,7 +237,7 @@ internal fun View.getViewRect(result: Rect = Rect()): Rect {
 
     //横屏, 并且显示了虚拟导航栏的时候. 需要左边偏移
     //只计算一次
-    (context as? Activity)?.let {
+    (context as? AppCompatActivity)?.let {
         it.window.decorView.getGlobalVisibleRect(result)
         if (result.width() > result.height()) {
             //横屏了
@@ -275,7 +275,7 @@ internal fun View.getViewRect(offsetX: Int, offsetY: Int, result: Rect = Rect())
 internal fun navBarHeight(context: Context): Int {
     var result = 0
 
-    if (context is Activity) {
+    if (context is AppCompatActivity) {
         val decorRect = Rect()
         val windowRect = Rect()
 

@@ -1,6 +1,6 @@
 package com.angcyo.tablayout.delegate
 
-import androidx.viewpager.widget.ViewPager
+import android.support.v4.view.ViewPager
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.ViewPagerDelegate
 import kotlin.math.absoluteValue

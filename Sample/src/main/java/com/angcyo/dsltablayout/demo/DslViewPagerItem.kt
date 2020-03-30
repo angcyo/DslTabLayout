@@ -1,9 +1,9 @@
 package com.angcyo.dsltablayout.demo
 
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.ViewPager
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
 
@@ -28,7 +28,7 @@ class DslViewPagerItem(val fragmentManager: FragmentManager) : DslAdapterItem() 
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
-        itemHolder.v<ViewPager>(R.id.view_pager).apply {
+        itemHolder.v<ViewPager>(R.id.view_pager)?.apply {
             adapter =
                 object : FragmentStatePagerAdapter(fragmentManager) {
                     override fun getItem(position: Int): Fragment {

@@ -1,15 +1,13 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.angcyo.dsladapter.DslAdapter
-import com.angcyo.dsladapter.DslItemDecoration
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.HoverItemDecoration
 
 /**
  *
@@ -21,12 +19,6 @@ open class BaseDslFragment : Fragment() {
 
     lateinit var baseViewHolder: DslViewHolder
     lateinit var dslAdapter: DslAdapter
-
-    /**提供悬停功能*/
-    var hoverItemDecoration = HoverItemDecoration()
-
-    /**提供基本的分割线功能*/
-    var baseDslItemDecoration = DslItemDecoration()
 
     open fun getBaseLayoutId(): Int = R.layout.base_dsl_fragment
 
@@ -50,8 +42,6 @@ open class BaseDslFragment : Fragment() {
                 false
             )
             adapter = dslAdapter
-            addItemDecoration(baseDslItemDecoration)
-            hoverItemDecoration.attachToRecyclerView(this)
         }
     }
 

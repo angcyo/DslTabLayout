@@ -23,7 +23,7 @@ class DslCommonTabLayoutItem : DslAdapterItem() {
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
-        itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+        itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 
             if (itemLayoutId == R.layout.item_common_tab_layout2) {
                 setBackgroundColor(randomColor())

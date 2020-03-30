@@ -3,7 +3,6 @@ package com.angcyo.dsltablayout.demo
 import android.graphics.Color
 import android.os.Bundle
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabIndicator
 import com.angcyo.tablayout.DslTabLayout
 
@@ -20,8 +19,8 @@ class CommonFragment : BaseTabLayoutFragment() {
         renderAdapter {
 
             DslCommonTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_NONE
                     }
@@ -30,8 +29,8 @@ class CommonFragment : BaseTabLayoutFragment() {
 
             DslCommonTabLayoutItem()() {
                 itemTopInsert = 10 * dpi
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 4 * dpi
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
@@ -46,8 +45,8 @@ class CommonFragment : BaseTabLayoutFragment() {
             DslCommonTabLayoutItem()() {
                 itemLayoutId = R.layout.item_common_tab_layout_convex
                 itemTopInsert = 10 * dpi
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 20 * dpi
                         tabIndicator.indicatorEnableFlow = true
@@ -65,8 +64,8 @@ class CommonFragment : BaseTabLayoutFragment() {
             DslCommonTabLayoutItem()() {
                 itemLayoutId = R.layout.item_common_tab_layout_convex2
                 itemTopInsert = 10 * dpi
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorHeight = -2
@@ -88,8 +87,8 @@ class CommonFragment : BaseTabLayoutFragment() {
 //            DslCommonTabLayoutItem()() {
 //                itemLayoutId = R.layout.item_common_tab_layout2
 //                itemTopInsert = 10 * dpi
-//                onItemBindOverride = { itemHolder, _, _ ->
-//                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+//                itemBindOverride = { itemHolder, _, _, _ ->
+//                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 //                        addTabLayout(this)
 //                        tabIndicator.indicatorWidth = 20 * dpi
 //                        tabIndicator.indicatorEnableFlow = true
@@ -106,8 +105,8 @@ class CommonFragment : BaseTabLayoutFragment() {
 
             DslCommonTabLayoutItem()() {
                 itemLayoutId = R.layout.item_common_tab_layout2
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 20 * dpi
                         tabIndicator.indicatorEnableFlow = true
@@ -124,8 +123,8 @@ class CommonFragment : BaseTabLayoutFragment() {
 
             DslCommonTabLayoutItem()() {
                 itemLayoutId = R.layout.item_common_tab_layout2
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorHeight = -1
@@ -146,8 +145,8 @@ class CommonFragment : BaseTabLayoutFragment() {
 
             DslCommonTabLayoutItem()() {
                 itemLayoutId = R.layout.item_common_tab_layout2
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorHeight = -1
@@ -160,16 +159,16 @@ class CommonFragment : BaseTabLayoutFragment() {
             }
 
 //            DslViewPagerItem(childFragmentManager)() {
-//                onItemBindOverride = { itemHolder, _, _ ->
+//                itemBindOverride = { itemHolder, _, _, _ ->
 //                    setViewPager(itemHolder.v(R.id.view_pager))
 //                }
 //            }
 //
-            DslViewPager2Item(this@CommonFragment)() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    setViewPager2(itemHolder.v(R.id.view_pager))
-                }
-            }
+//            DslViewPager2Item(this@CommonFragment)() {
+//                itemBindOverride = { itemHolder, _, _, _ ->
+//                    setViewPager2(itemHolder.v(R.id.view_pager))
+//                }
+//            }
         }
     }
 }

@@ -20,7 +20,7 @@
         style="@style/TabSlidingItemStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_png" />
+        app:srcCompat="@drawable/ic_png" />
 
     <TextView
         style="@style/TabSlidingItemStyle"
@@ -45,7 +45,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_swift" />
+            app:srcCompat="@drawable/ic_swift" />
 
         <TextView
             style="@style/TabSlidingItemStyle"

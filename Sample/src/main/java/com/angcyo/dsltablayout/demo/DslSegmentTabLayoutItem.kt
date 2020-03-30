@@ -2,7 +2,6 @@ package com.angcyo.dsltablayout.demo
 
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -25,7 +24,7 @@ class DslSegmentTabLayoutItem : DslAdapterItem() {
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
-        itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+        itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 
         }
     }

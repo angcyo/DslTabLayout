@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DslButton">
+
+        <attr name="button_enable_ripple" format="boolean" />
+        <attr name="button_enable_text_style" format="boolean" />
+        <attr name="button_enable_background_style" format="boolean" />
+        <attr name="button_ripple_color" format="color" />
+        <attr name="button_is_selected" format="boolean" />
+
+        <!--向下覆盖所有值-->
+        <attr name="button_shape" format="enum">
+            <enum name="RECTANGLE" value="0" />
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <attr name="button_text_color" format="color" />
+        <attr name="button_solid_color" format="color" />
+        <attr name="button_stroke_color" format="color" />
+        <attr name="button_stroke_width" format="dimension" />
+        <attr name="button_dash_width" format="dimension" />
+        <attr name="button_dash_gap" format="dimension" />
+        <attr name="button_radius" format="dimension" />
+        <attr name="button_radii" format="string" />
+        <attr name="button_gradient_colors" format="string" />
+        <attr name="button_gradient_start_color" format="color" />
+        <attr name="button_gradient_end_color" format="color" />
+        <attr name="button_gradient_type" format="enum">
+            <enum name="LINEAR_GRADIENT" value="0" />
+            <enum name="RADIAL_GRADIENT" value="1" />
+            <enum name="SWEEP_GRADIENT" value="2" />
+        </attr>
+        <attr name="button_gradient_orientation" format="enum">
+            <enum name="TOP_BOTTOM" value="0" />
+            <enum name="TR_BL" value="1" />
+            <enum name="RIGHT_LEFT" value="2" />
+            <enum name="BR_TL" value="3" />
+            <enum name="BOTTOM_TOP" value="4" />
+            <enum name="BL_TR" value="5" />
+            <enum name="LEFT_RIGHT" value="6" />
+            <enum name="TL_BR" value="7" />
+        </attr>
+
+        <!--正常状态-->
+        <attr name="button_normal_drawable" format="reference" />
+        <attr name="button_normal_shape" format="enum">
+            <enum name="RECTANGLE" value="0" />
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <attr name="button_normal_text_color" format="color" />
+        <attr name="button_normal_solid_color" format="color" />
+        <attr name="button_normal_stroke_color" format="color" />
+        <attr name="button_normal_stroke_width" format="dimension" />
+        <attr name="button_normal_dash_width" format="dimension" />
+        <attr name="button_normal_dash_gap" format="dimension" />
+        <attr name="button_normal_radius" format="dimension" />
+        <attr name="button_normal_radii" format="string" />
+        <attr name="button_normal_gradient_colors" format="string" />
+        <attr name="button_normal_gradient_start_color" format="color" />
+        <attr name="button_normal_gradient_end_color" format="color" />
+<!--        <attr name="button_normal_gradient_type" format="enum">-->
+<!--            <enum name="LINEAR_GRADIENT" value="0" />-->
+<!--            <enum name="RADIAL_GRADIENT" value="1" />-->
+<!--            <enum name="SWEEP_GRADIENT" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="button_normal_gradient_orientation" format="enum">-->
+<!--            <enum name="TOP_BOTTOM" value="0" />-->
+<!--            <enum name="TR_BL" value="1" />-->
+<!--            <enum name="RIGHT_LEFT" value="2" />-->
+<!--            <enum name="BR_TL" value="3" />-->
+<!--            <enum name="BOTTOM_TOP" value="4" />-->
+<!--            <enum name="BL_TR" value="5" />-->
+<!--            <enum name="LEFT_RIGHT" value="6" />-->
+<!--            <enum name="TL_BR" value="7" />-->
+<!--        </attr>-->
+
+        <!--按下状态-->
+        <attr name="button_press_drawable" format="reference" />
+        <attr name="button_press_shape" format="enum">
+            <enum name="RECTANGLE" value="0" />
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <attr name="button_press_text_color" format="color" />
+        <attr name="button_press_solid_color" format="color" />
+        <attr name="button_press_stroke_color" format="color" />
+        <attr name="button_press_stroke_width" format="dimension" />
+        <attr name="button_press_dash_width" format="dimension" />
+        <attr name="button_press_dash_gap" format="dimension" />
+        <attr name="button_press_radius" format="dimension" />
+        <attr name="button_press_radii" format="string" />
+        <attr name="button_press_gradient_colors" format="string" />
+        <attr name="button_press_gradient_start_color" format="color" />
+        <attr name="button_press_gradient_end_color" format="color" />
+<!--        <attr name="button_press_gradient_type" format="enum">-->
+<!--            <enum name="LINEAR_GRADIENT" value="0" />-->
+<!--            <enum name="RADIAL_GRADIENT" value="1" />-->
+<!--            <enum name="SWEEP_GRADIENT" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="button_press_gradient_orientation" format="enum">-->
+<!--            <enum name="TOP_BOTTOM" value="0" />-->
+<!--            <enum name="TR_BL" value="1" />-->
+<!--            <enum name="RIGHT_LEFT" value="2" />-->
+<!--            <enum name="BR_TL" value="3" />-->
+<!--            <enum name="BOTTOM_TOP" value="4" />-->
+<!--            <enum name="BL_TR" value="5" />-->
+<!--            <enum name="LEFT_RIGHT" value="6" />-->
+<!--            <enum name="TL_BR" value="7" />-->
+<!--        </attr>-->
+
+        <!--选中状态-->
+        <attr name="button_select_drawable" format="reference" />
+        <attr name="button_select_shape" format="enum">
+            <enum name="RECTANGLE" value="0" />
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <attr name="button_select_text_color" format="color" />
+        <attr name="button_select_solid_color" format="color" />
+        <attr name="button_select_stroke_color" format="color" />
+        <attr name="button_select_stroke_width" format="dimension" />
+        <attr name="button_select_dash_width" format="dimension" />
+        <attr name="button_select_dash_gap" format="dimension" />
+        <attr name="button_select_radius" format="dimension" />
+        <attr name="button_select_radii" format="string" />
+        <attr name="button_select_gradient_colors" format="string" />
+        <attr name="button_select_gradient_start_color" format="color" />
+        <attr name="button_select_gradient_end_color" format="color" />
+<!--        <attr name="button_select_gradient_type" format="enum">-->
+<!--            <enum name="LINEAR_GRADIENT" value="0" />-->
+<!--            <enum name="RADIAL_GRADIENT" value="1" />-->
+<!--            <enum name="SWEEP_GRADIENT" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="button_select_gradient_orientation" format="enum">-->
+<!--            <enum name="TOP_BOTTOM" value="0" />-->
+<!--            <enum name="TR_BL" value="1" />-->
+<!--            <enum name="RIGHT_LEFT" value="2" />-->
+<!--            <enum name="BR_TL" value="3" />-->
+<!--            <enum name="BOTTOM_TOP" value="4" />-->
+<!--            <enum name="BL_TR" value="5" />-->
+<!--            <enum name="LEFT_RIGHT" value="6" />-->
+<!--            <enum name="TL_BR" value="7" />-->
+<!--        </attr>-->
+
+<!--        &lt;!&ndash;check状态&ndash;&gt;-->
+<!--        <attr name="button_check_drawable" format="reference" />-->
+<!--        <attr name="button_check_shape" format="enum">-->
+<!--            <enum name="RECTANGLE" value="0" />-->
+<!--            <enum name="OVAL" value="1" />-->
+<!--            <enum name="LINE" value="2" />-->
+<!--            <enum name="RING" value="3" />-->
+<!--        </attr>-->
+<!--        <attr name="button_check_text_color" format="color" />-->
+<!--        <attr name="button_check_solid_color" format="color" />-->
+<!--        <attr name="button_check_stroke_color" format="color" />-->
+<!--        <attr name="button_check_stroke_width" format="dimension" />-->
+<!--        <attr name="button_check_dash_width" format="dimension" />-->
+<!--        <attr name="button_check_dash_gap" format="dimension" />-->
+<!--        <attr name="button_check_radius" format="dimension" />-->
+<!--        <attr name="button_check_radii" format="string" />-->
+<!--        <attr name="button_check_gradient_colors" format="string" />-->
+<!--        <attr name="button_check_gradient_start_color" format="color" />-->
+<!--        <attr name="button_check_gradient_end_color" format="color" />-->
+<!--        <attr name="button_check_gradient_type" format="enum">-->
+<!--            <enum name="LINEAR_GRADIENT" value="0" />-->
+<!--            <enum name="RADIAL_GRADIENT" value="1" />-->
+<!--            <enum name="SWEEP_GRADIENT" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="button_check_gradient_orientation" format="enum">-->
+<!--            <enum name="TOP_BOTTOM" value="0" />-->
+<!--            <enum name="TR_BL" value="1" />-->
+<!--            <enum name="RIGHT_LEFT" value="2" />-->
+<!--            <enum name="BR_TL" value="3" />-->
+<!--            <enum name="BOTTOM_TOP" value="4" />-->
+<!--            <enum name="BL_TR" value="5" />-->
+<!--            <enum name="LEFT_RIGHT" value="6" />-->
+<!--            <enum name="TL_BR" value="7" />-->
+<!--        </attr>-->
+
+        <!--焦点状态-->
+        <attr name="button_focus_drawable" format="reference" />
+        <attr name="button_focus_shape" format="enum">
+            <enum name="RECTANGLE" value="0" />
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <attr name="button_focus_text_color" format="color" />
+        <attr name="button_focus_solid_color" format="color" />
+        <attr name="button_focus_stroke_color" format="color" />
+        <attr name="button_focus_stroke_width" format="dimension" />
+        <attr name="button_focus_dash_width" format="dimension" />
+        <attr name="button_focus_dash_gap" format="dimension" />
+        <attr name="button_focus_radius" format="dimension" />
+        <attr name="button_focus_radii" format="string" />
+        <attr name="button_focus_gradient_colors" format="string" />
+        <attr name="button_focus_gradient_start_color" format="color" />
+        <attr name="button_focus_gradient_end_color" format="color" />
+<!--        <attr name="button_focus_gradient_type" format="enum">-->
+<!--            <enum name="LINEAR_GRADIENT" value="0" />-->
+<!--            <enum name="RADIAL_GRADIENT" value="1" />-->
+<!--            <enum name="SWEEP_GRADIENT" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="button_focus_gradient_orientation" format="enum">-->
+<!--            <enum name="TOP_BOTTOM" value="0" />-->
+<!--            <enum name="TR_BL" value="1" />-->
+<!--            <enum name="RIGHT_LEFT" value="2" />-->
+<!--            <enum name="BR_TL" value="3" />-->
+<!--            <enum name="BOTTOM_TOP" value="4" />-->
+<!--            <enum name="BL_TR" value="5" />-->
+<!--            <enum name="LEFT_RIGHT" value="6" />-->
+<!--            <enum name="TL_BR" value="7" />-->
+<!--        </attr>-->
+
+        <!--禁用状态-->
+        <attr name="button_disable_drawable" format="reference" />
+        <attr name="button_disable_shape" format="enum">
+            <enum name="RECTANGLE" value="0" />
+            <enum name="OVAL" value="1" />
+            <enum name="LINE" value="2" />
+            <enum name="RING" value="3" />
+        </attr>
+        <attr name="button_disable_text_color" format="color" />
+        <attr name="button_disable_solid_color" format="color" />
+        <attr name="button_disable_stroke_color" format="color" />
+        <attr name="button_disable_stroke_width" format="dimension" />
+        <attr name="button_disable_dash_width" format="dimension" />
+        <attr name="button_disable_dash_gap" format="dimension" />
+        <attr name="button_disable_radius" format="dimension" />
+        <attr name="button_disable_radii" format="string" />
+        <attr name="button_disable_gradient_colors" format="string" />
+        <attr name="button_disable_gradient_start_color" format="color" />
+        <attr name="button_disable_gradient_end_color" format="color" />
+<!--        <attr name="button_disable_gradient_type" format="enum">-->
+<!--            <enum name="LINEAR_GRADIENT" value="0" />-->
+<!--            <enum name="RADIAL_GRADIENT" value="1" />-->
+<!--            <enum name="SWEEP_GRADIENT" value="2" />-->
+<!--        </attr>-->
+<!--        <attr name="button_disable_gradient_orientation" format="enum">-->
+<!--            <enum name="TOP_BOTTOM" value="0" />-->
+<!--            <enum name="TR_BL" value="1" />-->
+<!--            <enum name="RIGHT_LEFT" value="2" />-->
+<!--            <enum name="BR_TL" value="3" />-->
+<!--            <enum name="BOTTOM_TOP" value="4" />-->
+<!--            <enum name="BL_TR" value="5" />-->
+<!--            <enum name="LEFT_RIGHT" value="6" />-->
+<!--            <enum name="TL_BR" value="7" />-->
+<!--        </attr>-->
+
+    </declare-styleable>
+</resources>

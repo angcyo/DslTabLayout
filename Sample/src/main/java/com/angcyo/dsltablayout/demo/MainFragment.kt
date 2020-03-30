@@ -2,19 +2,16 @@ package com.angcyo.dsltablayout.demo
 
 import android.graphics.ColorFilter
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.View
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentStatePagerAdapter
-import androidx.viewpager.widget.ViewPager
 import com.airbnb.lottie.LottieAnimationView
 import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.SimpleColorFilter
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.L
-import com.angcyo.dsladapter.dp
-import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.TabGradientCallback
 import com.angcyo.tablayout.delegate.ViewPager1Delegate
@@ -42,7 +39,7 @@ class MainFragment : BaseDslFragment() {
 
     override fun initBaseView(viewHolder: DslViewHolder, savedInstanceState: Bundle?) {
         super.initBaseView(viewHolder, savedInstanceState)
-        viewHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+        viewHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
             configTabLayoutConfig {
                 onGetIcoStyleView = { itemView, _ ->
                     itemView.findViewById<LottieAnimationView>(R.id.lottie_view)
@@ -79,7 +76,7 @@ class MainFragment : BaseDslFragment() {
 
                     tabLayout._viewPagerDelegate?.onSetCurrentItem(toIndex, toIndex)
 
-                    L.i("TabLayout选中改变:[$fromIndex]->[$toIndex]")
+                    //L.i("TabLayout选中改变:[$fromIndex]->[$toIndex]")
 
                     updateTabBadge(selectIndexList.first()) {
                         if (reselect) {
@@ -92,9 +89,9 @@ class MainFragment : BaseDslFragment() {
                     }
                 }
 
-                ViewPager1Delegate.install(viewHolder.v(R.id.view_pager), this@apply)
+                ViewPager1Delegate.install(viewHolder.v(R.id.view_pager)!!, this@apply)
 
-                viewHolder.v<ViewPager>(R.id.view_pager).adapter =
+                viewHolder.v<ViewPager>(R.id.view_pager)?.adapter =
                     object : FragmentStatePagerAdapter(childFragmentManager) {
                         override fun getItem(position: Int): Fragment {
                             return fragmentList[position]
