@@ -80,7 +80,7 @@ class DslGravity {
 
         val centerX = when (horizontalGravity) {
             Gravity.CENTER_HORIZONTAL -> (gravityBounds.left + gravityBounds.width() / 2 + gravityOffsetX).toInt()
-            Gravity.RIGHT -> (gravityBounds.right - if (gravityRelativeCenter) 0f else _targetWidth / 2 - gravityOffsetX).toInt()
+            Gravity.RIGHT -> (gravityBounds.right - gravityOffsetX - if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
             else -> (gravityBounds.left + gravityOffsetX + if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
         }
 
