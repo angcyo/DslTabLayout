@@ -41,8 +41,8 @@ open class DslSelector {
     val selectorViewList: MutableList<View> = mutableListOf()
         get() {
             field.clear()
-            visibleViewList.forEachIndexed { _, view ->
-                if (view.isSelected) {
+            visibleViewList.forEachIndexed { index, view ->
+                if (view.isSelected || index == dslSelectIndex) {
                     field.add(view)
                 }
             }
