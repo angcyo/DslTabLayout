@@ -13,6 +13,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.OverScroller
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.ViewCompat
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -891,8 +892,7 @@ open class DslTabLayout(
     fun startScroll(dx: Int) {
         _overScroller.abortAnimation()
         _overScroller.startScroll(scrollX, scrollY, dx, 0)
-        //api16
-        postInvalidateOnAnimation()
+        ViewCompat.postInvalidateOnAnimation(this)
     }
 
     open fun onScrollChange(distance: Float): Boolean {
@@ -973,6 +973,7 @@ open class DslTabLayout(
             }
             addListener(object : AnimatorListenerAdapter() {
                 override fun onAnimationCancel(animation: Animator?) {
+                    _onAnimateValue(1f)
                     onAnimationEnd(animation)
                 }
 
@@ -990,6 +991,10 @@ open class DslTabLayout(
         if (toIndex == fromIndex) {
             return
         }
+
+        //取消之前的动画
+        _scrollAnimator.cancel()
+
         if (!tabIndicator.indicatorAnim) {
             //不需要动画
             _onAnimateEnd()
@@ -1058,6 +1063,7 @@ open class DslTabLayout(
         _viewPagerScrollState = state
         if (state == ViewPagerDelegate.SCROLL_STATE_IDLE) {
             _onAnimateEnd()
+            dslSelector.updateStyle()
         }
     }
 
