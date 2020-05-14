@@ -44,6 +44,7 @@ tabLayout.configTabLayoutConfig {
 # 2020-02-29
 
 > 特殊版本 用于不使用`AndroidX`的开发者. 
+
 > 未特殊说明 所有版本都将基于`AndroidX`开发 如果需要非`AndroidX`版本 请关注`-support`结尾的版本更新.
 
 版本: `1.4.3-support` ,更新日志:
