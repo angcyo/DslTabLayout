@@ -1,24 +1,24 @@
 # 2020-04-24
 
-版本: '1.5.3', 更新日志:
+版本: `1.5.3`, 更新日志:
 
 - 修复快速切换`item`时,渐变状态异常的问题
 
 # 2020-04-03
 
-版本: '1.5.2', 更新日志:
+版本: `1.5.2`, 更新日志:
 
 - 修复移除所有`item`之后,动态添加新`item`, 选中判断的样式问题.
 
 # 2020-03-28
 
-版本: '1.5.1', 更新日志:
+版本: `1.5.1`, 更新日志:
 
 - 修复 `DslGravity` offset计算问题
 
 # 2020-03-28
 
-版本: '1.5.0', 更新日志:
+版本: `1.5.0`, 更新日志:
 
 - `onSelectIndexChange` `onSelectViewChange` `onSelectItemView` 支持 `fromUser`
 - `badge` 支持单独为`圆形状态`设置`offset_x` `offset_y`属性
@@ -42,6 +42,9 @@ tabLayout.configTabLayoutConfig {
 ```
 
 # 2020-02-29
+
+> 特殊版本 用于不使用`AndroidX`的开发者. 
+> 未特殊说明 所有版本都将基于`AndroidX`开发 如果需要非`AndroidX`版本 请关注`-support`结尾的版本更新.
 
 版本: `1.4.3-support` ,更新日志:
 
