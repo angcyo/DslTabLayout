@@ -70,7 +70,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     /**最小缩放的比例*/
     var tabMinScale = 0.8f
 
-    /**大嘴缩放的比例*/
+    /**最大缩放的比例*/
     var tabMaxScale = 1.2f
 
     /**是否开启字体大小渐变效果*/
@@ -229,16 +229,45 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         //"$fromView\n$toView\n$positionOffset".logi()
 
         if (fromView != toView) {
+
+            val fromIndex = tabLayout.tabIndicator.currentIndex
+            val toIndex = tabLayout.tabIndicator._targetIndex
+
             if (tabEnableGradientColor) {
                 //文本渐变
-                _gradientColor(fromView, tabSelectColor, tabDeselectColor, positionOffset)
-                _gradientColor(toView, tabDeselectColor, tabSelectColor, positionOffset)
+                fromView?.apply {
+                    _gradientColor(
+                        onGetTextStyleView(this, fromIndex),
+                        tabSelectColor,
+                        tabDeselectColor,
+                        positionOffset
+                    )
+                }
+                _gradientColor(
+                    onGetTextStyleView(toView, toIndex),
+                    tabDeselectColor,
+                    tabSelectColor,
+                    positionOffset
+                )
             }
 
             if (tabEnableIcoGradientColor) {
                 //图标渐变
-                _gradientIcoColor(fromView, tabIcoSelectColor, tabIcoDeselectColor, positionOffset)
-                _gradientIcoColor(toView, tabIcoDeselectColor, tabIcoSelectColor, positionOffset)
+                fromView?.apply {
+                    _gradientIcoColor(
+                        onGetIcoStyleView(this, fromIndex),
+                        tabIcoSelectColor,
+                        tabIcoDeselectColor,
+                        positionOffset
+                    )
+                }
+
+                _gradientIcoColor(
+                    onGetIcoStyleView(toView, toIndex),
+                    tabIcoDeselectColor,
+                    tabIcoSelectColor,
+                    positionOffset
+                )
             }
 
             if (tabEnableGradientScale) {
@@ -252,9 +281,6 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                 tabTextMinSize > 0 &&
                 tabTextMinSize != tabTextMaxSize
             ) {
-
-                val fromIndex = tabLayout.tabIndicator.currentIndex
-                val toIndex = tabLayout.tabIndicator._targetIndex
 
                 //文本字体大小渐变
                 _gradientTextSize(

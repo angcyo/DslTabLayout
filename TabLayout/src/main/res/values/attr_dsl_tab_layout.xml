@@ -4,6 +4,8 @@
     <declare-styleable name="DslTabLayout">
         <!--Item是否等宽-->
         <attr name="tab_item_is_equ_width" format="boolean" />
+        <!--智能判断Item是否等宽, 如果所有子项, 未撑满tab时, 开启等宽模式.此属性会覆盖[tab_item_is_equ_width]-->
+        <attr name="tab_item_auto_equ_width" format="boolean" />
         <!--默认选中的索引值-->
         <attr name="tab_default_index" format="integer" />
         <!--等宽模式下, 指定item的宽度. 不指定则平分-->

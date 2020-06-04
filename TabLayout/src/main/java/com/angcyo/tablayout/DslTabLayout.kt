@@ -36,6 +36,9 @@ open class DslTabLayout(
     /**item是否等宽*/
     var itemIsEquWidth = false
 
+    /**智能判断Item是否等宽, 如果所有子项, 未撑满tab时, 开启等宽模式.此属性会覆盖[itemIsEquWidth]*/
+    var itemAutoEquWidth = false
+
     /**在等宽的情况下, 指定item的宽度, 小于0, 平分*/
     var itemWidth = -3
 
@@ -164,6 +167,11 @@ open class DslTabLayout(
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
         itemIsEquWidth =
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_item_is_equ_width, itemIsEquWidth)
+        itemAutoEquWidth =
+            typedArray.getBoolean(
+                R.styleable.DslTabLayout_tab_item_auto_equ_width,
+                itemAutoEquWidth
+            )
         itemWidth =
             typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_tab_item_width, itemWidth)
         itemDefaultHeight = typedArray.getDimensionPixelOffset(
@@ -493,6 +501,27 @@ open class DslTabLayout(
             if (drawDivider) tabDivider?.run { dividerWidth + dividerMarginLeft + dividerMarginRight }
                 ?: 0 else 0
 
+        //智能等宽判断
+        if (itemAutoEquWidth) {
+            var childMaxWidth = 0 //所有child总和
+            visibleChildList.forEachIndexed { index, child ->
+                val lp: LayoutParams = child.layoutParams as LayoutParams
+                measureChild(child, widthMeasureSpec, heightMeasureSpec)
+                childMaxWidth += lp.leftMargin + lp.rightMargin + child.measuredWidth
+
+                if (drawDivider) {
+                    if (tabDivider?.haveBeforeDivider(index, visibleChildList.size) == true) {
+                        childMaxWidth += dividerExclude
+                    }
+                    if (tabDivider?.haveAfterDivider(index, visibleChildList.size) == true) {
+                        childMaxWidth += dividerExclude
+                    }
+                }
+            }
+
+            itemIsEquWidth = childMaxWidth <= widthSize
+        }
+
         //等宽时, child宽度的测量模式
         val childEquWidthSpec = if (itemIsEquWidth) {
             exactlyMeasure(
@@ -520,7 +549,6 @@ open class DslTabLayout(
                         val lp = child.layoutParams as LayoutParams
                         excludeWidth += lp.leftMargin + lp.rightMargin
                     }
-
                     (widthSize - excludeWidth) / visibleChildCount
                 }
             )
@@ -581,6 +609,8 @@ open class DslTabLayout(
             childWidthSpec = when {
                 itemIsEquWidth -> childEquWidthSpec
                 widthHeight[0] > 0 -> exactlyMeasure(widthHeight[0])
+                lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingLeft - paddingRight)
+                lp.width > 0 -> exactlyMeasure(lp.width)
                 else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
             }
 
