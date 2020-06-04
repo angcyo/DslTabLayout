@@ -8,10 +8,11 @@
 1. 支持任意类型的`child`视图.
 2. 支持任意类型`Drawable`的`指示器`.
 3. 支持智能开启`横向滚动`.
-4. 支持`高凸模式`, 允许某个`child`高出一节显示.
-5. 支持`滑动选择模式`, 滑动的时候智能选择`上一个`或`下一个`.
-6. 支持`角标`配置.
-7. 支持`ViewPager`和`ViewPager2`
+4. 支持智能开启`平分item宽度`(`1.5.4`后).
+5. 支持`高凸模式`, 允许某个`child`高出一节显示.
+6. 支持`滑动选择模式`, 滑动的时候智能选择`上一个`或`下一个`.
+7. 支持`角标`配置.
+8. 支持`ViewPager`和`ViewPager2`
 
 直接当做横向的`LinearLayout`使用方式即可, 无特殊要求.
 
@@ -63,12 +64,12 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:1.5.3'
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:1.5.4'
 
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:1.5.3'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:1.5.4'
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:1.5.3'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:1.5.4'
 }
 ```
 
