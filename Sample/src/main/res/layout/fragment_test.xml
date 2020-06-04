@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#60ff0000"
+        app:tab_item_auto_equ_width="true">
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页1" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页2" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页3" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:layout_width="300dp"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页4" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#60ff0000"
+        app:tab_item_auto_equ_width="true">
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页1" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页2" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页3" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:text="首页4" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+</LinearLayout>

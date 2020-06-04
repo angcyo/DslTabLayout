@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         //show(SegmentFragment())
         //show(CommonFragment())
         //show(SlidingFragment())
+
+        //show(TestFragment())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
