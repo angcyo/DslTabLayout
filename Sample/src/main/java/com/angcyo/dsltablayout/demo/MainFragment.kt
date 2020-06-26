@@ -42,7 +42,7 @@ class MainFragment : BaseDslFragment() {
 
     override fun initBaseView(viewHolder: DslViewHolder, savedInstanceState: Bundle?) {
         super.initBaseView(viewHolder, savedInstanceState)
-        viewHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+        viewHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
             configTabLayoutConfig {
                 onGetIcoStyleView = { itemView, _ ->
                     itemView.findViewById<LottieAnimationView>(R.id.lottie_view)
@@ -92,9 +92,9 @@ class MainFragment : BaseDslFragment() {
                     }
                 }
 
-                ViewPager1Delegate.install(viewHolder.v(R.id.view_pager), this@apply)
+                ViewPager1Delegate.install(viewHolder.v(R.id.view_pager)!!, this@apply)
 
-                viewHolder.v<ViewPager>(R.id.view_pager).adapter =
+                viewHolder.v<ViewPager>(R.id.view_pager)?.adapter =
                     object : FragmentStatePagerAdapter(childFragmentManager) {
                         override fun getItem(position: Int): Fragment {
                             return fragmentList[position]

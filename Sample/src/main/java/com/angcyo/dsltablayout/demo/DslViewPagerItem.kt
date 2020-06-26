@@ -28,7 +28,7 @@ class DslViewPagerItem(val fragmentManager: FragmentManager) : DslAdapterItem() 
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
-        itemHolder.v<ViewPager>(R.id.view_pager).apply {
+        itemHolder.v<ViewPager>(R.id.view_pager)?.apply {
             adapter =
                 object : FragmentStatePagerAdapter(fragmentManager) {
                     override fun getItem(position: Int): Fragment {

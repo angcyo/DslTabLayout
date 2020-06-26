@@ -20,8 +20,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
         renderAdapter {
 
             DslSegmentTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                     }
                 }
@@ -29,8 +29,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
 
             DslSegmentTabLayoutItem()() {
                 itemLayoutId = R.layout.item_segment_tab_layout2
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                     }
                 }
@@ -38,8 +38,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
 
             DslSegmentTabLayoutItem()() {
                 itemLayoutId = R.layout.item_segment_tab_layout3
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                     }
                 }
@@ -47,8 +47,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
 
             DslSegmentTabLayoutItem()() {
                 itemLayoutId = R.layout.item_segment_tab_layout4
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                     }
                 }
@@ -56,8 +56,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
 
             DslSegmentTabLayoutItem()() {
                 itemLayoutId = R.layout.item_segment_tab_layout5
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
 
                         //角标
@@ -94,8 +94,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
 
             DslSegmentTabLayoutItem()() {
                 itemLayoutId = R.layout.item_segment_tab_layout6
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
 
                         configTabLayoutConfig {
@@ -142,8 +142,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
 
             DslSegmentTabLayoutItem()() {
                 itemLayoutId = R.layout.item_segment_tab_layout7
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                     }
                 }
@@ -151,16 +151,16 @@ class SegmentFragment : BaseTabLayoutFragment() {
 
             DslSegmentTabLayoutItem()() {
                 itemLayoutId = R.layout.item_segment_tab_layout_selector
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                     }
                 }
             }
 
             DslViewPagerItem(childFragmentManager)() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    setViewPager(itemHolder.v(R.id.view_pager))
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    setViewPager(itemHolder.v(R.id.view_pager)!!)
                 }
             }
         }

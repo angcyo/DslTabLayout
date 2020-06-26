@@ -25,7 +25,7 @@ class DslSegmentTabLayoutItem : DslAdapterItem() {
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
-        itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+        itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 
         }
     }

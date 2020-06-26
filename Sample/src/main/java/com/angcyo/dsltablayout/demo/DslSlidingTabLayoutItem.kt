@@ -22,7 +22,7 @@ class DslSlidingTabLayoutItem : DslAdapterItem() {
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
-        itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+        itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
             setBackgroundColor(randomColor())
             tabIndicator.indicatorDrawable =
                 itemHolder.itemView.context.getDrawable2(R.drawable.indicator_white_line)

@@ -7,7 +7,9 @@
     <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        app:tab_deselect_color="#333333"
+        app:tab_item_auto_equ_width="true">
 
         <include layout="@layout/layout_text_view" />
 
@@ -15,9 +17,6 @@
 
         <include layout="@layout/layout_text_view" />
 
-        <include layout="@layout/layout_text_view" />
-
-        <include layout="@layout/layout_text_view" />
     </com.angcyo.tablayout.DslTabLayout>
 
     <Button

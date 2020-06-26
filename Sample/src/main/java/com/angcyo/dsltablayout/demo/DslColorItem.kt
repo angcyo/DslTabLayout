@@ -26,6 +26,6 @@ class DslColorItem : DslAdapterItem() {
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
         itemHolder.itemView.setBackgroundColor(itemColor)
-        itemHolder.tv(R.id.text_view).text = itemText
+        itemHolder.tv(R.id.text_view)?.text = itemText
     }
 }

@@ -23,8 +23,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
             //指示器在顶部
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 4 * dpi
                         tabIndicator.indicatorEnableFlow = true
@@ -34,8 +34,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         val tabLayout = this
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
@@ -61,8 +61,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
                         tabIndicator.indicatorHeight = 4 * dpi
@@ -78,8 +78,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
             //指示器在底部
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorHeight = 10 * dpi
@@ -91,8 +91,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
@@ -101,8 +101,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
 //            DslSlidingTabLayoutItem()() {
-//                onItemBindOverride = { itemHolder, _, _ ->
-//                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+//                itemBindOverride = { itemHolder, _, _, _ ->
+//                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 //                        addTabLayout(this)
 //                        tabIndicator.indicatorWidth = 10 * dpi
 //                        tabIndicator.indicatorEnableFlow = true
@@ -112,8 +112,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
 //            }
 
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = -1
                         tabIndicator.indicatorHeight = 4 * dpi
@@ -124,8 +124,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
             //指示器在背部
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.indicator_round_background_tran)
@@ -138,8 +138,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.ic_love)
@@ -153,8 +153,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
             //其他特性
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 30 * dpi
                         tabIndicator.indicatorHeight = 6 * dpi
@@ -172,8 +172,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 //            DslSlidingTabLayoutItem()() {
-//                onItemBindOverride = { itemHolder, _, _ ->
-//                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+//                itemBindOverride = { itemHolder, _, _, _ ->
+//                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 //                        addTabLayout(this)
 //                        tabIndicator.indicatorWidth = 10 * dpi
 //                        tabIndicator.indicatorEnableFlow = true
@@ -188,8 +188,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
 //                }
 //            }
             DslSlidingTabLayoutItem()() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    itemHolder.v<DslTabLayout>(R.id.tab_layout).apply {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
                         tabIndicator.indicatorWidth = 10 * dpi
                         tabIndicator.indicatorEnableFlow = true
@@ -249,8 +249,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             DslViewPagerItem(childFragmentManager)() {
-                onItemBindOverride = { itemHolder, _, _ ->
-                    setViewPager(itemHolder.v(R.id.view_pager))
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    setViewPager(itemHolder.v(R.id.view_pager)!!)
                 }
             }
         }

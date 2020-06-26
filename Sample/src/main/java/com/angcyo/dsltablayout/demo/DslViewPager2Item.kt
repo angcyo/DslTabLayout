@@ -27,7 +27,7 @@ class DslViewPager2Item(val fragment: Fragment) : DslAdapterItem() {
     ) {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
-        itemHolder.v<ViewPager2>(R.id.view_pager).apply {
+        itemHolder.v<ViewPager2>(R.id.view_pager)?.apply {
             adapter = object : FragmentStateAdapter(fragment) {
                 override fun getItemCount(): Int {
                     return fragmentList.size
