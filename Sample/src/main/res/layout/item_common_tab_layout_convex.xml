@@ -8,10 +8,12 @@
     android:minHeight="50dp"
     app:tab_convex_background="@color/white"
     app:tab_deselect_color="@color/text"
+    app:tab_icon_view_id="@id/text_view"
     app:tab_indicator_color="@color/colorAccent"
     app:tab_indicator_drawable="@drawable/indicator_bottom_line"
     app:tab_item_is_equ_width="true"
     app:tab_select_color="@color/colorAccent"
+    app:tab_text_view_id="@id/text_view"
     tools:tab_default_index="0">
 
     <TextView
@@ -31,8 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:drawableTop="@drawable/message_selector"
-            android:text="消息"
-            tools:textColor="@color/text" />
+            android:text="消息" />
     </FrameLayout>
 
     <ImageView

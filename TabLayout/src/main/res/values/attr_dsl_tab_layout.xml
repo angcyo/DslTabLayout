@@ -117,6 +117,10 @@
         <attr name="tab_text_min_size" format="dimension" />
         <!--文本字体大小最大值-->
         <attr name="tab_text_max_size" format="dimension" />
+        <!--指定文本控件的id, 所有文本属性改变, 将会发生在这个控件上, 如果指定的控件不存在, 控件会降权至[ItemView]-->
+        <attr name="tab_text_view_id" format="reference" />
+        <!--指定图标控件的id, 同上-->
+        <attr name="tab_icon_view_id" format="reference" />
         <!--end...-->
 
         <!--Divider 分割线相关属性-->
@@ -197,7 +201,9 @@
         <attr name="tab_badge_anchor_child_index" format="integer" />
         <!--是否要忽略锚点view的padding-->
         <attr name="tab_badge_ignore_child_padding" format="boolean" />
+        <!--角标圆形状态下的单独配置的偏移-->
         <attr name="tab_badge_circle_offset_x" format="dimension" />
+        <!--角标圆形状态下的单独配置的偏移-->
         <attr name="tab_badge_circle_offset_y" format="dimension" />
         <!--end...-->
 

@@ -57,13 +57,6 @@ class CommonFragment : BaseTabLayoutFragment() {
                         configTabLayoutConfig {
                             tabEnableGradientColor = true
                             tabSelectColor = tabIndicator.indicatorColor
-
-                            onGetTextStyleView = { itemView, index ->
-                                itemView.findViewById(R.id.text_view)
-                            }
-                            onGetIcoStyleView = { itemView, index ->
-                                itemView.findViewById(R.id.text_view)
-                            }
                         }
                     }
                 }

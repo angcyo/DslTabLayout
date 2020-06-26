@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.IdRes
 import com.angcyo.tablayout.DslTabIndicator.Companion.NO_COLOR
 import kotlin.math.max
 import kotlin.math.min
@@ -82,16 +83,28 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     /**tab中文本字体选中时的字体大小, >0时激活*/
     var tabTextMaxSize = -1f
 
+    /**渐变效果实现的回调*/
     var tabGradientCallback = TabGradientCallback()
+
+    /**指定文本控件的id, 所有文本属性改变, 将会发生在这个控件上.
+     * 如果指定的控件不存在, 控件会降权至[ItemView]*/
+    @IdRes
+    var tabTextViewId: Int = View.NO_ID
+
+    /**指定图标控件的id*/
+    @IdRes
+    var tabIconViewId: Int = View.NO_ID
 
     /**返回用于配置文本样式的控件*/
     var onGetTextStyleView: (itemView: View, index: Int) -> TextView? = { itemView, _ ->
-        itemView as? TextView
+        val tv = itemView as? TextView
+        if (tabTextViewId == View.NO_ID) tv else itemView.findViewById(tabTextViewId) ?: tv
     }
 
     /**返回用于配置ico样式的控件*/
     var onGetIcoStyleView: (itemView: View, index: Int) -> View? = { itemView, _ ->
-        itemView as? TextView
+        val iv = itemView
+        if (tabIconViewId == View.NO_ID) iv else itemView.findViewById(tabIconViewId) ?: iv
     }
 
     init {
@@ -165,6 +178,11 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                 tabTextMaxSize.toInt()
             ).toFloat()
         }
+
+        tabTextViewId =
+            typedArray.getResourceId(R.styleable.DslTabLayout_tab_text_view_id, tabTextViewId)
+        tabIconViewId =
+            typedArray.getResourceId(R.styleable.DslTabLayout_tab_icon_view_id, tabIconViewId)
 
         typedArray.recycle()
     }
