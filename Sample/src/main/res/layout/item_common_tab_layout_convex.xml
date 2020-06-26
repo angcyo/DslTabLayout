@@ -12,17 +12,28 @@
     app:tab_indicator_drawable="@drawable/indicator_bottom_line"
     app:tab_item_is_equ_width="true"
     app:tab_select_color="@color/colorAccent"
-    tools:tab_default_index="1">
+    tools:tab_default_index="0">
 
     <TextView
+        android:id="@id/text_view"
         style="@style/TabCommonItemStyle"
-        android:drawableTop="@drawable/ic_home"
+        android:drawableTop="@drawable/home_selector"
         android:text="首页" />
 
-    <TextView
-        style="@style/TabCommonItemStyle"
-        android:drawableTop="@drawable/ic_message"
-        android:text="消息" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@id/text_view"
+            style="@style/TabItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableTop="@drawable/message_selector"
+            android:text="消息"
+            tools:textColor="@color/text" />
+    </FrameLayout>
 
     <ImageView
         style="@style/TabCommonItemStyle"
