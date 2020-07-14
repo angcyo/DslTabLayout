@@ -205,6 +205,9 @@
         <attr name="tab_badge_circle_offset_x" format="dimension" />
         <!--角标圆形状态下的单独配置的偏移-->
         <attr name="tab_badge_circle_offset_y" format="dimension" />
+
+        <attr name="tab_badge_stroke_color" format="color" />
+        <attr name="tab_badge_stroke_width" format="dimension" />
         <!--end...-->
 
     </declare-styleable>

@@ -3,6 +3,7 @@ package com.angcyo.tablayout
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
@@ -101,12 +102,42 @@ open class DslBadgeDrawable : DslGradientDrawable() {
                 if (isCircle) {
                     textPaint.color = gradientSolidColor
 
+                    val cx: Float
+                    val cy: Float
+                    if (gravity.isCenter()) {
+                        cx = centerX.toFloat()
+                        cy = centerY.toFloat()
+                    } else {
+                        cx = centerX.toFloat() + _gravityOffsetX
+                        cy = centerY.toFloat() + _gravityOffsetY
+                    }
+
                     canvas.drawCircle(
-                        centerX.toFloat(),
-                        centerY.toFloat(),
+                        cx,
+                        cy,
                         badgeCircleRadius.toFloat(),
                         textPaint
                     )
+
+                    if (gradientStrokeWidth > 0 && gradientStrokeColor != Color.TRANSPARENT) {
+                        val oldWidth = textPaint.strokeWidth
+                        val oldStyle = textPaint.style
+
+                        textPaint.color = gradientStrokeColor
+                        textPaint.strokeWidth = gradientStrokeWidth.toFloat()
+                        textPaint.style = Paint.Style.STROKE
+
+                        canvas.drawCircle(
+                            cx,
+                            cy,
+                            badgeCircleRadius.toFloat(),
+                            textPaint
+                        )
+
+                        textPaint.strokeWidth = oldWidth
+                        textPaint.style = oldStyle
+                    }
+
                 } else {
                     textPaint.color = badgeTextColor
 

@@ -63,6 +63,10 @@ class DslGravity {
     var _gravityRight = 0
     var _gravityBottom = 0
 
+    //根据gravity调整后的offset
+    var _gravityOffsetX = 0
+    var _gravityOffsetY = 0
+
     /**根据[gravity]返回在[gravityBounds]中的[left] [top]位置*/
     fun applyGravity(
         width: Float = _targetWidth,
@@ -78,18 +82,30 @@ class DslGravity {
         val verticalGravity = gravity and Gravity.VERTICAL_GRAVITY_MASK
         val horizontalGravity = absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK
 
+        //调整offset
+        _gravityOffsetX = when (horizontalGravity) {
+            Gravity.RIGHT -> -gravityOffsetX
+            else -> gravityOffsetX
+        }
+        _gravityOffsetY = when (verticalGravity) {
+            Gravity.BOTTOM -> -gravityOffsetY
+            else -> gravityOffsetY
+        }
+
+        //计算居中的坐标
         val centerX = when (horizontalGravity) {
-            Gravity.CENTER_HORIZONTAL -> (gravityBounds.left + gravityBounds.width() / 2 + gravityOffsetX).toInt()
-            Gravity.RIGHT -> (gravityBounds.right - gravityOffsetX - if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
-            else -> (gravityBounds.left + gravityOffsetX + if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
+            Gravity.CENTER_HORIZONTAL -> (gravityBounds.left + gravityBounds.width() / 2 + _gravityOffsetX).toInt()
+            Gravity.RIGHT -> (gravityBounds.right + _gravityOffsetX - if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
+            else -> (gravityBounds.left + _gravityOffsetX + if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
         }
 
         val centerY = when (verticalGravity) {
-            Gravity.CENTER_VERTICAL -> (gravityBounds.top + gravityBounds.height() / 2 + gravityOffsetY).toInt()
-            Gravity.BOTTOM -> (gravityBounds.bottom - gravityOffsetY - if (gravityRelativeCenter) 0f else _targetHeight / 2).toInt()
-            else -> (gravityBounds.top + gravityOffsetY + if (gravityRelativeCenter) 0f else _targetHeight / 2).toInt()
+            Gravity.CENTER_VERTICAL -> (gravityBounds.top + gravityBounds.height() / 2 + _gravityOffsetY).toInt()
+            Gravity.BOTTOM -> (gravityBounds.bottom + _gravityOffsetY - if (gravityRelativeCenter) 0f else _targetHeight / 2).toInt()
+            else -> (gravityBounds.top + _gravityOffsetY + if (gravityRelativeCenter) 0f else _targetHeight / 2).toInt()
         }
 
+        //缓存
         _horizontalGravity = horizontalGravity
         _verticalGravity = verticalGravity
         _isCenterGravity = horizontalGravity == Gravity.CENTER_HORIZONTAL &&
@@ -100,6 +116,7 @@ class DslGravity {
         _gravityTop = (centerY - _targetHeight / 2).toInt()
         _gravityBottom = (centerY + _targetHeight / 2).toInt()
 
+        //回调
         callback(centerX, centerY)
     }
 }
@@ -150,4 +167,14 @@ private fun _config(
     _dslGravity.applyGravity(width, height) { centerX, centerY ->
         callback(_dslGravity, centerX, centerY)
     }
+}
+
+/**居中*/
+fun Int.isCenter(): Boolean {
+    val layoutDirection = 0
+    val absoluteGravity = Gravity.getAbsoluteGravity(this, layoutDirection)
+    val verticalGravity = this and Gravity.VERTICAL_GRAVITY_MASK
+    val horizontalGravity = absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK
+
+    return verticalGravity == Gravity.CENTER_VERTICAL && horizontalGravity == Gravity.CENTER_HORIZONTAL
 }

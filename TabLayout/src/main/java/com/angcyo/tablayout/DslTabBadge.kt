@@ -38,6 +38,20 @@ open class DslTabBadge : DslBadgeDrawable() {
             )
         defaultBadgeConfig.badgeTextColor = badgeTextColor
 
+        gradientStrokeColor =
+            typedArray.getColor(
+                R.styleable.DslTabLayout_tab_badge_stroke_color,
+                defaultBadgeConfig.badgeStrokeColor
+            )
+        defaultBadgeConfig.badgeStrokeColor = gradientStrokeColor
+
+        gradientStrokeWidth =
+            typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_badge_stroke_width,
+                defaultBadgeConfig.badgeStrokeWidth
+            )
+        defaultBadgeConfig.badgeStrokeWidth = gradientStrokeWidth
+
         badgeGravity = typedArray.getInt(
             R.styleable.DslTabLayout_tab_badge_gravity,
             defaultBadgeConfig.badgeGravity
