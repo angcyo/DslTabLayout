@@ -147,8 +147,6 @@ open class DslTabLayout(
                     "选择:[$fromIndex]->${selectList} reselect:$reselect fromUser:$fromUser".logi()
                 }
 
-                selectList.logi()
-
                 val toIndex = selectList.last()
                 _animateToItem(fromIndex, toIndex)
 
