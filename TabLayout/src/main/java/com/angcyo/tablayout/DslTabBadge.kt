@@ -128,6 +128,8 @@ open class DslTabBadge : DslBadgeDrawable() {
     /**使用指定配置, 更新[DslBadgeDrawable]*/
     fun updateBadgeConfig(badgeConfig: TabBadgeConfig) {
         gradientSolidColor = badgeConfig.badgeSolidColor
+        gradientStrokeColor = badgeConfig.badgeStrokeColor
+        gradientStrokeWidth = badgeConfig.badgeStrokeWidth
         badgeTextColor = badgeConfig.badgeTextColor
         badgeGravity = badgeConfig.badgeGravity
         badgeOffsetX = badgeConfig.badgeOffsetX
@@ -154,6 +156,11 @@ data class TabBadgeConfig(
     var badgeGravity: Int = Gravity.CENTER,
     /**角标背景颜色*/
     var badgeSolidColor: Int = Color.RED,
+    /**角标边框颜色*/
+    var badgeStrokeColor: Int = Color.TRANSPARENT,
+    /**角标边框宽度*/
+    var badgeStrokeWidth: Int = 0,
+
     /**角标文本颜色*/
     var badgeTextColor: Int = Color.WHITE,
     /**角标文本字体大小*/

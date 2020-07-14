@@ -207,6 +207,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
                             tabBadge.dslGravity.gravityRelativeCenter = false
                             tabBadge.badgeOffsetX = 10 * dpi
                             tabBadge.badgeOffsetY = 4 * dpi
+                            tabBadge.gradientStrokeColor = 0
+                            tabBadge.gradientStrokeWidth = 0
                             when (index) {
                                 1 -> {
                                     tabBadge.badgeGravity = Gravity.LEFT or Gravity.TOP
@@ -221,6 +223,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
                                 3 -> {
                                     tabBadge.badgeGravity = Gravity.RIGHT or Gravity.BOTTOM
                                     tabBadge.badgeText = "99+"
+                                    tabBadge.gradientStrokeColor = Color.BLACK
+                                    tabBadge.gradientStrokeWidth = 1 * dpi
                                 }
                                 4 -> {
                                     tabBadge.badgeGravity = Gravity.LEFT or Gravity.BOTTOM
