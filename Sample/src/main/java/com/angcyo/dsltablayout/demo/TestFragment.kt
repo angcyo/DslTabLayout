@@ -1,5 +1,10 @@
 package com.angcyo.dsltablayout.demo
 
+import android.os.Bundle
+import android.view.Gravity
+import android.view.View
+import android.widget.TextView
+
 /**
  *
  * Email:angcyo@126.com
@@ -10,5 +15,21 @@ package com.angcyo.dsltablayout.demo
 class TestFragment : BaseDslFragment() {
     override fun getBaseLayoutId(): Int {
         return R.layout.fragment_test
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        baseViewHolder.click(R.id.remove_all) {
+            baseViewHolder.group(R.id.tab_layout)?.removeAllViews()
+        }
+
+        baseViewHolder.click(R.id.add_view) {
+            baseViewHolder.group(R.id.tab_layout)?.addView(TextView(context).apply {
+                text = "Item ${baseViewHolder.group(R.id.tab_layout)?.childCount}"
+                gravity = Gravity.CENTER
+                textSize = 14f
+            })
+        }
     }
 }
