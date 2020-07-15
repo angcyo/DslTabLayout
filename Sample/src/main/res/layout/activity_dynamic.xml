@@ -36,4 +36,14 @@
         app:layout_constraintLeft_toRightOf="@id/remove_all"
         app:layout_constraintTop_toTopOf="@id/remove_all" />
 
+    <Button
+        android:id="@+id/add_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="添加item"
+        android:textAllCaps="false"
+        app:layout_constraintLeft_toRightOf="@id/add_all"
+        app:layout_constraintTop_toTopOf="@id/remove_all" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

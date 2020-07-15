@@ -7,6 +7,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.*
 import android.view.animation.LinearInterpolator
@@ -1126,5 +1128,34 @@ open class DslTabLayout(
     }
 
     //</editor-fold desc="ViewPager 相关">
+
+    //<editor-fold desc="状态恢复">
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state is Bundle) {
+            val oldState: Parcelable? = state.getParcelable("old")
+            super.onRestoreInstanceState(oldState)
+
+            tabDefaultIndex = state.getInt("defaultIndex", tabDefaultIndex)
+            val currentItemIndex = state.getInt("currentIndex", -1)
+            dslSelector.dslSelectIndex = -1
+            if (currentItemIndex > 0) {
+                setCurrentItem(currentItemIndex, true, false)
+            }
+        } else {
+            super.onRestoreInstanceState(state)
+        }
+    }
+
+    override fun onSaveInstanceState(): Parcelable? {
+        val state = super.onSaveInstanceState()
+        val bundle = Bundle()
+        bundle.putParcelable("old", state)
+        bundle.putInt("defaultIndex", tabDefaultIndex)
+        bundle.putInt("currentIndex", currentItemIndex)
+        return bundle
+    }
+
+    //</editor-fold desc="状态恢复">
 }
 
