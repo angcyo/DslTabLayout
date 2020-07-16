@@ -16,6 +16,16 @@
         <include layout="@layout/layout_text_view" />
 
         <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
+        <include layout="@layout/layout_text_view" />
 
     </com.angcyo.tablayout.DslTabLayout>
 

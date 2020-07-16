@@ -715,6 +715,8 @@ open class DslTabLayout(
         if (dslSelector.dslSelectIndex < 0) {
             //还没有选中
             setCurrentItem(tabDefaultIndex)
+        } else {
+            _scrollToCenter(dslSelector.dslSelectIndex, false)
         }
     }
 
