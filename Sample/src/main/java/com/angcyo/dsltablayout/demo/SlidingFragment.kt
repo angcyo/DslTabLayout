@@ -33,6 +33,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 
+            //动态改变文本的颜色
             DslSlidingTabLayoutItem()() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
@@ -60,6 +61,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 
+            //指示器在顶部, 动态调整指示器的颜色
             DslSlidingTabLayoutItem()() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
@@ -71,6 +73,14 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         configTabLayoutConfig {
                             tabTextMinSize = 9 * dp
                             tabTextMaxSize = 18 * dp
+                        }
+
+                        configTabLayoutConfig {
+                            onSelectIndexChange =
+                                { fromIndex, selectIndexList, reselect, fromUser ->
+                                    tabIndicator.indicatorColor = randomColor()
+                                    _viewPagerDelegate?.onSetCurrentItem(fromIndex, selectIndexList.last())
+                                }
                         }
                     }
                 }
@@ -187,6 +197,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
 //                    }
 //                }
 //            }
+
+            //角标配置
             DslSlidingTabLayoutItem()() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
