@@ -564,8 +564,10 @@ open class DslTabLayout(
 
         var wrapContentHeight = false
 
-        visibleChildList.forEachIndexed { index, childView ->
+        //没有设置weight属性的child宽度总和, 用于计算剩余空间
+        var allChildUsedWidth = 0
 
+        fun measureChild(childView: View) {
             val lp = childView.layoutParams as LayoutParams
             //不支持竖向margin支持
             lp.topMargin = 0
@@ -608,13 +610,7 @@ open class DslTabLayout(
             //...end
 
             //计算宽度测量模式
-            childWidthSpec = when {
-                itemIsEquWidth -> childEquWidthSpec
-                widthHeight[0] > 0 -> exactlyMeasure(widthHeight[0])
-                lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingLeft - paddingRight)
-                lp.width > 0 -> exactlyMeasure(lp.width)
-                else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
-            }
+            childWidthSpec //no op
 
             if (childConvexHeight > 0) {
                 _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
@@ -633,6 +629,32 @@ open class DslTabLayout(
                 childHeightSpec = exactlyMeasure(heightSize)
                 heightSize += paddingTop + paddingBottom
             }
+        }
+
+        visibleChildList.forEachIndexed { index, childView ->
+            val lp = childView.layoutParams as LayoutParams
+            var childUsedWidth = 0
+            if (lp.weight < 0) {
+                val widthHeight = calcLayoutWidthHeight(
+                    lp.layoutWidth, lp.layoutHeight,
+                    widthSize, heightSize, 0, 0
+                )
+
+                //计算宽度测量模式
+                childWidthSpec = when {
+                    itemIsEquWidth -> childEquWidthSpec
+                    widthHeight[0] > 0 -> exactlyMeasure(widthHeight[0])
+                    lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingLeft - paddingRight)
+                    lp.width > 0 -> exactlyMeasure(lp.width)
+                    else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
+                }
+
+                measureChild(childView)
+
+                childUsedWidth = childView.measuredWidth + lp.leftMargin + lp.rightMargin
+            } else {
+                childUsedWidth = lp.leftMargin + lp.rightMargin
+            }
 
             if (drawDivider) {
                 if (tabDivider?.haveBeforeDivider(
@@ -640,19 +662,50 @@ open class DslTabLayout(
                         visibleChildList.size
                     ) == true
                 ) {
-                    _childAllWidthSum += dividerExclude
+                    childUsedWidth += dividerExclude
                 }
                 if (tabDivider?.haveAfterDivider(
                         index,
                         visibleChildList.size
                     ) == true
                 ) {
-                    _childAllWidthSum += dividerExclude
+                    childUsedWidth += dividerExclude
                 }
             }
 
-            _childAllWidthSum += childView.measuredWidth + lp.leftMargin + lp.rightMargin
+            allChildUsedWidth += childUsedWidth
+            _childAllWidthSum += childUsedWidth
         }
+
+        //剩余空间
+        val spaceSize = widthSize - allChildUsedWidth
+
+        //计算weight
+        visibleChildList.forEach { childView ->
+            val lp = childView.layoutParams as LayoutParams
+            if (lp.weight > 0) {
+                val widthHeight = calcLayoutWidthHeight(
+                    lp.layoutWidth, lp.layoutHeight,
+                    widthSize, heightSize, 0, 0
+                )
+
+                //计算宽度测量模式
+                childWidthSpec = when {
+                    itemIsEquWidth -> childEquWidthSpec
+                    spaceSize > 0 -> exactlyMeasure(spaceSize * lp.weight)
+                    widthHeight[0] > 0 -> exactlyMeasure(allChildUsedWidth)
+                    lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingLeft - paddingRight)
+                    lp.width > 0 -> exactlyMeasure(lp.width)
+                    else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
+                }
+
+                measureChild(childView)
+
+                //上面已经处理了分割线和margin的距离了
+                _childAllWidthSum += childView.measuredWidth
+            }
+        }
+        //...end
 
         if (widthMode != MeasureSpec.EXACTLY) {
             widthSize = min(_childAllWidthSum + paddingLeft + paddingRight, widthSize)
@@ -757,6 +810,9 @@ open class DslTabLayout(
          * */
         var indicatorContentIndex = -1
 
+        /**[android.widget.LinearLayout.LayoutParams.weight]*/
+        var weight: Float = -1f
+
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val a = c.obtainStyledAttributes(attrs, R.styleable.DslTabLayout_Layout)
             layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_layout_tab_width)
@@ -770,6 +826,7 @@ open class DslTabLayout(
                 R.styleable.DslTabLayout_Layout_layout_tab_indicator_content_index,
                 indicatorContentIndex
             )
+            weight = a.getFloat(R.styleable.DslTabLayout_Layout_layout_tab_weight, weight)
             a.recycle()
         }
 
@@ -778,6 +835,7 @@ open class DslTabLayout(
                 this.layoutWidth = source.layoutWidth
                 this.layoutHeight = source.layoutHeight
                 this.layoutConvexHeight = source.layoutConvexHeight
+                this.weight = source.weight
             }
         }
 

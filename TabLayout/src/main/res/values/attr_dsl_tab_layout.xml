@@ -221,5 +221,7 @@
         <attr name="layout_tab_convex_height" format="dimension" />
         <!--单独指定child的锚点索引-->
         <attr name="layout_tab_indicator_content_index" format="integer" />
+        <!--android.widget.LinearLayout.LayoutParams.weight-->
+        <attr name="layout_tab_weight" format="float" />
     </declare-styleable>
 </resources>
