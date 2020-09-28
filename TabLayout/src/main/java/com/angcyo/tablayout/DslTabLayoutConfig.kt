@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.IdRes
 import com.angcyo.tablayout.DslTabIndicator.Companion.NO_COLOR
@@ -97,14 +98,40 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 
     /**返回用于配置文本样式的控件*/
     var onGetTextStyleView: (itemView: View, index: Int) -> TextView? = { itemView, _ ->
-        val tv = itemView as? TextView
-        if (tabTextViewId == View.NO_ID) tv else itemView.findViewById(tabTextViewId) ?: tv
+        if (tabTextViewId == View.NO_ID) {
+            var tv: TextView? = if (itemView is TextView) itemView else null
+            val lp = itemView.layoutParams
+
+            if (lp is DslTabLayout.LayoutParams) {
+                if (lp.indicatorContentIndex != -1 && itemView is ViewGroup) {
+                    itemView.getChildOrNull(lp.indicatorContentIndex)?.let {
+                        if (it is TextView) {
+                            tv = it
+                        }
+                    }
+                }
+            }
+            tv
+        } else {
+            itemView.findViewById(tabTextViewId)
+        }
     }
 
     /**返回用于配置ico样式的控件*/
     var onGetIcoStyleView: (itemView: View, index: Int) -> View? = { itemView, _ ->
-        val iv = itemView
-        if (tabIconViewId == View.NO_ID) iv else itemView.findViewById(tabIconViewId) ?: iv
+        if (tabIconViewId == View.NO_ID) {
+            var iv: View? = itemView
+            val lp = itemView.layoutParams
+
+            if (lp is DslTabLayout.LayoutParams) {
+                if (lp.indicatorContentIndex != -1 && itemView is ViewGroup) {
+                    iv = itemView.getChildOrNull(lp.indicatorContentIndex)
+                }
+            }
+            iv
+        } else {
+            itemView.findViewById(tabIconViewId)
+        }
     }
 
     init {
