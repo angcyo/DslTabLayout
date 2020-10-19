@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
+import kotlin.math.max
 
 /**
  * 未读数, 未读小红点, 角标绘制Drawable
@@ -25,7 +26,11 @@ open class DslBadgeDrawable : DslGradientDrawable() {
     /**角标文本颜色*/
     var badgeTextColor = Color.WHITE
 
-    /**角标的文本, 空字符串会绘制成小圆点*/
+    /**角标的文本(默认居中绘制文本,暂不支持修改), 空字符串会绘制成小圆点
+     * null 不绘制角标
+     * ""   空字符绘制圆点
+     * 其他  正常绘制
+     * */
     var badgeText: String? = null
 
     /**角标的文本大小*/
@@ -56,6 +61,13 @@ open class DslBadgeDrawable : DslGradientDrawable() {
     var badgePaddingTop = 0
     var badgePaddingBottom = 0
 
+    /**最小的高度大小, px. 大于0生效; 圆点时属性无效*/
+    var badgeMinHeight = -2
+
+    /**最小的宽度大小, px. 大于0生效; 圆点时属性无效;
+     * -1 表示使用使用计算出来的高度值*/
+    var badgeMinWidth = -2
+
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
         super.initAttribute(context, attributeSet)
         updateOriginDrawable()
@@ -85,16 +97,28 @@ open class DslBadgeDrawable : DslGradientDrawable() {
             val textWidth = textPaint.textWidth(badgeText)
             val textHeight = textPaint.textHeight()
 
-            val drawWidth = if (isCircle) {
-                badgeCircleRadius.toFloat()
-            } else {
-                textWidth + badgePaddingLeft + badgePaddingRight
-            }
-
             val drawHeight = if (isCircle) {
                 badgeCircleRadius.toFloat()
             } else {
-                textHeight + badgePaddingTop + badgePaddingBottom
+                val height = textHeight + badgePaddingTop + badgePaddingBottom
+                if (badgeMinHeight > 0) {
+                    max(height, badgeMinHeight.toFloat())
+                } else {
+                    height
+                }
+            }
+
+            val drawWidth = if (isCircle) {
+                badgeCircleRadius.toFloat()
+            } else {
+                val width = textWidth + badgePaddingLeft + badgePaddingRight
+                if (badgeMinWidth == -1) {
+                    max(width, drawHeight)
+                } else if (badgeMinWidth > 0) {
+                    max(width, badgeMinWidth.toFloat())
+                } else {
+                    width
+                }
             }
 
             applyGravity(drawWidth, drawHeight) { centerX, centerY ->

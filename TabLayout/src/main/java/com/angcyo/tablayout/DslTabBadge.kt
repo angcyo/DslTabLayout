@@ -135,6 +135,16 @@ open class DslTabBadge : DslBadgeDrawable() {
             defaultBadgeConfig.badgeIgnoreChildPadding
         )
 
+        defaultBadgeConfig.badgeMinWidth = typedArray.getLayoutDimension(
+            R.styleable.DslTabLayout_tab_badge_min_width,
+            defaultBadgeConfig.badgeMinWidth
+        )
+
+        defaultBadgeConfig.badgeMinHeight = typedArray.getLayoutDimension(
+            R.styleable.DslTabLayout_tab_badge_min_height,
+            defaultBadgeConfig.badgeMinHeight
+        )
+
         typedArray.recycle()
         super.initAttribute(context, attributeSet)
     }
@@ -157,14 +167,19 @@ open class DslTabBadge : DslBadgeDrawable() {
         badgePaddingBottom = badgeConfig.badgePaddingBottom
         badgeTextSize = badgeConfig.badgeTextSize
         cornerRadius(badgeConfig.badgeRadius.toFloat())
-
+        badgeMinHeight = badgeConfig.badgeMinHeight
+        badgeMinWidth = badgeConfig.badgeMinWidth
         badgeText = badgeConfig.badgeText
     }
 }
 
 /**角标绘制参数配置*/
 data class TabBadgeConfig(
-    /**角标的文本, 空字符串会绘制成小圆点*/
+    /**角标的文本(默认居中绘制文本,暂不支持修改), 空字符串会绘制成小圆点
+     * null 不绘制角标
+     * ""   空字符绘制圆点
+     * 其他  正常绘制
+     * */
     var badgeText: String? = null,
     /**重力*/
     var badgeGravity: Int = Gravity.CENTER,
@@ -196,5 +211,12 @@ data class TabBadgeConfig(
     var badgePaddingBottom: Int = 0,
 
     var badgeAnchorChildIndex: Int = -1,
-    var badgeIgnoreChildPadding: Boolean = true
+    var badgeIgnoreChildPadding: Boolean = true,
+
+    /**最小的高度大小, px. 大于0生效; 圆点时属性无效*/
+    var badgeMinHeight: Int = -2,
+
+    /**最小的宽度大小, px. 大于0生效; 圆点时属性无效;
+     * -1 表示使用使用计算出来的高度值*/
+    var badgeMinWidth: Int = -1
 )

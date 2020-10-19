@@ -208,6 +208,14 @@
 
         <attr name="tab_badge_stroke_color" format="color" />
         <attr name="tab_badge_stroke_width" format="dimension" />
+
+        <attr name="tab_badge_min_width" format="dimension|flags">
+            <flag name="WRAP_HEIGHT" value="-1" />
+            <flag name="NONE" value="-2" />
+        </attr>
+        <attr name="tab_badge_min_height" format="dimension">
+            <flag name="NONE" value="-2" />
+        </attr>
         <!--end...-->
 
     </declare-styleable>
