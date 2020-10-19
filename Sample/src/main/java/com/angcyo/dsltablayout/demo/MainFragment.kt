@@ -18,6 +18,7 @@ import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.TabGradientCallback
 import com.angcyo.tablayout.delegate.ViewPager1Delegate
+import kotlin.random.Random.Default.nextInt
 
 /**
  *
@@ -90,6 +91,10 @@ class MainFragment : BaseDslFragment() {
                         }
                         badgeSolidColor = randomColor()
                     }
+
+                    if (!reselect) {
+                        _updateBadge()
+                    }
                 }
 
                 ViewPager1Delegate.install(viewHolder.v(R.id.view_pager)!!, this@apply)
@@ -141,15 +146,21 @@ class MainFragment : BaseDslFragment() {
                 badgeOffsetY = -20 * dpi
             }
 
-            updateTabBadge(1) {
-                badgeText = "9"
-                badgeSolidColor = randomColor()
-            }
-
             updateTabBadge(2) {
                 badgeText = "99+"
                 badgeSolidColor = randomColor()
                 badgeTextSize = 9 * dp
+            }
+
+            _updateBadge()
+        }
+    }
+
+    fun _updateBadge() {
+        baseViewHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
+            updateTabBadge(1) {
+                badgeText = "${nextInt(1, 9)}"
+                badgeSolidColor = randomColor()
             }
         }
     }

@@ -19,6 +19,8 @@
         android:layout_gravity="bottom"
         android:background="#00000000"
         app:tab_badge_gravity="center"
+        app:tab_badge_min_height="16dp"
+        app:tab_badge_min_width="WRAP_HEIGHT"
         app:tab_badge_offset_x="20dp"
         app:tab_badge_offset_y="-10dp"
         app:tab_convex_background="#FFFFFF"
