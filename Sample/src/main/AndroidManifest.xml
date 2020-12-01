@@ -17,13 +17,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DynamicActivity">
-            <!--<intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
+        <activity android:name=".DynamicActivity" />
+        <activity android:name=".VerticalActivity" />
     </application>
 
 </manifest>

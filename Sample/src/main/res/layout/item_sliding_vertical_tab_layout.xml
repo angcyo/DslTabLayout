@@ -12,25 +12,25 @@
     <TextView
         style="@style/TabSlidingItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:text="R" />
 
     <TextView
         style="@style/TabSlidingItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:text="最新" />
 
     <ImageView
         style="@style/TabSlidingItemStyle"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:src="@drawable/ic_png" />
 
     <TextView
         style="@style/TabSlidingItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:text="排行榜3" />
 
     <TextView
@@ -70,7 +70,7 @@
     <TextView
         style="@style/TabSlidingItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:text="Vue" />
 
     <TextView
@@ -82,7 +82,7 @@
     <TextView
         style="@style/TabSlidingItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:text="设" />
 
     <TextView
@@ -94,7 +94,7 @@
     <TextView
         style="@style/TabSlidingItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="90dp"
         android:text="其他资源2" />
 
     <TextView
@@ -106,7 +106,7 @@
     <TextView
         style="@style/TabSlidingItemStyle"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:text="其他资源4" />
 
     <TextView

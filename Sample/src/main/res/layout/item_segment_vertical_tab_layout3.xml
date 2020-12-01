@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:padding="@dimen/lib_hdpi">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="340dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:minHeight="40dp"
+        app:tab_border_draw_item_background="false"
+        app:tab_border_radius_size="45dp"
+        app:tab_border_solid_color="@color/white"
+        app:tab_border_stroke_color="#F7CF4D"
+        app:tab_deselect_color="#F7CF4D"
+        app:tab_draw_border="true"
+        app:tab_enable_gradient_color="true"
+        app:tab_indicator_color="#F7CF4D"
+        app:tab_indicator_drawable="@drawable/indicator_round_background_tran"
+        app:tab_indicator_height="MATCH_PARENT"
+        app:tab_indicator_style="STYLE_BACKGROUND"
+        app:tab_item_is_equ_width="true"
+        app:tab_orientation="VERTICAL"
+        app:tab_select_color="@color/white"
+        tools:tab_default_index="1">
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:text="首页" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:text="消息" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:text="联系人" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:text="更多" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+</FrameLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:padding="@dimen/lib_hdpi">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
+        android:layout_gravity="center"
+        app:tab_border_radius_size="10dp"
+        app:tab_border_stroke_color="@color/colorAccent"
+        app:tab_deselect_color="@color/colorAccent"
+        app:tab_draw_border="true"
+        app:tab_indicator_style="STYLE_NONE"
+        app:tab_item_is_equ_width="true"
+        app:tab_orientation="VERTICAL"
+        app:tab_select_color="@color/white"
+        tools:tab_default_index="1">
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:text="首页" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:text="消息" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+</FrameLayout>

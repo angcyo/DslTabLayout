@@ -2,10 +2,13 @@ package com.angcyo.dsltablayout.demo
 
 import android.graphics.Color
 import android.os.Bundle
+import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabIndicator
 import com.angcyo.tablayout.DslTabLayout
+import com.angcyo.tablayout.isHorizontal
+import com.angcyo.tablayout.isVertical
 
 /**
  *
@@ -19,7 +22,7 @@ class CommonFragment : BaseTabLayoutFragment() {
 
         renderAdapter {
 
-            DslCommonTabLayoutItem()() {
+            commonItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -28,8 +31,7 @@ class CommonFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslCommonTabLayoutItem()() {
-                itemTopInsert = 10 * dpi
+            commonItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -43,16 +45,25 @@ class CommonFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslCommonTabLayoutItem()() {
-                itemLayoutId = R.layout.item_common_tab_layout_convex
-                itemTopInsert = 10 * dpi
+            commonItem {
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_common_tab_layout_convex else R.layout.item_common_vertical_tab_layout_convex
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = 20 * dpi
+                        if (orientation.isHorizontal()) {
+                            tabIndicator.indicatorWidth = 20 * dpi
+                        } else {
+                            tabIndicator.indicatorHeight = 20 * dpi
+                        }
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorColor = randomColor()
-                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
+
+                        if (isHorizontal()) {
+                            tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
+                        } else {
+                            tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
+                        }
 
                         configTabLayoutConfig {
                             tabEnableGradientColor = true
@@ -62,9 +73,9 @@ class CommonFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslCommonTabLayoutItem()() {
-                itemLayoutId = R.layout.item_common_tab_layout_convex2
-                itemTopInsert = 10 * dpi
+            commonItem {
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_common_tab_layout_convex2 else R.layout.item_common_vertical_tab_layout_convex2
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -85,8 +96,9 @@ class CommonFragment : BaseTabLayoutFragment() {
 
             //2...
 
-//            DslCommonTabLayoutItem()() {
-//                itemLayoutId = R.layout.item_common_tab_layout2
+//            commonItem {
+//                  itemLayoutId =
+//                      if (orientation.isHorizontal()) R.layout.item_common_tab_layout2 else R.layout.item_common_vertical_tab_layout2
 //                itemTopInsert = 10 * dpi
 //                itemBindOverride = { itemHolder, _, _, _ ->
 //                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
@@ -104,12 +116,17 @@ class CommonFragment : BaseTabLayoutFragment() {
 //                }
 //            }
 
-            DslCommonTabLayoutItem()() {
-                itemLayoutId = R.layout.item_common_tab_layout2
+            commonItem {
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_common_tab_layout2 else R.layout.item_common_vertical_tab_layout2
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = 20 * dpi
+                        if (isHorizontal()) {
+                            tabIndicator.indicatorWidth = 20 * dpi
+                        } else {
+                            tabIndicator.indicatorHeight = 20 * dpi
+                        }
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorColor = Color.WHITE
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
@@ -122,15 +139,24 @@ class CommonFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslCommonTabLayoutItem()() {
-                itemLayoutId = R.layout.item_common_tab_layout2
+            commonItem {
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_common_tab_layout2 else R.layout.item_common_vertical_tab_layout2
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = -2
-                        tabIndicator.indicatorHeight = -1
-                        tabIndicator.indicatorHeightOffset = -20 * dpi
-                        tabIndicator.indicatorWidthOffset = -10 * dpi
+                        if (isHorizontal()) {
+                            tabIndicator.indicatorWidth = -2
+                            tabIndicator.indicatorHeight = -1
+                            tabIndicator.indicatorHeightOffset = -20 * dpi
+                            tabIndicator.indicatorWidthOffset = -10 * dpi
+                        } else {
+                            tabIndicator.indicatorHeight = -2
+                            tabIndicator.indicatorWidth = -1
+                            tabIndicator.indicatorHeightOffset = -10 * dpi
+                            tabIndicator.indicatorWidthOffset = -20 * dpi
+                        }
+
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorColor = Color.parseColor("#40000000")
                         tabIndicator.indicatorDrawable =
@@ -144,15 +170,24 @@ class CommonFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslCommonTabLayoutItem()() {
-                itemLayoutId = R.layout.item_common_tab_layout2
+            commonItem {
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_common_tab_layout2 else R.layout.item_common_vertical_tab_layout2
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = -2
-                        tabIndicator.indicatorHeight = -1
-                        tabIndicator.indicatorHeightOffset = -20 * dpi
-                        tabIndicator.indicatorWidthOffset = -10 * dpi
+                        if (isHorizontal()) {
+                            tabIndicator.indicatorWidth = -2
+                            tabIndicator.indicatorHeight = -1
+                            tabIndicator.indicatorHeightOffset = -20 * dpi
+                            tabIndicator.indicatorWidthOffset = -10 * dpi
+                        } else {
+                            tabIndicator.indicatorHeight = -2
+                            tabIndicator.indicatorWidth = -1
+                            tabIndicator.indicatorHeightOffset = -10 * dpi
+                            tabIndicator.indicatorWidthOffset = -20 * dpi
+                        }
+
                         tabIndicator.indicatorColor = Color.parseColor("#40000000")
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
                     }
@@ -165,11 +200,21 @@ class CommonFragment : BaseTabLayoutFragment() {
 //                }
 //            }
 //
-            DslViewPager2Item(this@CommonFragment)() {
-                itemBindOverride = { itemHolder, _, _, _ ->
-                    setViewPager2(itemHolder.v(R.id.view_pager)!!)
-                }
+            page2Item()
+        }
+    }
+
+    fun DslAdapter.commonItem(init: DslCommonTabLayoutItem.() -> Unit) {
+        DslCommonTabLayoutItem()() {
+            if (orientation.isVertical()) {
+                itemLayoutId = R.layout.item_common_vertical_tab_layout
             }
+            if (orientation.isHorizontal()) {
+                itemTopInsert = 10 * dpi
+            } else {
+                itemLeftInsert = 10 * dpi
+            }
+            init()
         }
     }
 }

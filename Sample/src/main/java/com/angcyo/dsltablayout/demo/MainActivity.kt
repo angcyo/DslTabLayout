@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,13 +19,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //show(MainFragment())
+        show(MainFragment())
 
         //show(SegmentFragment())
         //show(CommonFragment())
-        show(SlidingFragment().apply {
-            orientation = LinearLayout.VERTICAL
-        })
+        //show(SlidingFragment())
 
         //show(TestFragment())
     }
@@ -44,6 +41,10 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_add -> {
                 startActivity(Intent(this, DynamicActivity::class.java))
+                true
+            }
+            R.id.action_vertical -> {
+                startActivity(Intent(this, VerticalActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -25,7 +25,9 @@ class DslCommonTabLayoutItem : DslAdapterItem() {
 
         itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 
-            if (itemLayoutId == R.layout.item_common_tab_layout2) {
+            if (itemLayoutId == R.layout.item_common_tab_layout2 ||
+                itemLayoutId == R.layout.item_common_vertical_tab_layout2
+            ) {
                 setBackgroundColor(randomColor())
             }
 

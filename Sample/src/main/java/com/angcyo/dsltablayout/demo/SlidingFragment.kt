@@ -10,6 +10,7 @@ import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabIndicator
 import com.angcyo.tablayout.DslTabLayout
+import com.angcyo.tablayout.isHorizontal
 
 /**
  *
@@ -42,7 +43,12 @@ class SlidingFragment : BaseTabLayoutFragment() {
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         val tabLayout = this
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = -2
+                        if (orientation.isHorizontal()) {
+                            tabIndicator.indicatorWidth = -2
+                        } else {
+                            tabIndicator.indicatorWidth = 3 * dpi
+                            tabIndicator.indicatorHeight = -2
+                        }
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
 
                         //动态切换[tabSelectColor] [tabDeselectColor] 属性
@@ -69,8 +75,15 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = -1
-                        tabIndicator.indicatorHeight = 4 * dpi
+
+                        if (orientation.isHorizontal()) {
+                            tabIndicator.indicatorWidth = -1
+                            tabIndicator.indicatorHeight = 4 * dpi
+                        } else {
+                            tabIndicator.indicatorWidth = 4 * dpi
+                            tabIndicator.indicatorHeight = -1
+                        }
+
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_TOP
 
                         configTabLayoutConfig {
@@ -110,7 +123,11 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = -2
+                        if (orientation.isHorizontal()) {
+                            tabIndicator.indicatorWidth = -2
+                        } else {
+                            tabIndicator.indicatorHeight = -2
+                        }
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
@@ -131,8 +148,16 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = -1
-                        tabIndicator.indicatorHeight = 4 * dpi
+
+                        if (orientation.isHorizontal()) {
+                            tabIndicator.indicatorWidth = -1
+                            tabIndicator.indicatorHeight = 4 * dpi
+                        } else {
+                            tabIndicator.indicatorWidth = 4 * dpi
+                            tabIndicator.indicatorHeight = -1
+                        }
+
+
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                     }
                 }
@@ -159,7 +184,6 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         addTabLayout(this)
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.ic_love)
-                        tabIndicator.indicatorHeight = -1
                         tabIndicator.indicatorWidth = 40 * dpi
                         tabIndicator.indicatorHeight = 40 * dpi
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
@@ -172,8 +196,15 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = 30 * dpi
-                        tabIndicator.indicatorHeight = 6 * dpi
+
+                        if (orientation.isHorizontal()) {
+                            tabIndicator.indicatorWidth = 30 * dpi
+                            tabIndicator.indicatorHeight = 6 * dpi
+                        } else {
+                            tabIndicator.indicatorWidth = 6 * dpi
+                            tabIndicator.indicatorHeight = 30 * dpi
+                        }
+
                         tabIndicator.indicatorYOffset = 20 * dpi
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
@@ -209,7 +240,13 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
-                        tabIndicator.indicatorWidth = 10 * dpi
+
+                        if (orientation.isHorizontal()) {
+                            tabIndicator.indicatorWidth = 10 * dpi
+                        } else {
+                            tabIndicator.indicatorHeight = 10 * dpi
+                        }
+
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                         tabIndicator.indicatorColor = randomColor()
@@ -278,11 +315,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslViewPagerItem(childFragmentManager)() {
-                itemBindOverride = { itemHolder, _, _, _ ->
-                    setViewPager(itemHolder.v(R.id.view_pager)!!)
-                }
-            }
+            //
+            pageItem()
         }
     }
 

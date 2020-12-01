@@ -41,6 +41,13 @@ class MainFragment : BaseDslFragment() {
         addValueCallback(keyPath, LottieProperty.COLOR_FILTER, callback)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        fragmentList.forEach {
+            it.orientation = this.orientation
+        }
+    }
+
     override fun initBaseView(viewHolder: DslViewHolder, savedInstanceState: Bundle?) {
         super.initBaseView(viewHolder, savedInstanceState)
         viewHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {

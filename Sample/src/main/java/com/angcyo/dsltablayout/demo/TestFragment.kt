@@ -13,9 +13,9 @@ import android.widget.TextView
  * Copyright (c) 2020 ShenZhen Wayto Ltd. All rights reserved.
  */
 class TestFragment : BaseDslFragment() {
-    override fun getBaseLayoutId(): Int {
-        return R.layout.fragment_test
-    }
+//    override fun getBaseLayoutId(): Int {
+//        return R.layout.item_common_vertical_tab_layout_convex ///R.layout.fragment_test
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,6 +30,12 @@ class TestFragment : BaseDslFragment() {
                 gravity = Gravity.CENTER
                 textSize = 14f
             })
+        }
+
+        renderAdapter {
+            DslViewPager2Item(this@TestFragment)() {
+                itemLayoutId = R.layout.item_view_pager2_vertical_layout
+            }
         }
     }
 }

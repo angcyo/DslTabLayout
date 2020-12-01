@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:padding="@dimen/lib_hdpi">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="440dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/shape_round_background_tran_right"
+        android:paddingTop="20dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="20dp"
+        app:tab_deselect_color="#3C3B3B"
+        app:tab_draw_indicator="false"
+        app:tab_item_is_equ_width="true"
+        app:tab_orientation="VERTICAL"
+        tools:tab_default_index="0">
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_round_background_tran_right_selector"
+            android:text="用户信息" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_round_background_tran_right_selector"
+            android:text="系统信息" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_round_background_tran_right_selector"
+            android:text="其他信息" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+</FrameLayout>

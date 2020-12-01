@@ -6,6 +6,8 @@ import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
+import com.angcyo.tablayout.isHorizontal
+import com.angcyo.tablayout.isVertical
 
 /**
  *
@@ -20,6 +22,9 @@ class SegmentFragment : BaseTabLayoutFragment() {
         renderAdapter {
 
             DslSegmentTabLayoutItem()() {
+                if (orientation.isVertical()) {
+                    itemLayoutId = R.layout.item_segment_vertical_tab_layout
+                }
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -28,7 +33,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
             }
 
             DslSegmentTabLayoutItem()() {
-                itemLayoutId = R.layout.item_segment_tab_layout2
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_segment_tab_layout2 else R.layout.item_segment_vertical_tab_layout2
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -37,7 +43,9 @@ class SegmentFragment : BaseTabLayoutFragment() {
             }
 
             DslSegmentTabLayoutItem()() {
-                itemLayoutId = R.layout.item_segment_tab_layout3
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_segment_tab_layout3 else R.layout.item_segment_vertical_tab_layout3
+
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -46,7 +54,9 @@ class SegmentFragment : BaseTabLayoutFragment() {
             }
 
             DslSegmentTabLayoutItem()() {
-                itemLayoutId = R.layout.item_segment_tab_layout4
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_segment_tab_layout4 else R.layout.item_segment_vertical_tab_layout4
+
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -55,7 +65,9 @@ class SegmentFragment : BaseTabLayoutFragment() {
             }
 
             DslSegmentTabLayoutItem()() {
-                itemLayoutId = R.layout.item_segment_tab_layout5
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_segment_tab_layout5 else R.layout.item_segment_vertical_tab_layout5
+
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -93,7 +105,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
             }
 
             DslSegmentTabLayoutItem()() {
-                itemLayoutId = R.layout.item_segment_tab_layout6
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_segment_tab_layout6 else R.layout.item_segment_vertical_tab_layout6
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -141,7 +154,8 @@ class SegmentFragment : BaseTabLayoutFragment() {
             }
 
             DslSegmentTabLayoutItem()() {
-                itemLayoutId = R.layout.item_segment_tab_layout7
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_segment_tab_layout7 else R.layout.item_segment_vertical_tab_layout7
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -150,7 +164,9 @@ class SegmentFragment : BaseTabLayoutFragment() {
             }
 
             DslSegmentTabLayoutItem()() {
-                itemLayoutId = R.layout.item_segment_tab_layout_selector
+                itemLayoutId =
+                    if (orientation.isHorizontal()) R.layout.item_segment_tab_layout_selector else R.layout.item_segment_verticalt_tab_layout_selector
+
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -158,11 +174,7 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslViewPagerItem(childFragmentManager)() {
-                itemBindOverride = { itemHolder, _, _, _ ->
-                    setViewPager(itemHolder.v(R.id.view_pager)!!)
-                }
-            }
+           pageItem()
         }
     }
 }

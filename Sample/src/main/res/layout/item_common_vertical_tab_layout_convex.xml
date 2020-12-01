@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.angcyo.tablayout.DslTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tab_layout"
+    android:layout_width="80dp"
+    android:layout_height="match_parent"
+    app:tab_convex_background="@color/white"
+    app:tab_deselect_color="@color/text"
+    app:tab_icon_view_id="@id/text_view"
+    app:tab_indicator_color="@color/colorAccent"
+    app:tab_indicator_drawable="@drawable/indicator_bottom_line"
+    app:tab_item_is_equ_width="true"
+    app:tab_orientation="VERTICAL"
+    app:tab_select_color="@color/colorAccent"
+    app:tab_text_view_id="@id/text_view"
+    tools:tab_default_index="0">
+
+    <TextView
+        android:id="@id/text_view"
+        style="@style/TabCommonItemStyle"
+        android:drawableLeft="@drawable/home_selector"
+        android:text="首页" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@id/text_view"
+            style="@style/TabItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/message_selector"
+            android:text="消息" />
+    </FrameLayout>
+
+    <ImageView
+        style="@style/TabCommonItemStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        app:layout_tab_convex_height="20dp" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_contact"
+        android:text="联系人" />
+
+    <TextView
+        style="@style/TabCommonItemStyle"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_setting"
+        android:text="更多" />
+
+</com.angcyo.tablayout.DslTabLayout>
