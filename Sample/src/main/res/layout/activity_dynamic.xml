@@ -113,7 +113,7 @@
         android:id="@+id/add_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:text="动态添加"
         app:layout_constraintLeft_toRightOf="@id/remove_all"
         app:layout_constraintTop_toTopOf="@id/remove_all" />
@@ -122,10 +122,20 @@
         android:id="@+id/add_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:text="添加item"
         android:textAllCaps="false"
         app:layout_constraintLeft_toRightOf="@id/add_all"
+        app:layout_constraintTop_toTopOf="@id/remove_all" />
+
+    <Button
+        android:id="@+id/equ_width_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="等宽"
+        android:textAllCaps="false"
+        app:layout_constraintLeft_toRightOf="@id/add_view"
         app:layout_constraintTop_toTopOf="@id/remove_all" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

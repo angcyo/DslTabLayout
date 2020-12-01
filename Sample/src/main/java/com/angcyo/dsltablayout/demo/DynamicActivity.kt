@@ -48,11 +48,19 @@ class DynamicActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.add_view)?.apply {
             setOnClickListener {
-                tabLayout?.addView(TextView(context).apply {
+                tabLayout.addView(TextView(context).apply {
                     text = "Item ${findViewById<ViewGroup>(R.id.tab_layout)?.childCount}"
                     gravity = Gravity.CENTER
                     textSize = 14f
                 })
+            }
+        }
+
+        findViewById<View>(R.id.equ_width_view)?.apply {
+            setOnClickListener {
+                tabLayout.itemAutoEquWidth = false
+                tabLayout.itemIsEquWidth = !tabLayout.itemIsEquWidth
+                tabLayout.requestLayout()
             }
         }
     }
