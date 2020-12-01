@@ -47,6 +47,14 @@
 |:--:|
 |![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment.gif)|
 
+## 竖向效果
+
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
+
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
+
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
+
 
 # 使用`JitPack`的方式, 引入库.
 
