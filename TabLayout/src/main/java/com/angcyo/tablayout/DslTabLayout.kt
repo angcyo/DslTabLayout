@@ -765,6 +765,9 @@ open class DslTabLayout(
             left += childView.measuredWidth + lp.rightMargin
         }
 
+        //check
+        restoreScroll()
+
         if (dslSelector.dslSelectIndex < 0) {
             //还没有选中
             setCurrentItem(tabDefaultIndex)
@@ -985,6 +988,15 @@ open class DslTabLayout(
         _overScroller.abortAnimation()
         _overScroller.startScroll(scrollX, scrollY, dx, 0)
         ViewCompat.postInvalidateOnAnimation(this)
+    }
+
+    /**检查是否需要重置滚动的位置*/
+    fun restoreScroll() {
+        if (itemIsEquWidth) {
+            if (scrollX != 0 || scrollY != 0) {
+                scrollTo(0, 0)
+            }
+        }
     }
 
     open fun onScrollChange(distance: Float): Boolean {
