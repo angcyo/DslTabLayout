@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.angcyo.tablayout.DslTabLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tab_layout"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:background="#666466"
+    app:tab_draw_badge="true"
+    app:tab_indicator_drawable="@drawable/indicator_bottom_line"
+    app:tab_orientation="VERTICAL">
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="R" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="最新" />
+
+    <ImageView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_png" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="排行榜3" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:drawableLeft="@drawable/ic_android"
+        android:text="Android" />
+
+    <LinearLayout
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TabSlidingItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:padding="0dp"
+            android:text="组合" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_swift" />
+
+        <TextView
+            style="@style/TabSlidingItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:padding="0dp"
+            android:text="Swift" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Vue" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="前->端" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="设" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="其他资源" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="其他资源2" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="其他资源3" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="其他资源4" />
+
+    <TextView
+        style="@style/TabSlidingItemStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="其他资源5" />
+
+</com.angcyo.tablayout.DslTabLayout>

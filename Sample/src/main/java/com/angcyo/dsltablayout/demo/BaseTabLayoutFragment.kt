@@ -1,12 +1,13 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.delegate.ViewPager1Delegate
 import com.angcyo.tablayout.delegate2.ViewPager2Delegate
-import com.angcyo.tablayout.DslTabLayout
 
 /**
  *
@@ -15,8 +16,10 @@ import com.angcyo.tablayout.DslTabLayout
  * @date 2019/11/23
  */
 open class BaseTabLayoutFragment : BaseDslFragment() {
+
     override fun initBaseView(viewHolder: DslViewHolder, savedInstanceState: Bundle?) {
         super.initBaseView(viewHolder, savedInstanceState)
+
     }
 
     val tabLayoutList = mutableListOf<DslTabLayout>()

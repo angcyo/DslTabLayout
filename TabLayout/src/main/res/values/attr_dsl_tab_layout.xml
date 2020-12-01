@@ -22,6 +22,11 @@
         <attr name="tab_convex_background" format="reference|color" />
         <!--是否激活滑动选择模式-->
         <attr name="tab_enable_selector_mode" format="boolean" />
+        <!--方向-->
+        <attr name="tab_orientation" format="enum">
+            <enum name="VERTICAL" value="1" />
+            <enum name="HORIZONTAL" value="0" />
+        </attr>
 
         <!--indicator 指示器相关属性-->
 
@@ -138,6 +143,7 @@
         <attr name="tab_divider_margin_bottom" format="dimension" />
         <!--分割线的宽度-->
         <attr name="tab_divider_width" format="dimension" />
+        <attr name="tab_divider_height" format="dimension" />
         <!--分割线显示的位置-->
         <attr name="tab_divider_show_mode" format="flags">
             <flag name="SHOW_DIVIDER_BEGINNING" value="1" />

@@ -3,6 +3,8 @@ package com.angcyo.dsltablayout.demo
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
+import android.widget.LinearLayout
+import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dp
 import com.angcyo.dsladapter.dpi
@@ -16,13 +18,14 @@ import com.angcyo.tablayout.DslTabLayout
  * @date 2019/11/23
  */
 class SlidingFragment : BaseTabLayoutFragment() {
+
     override fun initBaseView(viewHolder: DslViewHolder, savedInstanceState: Bundle?) {
         super.initBaseView(viewHolder, savedInstanceState)
 
         renderAdapter {
 
             //指示器在顶部
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -34,7 +37,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             //动态改变文本的颜色
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         val tabLayout = this
@@ -62,7 +65,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             //指示器在顶部, 动态调整指示器的颜色
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -79,7 +82,10 @@ class SlidingFragment : BaseTabLayoutFragment() {
                             onSelectIndexChange =
                                 { fromIndex, selectIndexList, reselect, fromUser ->
                                     tabIndicator.indicatorColor = randomColor()
-                                    _viewPagerDelegate?.onSetCurrentItem(fromIndex, selectIndexList.last())
+                                    _viewPagerDelegate?.onSetCurrentItem(
+                                        fromIndex,
+                                        selectIndexList.last()
+                                    )
                                 }
                         }
                     }
@@ -87,7 +93,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             //指示器在底部
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -100,7 +106,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -110,7 +116,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 
-//            DslSlidingTabLayoutItem()() {
+//            slidingItem {
 //                itemBindOverride = { itemHolder, _, _, _ ->
 //                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 //                        addTabLayout(this)
@@ -121,7 +127,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
 //                }
 //            }
 
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -133,7 +139,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             //指示器在背部
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -147,7 +153,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                     }
                 }
             }
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -162,7 +168,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
             }
 
             //其他特性
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -181,7 +187,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                     }
                 }
             }
-//            DslSlidingTabLayoutItem()() {
+//            slidingItem {
 //                itemBindOverride = { itemHolder, _, _, _ ->
 //                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
 //                        addTabLayout(this)
@@ -199,7 +205,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
 //            }
 
             //角标配置
-            DslSlidingTabLayoutItem()() {
+            slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
@@ -277,6 +283,15 @@ class SlidingFragment : BaseTabLayoutFragment() {
                     setViewPager(itemHolder.v(R.id.view_pager)!!)
                 }
             }
+        }
+    }
+
+    fun DslAdapter.slidingItem(init: DslSlidingTabLayoutItem.() -> Unit) {
+        DslSlidingTabLayoutItem()() {
+            if (orientation == LinearLayout.VERTICAL) {
+                itemLayoutId = R.layout.item_sliding_vertical_tab_layout
+            }
+            init()
         }
     }
 }

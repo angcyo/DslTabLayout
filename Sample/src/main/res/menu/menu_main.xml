@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="Add"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_vertical"
+        android:orderInCategory="100"
+        android:title="Vertical"
+        app:showAsAction="never" />
 </menu>

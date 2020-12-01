@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 open class DslTabDivider : DslGradientDrawable() {
 
     var dividerWidth = 2 * dpi
+    var dividerHeight = 2 * dpi
     var dividerMarginLeft = 0
     var dividerMarginRight = 0
     var dividerMarginTop = 0
@@ -34,6 +35,10 @@ open class DslTabDivider : DslGradientDrawable() {
         dividerWidth = typedArray.getDimensionPixelOffset(
             R.styleable.DslTabLayout_tab_divider_width,
             dividerWidth
+        )
+        dividerHeight = typedArray.getDimensionPixelOffset(
+            R.styleable.DslTabLayout_tab_divider_height,
+            dividerHeight
         )
         dividerMarginLeft = typedArray.getDimensionPixelOffset(
             R.styleable.DslTabLayout_tab_divider_margin_left,

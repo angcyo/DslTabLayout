@@ -265,6 +265,34 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         return result
     }
 
+    open fun getChildCenterY(index: Int): Int {
+
+        var result = if (index > 0) tabLayout.maxHeight else 0
+
+        tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
+            val lp = childView.layoutParams as DslTabLayout.LayoutParams
+
+            //如果child强制指定了index, 就用指定的.
+            val contentIndex =
+                if (lp.indicatorContentIndex >= 0) lp.indicatorContentIndex else indicatorContentIndex
+
+            result = childView.top + childView.paddingTop + childView.viewDrawHeight / 2
+
+            if (contentIndex >= 0) {
+                //有指定
+                if (childView is ViewGroup && contentIndex in 0 until childView.childCount) {
+                    val contentChildView = childView.getChildAt(contentIndex)
+                    result =
+                        childView.top + contentChildView.top + contentChildView.paddingTop + contentChildView.viewDrawHeight / 2
+                }
+            } else {
+                //没有指定
+            }
+        }
+
+        return result
+    }
+
     open fun getIndicatorDrawWidth(index: Int): Int {
         var result = indicatorWidth
 
