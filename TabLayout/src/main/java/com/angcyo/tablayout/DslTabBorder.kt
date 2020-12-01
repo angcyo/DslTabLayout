@@ -26,6 +26,7 @@ open class DslTabBorder : DslGradientDrawable() {
 
     /**宽度补偿*/
     var borderBackgroundWidthOffset: Int = 0
+
     /**高度补偿*/
     var borderBackgroundHeightOffset: Int = 0
 
@@ -136,27 +137,53 @@ open class DslTabBorder : DslGradientDrawable() {
                 if (isFirst && isLast) {
                     gradientRadii = this@DslTabBorder.gradientRadii
                 } else if (isFirst) {
-                    gradientRadii = floatArrayOf(
-                        this@DslTabBorder.gradientRadii[0],
-                        this@DslTabBorder.gradientRadii[1],
-                        0f,
-                        0f,
-                        0f,
-                        0f,
-                        this@DslTabBorder.gradientRadii[6],
-                        this@DslTabBorder.gradientRadii[7]
-                    )
+                    if (tabLayout.isHorizontal()) {
+                        gradientRadii = floatArrayOf(
+                            this@DslTabBorder.gradientRadii[0],
+                            this@DslTabBorder.gradientRadii[1],
+                            0f,
+                            0f,
+                            0f,
+                            0f,
+                            this@DslTabBorder.gradientRadii[6],
+                            this@DslTabBorder.gradientRadii[7]
+                        )
+                    } else {
+                        gradientRadii = floatArrayOf(
+                            this@DslTabBorder.gradientRadii[0],
+                            this@DslTabBorder.gradientRadii[1],
+                            this@DslTabBorder.gradientRadii[2],
+                            this@DslTabBorder.gradientRadii[3],
+                            0f,
+                            0f,
+                            0f,
+                            0f
+                        )
+                    }
                 } else if (isLast) {
-                    gradientRadii = floatArrayOf(
-                        0f,
-                        0f,
-                        this@DslTabBorder.gradientRadii[2],
-                        this@DslTabBorder.gradientRadii[3],
-                        this@DslTabBorder.gradientRadii[4],
-                        this@DslTabBorder.gradientRadii[5],
-                        0f,
-                        0f
-                    )
+                    if (tabLayout.isHorizontal()) {
+                        gradientRadii = floatArrayOf(
+                            0f,
+                            0f,
+                            this@DslTabBorder.gradientRadii[2],
+                            this@DslTabBorder.gradientRadii[3],
+                            this@DslTabBorder.gradientRadii[4],
+                            this@DslTabBorder.gradientRadii[5],
+                            0f,
+                            0f
+                        )
+                    } else {
+                        gradientRadii = floatArrayOf(
+                            0f,
+                            0f,
+                            0f,
+                            0f,
+                            this@DslTabBorder.gradientRadii[4],
+                            this@DslTabBorder.gradientRadii[5],
+                            this@DslTabBorder.gradientRadii[6],
+                            this@DslTabBorder.gradientRadii[7]
+                        )
+                    }
                 }
             }
 

@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.math.MathUtils
@@ -297,3 +298,7 @@ internal fun navBarHeight(context: Context): Int {
 
     return result
 }
+
+fun Int.isHorizontal() = this == LinearLayout.HORIZONTAL
+
+fun Int.isVertical() = this == LinearLayout.VERTICAL

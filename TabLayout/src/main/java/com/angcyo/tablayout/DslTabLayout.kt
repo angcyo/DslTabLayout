@@ -116,7 +116,7 @@ open class DslTabLayout(
     var tabEnableSelectorMode = false
 
     /**布局的方向*/
-    var orientation: Int = LinearLayout.VERTICAL//HORIZONTAL
+    var orientation: Int = LinearLayout.HORIZONTAL
 
     //<editor-fold desc="内部属性">
 
@@ -329,7 +329,11 @@ open class DslTabLayout(
 
         //自定义的背景
         tabConvexBackgroundDrawable?.apply {
-            setBounds(0, _maxConvexHeight, right - left, bottom - top)
+            if (isHorizontal()) {
+                setBounds(0, _maxConvexHeight, right - left, bottom - top)
+            } else {
+                setBounds(0, 0, measuredWidth - _maxConvexHeight, bottom - top)
+            }
 
             if (scrollX or scrollY == 0) {
                 draw(canvas)
@@ -1067,7 +1071,7 @@ open class DslTabLayout(
 
     fun layoutVertical(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var top = paddingTop
-        var childRight = measuredWidth - paddingRight
+        var childLeft = paddingLeft
 
         val dividerExclude =
             if (drawDivider) tabDivider?.run { dividerHeight + dividerMarginTop + dividerMarginBottom }
@@ -1086,18 +1090,18 @@ open class DslTabLayout(
                 }
             }
 
-            childRight = if (lp.gravity.have(Gravity.CENTER_VERTICAL)) {
-                measuredWidth - paddingRight -
-                        ((measuredWidth - paddingLeft - paddingRight - _maxConvexHeight) / 2 -
-                                childView.measuredWidth / 2)
+            childLeft = if (lp.gravity.have(Gravity.CENTER_HORIZONTAL)) {
+                paddingLeft + ((measuredWidth - paddingLeft - paddingRight - _maxConvexHeight) / 2 -
+                        childView.measuredWidth / 2)
             } else {
-                measuredWidth - paddingRight
+                paddingLeft
             }
 
             /*默认水平居中显示*/
             childView.layout(
-                childRight - childView.measuredWidth,
-                top, childRight,
+                childLeft,
+                top,
+                childLeft + childView.measuredWidth,
                 top + childView.measuredHeight
             )
 
@@ -1116,7 +1120,7 @@ open class DslTabLayout(
     }
 
     /**是否是横向布局*/
-    fun isHorizontal() = orientation == LinearLayout.HORIZONTAL
+    fun isHorizontal() = orientation.isHorizontal()
 
     //</editor-fold desc="布局相关">
 

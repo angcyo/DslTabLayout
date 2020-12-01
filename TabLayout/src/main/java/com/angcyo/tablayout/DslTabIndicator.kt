@@ -68,7 +68,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
      * MATCH_PARENT: [childView]的宽度
      * 40dp: 固定值
      * */
-    var indicatorWidth = ViewGroup.LayoutParams.MATCH_PARENT
+    var indicatorWidth = 0
 
     /**宽度补偿*/
     var indicatorWidthOffset = 0
@@ -79,7 +79,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
      * MATCH_PARENT: [childView]的高度
      * 40dp: 固定值
      * */
-    var indicatorHeight = 3 * dpi
+    var indicatorHeight = 0
 
     /**高度补偿*/
     var indicatorHeightOffset = 0
@@ -88,7 +88,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
     var indicatorXOffset = 0
 
     /**会根据[indicatorStyle]自动取负值*/
-    var indicatorYOffset = 2 * dpi
+    var indicatorYOffset = 0
 
     /**
      * 宽高[WRAP_CONTENT]时, 内容view的定位索引
@@ -110,11 +110,53 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         indicatorColor =
             typedArray.getColor(R.styleable.DslTabLayout_tab_indicator_color, indicatorColor)
         indicatorStyle =
-            typedArray.getInt(R.styleable.DslTabLayout_tab_indicator_style, indicatorStyle)
+            typedArray.getInt(
+                R.styleable.DslTabLayout_tab_indicator_style,
+                if (tabLayout.isHorizontal()) INDICATOR_STYLE_BOTTOM else INDICATOR_STYLE_TOP
+            )
 
+        //初始化指示器的高度和宽度
         if (indicatorStyle == INDICATOR_STYLE_BACKGROUND) {
-            indicatorYOffset = 0
-            indicatorHeight = -1
+            if (tabLayout.isHorizontal()) {
+                indicatorWidth = ViewGroup.LayoutParams.MATCH_PARENT
+                indicatorHeight = -1
+            } else {
+                indicatorHeight = ViewGroup.LayoutParams.MATCH_PARENT
+                indicatorWidth = -1
+            }
+            indicatorWidth = typedArray.getLayoutDimension(
+                R.styleable.DslTabLayout_tab_indicator_width,
+                indicatorWidth
+            )
+            indicatorHeight = typedArray.getLayoutDimension(
+                R.styleable.DslTabLayout_tab_indicator_height,
+                indicatorHeight
+            )
+            indicatorXOffset = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_indicator_x_offset,
+                indicatorXOffset
+            )
+            indicatorYOffset = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_indicator_y_offset,
+                indicatorYOffset
+            )
+        } else {
+            indicatorWidth = typedArray.getLayoutDimension(
+                R.styleable.DslTabLayout_tab_indicator_width,
+                if (tabLayout.isHorizontal()) ViewGroup.LayoutParams.MATCH_PARENT else 3 * dpi
+            )
+            indicatorHeight = typedArray.getLayoutDimension(
+                R.styleable.DslTabLayout_tab_indicator_height,
+                if (tabLayout.isHorizontal()) 3 * dpi else ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            indicatorXOffset = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_indicator_x_offset,
+                if (tabLayout.isHorizontal()) 0 else 2 * dpi
+            )
+            indicatorYOffset = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_indicator_y_offset,
+                if (tabLayout.isHorizontal()) 2 * dpi else 0
+            )
         }
 
         indicatorFlowStep =
@@ -123,14 +165,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             R.styleable.DslTabLayout_tab_indicator_enable_flow,
             indicatorEnableFlow
         )
-        indicatorWidth = typedArray.getLayoutDimension(
-            R.styleable.DslTabLayout_tab_indicator_width,
-            indicatorWidth
-        )
-        indicatorHeight = typedArray.getLayoutDimension(
-            R.styleable.DslTabLayout_tab_indicator_height,
-            indicatorHeight
-        )
+
         indicatorWidthOffset = typedArray.getDimensionPixelOffset(
             R.styleable.DslTabLayout_tab_indicator_width_offset,
             indicatorWidthOffset
@@ -138,14 +173,6 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         indicatorHeightOffset = typedArray.getDimensionPixelOffset(
             R.styleable.DslTabLayout_tab_indicator_height_offset,
             indicatorHeightOffset
-        )
-        indicatorXOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_tab_indicator_x_offset,
-            indicatorXOffset
-        )
-        indicatorYOffset = typedArray.getDimensionPixelOffset(
-            R.styleable.DslTabLayout_tab_indicator_y_offset,
-            indicatorYOffset
         )
         indicatorContentIndex = typedArray.getInt(
             R.styleable.DslTabLayout_tab_indicator_content_index,
@@ -368,6 +395,14 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             return
         }
 
+        if (tabLayout.isHorizontal()) {
+            drawHorizontal(canvas)
+        } else {
+            drawVertical(canvas)
+        }
+    }
+
+    fun drawHorizontal(canvas: Canvas) {
         val childSize = tabLayout.dslSelector.visibleViewList.size
 
         var currentIndex = currentIndex
@@ -461,7 +496,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
                 viewHeight - drawHeight - indicatorYOffset
             }
             INDICATOR_STYLE_TOP -> {
-                //底部绘制
+                //顶部绘制
                 0 + indicatorYOffset
             }
             else -> {
@@ -478,6 +513,119 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
                 drawTop,
                 animLeft + animWidth,
                 drawTop + drawHeight + animExHeight
+            )
+            draw(canvas)
+        }
+    }
+
+    fun drawVertical(canvas: Canvas) {
+        val childSize = tabLayout.dslSelector.visibleViewList.size
+
+        var currentIndex = currentIndex
+
+        if (_targetIndex in 0 until childSize) {
+            currentIndex = max(0, currentIndex)
+        }
+
+        if (currentIndex in 0 until childSize) {
+
+        } else {
+            //无效的index
+            return
+        }
+
+        //"绘制$currentIndex:$currentSelectIndex $positionOffset".logi()
+
+        val drawCenterY = getChildCenterY(currentIndex)
+        val drawWidth = getIndicatorDrawWidth(currentIndex)
+        val drawHeight = getIndicatorDrawHeight(currentIndex)
+
+        val drawTop = drawCenterY - drawHeight / 2 + indicatorYOffset
+
+        //动画过程中的top
+        var animTop = drawTop
+        //height
+        var animHeight = drawHeight
+        //动画执行过程中, 宽度额外变大的值
+        var animExWidth = 0
+
+        if (_targetIndex in 0 until childSize && _targetIndex != currentIndex) {
+
+            //动画过程参数计算变量
+            val animStartTop = drawTop
+            val animStartHeight = drawHeight
+            val animEndHeight = getIndicatorDrawHeight(_targetIndex)
+            val animEndTop = getChildCenterY(_targetIndex) - animEndHeight / 2 + indicatorYOffset
+            val animEndWidth = getIndicatorDrawWidth(_targetIndex)
+
+            if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
+                //激活了流动效果
+
+                val flowEndHeight: Int
+                if (_targetIndex > currentIndex) {
+                    flowEndHeight = animEndTop - animStartTop + animEndHeight
+
+                    //目标在下边
+                    animTop = if (positionOffset >= 0.5) {
+                        (animStartTop + (animEndTop - animStartTop) * (positionOffset - 0.5) / 0.5f).toInt()
+                    } else {
+                        animStartTop
+                    }
+                } else {
+                    flowEndHeight = animStartTop - animEndTop + animStartHeight
+
+                    //目标在上边
+                    animTop = if (positionOffset >= 0.5) {
+                        animEndTop
+                    } else {
+                        (animStartTop - (animStartTop - animEndTop) * positionOffset / 0.5f).toInt()
+                    }
+                }
+
+                animHeight = if (positionOffset >= 0.5) {
+                    (flowEndHeight - (flowEndHeight - animEndHeight) * (positionOffset - 0.5) / 0.5f).toInt()
+                } else {
+                    (animStartHeight + (flowEndHeight - animStartHeight) * positionOffset / 0.5f).toInt()
+                }
+            } else {
+                if (_targetIndex > currentIndex) {
+                    //目标在下边
+                    animTop = (animStartTop + (animEndTop - animStartTop) * positionOffset).toInt()
+                } else {
+                    //目标在上边
+                    animTop = (animStartTop - (animStartTop - animEndTop) * positionOffset).toInt()
+                }
+
+                //动画过程中的宽度
+                animHeight =
+                    (animStartHeight + (animEndHeight - animStartHeight) * positionOffset).toInt()
+            }
+
+            animExWidth = ((animEndWidth - drawWidth) * positionOffset).toInt()
+        }
+
+        val drawLeft = when (indicatorStyle) {
+            INDICATOR_STYLE_BOTTOM -> {
+                //右边/底部绘制
+                viewWidth - drawWidth - indicatorXOffset
+            }
+            INDICATOR_STYLE_TOP -> {
+                //左边/顶部绘制
+                0 + indicatorXOffset
+            }
+            else -> {
+                //居中绘制
+                paddingLeft + indicatorXOffset + (viewDrawWidth / 2 - drawWidth / 2) -
+                        (tabLayout._maxConvexHeight - _childConvexHeight(currentIndex)) / 2
+            }
+        }
+
+        indicatorDrawable?.apply {
+            setBounds(
+                drawLeft,
+                animTop,
+                drawLeft + drawWidth + animExWidth,
+                animTop + animHeight
             )
             draw(canvas)
         }
