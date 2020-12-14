@@ -8,10 +8,6 @@ import android.widget.CompoundButton
  * 用来操作[ViewGroup]中的[child], 支持单选, 多选, 拦截.
  * 操作的都是可见性为[VISIBLE]的[View]
  *
- * 注意:如此child是[CompoundButton], 那么[fromIndex]计算会有问题,[toIndex]不受影响
- *
- * Email:angcyo@126.com
- * @author angcyo
  * @date 2019/11/24
  */
 
