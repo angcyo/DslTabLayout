@@ -1,12 +1,15 @@
 package com.angcyo.dsltablayout.demo
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import com.angcyo.dsladapter.dpi
 import com.angcyo.dsladapter.inflate
 import com.angcyo.tablayout.DslTabLayout
 
@@ -22,7 +25,7 @@ class DynamicActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dynamic)
 
-        val tabLayout: DslTabLayout = findViewById(R.id.tab_layout)
+        val tabLayout: DslTabLayout = find(R.id.tab_layout)
 
         tabLayout.configTabLayoutConfig {
             onSelectIndexChange = { fromIndex, selectIndexList, reselect, fromUser ->
@@ -33,30 +36,36 @@ class DynamicActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<View>(R.id.remove_all)?.setOnClickListener {
+        find<View>(R.id.remove_all)?.setOnClickListener {
             tabLayout.removeAllViews()
         }
 
-        findViewById<View>(R.id.add_all)?.setOnClickListener {
+        find<View>(R.id.add_all)?.setOnClickListener {
             for (i in 0..10) {
                 tabLayout.inflate(R.layout.layout_text_view, false).apply {
-                    findViewById<TextView>(R.id.text_view)?.text = "NewItem$i"
+                    find<TextView>(R.id.text_view)?.text = "NewItem$i"
                     tabLayout.addView(this)
                 }
             }
         }
 
-        findViewById<View>(R.id.add_view)?.apply {
+        find<View>(R.id.add_view)?.apply {
             setOnClickListener {
                 tabLayout.addView(TextView(context).apply {
-                    text = "Item ${findViewById<ViewGroup>(R.id.tab_layout)?.childCount}"
+                    text = "Item ${tabLayout.childCount}"
                     gravity = Gravity.CENTER
                     textSize = 14f
+                    background = ColorDrawable(Color.parseColor("#20000000"))
+                    layoutParams = DslTabLayout.LayoutParams(-2, -2).apply {
+                        leftMargin = 2 * dpi
+                        rightMargin = 2 * dpi
+                    }
                 })
+                tabLayout.setCurrentItem(tabLayout.childCount - 1)
             }
         }
 
-        findViewById<View>(R.id.equ_width_view)?.apply {
+        find<View>(R.id.equ_width_view)?.apply {
             setOnClickListener {
                 tabLayout.itemAutoEquWidth = false
                 tabLayout.itemIsEquWidth = !tabLayout.itemIsEquWidth
@@ -64,4 +73,6 @@ class DynamicActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun <T : View> find(@IdRes id: Int) = findViewById<T>(id)
 }
