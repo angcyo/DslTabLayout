@@ -159,6 +159,7 @@ open class DslTabLayout(
                 _scrollToCenter(toIndex, tabIndicator.indicatorAnim)
                 postInvalidate()
 
+                //如果设置[tabLayoutConfig?.onSelectIndexChange], 那么会覆盖[_viewPagerDelegate]的操作.
                 tabLayoutConfig?.onSelectIndexChange?.invoke(
                     fromIndex,
                     selectList,
