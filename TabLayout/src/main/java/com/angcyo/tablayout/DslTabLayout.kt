@@ -250,7 +250,14 @@ open class DslTabLayout(
             _scrollToCenter(index, tabIndicator.indicatorAnim)
             return
         }
-        dslSelector.selector(index, true, notify, fromUser)
+        val targetView = dslSelector.visibleViewList.getOrNull(index)
+        if (targetView == null || ViewCompat.isLaidOut(targetView)) {
+            dslSelector.selector(index, true, notify, fromUser)
+        } else {
+            post {
+                setCurrentItem(index, notify, fromUser)
+            }
+        }
     }
 
     /**关联[ViewPagerDelegate]*/
