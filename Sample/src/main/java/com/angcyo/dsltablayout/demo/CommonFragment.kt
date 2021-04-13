@@ -198,6 +198,9 @@ class CommonFragment : BaseTabLayoutFragment() {
 //                    setViewPager(itemHolder.v(R.id.view_pager))
 //                }
 //            }
+
+            //
+            pageItem()
         }
     }
 
