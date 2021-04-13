@@ -3,14 +3,12 @@ package com.angcyo.dsltablayout.demo
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.annotation.IdRes
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
-import com.angcyo.dsladapter.dpi
-import com.angcyo.dsladapter.inflate
 import com.angcyo.tablayout.DslTabLayout
 
 /**

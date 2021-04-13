@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/test_tab_layout"
@@ -25,7 +26,7 @@
         app:tab_min_scale="1.0"
         app:tab_select_color="#333333">
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
@@ -35,7 +36,7 @@
             android:text="转发"
             android:textSize="15dp" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <TextView
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_marginStart="24dp"
@@ -51,7 +52,7 @@
             app:layout_tab_indicator_content_index="0"
             app:layout_tab_weight="1">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <TextView
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
@@ -69,7 +70,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/test_tab_layout"
         app:tab_deselect_color="#333333"
         app:tab_item_auto_equ_width="true">
 
@@ -101,41 +101,40 @@
 
     </com.angcyo.tablayout.DslTabLayout>
 
-    <Button
-        android:id="@+id/remove_all"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="移除所有"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/add_all"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="动态添加"
-        app:layout_constraintLeft_toRightOf="@id/remove_all"
-        app:layout_constraintTop_toTopOf="@id/remove_all" />
+        <Button
+            android:id="@+id/remove_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="移除所有" />
 
-    <Button
-        android:id="@+id/add_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="添加item"
-        android:textAllCaps="false"
-        app:layout_constraintLeft_toRightOf="@id/add_all"
-        app:layout_constraintTop_toTopOf="@id/remove_all" />
+        <Button
+            android:id="@+id/add_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="动态添加" />
 
-    <Button
-        android:id="@+id/equ_width_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="等宽"
-        android:textAllCaps="false"
-        app:layout_constraintLeft_toRightOf="@id/add_view"
-        app:layout_constraintTop_toTopOf="@id/remove_all" />
+        <Button
+            android:id="@+id/add_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="添加item"
+            android:textAllCaps="false" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/equ_width_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="等宽"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+</LinearLayout>

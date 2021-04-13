@@ -1,14 +1,20 @@
 package com.angcyo.dsltablayout.demo
 
 import android.content.Context
+import android.content.Intent
+import android.content.res.Resources
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
+import android.support.annotation.LayoutRes
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
+import android.support.v4.app.FragmentManager
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
+import android.view.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -78,3 +84,14 @@ fun String.toColorInt(): Int = Color.parseColor(this)
 val density: Float = Resources.getSystem()?.displayMetrics?.density ?: 0f
 val dp: Float = Resources.getSystem()?.displayMetrics?.density ?: 0f
 val dpi: Int = Resources.getSystem()?.displayMetrics?.density?.toInt() ?: 0
+
+fun ViewGroup.inflate(@LayoutRes layoutId: Int, attachToRoot: Boolean = true): View {
+    if (layoutId == -1) {
+        return this
+    }
+    val rootView = LayoutInflater.from(context).inflate(layoutId, this, false)
+    if (attachToRoot) {
+        addView(rootView)
+    }
+    return rootView
+}

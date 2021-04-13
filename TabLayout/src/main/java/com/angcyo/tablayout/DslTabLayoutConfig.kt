@@ -3,12 +3,12 @@ package com.angcyo.tablayout
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
+import android.support.annotation.IdRes
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.IdRes
 import com.angcyo.tablayout.DslTabIndicator.Companion.NO_COLOR
 import kotlin.math.max
 import kotlin.math.min

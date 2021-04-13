@@ -31,11 +31,5 @@ class TestFragment : BaseDslFragment() {
                 textSize = 14f
             })
         }
-
-        renderAdapter {
-            DslViewPager2Item(this@TestFragment)() {
-                itemLayoutId = R.layout.item_view_pager2_vertical_layout
-            }
-        }
     }
 }

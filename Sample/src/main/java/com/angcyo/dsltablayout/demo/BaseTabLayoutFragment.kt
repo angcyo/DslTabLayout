@@ -1,12 +1,12 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
+import android.support.v4.view.ViewPager
+import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.tablayout.delegate.ViewPager1Delegate
-import com.angcyo.tablayout.delegate2.ViewPager2Delegate
 import com.angcyo.tablayout.DslTabLayout
+import com.angcyo.tablayout.delegate.ViewPager1Delegate
+import com.angcyo.tablayout.isVertical
 
 /**
  *
@@ -34,28 +34,11 @@ open class BaseTabLayoutFragment : BaseDslFragment() {
         }
     }
 
-    fun setViewPager2(viewPager: ViewPager2) {
-        tabLayoutList.forEach {
-            ViewPager2Delegate.install(viewPager, it)
-        }
-    }
-
     fun DslAdapter.pageItem() {
         DslViewPagerItem(childFragmentManager)() {
             if (orientation.isVertical()) itemLayoutId = R.layout.item_view_pager_vertical_layout
             itemBindOverride = { itemHolder, _, _, _ ->
                 setViewPager(itemHolder.v(R.id.view_pager)!!)
-            }
-        }
-    }
-
-    fun DslAdapter.page2Item() {
-        DslViewPager2Item(this@BaseTabLayoutFragment)() {
-            if (orientation.isVertical()) {
-                itemLayoutId = R.layout.item_view_pager2_vertical_layout
-            }
-            itemBindOverride = { itemHolder, _, _, _ ->
-                setViewPager2(itemHolder.v(R.id.view_pager)!!)
             }
         }
     }

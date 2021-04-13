@@ -3,8 +3,6 @@ package com.angcyo.dsltablayout.demo
 import android.os.Bundle
 import android.view.Gravity
 import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.dp
-import com.angcyo.dsladapter.dpi
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.isHorizontal
 import com.angcyo.tablayout.isVertical
@@ -174,7 +172,7 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 }
             }
 
-           pageItem()
+            pageItem()
         }
     }
 }

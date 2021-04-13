@@ -9,14 +9,14 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Parcelable
+import android.support.v4.view.GestureDetectorCompat
+import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.*
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.OverScroller
-import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.ViewCompat
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min

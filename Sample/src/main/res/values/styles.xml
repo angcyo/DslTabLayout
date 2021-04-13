@@ -24,4 +24,15 @@
     <style name="TabCommonItemStyle" parent="TabItemStyle">
         <item name="android:padding">4dp</item>
     </style>
+
+    <dimen name="lib_padding_left">16dp</dimen>
+    <dimen name="lib_padding_right">10dp</dimen>
+    <dimen name="lib_dpi">2dp</dimen>
+    <dimen name="lib_sdpi">4dp</dimen>
+    <dimen name="lib_ldpi">6dp</dimen>
+    <dimen name="lib_hdpi">8dp</dimen>
+    <dimen name="lib_xhdpi">12dp</dimen>
+    <dimen name="lib_xxhdpi">22dp</dimen>
+    <dimen name="lib_xxxhdpi">35dp</dimen>
+    <dimen name="lib_min_padding">2dp</dimen>
 </resources>

@@ -52,7 +52,7 @@
                     app:lottie_colorFilter="#333AC4"
                     app:lottie_rawRes="@raw/json_play" />
 
-                <com.angcyo.widget.DslButton
+                <com.angcyo.button.DslButton
                     android:id="@+id/button_view"
                     style="@style/TabItemStyle"
                     android:text="Sliding"
@@ -83,7 +83,7 @@
                 app:lottie_colorFilter="#333AC4"
                 app:lottie_rawRes="@raw/json_add" />
 
-            <com.angcyo.widget.DslButton
+            <com.angcyo.button.DslButton
                 android:id="@+id/button_view"
                 style="@style/TabItemStyle"
                 android:text="Common"
@@ -108,7 +108,7 @@
                 app:lottie_colorFilter="#333AC4"
                 app:lottie_rawRes="@raw/json_home" />
 
-            <com.angcyo.widget.DslButton
+            <com.angcyo.button.DslButton
                 android:id="@+id/button_view"
                 style="@style/TabItemStyle"
                 android:text="Segment"
