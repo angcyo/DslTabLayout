@@ -3,7 +3,7 @@
 
 [![](https://img.shields.io/badge/License-MIT-3A77AC)](https://github.com/angcyo/DslTabLayout/blob/master/LICENSE) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)  [![](https://img.shields.io/badge/androidx-yes-80B44D)](https://developer.android.google.cn/jetpack/androidx)
 
-# 特性
+## 特性
 
 1. 支持任意类型的`child`视图.
 2. 支持任意类型`Drawable`的`指示器`.
@@ -27,7 +27,7 @@
 
 [关联ViewPager使用(兼容ViewPager2)](https://github.com/angcyo/DslTabLayout/wiki/ViewPager1%E5%92%8CViewPager2)
 
-# 效果
+## 效果
 
 **一个`DSLTabLayout`可实现以下3中效果**
 
@@ -73,12 +73,12 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:2.0.2'
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:2.0.3'
 
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:2.0.2'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:2.0.3'
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:2.0.2'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:2.0.3'
 }
 ```
 
