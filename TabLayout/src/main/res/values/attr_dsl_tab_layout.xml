@@ -27,6 +27,8 @@
             <enum name="VERTICAL" value="1" />
             <enum name="HORIZONTAL" value="0" />
         </attr>
+        <attr name="tab_layout_scroll_anim" format="boolean" />
+        <attr name="tab_scroll_anim_duration" format="integer" />
 
         <!--indicator 指示器相关属性-->
 
