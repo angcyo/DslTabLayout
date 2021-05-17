@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
+import android.view.View
 import android.view.ViewGroup
 import java.util.*
 import kotlin.math.absoluteValue
@@ -21,25 +22,40 @@ import kotlin.math.max
 open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() {
 
     companion object {
-        //非颜色值
+
+        /**非颜色值*/
         const val NO_COLOR = -2
 
-        //不绘制指示器
+        /**不绘制指示器*/
         const val INDICATOR_STYLE_NONE = 0
 
-        //指示器绘制[itemView]的背部, [itemView] 请不要设置background, 否则可能看不见
+        /**指示器绘制[itemView]的背部, [itemView] 请不要设置background, 否则可能看不见*/
         const val INDICATOR_STYLE_BACKGROUND = 0x1
 
-        //指示器绘制在[itemView]的顶部
+        /**指示器绘制在[itemView]的顶部*/
         const val INDICATOR_STYLE_TOP = 0x11
 
-        //指示器绘制在[itemView]的底部
+        /**指示器绘制在[itemView]的底部*/
         const val INDICATOR_STYLE_BOTTOM = 0x12
 
+        /**指示器重力在开始的位置(横向左边, 纵向上边)*/
+        const val INDICATOR_GRAVITY_START = 0x1
+
+        /**指示器重力在结束的位置(横向右边, 纵向下边)*/
+        const val INDICATOR_GRAVITY_END = 0x2
+
+        /**指示器重力在中间*/
+        const val INDICATOR_GRAVITY_CENTER = 0x4
     }
 
     /**指示器绘制的样式*/
     var indicatorStyle = INDICATOR_STYLE_BOTTOM
+
+    /**优先将指示器显示在[DslTabLayout]的什么位置
+     * [INDICATOR_GRAVITY_START] 开始的位置
+     * [INDICATOR_GRAVITY_END] 结束的位置
+     * [INDICATOR_GRAVITY_CENTER] 中间的位置*/
+    var indicatorGravity = INDICATOR_GRAVITY_CENTER
 
     /**
      * 指示器在流向下一个位置时, 是否采用[Flow]流线的方式改变宽度
@@ -109,11 +125,14 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         indicatorDrawable = typedArray.getDrawable(R.styleable.DslTabLayout_tab_indicator_drawable)
         indicatorColor =
             typedArray.getColor(R.styleable.DslTabLayout_tab_indicator_color, indicatorColor)
-        indicatorStyle =
-            typedArray.getInt(
-                R.styleable.DslTabLayout_tab_indicator_style,
-                if (tabLayout.isHorizontal()) INDICATOR_STYLE_BOTTOM else INDICATOR_STYLE_TOP
-            )
+        indicatorStyle = typedArray.getInt(
+            R.styleable.DslTabLayout_tab_indicator_style,
+            if (tabLayout.isHorizontal()) INDICATOR_STYLE_BOTTOM else INDICATOR_STYLE_TOP
+        )
+        indicatorGravity = typedArray.getInt(
+            R.styleable.DslTabLayout_tab_indicator_gravity,
+            indicatorGravity
+        )
 
         //初始化指示器的高度和宽度
         if (indicatorStyle == INDICATOR_STYLE_BACKGROUND) {
@@ -261,13 +280,11 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         return drawable.tintDrawableColor(color)
     }
 
-    /**
-     * [childview]对应的中心x坐标
-     * */
-    open fun getChildCenterX(index: Int): Int {
-
-        var result = if (index > 0) tabLayout.maxWidth else 0
-
+    /**根据指定[index]索引, 获取目标[View]*/
+    open fun targetChildView(
+        index: Int,
+        onChildView: (childView: View, contentChildView: View?) -> Unit
+    ) {
         tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
             val lp = childView.layoutParams as DslTabLayout.LayoutParams
 
@@ -275,45 +292,60 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             val contentIndex =
                 if (lp.indicatorContentIndex >= 0) lp.indicatorContentIndex else indicatorContentIndex
 
-            result = childView.left + childView.paddingLeft + childView.viewDrawWidth / 2
-
-            if (contentIndex >= 0) {
+            if (contentIndex >= 0 && childView is ViewGroup && contentIndex in 0 until childView.childCount) {
                 //有指定
-                if (childView is ViewGroup && contentIndex in 0 until childView.childCount) {
-                    val contentChildView = childView.getChildAt(contentIndex)
-                    result =
-                        childView.left + contentChildView.left + contentChildView.paddingLeft + contentChildView.viewDrawWidth / 2
-                }
+                val contentChildView = childView.getChildAt(contentIndex)
+                onChildView(childView, contentChildView)
             } else {
                 //没有指定
+                onChildView(childView, null)
+            }
+        }
+    }
+
+    /**
+     * [childview]对应的中心x坐标
+     * */
+    open fun getChildTargetX(index: Int, gravity: Int = indicatorGravity): Int {
+
+        var result = if (index > 0) tabLayout.maxWidth else 0
+
+        targetChildView(index) { childView, contentChildView ->
+            result = if (contentChildView == null) {
+                when (gravity) {
+                    INDICATOR_GRAVITY_START -> childView.left
+                    INDICATOR_GRAVITY_END -> childView.right
+                    else -> childView.left + childView.paddingLeft + childView.viewDrawWidth / 2
+                }
+            } else {
+                when (gravity) {
+                    INDICATOR_GRAVITY_START -> childView.left + contentChildView.left
+                    INDICATOR_GRAVITY_END -> childView.left + contentChildView.right
+                    else -> childView.left + contentChildView.left + contentChildView.paddingLeft + contentChildView.viewDrawWidth / 2
+                }
             }
         }
 
         return result
     }
 
-    open fun getChildCenterY(index: Int): Int {
+    open fun getChildTargetY(index: Int, gravity: Int = indicatorGravity): Int {
 
         var result = if (index > 0) tabLayout.maxHeight else 0
 
-        tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
-            val lp = childView.layoutParams as DslTabLayout.LayoutParams
-
-            //如果child强制指定了index, 就用指定的.
-            val contentIndex =
-                if (lp.indicatorContentIndex >= 0) lp.indicatorContentIndex else indicatorContentIndex
-
-            result = childView.top + childView.paddingTop + childView.viewDrawHeight / 2
-
-            if (contentIndex >= 0) {
-                //有指定
-                if (childView is ViewGroup && contentIndex in 0 until childView.childCount) {
-                    val contentChildView = childView.getChildAt(contentIndex)
-                    result =
-                        childView.top + contentChildView.top + contentChildView.paddingTop + contentChildView.viewDrawHeight / 2
+        targetChildView(index) { childView, contentChildView ->
+            result = if (contentChildView == null) {
+                when (gravity) {
+                    INDICATOR_GRAVITY_START -> childView.top
+                    INDICATOR_GRAVITY_END -> childView.bottom
+                    else -> childView.top + childView.paddingTop + childView.viewDrawHeight / 2
                 }
             } else {
-                //没有指定
+                when (gravity) {
+                    INDICATOR_GRAVITY_START -> childView.top + contentChildView.top
+                    INDICATOR_GRAVITY_END -> childView.top + childView.bottom
+                    else -> childView.top + contentChildView.top + contentChildView.paddingTop + contentChildView.viewDrawHeight / 2
+                }
             }
         }
 
@@ -420,11 +452,11 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
 
         //"绘制$currentIndex:$currentSelectIndex $positionOffset".logi()
 
-        val drawCenterX = getChildCenterX(currentIndex)
+        val drawTargetX = getChildTargetX(currentIndex, INDICATOR_GRAVITY_CENTER)
         val drawWidth = getIndicatorDrawWidth(currentIndex)
         val drawHeight = getIndicatorDrawHeight(currentIndex)
 
-        val drawLeft = drawCenterX - drawWidth / 2 + indicatorXOffset
+        val drawLeft = drawTargetX - drawWidth / 2 + indicatorXOffset
 
         //动画过程中的left
         var animLeft = drawLeft
@@ -439,7 +471,10 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             val animStartLeft = drawLeft
             val animStartWidth = drawWidth
             val animEndWidth = getIndicatorDrawWidth(_targetIndex)
-            val animEndLeft = getChildCenterX(_targetIndex) - animEndWidth / 2 + indicatorXOffset
+            val animEndLeft = getChildTargetX(
+                _targetIndex,
+                INDICATOR_GRAVITY_CENTER
+            ) - animEndWidth / 2 + indicatorXOffset
             val animEndHeight = getIndicatorDrawHeight(_targetIndex)
 
             if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
@@ -536,11 +571,11 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
 
         //"绘制$currentIndex:$currentSelectIndex $positionOffset".logi()
 
-        val drawCenterY = getChildCenterY(currentIndex)
+        val drawTargetY = getChildTargetY(currentIndex, INDICATOR_GRAVITY_CENTER)
         val drawWidth = getIndicatorDrawWidth(currentIndex)
         val drawHeight = getIndicatorDrawHeight(currentIndex)
 
-        val drawTop = drawCenterY - drawHeight / 2 + indicatorYOffset
+        val drawTop = drawTargetY - drawHeight / 2 + indicatorYOffset
 
         //动画过程中的top
         var animTop = drawTop
@@ -555,7 +590,10 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             val animStartTop = drawTop
             val animStartHeight = drawHeight
             val animEndHeight = getIndicatorDrawHeight(_targetIndex)
-            val animEndTop = getChildCenterY(_targetIndex) - animEndHeight / 2 + indicatorYOffset
+            val animEndTop = getChildTargetY(
+                _targetIndex,
+                INDICATOR_GRAVITY_CENTER
+            ) - animEndHeight / 2 + indicatorYOffset
             val animEndWidth = getIndicatorDrawWidth(_targetIndex)
 
             if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {

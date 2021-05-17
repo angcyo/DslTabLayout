@@ -47,6 +47,15 @@
             <!--绘制在背面-->
             <enum name="STYLE_BACKGROUND" value="0x1" />
         </attr>
+        <!--指示器的重力-->
+        <attr name="tab_indicator_gravity" format="enum">
+            <!--指示器靠左显示-->
+            <enum name="GRAVITY_START" value="0x1" />
+            <!--指示器靠右显示-->
+            <enum name="GRAVITY_END" value="0x2" />
+            <!--指示器居中显示-->
+            <enum name="GRAVITY_CENTER" value="0x4" />
+        </attr>
         <!--是否激活流式效果, ViewPager在滚动时, 指示器的宽度由小变大,再由大变小-->
         <attr name="tab_indicator_enable_flow" format="boolean" />
         <!--tab child的索引相差多少值时, 才开启flow效果-->

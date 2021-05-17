@@ -162,7 +162,7 @@ open class DslTabLayout(
                 val toIndex = selectList.last()
                 _animateToItem(fromIndex, toIndex)
 
-                _scrollToCenter(toIndex, tabIndicator.indicatorAnim)
+                _scrollToTarget(toIndex, tabIndicator.indicatorAnim)
                 postInvalidate()
 
                 //如果设置[tabLayoutConfig?.onSelectIndexChange], 那么会覆盖[_viewPagerDelegate]的操作.
@@ -259,7 +259,7 @@ open class DslTabLayout(
     /**设置tab的位置*/
     fun setCurrentItem(index: Int, notify: Boolean = true, fromUser: Boolean = false) {
         if (currentItemIndex == index) {
-            _scrollToCenter(index, tabIndicator.indicatorAnim)
+            _scrollToTarget(index, tabIndicator.indicatorAnim)
             return
         }
         dslSelector.selector(index, true, notify, fromUser)
@@ -1077,7 +1077,9 @@ open class DslTabLayout(
             //还没有选中
             setCurrentItem(tabDefaultIndex)
         } else {
-            _scrollToCenter(dslSelector.dslSelectIndex, layoutScrollAnim)
+            if (_overScroller.isFinished) {
+                _scrollToTarget(dslSelector.dslSelectIndex, layoutScrollAnim)
+            }
         }
     }
 
@@ -1127,7 +1129,9 @@ open class DslTabLayout(
             //还没有选中
             setCurrentItem(tabDefaultIndex)
         } else {
-            _scrollToCenter(dslSelector.dslSelectIndex, layoutScrollAnim)
+            if (_overScroller.isFinished) {
+                _scrollToTarget(dslSelector.dslSelectIndex, layoutScrollAnim)
+            }
         }
     }
 
@@ -1458,8 +1462,24 @@ open class DslTabLayout(
         }
     }
 
+    fun _getViewTargetX(): Int {
+        return when (tabIndicator.indicatorGravity) {
+            DslTabIndicator.INDICATOR_GRAVITY_START -> paddingLeft
+            DslTabIndicator.INDICATOR_GRAVITY_END -> measuredWidth - paddingRight
+            else -> paddingLeft + viewDrawWidth / 2
+        }
+    }
+
+    fun _getViewTargetY(): Int {
+        return when (tabIndicator.indicatorGravity) {
+            DslTabIndicator.INDICATOR_GRAVITY_START -> paddingTop
+            DslTabIndicator.INDICATOR_GRAVITY_END -> measuredHeight - paddingBottom
+            else -> paddingTop + viewDrawHeight / 2
+        }
+    }
+
     /**将[index]位置显示在TabLayout的中心*/
-    fun _scrollToCenter(index: Int, scrollAnim: Boolean) {
+    fun _scrollToTarget(index: Int, scrollAnim: Boolean) {
         if (!needScroll) {
             return
         }
@@ -1471,16 +1491,16 @@ open class DslTabLayout(
             }
         }
 
-        val dx = if (isHorizontal()) {
-            val childCenterX = tabIndicator.getChildCenterX(index)
-            val viewDrawCenterX = paddingLeft + viewDrawWidth / 2
+        val dv = if (isHorizontal()) {
+            val childTargetX = tabIndicator.getChildTargetX(index)
+            val viewDrawTargetX = _getViewTargetX()
             when {
                 tabEnableSelectorMode -> {
                     val viewCenterX = measuredWidth / 2
-                    childCenterX - viewCenterX - scrollX
+                    childTargetX - viewCenterX - scrollX
                 }
-                childCenterX > viewDrawCenterX -> {
-                    childCenterX - viewDrawCenterX - scrollX
+                childTargetX > viewDrawTargetX -> {
+                    childTargetX - viewDrawTargetX - scrollX
                 }
                 else -> {
                     -scrollX
@@ -1488,18 +1508,24 @@ open class DslTabLayout(
             }
         } else {
             //竖向
-            val childCenterY = tabIndicator.getChildCenterY(index)
-            val viewDrawCenterY = paddingTop + viewDrawHeight / 2
+            val childTargetY = tabIndicator.getChildTargetY(index)
+            val viewDrawTargetY = _getViewTargetY()
             when {
                 tabEnableSelectorMode -> {
                     val viewCenterY = measuredHeight / 2
-                    childCenterY - viewCenterY - scrollY
+                    childTargetY - viewCenterY - scrollY
                 }
-                childCenterY > viewDrawCenterY -> {
-                    childCenterY - viewDrawCenterY - scrollY
+                childTargetY > viewDrawTargetY -> {
+                    childTargetY - viewDrawTargetY - scrollY
                 }
                 else -> {
-                    -scrollY
+                    if (tabIndicator.indicatorGravity == DslTabIndicator.INDICATOR_GRAVITY_END &&
+                        childTargetY < viewDrawTargetY
+                    ) {
+                        childTargetY - viewDrawTargetY - scrollY
+                    } else {
+                        -scrollY
+                    }
                 }
             }
         }
@@ -1507,16 +1533,16 @@ open class DslTabLayout(
         if (isHorizontal()) {
             if (isInEditMode || !scrollAnim) {
                 _overScroller.abortAnimation()
-                scrollBy(dx, 0)
+                scrollBy(dv, 0)
             } else {
-                startScroll(dx)
+                startScroll(dv)
             }
         } else {
             if (isInEditMode || !scrollAnim) {
                 _overScroller.abortAnimation()
-                scrollBy(0, dx)
+                scrollBy(0, dv)
             } else {
-                startScroll(dx)
+                startScroll(dv)
             }
         }
     }

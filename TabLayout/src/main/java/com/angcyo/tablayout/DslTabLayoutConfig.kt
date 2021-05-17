@@ -342,7 +342,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                 )
 
                 if (toIndex == tabLayout.dslSelector.visibleViewList.lastIndex || toIndex == 0) {
-                    tabLayout._scrollToCenter(toIndex, false)
+                    tabLayout._scrollToTarget(toIndex, false)
                 }
             }
         }
