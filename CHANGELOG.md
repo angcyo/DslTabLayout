@@ -1,3 +1,12 @@
+# 2021-5-17
+
+版本: `2.1.0`, 更新日志:
+
+- 新增指示器属性`indicatorGravity`
+  - INDICATOR_GRAVITY_START  指示器靠左显示
+  - INDICATOR_GRAVITY_END    指示器靠右显示
+  - INDICATOR_GRAVITY_CENTER 指示器居中显示
+
 # 2021-4-28
 
 版本: `2.0.3`, 更新日志:
