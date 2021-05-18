@@ -3,6 +3,8 @@
 
 [![](https://img.shields.io/badge/License-MIT-3A77AC)](https://github.com/angcyo/DslTabLayout/blob/master/LICENSE) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)  [![](https://img.shields.io/badge/androidx-yes-80B44D)](https://developer.android.google.cn/jetpack/androidx)
 
+[文档地址](https://angcyo.gitee.io/doc)
+
 ## 特性
 
 1. 支持任意类型的`child`视图.
