@@ -17,6 +17,7 @@
 8. 支持`ViewPager`和`ViewPager2`
 9. 支持`竖向`(`2.0.0`后)
 10. 支持指示器`居中` `靠左` `靠右`展示(`2.1.0`后)
+11. 支持选中后`突出异形效果`(`2.2.0`后)
 
 直接当做横向的`LinearLayout`使用方式即可, 无特殊要求.
 
@@ -58,6 +59,12 @@
 
 ![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
 
+## 突出效果
+
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_vertical.png)
+
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_horizontal.png)
+
 
 # 使用`JitPack`的方式, 引入库.
 
@@ -76,12 +83,12 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:2.1.0'
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:2.2.0'
 
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:2.1.0'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:2.2.0'
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:2.1.0'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:2.2.0'
 }
 ```
 
