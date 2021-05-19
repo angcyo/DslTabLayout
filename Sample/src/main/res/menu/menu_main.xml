@@ -12,4 +12,15 @@
         android:orderInCategory="100"
         android:title="Vertical"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_vertical_hint"
+        android:orderInCategory="100"
+        android:title="VerticalHint"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_horizontal_hint"
+        android:orderInCategory="100"
+        android:title="HorizontalHint"
+        app:showAsAction="never" />
 </menu>

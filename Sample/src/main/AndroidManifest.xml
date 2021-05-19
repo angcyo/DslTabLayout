@@ -19,6 +19,8 @@
 
         <activity android:name=".DynamicActivity" />
         <activity android:name=".VerticalActivity" />
+        <activity android:name=".VerticalHintActivity" />
+        <activity android:name=".HorizontalHintActivity" />
     </application>
 
 </manifest>

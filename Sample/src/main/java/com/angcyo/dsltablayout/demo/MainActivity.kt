@@ -1,19 +1,11 @@
 package com.angcyo.dsltablayout.demo
 
-import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.annotation.DrawableRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,30 +39,15 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, VerticalActivity::class.java))
                 true
             }
+            R.id.action_vertical_hint -> {
+                startActivity(Intent(this, VerticalHintActivity::class.java))
+                true
+            }
+            R.id.action_horizontal_hint -> {
+                startActivity(Intent(this, HorizontalHintActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
-}
-
-fun FragmentActivity.show(fragment: Fragment) {
-    supportFragmentManager.show(fragment)
-}
-
-fun Fragment.show(fragment: Fragment) {
-    childFragmentManager.show(fragment)
-}
-
-fun FragmentManager.show(fragment: Fragment) {
-    beginTransaction().apply {
-        add(R.id.frame_layout, fragment, fragment.javaClass.simpleName)
-        commitNowAllowingStateLoss()
-    }
-}
-
-fun Context.getDrawable2(@DrawableRes id: Int): Drawable? {
-    return ContextCompat.getDrawable(this, id)
-}
-
-fun Fragment.getDrawable(@DrawableRes id: Int): Drawable? {
-    return requireContext().getDrawable2(id)
 }

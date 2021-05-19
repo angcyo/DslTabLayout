@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.IdRes
-import androidx.appcompat.app.AppCompatActivity
 import com.angcyo.dsladapter.dpi
 import com.angcyo.dsladapter.inflate
 import com.angcyo.tablayout.DslTabLayout
@@ -20,7 +19,7 @@ import com.angcyo.tablayout.DslTabLayout
  * @date 2020/04/03
  * Copyright (c) 2020 angcyo. All rights reserved.
  */
-class DynamicActivity : AppCompatActivity() {
+class DynamicActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dynamic)
@@ -91,6 +90,4 @@ class DynamicActivity : AppCompatActivity() {
             }, 100L * _currentIndex) //10L * _currentIndex
         }
     }
-
-    fun <T : View> find(@IdRes id: Int) = findViewById<T>(id)
 }

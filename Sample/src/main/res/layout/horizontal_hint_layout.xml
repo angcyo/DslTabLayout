@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent10"
+        app:tab_draw_highlight="true"
+        app:tab_highlight_drawable="@mipmap/ic_hint_horizontal_b"
+        app:tab_highlight_width_offset="10dp"
+        app:tab_indicator_drawable="@mipmap/ic_hint_horizontal"
+        app:tab_indicator_height="16dp"
+        app:tab_indicator_width="16dp"
+        app:tab_indicator_y_offset="-3dp"
+        app:tab_orientation="HORIZONTAL"
+        app:tab_select_color="@color/colorAccent">
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="R" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="最新" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="排行榜3" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="Android" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="组合" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Swift" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="Vue" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="前->端" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="设" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="其他资源1" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="其他资源2" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="其他资源3" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="其他资源4" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="其他资源5" />
+
+        <TextView
+            style="@style/TabHorizontalItemStyle"
+            android:text="其他资源6" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/transparent20"
+        android:gravity="center"
+        tools:text="test" />
+
+</LinearLayout>
