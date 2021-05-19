@@ -49,7 +49,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
     }
 
     /**指示器绘制的样式*/
-    var indicatorStyle = INDICATOR_STYLE_BOTTOM
+    var indicatorStyle = INDICATOR_STYLE_NONE //初始化
 
     /**优先将指示器显示在[DslTabLayout]的什么位置
      * [INDICATOR_GRAVITY_START] 开始的位置
@@ -84,7 +84,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
      * MATCH_PARENT: [childView]的宽度
      * 40dp: 固定值
      * */
-    var indicatorWidth = 0
+    var indicatorWidth = 0 //初始化
 
     /**宽度补偿*/
     var indicatorWidthOffset = 0
@@ -95,7 +95,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
      * MATCH_PARENT: [childView]的高度
      * 40dp: 固定值
      * */
-    var indicatorHeight = 0
+    var indicatorHeight = 0 //初始化
 
     /**高度补偿*/
     var indicatorHeightOffset = 0

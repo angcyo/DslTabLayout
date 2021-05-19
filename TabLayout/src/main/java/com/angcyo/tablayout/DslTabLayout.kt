@@ -109,6 +109,17 @@ open class DslTabLayout(
             badgeConfig
         }
 
+    /**是否绘制突出*/
+    var drawHighlight = false
+
+    /**选中突出提示*/
+    var tabHighlight: DslTabHighlight? = null
+        set(value) {
+            field = value
+            field?.callback = this
+            field?.initAttribute(context, attributeSet)
+        }
+
     /**如果使用了高凸模式. 请使用这个属性设置背景色*/
     var tabConvexBackgroundDrawable: Drawable? = null
 
@@ -202,6 +213,8 @@ open class DslTabLayout(
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_border, drawBorder)
         drawBadge =
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_badge, drawBadge)
+        drawHighlight =
+            typedArray.getBoolean(R.styleable.DslTabLayout_tab_draw_highlight, drawHighlight)
 
         tabEnableSelectorMode =
             typedArray.getBoolean(
@@ -240,6 +253,9 @@ open class DslTabLayout(
         if (drawBadge) {
             tabBadge = DslTabBadge()
         }
+        if (drawHighlight) {
+            tabHighlight = DslTabHighlight(this)
+        }
 
         //样式配置器
         tabLayoutConfig = DslTabLayoutConfig(this)
@@ -255,6 +271,10 @@ open class DslTabLayout(
     /**当前选中item的索引*/
     val currentItemIndex: Int
         get() = dslSelector.dslSelectIndex
+
+    /**当前选中的itemView*/
+    val currentItemView: View?
+        get() = dslSelector.visibleViewList.getOrNull(currentItemIndex)
 
     /**设置tab的位置*/
     fun setCurrentItem(index: Int, notify: Boolean = true, fromUser: Boolean = false) {
@@ -357,6 +377,11 @@ open class DslTabLayout(
         }
 
         super.draw(canvas)
+
+        //突出显示
+        if (drawHighlight) {
+            tabHighlight?.draw(canvas)
+        }
 
         val visibleChildCount = dslSelector.visibleViewList.size
 
@@ -1178,6 +1203,10 @@ open class DslTabLayout(
         /**[android.widget.LinearLayout.LayoutParams.weight]*/
         var weight: Float = -1f
 
+        /**突出需要绘制的Drawable
+         * [com.angcyo.tablayout.DslTabHighlight.highlightDrawable]*/
+        var highlightDrawable: Drawable? = null
+
         constructor(c: Context, attrs: AttributeSet?) : super(c, attrs) {
             val a = c.obtainStyledAttributes(attrs, R.styleable.DslTabLayout_Layout)
             layoutWidth = a.getString(R.styleable.DslTabLayout_Layout_layout_tab_width)
@@ -1192,6 +1221,8 @@ open class DslTabLayout(
                 indicatorContentIndex
             )
             weight = a.getFloat(R.styleable.DslTabLayout_Layout_layout_tab_weight, weight)
+            highlightDrawable =
+                a.getDrawable(R.styleable.DslTabLayout_Layout_layout_highlight_drawable)
             a.recycle()
         }
 
@@ -1201,6 +1232,7 @@ open class DslTabLayout(
                 this.layoutHeight = source.layoutHeight
                 this.layoutConvexHeight = source.layoutConvexHeight
                 this.weight = source.weight
+                this.highlightDrawable = source.highlightDrawable
             }
         }
 

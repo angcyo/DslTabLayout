@@ -233,6 +233,21 @@
         <attr name="tab_badge_min_height" format="dimension">
             <flag name="NONE" value="-2" />
         </attr>
+
+        <!--Highlight 突出相关属性-->
+        <attr name="tab_draw_highlight" format="boolean" />
+        <attr name="tab_highlight_drawable" format="reference" />
+        <attr name="tab_highlight_width_offset" format="dimension" />
+        <attr name="tab_highlight_height_offset" format="dimension" />
+        <!--突出的宽度-->
+        <attr name="tab_highlight_width" format="dimension|flags">
+            <flag name="WRAP_CONTENT" value="-2" />
+            <flag name="MATCH_PARENT" value="-1" />
+        </attr>
+        <attr name="tab_highlight_height" format="dimension|flags">
+            <flag name="WRAP_CONTENT" value="-2" />
+            <flag name="MATCH_PARENT" value="-1" />
+        </attr>
         <!--end...-->
 
     </declare-styleable>
@@ -248,5 +263,7 @@
         <attr name="layout_tab_indicator_content_index" format="integer" />
         <!--android.widget.LinearLayout.LayoutParams.weight 剩余空间所占比例-->
         <attr name="layout_tab_weight" format="float" />
+        <!--单独配置的drawable, 可以覆盖tab中的配置-->
+        <attr name="layout_highlight_drawable" format="reference" />
     </declare-styleable>
 </resources>
