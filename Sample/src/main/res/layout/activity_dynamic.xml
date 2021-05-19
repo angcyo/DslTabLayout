@@ -138,4 +138,85 @@
         app:layout_constraintLeft_toRightOf="@id/add_view"
         app:layout_constraintTop_toTopOf="@id/remove_all" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/remove_all">
+
+        <com.angcyo.tablayout.DslTabLayout
+            android:id="@+id/sliding_tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@color/transparent10"
+            app:tab_draw_badge="true"
+            app:tab_indicator_drawable="@drawable/indicator_bottom_line">
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:text="R" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:text="最新" />
+
+            <ImageView
+                style="@style/TabSlidingItemStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_png" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:text="排行榜3" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:drawableLeft="@drawable/ic_android"
+                android:text="Android" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="组合" />
+
+            <ImageView
+                style="@style/TabSlidingItemStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_swift" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Swift" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:text="Vue" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:text="前->端" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:text="设" />
+
+            <TextView
+                style="@style/TabSlidingItemStyle"
+                android:text="其他资源" />
+
+        </com.angcyo.tablayout.DslTabLayout>
+
+        <Button
+            android:id="@+id/loop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="循环设置"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

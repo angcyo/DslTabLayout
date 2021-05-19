@@ -72,6 +72,24 @@ class DynamicActivity : AppCompatActivity() {
                 tabLayout.requestLayout()
             }
         }
+
+        //loop
+        find<View>(R.id.loop_button)?.setOnClickListener {
+            _currentIndex = 0
+            loopSetCurrentItem()
+        }
+    }
+
+    var _currentIndex = 0
+
+    fun loopSetCurrentItem() {
+        val slidingTabLayout: DslTabLayout = find(R.id.sliding_tab_layout)
+        slidingTabLayout.setCurrentItem(++_currentIndex)
+        if (_currentIndex < slidingTabLayout.childCount) {
+            slidingTabLayout.postDelayed({
+                loopSetCurrentItem()
+            }, 100L * _currentIndex) //10L * _currentIndex
+        }
     }
 
     fun <T : View> find(@IdRes id: Int) = findViewById<T>(id)
