@@ -34,13 +34,6 @@ class MainFragment : BaseDslFragment() {
 
     val fragmentList = listOf(SlidingFragment(), CommonFragment(), SegmentFragment())
 
-    fun LottieAnimationView.setLottieColorFilter(color: Int) {
-        val filter = SimpleColorFilter(color)
-        val keyPath = KeyPath("**")
-        val callback = LottieValueCallback<ColorFilter>(filter)
-        addValueCallback(keyPath, LottieProperty.COLOR_FILTER, callback)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fragmentList.forEach {

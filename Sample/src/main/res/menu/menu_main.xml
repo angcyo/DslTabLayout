@@ -23,4 +23,9 @@
         android:orderInCategory="100"
         android:title="HorizontalHint"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_sample"
+        android:orderInCategory="100"
+        android:title="Sample"
+        app:showAsAction="never" />
 </menu>

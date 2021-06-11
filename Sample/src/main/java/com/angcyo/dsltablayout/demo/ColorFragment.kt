@@ -3,6 +3,7 @@ package com.angcyo.dsltablayout.demo
 import android.graphics.Color
 import android.os.Bundle
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsladapter.L
 import kotlin.random.Random.Default.nextInt
 
 /**
@@ -33,18 +34,29 @@ class ColorFragment : BaseDslFragment() {
             }
         }
     }
+
+    override fun onPause() {
+        super.onPause()
+        L.i("${hashCode()} $text 隐藏")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        L.i("${hashCode()} $text 显示")
+    }
+}
+
+fun colorFragment(text: String) = ColorFragment().apply {
+    arguments = Bundle().apply {
+        putString("text", "Fragment $text")
+        putInt("color", randomColor())
+    }
 }
 
 fun getColorFragmentList(count: Int): List<ColorFragment> {
     val result = mutableListOf<ColorFragment>()
     for (i in 0 until count) {
-        ColorFragment().apply {
-            arguments = Bundle().apply {
-                putString("text", "Fragment $i")
-                putInt("color", randomColor())
-            }
-            result.add(this)
-        }
+        result.add(colorFragment("$i"))
     }
     return result
 }

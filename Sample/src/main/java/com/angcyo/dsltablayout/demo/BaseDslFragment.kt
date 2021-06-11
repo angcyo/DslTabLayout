@@ -1,16 +1,20 @@
 package com.angcyo.dsltablayout.demo
 
+import android.graphics.ColorFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.angcyo.dsladapter.DslAdapter
-import com.angcyo.dsladapter.DslItemDecoration
-import com.angcyo.dsladapter.DslViewHolder
-import com.angcyo.dsladapter.HoverItemDecoration
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.SimpleColorFilter
+import com.airbnb.lottie.model.KeyPath
+import com.airbnb.lottie.value.LottieValueCallback
+import com.angcyo.dsladapter.*
 
 /**
  *
@@ -61,4 +65,29 @@ open class BaseDslFragment : Fragment() {
     open fun renderAdapter(render: DslAdapter.() -> Unit) {
         dslAdapter.render()
     }
+
+    fun show(f: Fragment, hide: Fragment? = null) {
+        childFragmentManager.beginTransaction().apply {
+            if (f.isAdded) {
+                show(f)
+                setMaxLifecycle(f, Lifecycle.State.RESUMED)
+            } else {
+                add(R.id.frame_container_layout, f)
+            }
+            hide?.let {
+                if (it.isAdded) {
+                    hide(it)
+                    setMaxLifecycle(it, Lifecycle.State.STARTED)
+                }
+            }
+            commitAllowingStateLoss()
+        }
+    }
+}
+
+fun LottieAnimationView.setLottieColorFilter(color: Int) {
+    val filter = SimpleColorFilter(color)
+    val keyPath = KeyPath("**")
+    val callback = LottieValueCallback<ColorFilter>(filter)
+    addValueCallback(keyPath, LottieProperty.COLOR_FILTER, callback)
 }

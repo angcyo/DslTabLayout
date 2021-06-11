@@ -4,11 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import com.angcyo.dsladapter.L
+import com.angcyo.dsltablayout.demo.sample.SampleActivity
 
 class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        L.debug = BuildConfig.DEBUG
+
         setContentView(R.layout.activity_main)
 
         show(MainFragment())
@@ -45,6 +49,10 @@ class MainActivity : BaseActivity() {
             }
             R.id.action_horizontal_hint -> {
                 startActivity(Intent(this, HorizontalHintActivity::class.java))
+                true
+            }
+            R.id.action_sample -> {
+                startActivity(Intent(this, SampleActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

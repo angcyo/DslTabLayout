@@ -21,6 +21,8 @@
         <activity android:name=".VerticalActivity" />
         <activity android:name=".VerticalHintActivity" />
         <activity android:name=".HorizontalHintActivity" />
+
+        <activity android:name=".sample.SampleActivity" />
     </application>
 
 </manifest>
