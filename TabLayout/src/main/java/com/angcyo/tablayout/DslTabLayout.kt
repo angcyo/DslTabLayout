@@ -586,23 +586,27 @@ open class DslTabLayout(
 
         //智能等宽判断
         if (itemAutoEquWidth) {
-            var childMaxWidth = 0 //所有child宽度总和
+            var childMaxWidth = 0 //child最大宽度
             visibleChildList.forEachIndexed { index, child ->
                 val lp: LayoutParams = child.layoutParams as LayoutParams
                 measureChild(child, widthMeasureSpec, heightMeasureSpec)
-                childMaxWidth += lp.leftMargin + lp.rightMargin + child.measuredWidth
+                var curChildWidth = lp.leftMargin + lp.rightMargin + child.measuredWidth
 
                 if (drawDivider) {
                     if (tabDivider?.haveBeforeDivider(index, visibleChildList.size) == true) {
-                        childMaxWidth += dividerWidthExclude
+                        curChildWidth += dividerWidthExclude
                     }
                     if (tabDivider?.haveAfterDivider(index, visibleChildList.size) == true) {
-                        childMaxWidth += dividerWidthExclude
+                        curChildWidth += dividerWidthExclude
                     }
+                }
+
+                if (curChildWidth > childMaxWidth) {
+                    childMaxWidth = curChildWidth
                 }
             }
 
-            itemIsEquWidth = childMaxWidth <= widthSize
+            itemIsEquWidth = (childMaxWidth * visibleChildList.size) <= widthSize
         }
 
         //等宽时, child宽度的测量模式
@@ -844,23 +848,27 @@ open class DslTabLayout(
 
         //智能等宽判断
         if (itemAutoEquWidth) {
-            var childMaxHeight = 0 //所有child高度总和
+            var childMaxHeight = 0 //child最大高度
             visibleChildList.forEachIndexed { index, child ->
                 val lp: LayoutParams = child.layoutParams as LayoutParams
                 measureChild(child, widthMeasureSpec, heightMeasureSpec)
-                childMaxHeight += lp.topMargin + lp.bottomMargin + child.measuredHeight
+                var curChildHeight = lp.topMargin + lp.bottomMargin + child.measuredHeight
 
                 if (drawDivider) {
                     if (tabDivider?.haveBeforeDivider(index, visibleChildList.size) == true) {
-                        childMaxHeight += dividerHeightExclude
+                        curChildHeight += dividerHeightExclude
                     }
                     if (tabDivider?.haveAfterDivider(index, visibleChildList.size) == true) {
-                        childMaxHeight += dividerHeightExclude
+                        curChildHeight += dividerHeightExclude
                     }
+                }
+
+                if (curChildHeight > childMaxHeight) {
+                    childMaxHeight = curChildHeight
                 }
             }
 
-            itemIsEquWidth = childMaxHeight <= heightSize
+            itemIsEquWidth = (childMaxHeight * visibleChildList.size) <= heightSize
         }
 
         //等宽时, child高度的测量模式
