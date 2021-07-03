@@ -1698,13 +1698,15 @@ open class DslTabLayout(
         if (position < currentItem) {
             //Page 目标在左
             if (_viewPagerScrollState == ViewPagerDelegate.SCROLL_STATE_DRAGGING) {
-                tabIndicator._targetIndex = min(currentItem, position)
+                tabIndicator.currentIndex = position + 1
+                tabIndicator._targetIndex = position
             }
             _onAnimateValue(1 - positionOffset)
         } else {
             //Page 目标在右
             if (_viewPagerScrollState == ViewPagerDelegate.SCROLL_STATE_DRAGGING) {
-                tabIndicator._targetIndex = max(currentItem, position + 1)
+                tabIndicator.currentIndex = position
+                tabIndicator._targetIndex = position + 1
             }
             _onAnimateValue(positionOffset)
         }
