@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.view.ViewCompat
 
 /**
  * 基础自绘Drawable
@@ -18,6 +19,19 @@ import android.view.View
 
 abstract class AbsDslDrawable : Drawable() {
 
+    companion object {
+        /**不绘制*/
+        const val DRAW_TYPE_DRAW_NONE = 0x00
+
+        /**[android.view.View.draw]*/
+        const val DRAW_TYPE_DRAW_AFTER = 0x01
+        const val DRAW_TYPE_DRAW_BEFORE = 0x02
+
+        /**[android.view.View.onDraw]*/
+        const val DRAW_TYPE_ON_DRAW_AFTER = 0x04
+        const val DRAW_TYPE_ON_DRAW_BEFORE = 0x08
+    }
+
     /**画笔*/
     val textPaint: TextPaint by lazy {
         TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -27,8 +41,17 @@ abstract class AbsDslDrawable : Drawable() {
         }
     }
 
+    val drawRect = Rect()
+    val drawRectF = RectF()
+
+    /**需要在那个方法中触发绘制*/
+    var drawType = DRAW_TYPE_ON_DRAW_AFTER
+
     /**xml属性读取*/
-    open fun initAttribute(context: Context, attributeSet: AttributeSet? = null) {
+    open fun initAttribute(
+        context: Context,
+        attributeSet: AttributeSet? = null
+    ) {
         //val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.xxx)
         //typedArray.recycle()
     }
@@ -37,7 +60,7 @@ abstract class AbsDslDrawable : Drawable() {
 
     /**附着的[View]*/
     val attachView: View?
-        get() = callback as? View
+        get() = if (callback is View) callback as? View else null
 
     val isInEditMode: Boolean
         get() = attachView?.isInEditMode ?: false
@@ -57,6 +80,9 @@ abstract class AbsDslDrawable : Drawable() {
         get() = viewHeight - paddingTop - paddingBottom
     val viewDrawWidth: Int
         get() = viewWidth - paddingLeft - paddingRight
+
+    val isViewRtl: Boolean
+        get() = attachView != null && ViewCompat.getLayoutDirection(attachView!!) == ViewCompat.LAYOUT_DIRECTION_RTL
 
     //</editor-fold desc="View相关方法">
 
@@ -92,6 +118,14 @@ abstract class AbsDslDrawable : Drawable() {
 
     override fun getAlpha(): Int {
         return textPaint.alpha
+    }
+
+    override fun setBounds(left: Int, top: Int, right: Int, bottom: Int) {
+        super.setBounds(left, top, right, bottom)
+    }
+
+    override fun setBounds(bounds: Rect) {
+        super.setBounds(bounds)
     }
 
     //不透明度

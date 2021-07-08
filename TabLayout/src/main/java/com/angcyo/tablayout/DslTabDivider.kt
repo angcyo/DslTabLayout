@@ -101,10 +101,21 @@ open class DslTabDivider : DslGradientDrawable() {
         }
     }
 
+    val _tabLayout: DslTabLayout?
+        get() = if (callback is DslTabLayout) callback as DslTabLayout else null
+
     /**
      * [childIndex]位置前面是否需要分割线
      * */
     open fun haveBeforeDivider(childIndex: Int, childCount: Int): Boolean {
+        val tabLayout = _tabLayout
+        if (tabLayout != null && tabLayout.isHorizontal() && tabLayout.isLayoutRtl) {
+            if (childIndex == 0) {
+                return dividerShowMode and LinearLayout.SHOW_DIVIDER_END != 0
+            }
+            return dividerShowMode and LinearLayout.SHOW_DIVIDER_MIDDLE != 0
+        }
+
         if (childIndex == 0) {
             return dividerShowMode and LinearLayout.SHOW_DIVIDER_BEGINNING != 0
         }
@@ -115,6 +126,13 @@ open class DslTabDivider : DslGradientDrawable() {
      * [childIndex]位置后面是否需要分割线
      * */
     open fun haveAfterDivider(childIndex: Int, childCount: Int): Boolean {
+        val tabLayout = _tabLayout
+        if (tabLayout != null && tabLayout.isHorizontal() && tabLayout.isLayoutRtl) {
+            if (childIndex == childCount - 1) {
+                return dividerShowMode and LinearLayout.SHOW_DIVIDER_BEGINNING != 0
+            }
+        }
+
         if (childIndex == childCount - 1) {
             return dividerShowMode and LinearLayout.SHOW_DIVIDER_END != 0
         }

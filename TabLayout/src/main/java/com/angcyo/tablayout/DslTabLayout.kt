@@ -388,32 +388,54 @@ open class DslTabLayout(
         //绘制在child的上面
         if (drawDivider) {
             if (isHorizontal()) {
-                var left = 0
-                tabDivider?.apply {
-                    val top = paddingTop + dividerMarginTop
-                    val bottom = measuredHeight - paddingBottom - dividerMarginBottom
-                    dslSelector.visibleViewList.forEachIndexed { index, view ->
+                if (isLayoutRtl) {
+                    var right = 0
+                    tabDivider?.apply {
+                        val top = paddingTop + dividerMarginTop
+                        val bottom = measuredHeight - paddingBottom - dividerMarginBottom
+                        dslSelector.visibleViewList.forEachIndexed { index, view ->
 
-                        if (haveBeforeDivider(index, visibleChildCount)) {
-                            left = view.left - dividerMarginRight - dividerWidth
-                            setBounds(left, top, left + dividerWidth, bottom)
-                            draw(canvas)
+                            if (haveBeforeDivider(index, visibleChildCount)) {
+                                right = view.right + dividerMarginLeft + dividerWidth
+                                setBounds(right - dividerWidth, top, right, bottom)
+                                draw(canvas)
+                            }
+
+                            if (haveAfterDivider(index, visibleChildCount)) {
+                                right = view.right - view.measuredWidth - dividerMarginRight
+                                setBounds(right - dividerWidth, top, right, bottom)
+                                draw(canvas)
+                            }
+
                         }
-
-                        if (haveAfterDivider(index, visibleChildCount)) {
-                            left = view.right + dividerMarginLeft
-                            setBounds(left, top, left + dividerWidth, bottom)
-                            draw(canvas)
-                        }
-
                     }
+                } else {
+                    var left = 0
+                    tabDivider?.apply {
+                        val top = paddingTop + dividerMarginTop
+                        val bottom = measuredHeight - paddingBottom - dividerMarginBottom
+                        dslSelector.visibleViewList.forEachIndexed { index, view ->
 
+                            if (haveBeforeDivider(index, visibleChildCount)) {
+                                left = view.left - dividerMarginRight - dividerWidth
+                                setBounds(left, top, left + dividerWidth, bottom)
+                                draw(canvas)
+                            }
+
+                            if (haveAfterDivider(index, visibleChildCount)) {
+                                left = view.right + dividerMarginLeft
+                                setBounds(left, top, left + dividerWidth, bottom)
+                                draw(canvas)
+                            }
+
+                        }
+                    }
                 }
             } else {
                 var top = 0
                 tabDivider?.apply {
-                    val left = paddingLeft + dividerMarginLeft
-                    val right = measuredWidth - paddingRight - dividerMarginRight
+                    val left = paddingStart + dividerMarginLeft
+                    val right = measuredWidth - paddingEnd - dividerMarginRight
                     dslSelector.visibleViewList.forEachIndexed { index, view ->
 
                         if (haveBeforeDivider(index, visibleChildCount)) {
@@ -467,9 +489,9 @@ open class DslTabLayout(
                     }
 
                     if (badgeConfig != null && badgeConfig.badgeIgnoreChildPadding) {
-                        left += anchorView.paddingLeft
+                        left += anchorView.paddingStart
                         top += anchorView.paddingTop
-                        right -= anchorView.paddingRight
+                        right -= anchorView.paddingEnd
                         bottom -= anchorView.paddingBottom
                     }
 
@@ -590,7 +612,7 @@ open class DslTabLayout(
             visibleChildList.forEachIndexed { index, child ->
                 val lp: LayoutParams = child.layoutParams as LayoutParams
                 measureChild(child, widthMeasureSpec, heightMeasureSpec)
-                childMaxWidth += lp.leftMargin + lp.rightMargin + child.measuredWidth
+                childMaxWidth += lp.marginStart + lp.marginEnd + child.measuredWidth
 
                 if (drawDivider) {
                     if (tabDivider?.haveBeforeDivider(index, visibleChildList.size) == true) {
@@ -611,7 +633,7 @@ open class DslTabLayout(
                 if (itemWidth > 0) {
                     itemWidth
                 } else {
-                    var excludeWidth = paddingLeft + paddingRight
+                    var excludeWidth = paddingStart + paddingEnd
                     visibleChildList.forEachIndexed { index, child ->
                         if (drawDivider) {
                             if (tabDivider?.haveBeforeDivider(
@@ -630,7 +652,7 @@ open class DslTabLayout(
                             }
                         }
                         val lp = child.layoutParams as LayoutParams
-                        excludeWidth += lp.leftMargin + lp.rightMargin
+                        excludeWidth += lp.marginStart + lp.marginEnd
                     }
                     (widthSize - excludeWidth) / visibleChildCount
                 }
@@ -726,16 +748,16 @@ open class DslTabLayout(
                 childWidthSpec = when {
                     itemIsEquWidth -> childEquWidthSpec
                     widthHeight[0] > 0 -> exactlyMeasure(widthHeight[0])
-                    lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingLeft - paddingRight)
+                    lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingStart - paddingEnd)
                     lp.width > 0 -> exactlyMeasure(lp.width)
-                    else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
+                    else -> atmostMeasure(widthSize - paddingStart - paddingEnd)
                 }
 
                 measureChild(childView)
 
-                childUsedWidth = childView.measuredWidth + lp.leftMargin + lp.rightMargin
+                childUsedWidth = childView.measuredWidth + lp.marginStart + lp.marginEnd
             } else {
-                childUsedWidth = lp.leftMargin + lp.rightMargin
+                childUsedWidth = lp.marginStart + lp.marginEnd
             }
 
             if (drawDivider) {
@@ -768,9 +790,9 @@ open class DslTabLayout(
                     itemIsEquWidth -> childEquWidthSpec
                     spaceSize > 0 -> exactlyMeasure(spaceSize * lp.weight)
                     widthHeight[0] > 0 -> exactlyMeasure(allChildUsedWidth)
-                    lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingLeft - paddingRight)
+                    lp.width == ViewGroup.LayoutParams.MATCH_PARENT -> exactlyMeasure(widthSize - paddingStart - paddingEnd)
                     lp.width > 0 -> exactlyMeasure(lp.width)
-                    else -> atmostMeasure(widthSize - paddingLeft - paddingRight)
+                    else -> atmostMeasure(widthSize - paddingStart - paddingEnd)
                 }
 
                 measureChild(childView)
@@ -782,7 +804,7 @@ open class DslTabLayout(
         //...end
 
         if (widthMode != MeasureSpec.EXACTLY) {
-            widthSize = min(_childAllWidthSum + paddingLeft + paddingRight, widthSize)
+            widthSize = min(_childAllWidthSum + paddingStart + paddingEnd, widthSize)
         }
 
         if (heightMode == MeasureSpec.AT_MOST && visibleChildList.isEmpty()) {
@@ -830,7 +852,7 @@ open class DslTabLayout(
 
         if (widthMode == MeasureSpec.EXACTLY) {
             //固定宽度
-            childWidthSpec = exactlyMeasure(widthSize - paddingLeft - paddingRight)
+            childWidthSpec = exactlyMeasure(widthSize - paddingStart - paddingEnd)
         } else if (widthMode == MeasureSpec.UNSPECIFIED) {
             if (widthSize == 0) {
                 widthSize = Int.MAX_VALUE
@@ -904,8 +926,8 @@ open class DslTabLayout(
             val lp = childView.layoutParams as LayoutParams
 
             //纵向布局, 不支持横向margin支持
-            lp.leftMargin = 0
-            lp.rightMargin = 0
+            lp.marginStart = 0
+            lp.marginEnd = 0
 
             val childConvexHeight = lp.layoutConvexHeight
 
@@ -920,7 +942,7 @@ open class DslTabLayout(
                 if (widthHeight[0] > 0) {
                     widthSize = widthHeight[0]
                     childWidthSpec = exactlyMeasure(widthSize)
-                    widthSize += paddingLeft + paddingRight
+                    widthSize += paddingStart + paddingEnd
                 }
             }
 
@@ -935,7 +957,7 @@ open class DslTabLayout(
 
                     childWidthSpec = exactlyMeasure(widthSize)
 
-                    widthSize += paddingLeft + paddingRight
+                    widthSize += paddingStart + paddingEnd
                 } else {
                     childWidthSpec = atmostMeasure(widthSize)
                     wrapContentWidth = true
@@ -961,7 +983,7 @@ open class DslTabLayout(
             if (wrapContentWidth) {
                 widthSize = childView.measuredWidth
                 childWidthSpec = exactlyMeasure(widthSize)
-                widthSize += paddingLeft + paddingRight
+                widthSize += paddingStart + paddingEnd
             }
         }
 
@@ -1056,24 +1078,54 @@ open class DslTabLayout(
         }
     }
 
+    val isLayoutRtl: Boolean
+        get() = ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL
+
+    var _layoutDirection: Int = -1
+
+    //API 17
+    override fun onRtlPropertiesChanged(layoutDirection: Int) {
+        super.onRtlPropertiesChanged(layoutDirection)
+
+        if (layoutDirection != _layoutDirection) {
+            _layoutDirection = layoutDirection
+            if (orientation == LinearLayout.HORIZONTAL) {
+                requestLayout()
+            }
+        }
+    }
+
     fun layoutHorizontal(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        var left = paddingLeft
+        val isRtl = isLayoutRtl
+
+        var left = paddingStart
+        var right = measuredWidth - paddingEnd
+
         var childBottom = measuredHeight - paddingBottom
 
-        val dividerExclude =
-            if (drawDivider) tabDivider?.run { dividerWidth + dividerMarginLeft + dividerMarginRight }
-                ?: 0 else 0
+        val dividerExclude = if (drawDivider) tabDivider?.run {
+            dividerWidth + dividerMarginLeft + dividerMarginRight
+        } ?: 0 else 0
 
         val visibleChildList = dslSelector.visibleViewList
         visibleChildList.forEachIndexed { index, childView ->
 
             val lp = childView.layoutParams as LayoutParams
 
-            left += lp.leftMargin
+            if (isRtl) {
+                right -= lp.marginEnd
+            } else {
+                left += lp.marginStart
+            }
 
             if (drawDivider) {
                 if (tabDivider?.haveBeforeDivider(index, visibleChildList.size) == true) {
-                    left += dividerExclude
+
+                    if (isRtl) {
+                        right -= dividerExclude
+                    } else {
+                        left += dividerExclude
+                    }
                 }
             }
 
@@ -1086,13 +1138,23 @@ open class DslTabLayout(
             }
 
             /*默认垂直居中显示*/
-            childView.layout(
-                left, childBottom - childView.measuredHeight,
-                left + childView.measuredWidth,
-                childBottom
-            )
-
-            left += childView.measuredWidth + lp.rightMargin
+            if (isRtl) {
+                childView.layout(
+                    right - childView.measuredWidth,
+                    childBottom - childView.measuredHeight,
+                    right,
+                    childBottom
+                )
+                right -= childView.measuredWidth + lp.marginStart
+            } else {
+                childView.layout(
+                    left,
+                    childBottom - childView.measuredHeight,
+                    left + childView.measuredWidth,
+                    childBottom
+                )
+                left += childView.measuredWidth + lp.marginEnd
+            }
         }
 
         //check
@@ -1110,7 +1172,7 @@ open class DslTabLayout(
 
     fun layoutVertical(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
         var top = paddingTop
-        var childLeft = paddingLeft
+        var childLeft = paddingStart
 
         val dividerExclude =
             if (drawDivider) tabDivider?.run { dividerHeight + dividerMarginTop + dividerMarginBottom }
@@ -1130,10 +1192,10 @@ open class DslTabLayout(
             }
 
             childLeft = if (lp.gravity.have(Gravity.CENTER_HORIZONTAL)) {
-                paddingLeft + ((measuredWidth - paddingLeft - paddingRight - _maxConvexHeight) / 2 -
+                paddingStart + ((measuredWidth - paddingStart - paddingEnd - _maxConvexHeight) / 2 -
                         childView.measuredWidth / 2)
             } else {
-                paddingLeft
+                paddingStart
             }
 
             /*默认水平居中显示*/
@@ -1328,7 +1390,11 @@ open class DslTabLayout(
     val needScroll: Boolean
         get() = if (tabEnableSelectorMode) true else {
             if (isHorizontal()) {
-                maxScrollX > 0
+                if (isLayoutRtl) {
+                    minScrollX < 0
+                } else {
+                    maxScrollX > 0
+                }
             } else {
                 maxScrollY > 0
             }
@@ -1336,10 +1402,14 @@ open class DslTabLayout(
 
     /**[parent]宽度外的滚动距离*/
     val maxScrollX: Int
-        get() = max(
-            maxWidth - measuredWidth + if (tabEnableSelectorMode) viewDrawWidth / 2 else 0,
-            0
-        )
+        get() = if (isLayoutRtl && isHorizontal()) {
+            if (tabEnableSelectorMode) viewDrawWidth / 2 else 0
+        } else {
+            max(
+                maxWidth - measuredWidth + if (tabEnableSelectorMode) viewDrawWidth / 2 else 0,
+                0
+            )
+        }
 
     val maxScrollY: Int
         get() = max(
@@ -1349,14 +1419,21 @@ open class DslTabLayout(
 
     /**最小滚动的值*/
     val minScrollX: Int
-        get() = if (tabEnableSelectorMode) -viewDrawWidth / 2 else 0
+        get() = if (isLayoutRtl && isHorizontal()) {
+            min(
+                -(maxWidth - measuredWidth + if (tabEnableSelectorMode) viewDrawWidth / 2 else 0),
+                0
+            )
+        } else {
+            if (tabEnableSelectorMode) -viewDrawWidth / 2 else 0
+        }
 
     val minScrollY: Int
         get() = if (tabEnableSelectorMode) -viewDrawHeight / 2 else 0
 
     /**view最大的宽度*/
     val maxWidth: Int
-        get() = _childAllWidthSum + paddingLeft + paddingRight
+        get() = _childAllWidthSum + paddingStart + paddingEnd
 
     val maxHeight: Int
         get() = _childAllWidthSum + paddingTop + paddingBottom
@@ -1368,22 +1445,34 @@ open class DslTabLayout(
             //速率大于0 , 手指向右滑动
 
             if (tabEnableSelectorMode) {
-                if (velocity < 0) {
-                    setCurrentItem(dslSelector.dslSelectIndex + 1)
-                } else if (velocity > 0) {
-                    setCurrentItem(dslSelector.dslSelectIndex - 1)
+                if (isHorizontal() && isLayoutRtl) {
+                    if (velocity < 0) {
+                        setCurrentItem(dslSelector.dslSelectIndex - 1)
+                    } else if (velocity > 0) {
+                        setCurrentItem(dslSelector.dslSelectIndex + 1)
+                    }
+                } else {
+                    if (velocity < 0) {
+                        setCurrentItem(dslSelector.dslSelectIndex + 1)
+                    } else if (velocity > 0) {
+                        setCurrentItem(dslSelector.dslSelectIndex - 1)
+                    }
                 }
             } else {
                 if (isHorizontal()) {
-                    startFling(-velocity.toInt(), maxWidth)
+                    if (isLayoutRtl) {
+                        startFling(-velocity.toInt(), minScrollX, 0)
+                    } else {
+                        startFling(-velocity.toInt(), 0, maxScrollX)
+                    }
                 } else {
-                    startFling(-velocity.toInt(), maxHeight)
+                    startFling(-velocity.toInt(), 0, maxHeight)
                 }
             }
         }
     }
 
-    fun startFling(velocity: Int, max: Int) {
+    fun startFling(velocity: Int, min: Int, max: Int) {
 
         fun velocity(velocity: Int): Int {
             return if (velocity > 0) {
@@ -1403,7 +1492,7 @@ open class DslTabLayout(
                 scrollY,
                 v,
                 0,
-                0,
+                min,
                 max,
                 0,
                 0,
@@ -1418,7 +1507,7 @@ open class DslTabLayout(
                 v,
                 0,
                 0,
-                0,
+                min,
                 max,
                 0,
                 measuredHeight
@@ -1496,9 +1585,9 @@ open class DslTabLayout(
 
     fun _getViewTargetX(): Int {
         return when (tabIndicator.indicatorGravity) {
-            DslTabIndicator.INDICATOR_GRAVITY_START -> paddingLeft
-            DslTabIndicator.INDICATOR_GRAVITY_END -> measuredWidth - paddingRight
-            else -> paddingLeft + viewDrawWidth / 2
+            DslTabIndicator.INDICATOR_GRAVITY_START -> paddingStart
+            DslTabIndicator.INDICATOR_GRAVITY_END -> measuredWidth - paddingEnd
+            else -> paddingStart + viewDrawWidth / 2
         }
     }
 
@@ -1531,11 +1620,19 @@ open class DslTabLayout(
                     val viewCenterX = measuredWidth / 2
                     childTargetX - viewCenterX - scrollX
                 }
-                childTargetX > viewDrawTargetX -> {
-                    childTargetX - viewDrawTargetX - scrollX
+                isLayoutRtl -> {
+                    if (childTargetX < viewDrawTargetX) {
+                        childTargetX - viewDrawTargetX - scrollX
+                    } else {
+                        -scrollX
+                    }
                 }
                 else -> {
-                    -scrollX
+                    if (childTargetX > viewDrawTargetX) {
+                        childTargetX - viewDrawTargetX - scrollX
+                    } else {
+                        -scrollX
+                    }
                 }
             }
         } else {

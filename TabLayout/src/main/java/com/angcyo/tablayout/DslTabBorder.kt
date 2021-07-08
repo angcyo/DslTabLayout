@@ -138,16 +138,29 @@ open class DslTabBorder : DslGradientDrawable() {
                     gradientRadii = this@DslTabBorder.gradientRadii
                 } else if (isFirst) {
                     if (tabLayout.isHorizontal()) {
-                        gradientRadii = floatArrayOf(
-                            this@DslTabBorder.gradientRadii[0],
-                            this@DslTabBorder.gradientRadii[1],
-                            0f,
-                            0f,
-                            0f,
-                            0f,
-                            this@DslTabBorder.gradientRadii[6],
-                            this@DslTabBorder.gradientRadii[7]
-                        )
+                        if (tabLayout.isLayoutRtl) {
+                            gradientRadii = floatArrayOf(
+                                0f,
+                                0f,
+                                this@DslTabBorder.gradientRadii[2],
+                                this@DslTabBorder.gradientRadii[3],
+                                this@DslTabBorder.gradientRadii[4],
+                                this@DslTabBorder.gradientRadii[5],
+                                0f,
+                                0f
+                            )
+                        } else {
+                            gradientRadii = floatArrayOf(
+                                this@DslTabBorder.gradientRadii[0],
+                                this@DslTabBorder.gradientRadii[1],
+                                0f,
+                                0f,
+                                0f,
+                                0f,
+                                this@DslTabBorder.gradientRadii[6],
+                                this@DslTabBorder.gradientRadii[7]
+                            )
+                        }
                     } else {
                         gradientRadii = floatArrayOf(
                             this@DslTabBorder.gradientRadii[0],
@@ -162,16 +175,29 @@ open class DslTabBorder : DslGradientDrawable() {
                     }
                 } else if (isLast) {
                     if (tabLayout.isHorizontal()) {
-                        gradientRadii = floatArrayOf(
-                            0f,
-                            0f,
-                            this@DslTabBorder.gradientRadii[2],
-                            this@DslTabBorder.gradientRadii[3],
-                            this@DslTabBorder.gradientRadii[4],
-                            this@DslTabBorder.gradientRadii[5],
-                            0f,
-                            0f
-                        )
+                        if (tabLayout.isLayoutRtl) {
+                            gradientRadii = floatArrayOf(
+                                this@DslTabBorder.gradientRadii[0],
+                                this@DslTabBorder.gradientRadii[1],
+                                0f,
+                                0f,
+                                0f,
+                                0f,
+                                this@DslTabBorder.gradientRadii[6],
+                                this@DslTabBorder.gradientRadii[7]
+                            )
+                        } else {
+                            gradientRadii = floatArrayOf(
+                                0f,
+                                0f,
+                                this@DslTabBorder.gradientRadii[2],
+                                this@DslTabBorder.gradientRadii[3],
+                                this@DslTabBorder.gradientRadii[4],
+                                this@DslTabBorder.gradientRadii[5],
+                                0f,
+                                0f
+                            )
+                        }
                     } else {
                         gradientRadii = floatArrayOf(
                             0f,

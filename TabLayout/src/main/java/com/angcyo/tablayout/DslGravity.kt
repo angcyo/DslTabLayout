@@ -85,6 +85,7 @@ class DslGravity {
         //调整offset
         _gravityOffsetX = when (horizontalGravity) {
             Gravity.RIGHT -> -gravityOffsetX
+            Gravity.END -> -gravityOffsetX
             else -> gravityOffsetX
         }
         _gravityOffsetY = when (verticalGravity) {
@@ -96,6 +97,7 @@ class DslGravity {
         val centerX = when (horizontalGravity) {
             Gravity.CENTER_HORIZONTAL -> (gravityBounds.left + gravityBounds.width() / 2 + _gravityOffsetX).toInt()
             Gravity.RIGHT -> (gravityBounds.right + _gravityOffsetX - if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
+            Gravity.END -> (gravityBounds.right + _gravityOffsetX - if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
             else -> (gravityBounds.left + _gravityOffsetX + if (gravityRelativeCenter) 0f else _targetWidth / 2).toInt()
         }
 
@@ -121,6 +123,10 @@ class DslGravity {
     }
 }
 
+/**
+ * 默认计算出的是目标中心点坐标参考距离
+ * [com.angcyo.drawable.DslGravity.getGravityRelativeCenter]
+ * */
 fun dslGravity(
     rect: RectF, //计算的矩形
     gravity: Int,  //重力
@@ -136,7 +142,10 @@ fun dslGravity(
     return _dslGravity
 }
 
-
+/**
+ * 默认计算出的是目标中心点坐标参考距离
+ * [com.angcyo.drawable.DslGravity.getGravityRelativeCenter]
+ * */
 fun dslGravity(
     rect: Rect, //计算的矩形
     gravity: Int,  //重力
@@ -177,4 +186,30 @@ fun Int.isCenter(): Boolean {
     val horizontalGravity = absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK
 
     return verticalGravity == Gravity.CENTER_VERTICAL && horizontalGravity == Gravity.CENTER_HORIZONTAL
+}
+
+fun Int.isLeft(): Boolean {
+    val layoutDirection = 0
+    val absoluteGravity = Gravity.getAbsoluteGravity(this, layoutDirection)
+    val horizontalGravity = absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK
+
+    return horizontalGravity == Gravity.LEFT
+}
+
+fun Int.isRight(): Boolean {
+    val layoutDirection = 0
+    val absoluteGravity = Gravity.getAbsoluteGravity(this, layoutDirection)
+    val horizontalGravity = absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK
+
+    return horizontalGravity == Gravity.RIGHT
+}
+
+fun Int.isTop(): Boolean {
+    val verticalGravity = this and Gravity.VERTICAL_GRAVITY_MASK
+    return verticalGravity == Gravity.TOP
+}
+
+fun Int.isBottom(): Boolean {
+    val verticalGravity = this and Gravity.VERTICAL_GRAVITY_MASK
+    return verticalGravity == Gravity.BOTTOM
 }
