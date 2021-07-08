@@ -33,6 +33,7 @@
         app:tab_enable_gradient_color="true"
         app:tab_item_is_equ_width="true"
         app:tab_select_color="@color/white"
+        tools:layoutDirection="rtl"
         tools:tab_badge_offset_x="10dp"
         tools:tab_badge_offset_y="-3dp"
         tools:tab_badge_text="99+"

@@ -21,6 +21,10 @@ class DslViewPagerItem(val fragmentManager: FragmentManager) : DslAdapterItem() 
 
     val fragmentList = getColorFragmentList(10)
 
+    override fun _initItemSize(itemHolder: DslViewHolder) {
+        //super._initItemSize(itemHolder)
+    }
+
     override fun onItemBind(
         itemHolder: DslViewHolder,
         itemPosition: Int,
@@ -29,16 +33,15 @@ class DslViewPagerItem(val fragmentManager: FragmentManager) : DslAdapterItem() 
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
         itemHolder.v<ViewPager>(R.id.view_pager)?.apply {
-            adapter =
-                object : FragmentStatePagerAdapter(fragmentManager) {
-                    override fun getItem(position: Int): Fragment {
-                        return fragmentList[position]
-                    }
-
-                    override fun getCount(): Int {
-                        return fragmentList.size
-                    }
+            adapter = object : FragmentStatePagerAdapter(fragmentManager) {
+                override fun getItem(position: Int): Fragment {
+                    return fragmentList[position]
                 }
+
+                override fun getCount(): Int {
+                    return fragmentList.size
+                }
+            }
 
             itemHolder.clickItem {
                 currentItem = if (currentItem >= 5) 0 else 5

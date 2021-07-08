@@ -2,6 +2,7 @@ package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
 import android.widget.TextView
+import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -30,6 +31,11 @@ class HorizontalHintActivity : BaseActivity() {
                 }
                 false
             }
+        }
+
+        //page
+        DslViewPagerItem(supportFragmentManager).apply {
+            itemBind(DslViewHolder(window.decorView), 0, this, emptyList())
         }
     }
 }

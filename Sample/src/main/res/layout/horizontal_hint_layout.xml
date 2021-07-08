@@ -96,4 +96,10 @@
         android:gravity="center"
         tools:text="test" />
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:elevation="2dp" />
+
 </LinearLayout>
