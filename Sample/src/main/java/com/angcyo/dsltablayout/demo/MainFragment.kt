@@ -1,16 +1,11 @@
 package com.angcyo.dsltablayout.demo
 
-import android.graphics.ColorFilter
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieProperty
-import com.airbnb.lottie.SimpleColorFilter
-import com.airbnb.lottie.model.KeyPath
-import com.airbnb.lottie.value.LottieValueCallback
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.L
 import com.angcyo.dsladapter.dp
@@ -72,6 +67,7 @@ class MainFragment : BaseDslFragment() {
                             ?.playAnimation()
                         onGetTextStyleView(toView, -1)?.visibility = View.VISIBLE
                     }
+                    L.i("fromView:${fromView.hashCode()} toView:${toView.hashCode()}")
                 }
 
                 //选中index的回调
