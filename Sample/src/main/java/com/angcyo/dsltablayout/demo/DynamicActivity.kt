@@ -8,6 +8,8 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.IdRes
+import com.airbnb.lottie.LottieAnimationView
+import com.angcyo.dsladapter.L
 import com.angcyo.dsladapter.dpi
 import com.angcyo.dsladapter.inflate
 import com.angcyo.tablayout.DslTabLayout
@@ -32,6 +34,12 @@ class DynamicActivity : BaseActivity() {
                     "angcyo",
                     "选择:[$fromIndex]->${selectIndexList} reselect:$reselect fromUser:$fromUser"
                 )
+            }
+
+            //选中view的回调
+            onSelectViewChange = { fromView, selectViewList, reselect, fromUser ->
+                val toView = selectViewList.first()
+                L.i("fromView:${fromView.hashCode()} toView:${toView.hashCode()}")
             }
         }
 
