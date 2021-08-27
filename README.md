@@ -101,6 +101,10 @@ dependencies {
 
 ![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/qrcode.png)
 
+# License
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout?ref=badge_large)
+
 ---
 **群内有`各(pian)种(ni)各(jin)样(qun)`的大佬,等你来撩.**
 
