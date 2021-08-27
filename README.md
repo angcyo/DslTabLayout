@@ -1,7 +1,8 @@
 # DslTabLayout
 :hearts: Android界最万能的`TabLayout`(不仅仅是`TabLayout`). 高能自绘控件, 继承自`ViewGroup`, 非组合控件.
 
-[![](https://img.shields.io/badge/License-MIT-3A77AC)](https://github.com/angcyo/DslTabLayout/blob/master/LICENSE) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)  [![](https://img.shields.io/badge/androidx-yes-80B44D)](https://developer.android.google.cn/jetpack/androidx)
+[![](https://img.shields.io/badge/License-MIT-3A77AC)](https://github.com/angcyo/DslTabLayout/blob/master/LICENSE) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout?ref=badge_shield)
+[![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)  [![](https://img.shields.io/badge/androidx-yes-80B44D)](https://developer.android.google.cn/jetpack/androidx)
 
 [文档地址](https://angcyo.gitee.io/doc)
 
@@ -113,3 +114,7 @@ dependencies {
 ![](https://gitee.com/angcyo/res/raw/master/code/all_in1.jpg)
 
 ![](https://gitee.com/angcyo/res/raw/master/code/all_in2.jpg)
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout?ref=badge_large)
