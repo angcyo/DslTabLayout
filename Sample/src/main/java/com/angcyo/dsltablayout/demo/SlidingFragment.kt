@@ -209,11 +209,23 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
 
-                        setTabLayoutConfig {
+                        configTabLayoutConfig {
                             tabEnableGradientScale = true
                             tabEnableGradientColor = true
+                            tabEnableIndicatorGradientColor = true
                             tabSelectColor = resources.getColor(R.color.colorAccent)
                             tabDeselectColor = resources.getColor(R.color.colorPrimaryDark)
+
+                            //动态设置指示器的颜色和文本的颜色
+                            onSelectIndexChange =
+                                { fromIndex, selectIndexList, reselect, fromUser ->
+                                    tabSelectColor = getRandomColor(selectIndexList.last())
+                                    tabIndicator.indicatorColor = tabSelectColor
+                                }
+
+                            onGetGradientIndicatorColor = { fromIndex, toIndex, positionOffset ->
+                                getRandomColor(toIndex)
+                            }
                         }
                     }
                 }

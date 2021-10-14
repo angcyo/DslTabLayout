@@ -61,4 +61,14 @@ open class BaseTabLayoutFragment : BaseDslFragment() {
             }
         }
     }
+
+    val colorList = mutableListOf<Int>()
+    fun getRandomColor(index: Int): Int {
+        var color = colorList.getOrNull(index)
+        if (color == null) {
+            color = randomColor()
+            colorList.add(color)
+        }
+        return color
+    }
 }
