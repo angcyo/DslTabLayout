@@ -39,6 +39,9 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
             }
         }
 
+    /**是否激活指示器的颜色渐变效果*/
+    var tabEnableIndicatorGradientColor = false
+
     /**选中的文本颜色*/
     var tabSelectColor: Int = Color.WHITE //Color.parseColor("#333333")
 
@@ -134,6 +137,12 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         }
     }
 
+    /**获取渐变结束时,指示器的颜色.*/
+    var onGetGradientIndicatorColor: (fromIndex: Int, toIndex: Int, positionOffset: Float) -> Int =
+        { fromIndex, toIndex, positionOffset ->
+            tabLayout.tabIndicator.indicatorColor
+        }
+
     init {
         onStyleItemView = { itemView, index, select ->
             onUpdateItemStyle(itemView, index, select)
@@ -163,6 +172,10 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         tabEnableTextColor = typedArray.getBoolean(
             R.styleable.DslTabLayout_tab_enable_text_color,
             tabEnableTextColor
+        )
+        tabEnableIndicatorGradientColor = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_enable_indicator_gradient_color,
+            tabEnableIndicatorGradientColor
         )
         tabEnableGradientColor = typedArray.getBoolean(
             R.styleable.DslTabLayout_tab_enable_gradient_color,
@@ -278,6 +291,14 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
             val fromIndex = tabLayout.tabIndicator.currentIndex
             val toIndex = tabLayout.tabIndicator._targetIndex
 
+            if (tabEnableIndicatorGradientColor) {
+                val startColor = onGetGradientIndicatorColor(fromIndex, fromIndex, 0f)
+                val endColor = onGetGradientIndicatorColor(fromIndex, toIndex, positionOffset)
+
+                tabLayout.tabIndicator.indicatorColor =
+                    evaluateColor(positionOffset, startColor, endColor)
+            }
+
             if (tabEnableGradientColor) {
                 //文本渐变
                 fromView?.apply {
@@ -375,6 +396,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 }
 
 open class TabGradientCallback {
+
     open fun onGradientColor(view: View?, startColor: Int, endColor: Int, percent: Float) {
         (view as? TextView)?.apply {
             setTextColor(evaluateColor(percent, startColor, endColor))

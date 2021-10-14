@@ -119,6 +119,8 @@
         <attr name="tab_enable_text_bold" format="boolean" />
         <!--是否激活文本颜色渐变-->
         <attr name="tab_enable_gradient_color" format="boolean" />
+        <!--是否激活指示器的颜色渐变效果-->
+        <attr name="tab_enable_indicator_gradient_color" format="boolean" />
         <!--是否激活图标颜色渐变-->
         <attr name="tab_enable_ico_gradient_color" format="boolean" />
         <!--是否激活缩放渐变-->
