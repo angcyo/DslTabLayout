@@ -20,6 +20,7 @@
 10. 支持指示器`居中` `靠左` `靠右`展示(`2.1.0`后)
 11. 支持选中后`突出异形效果`(`2.2.0`后)
 12. 支持`RTL`(`3.0.0`后, `minSdk>=17`)
+13. 支持`指示器颜色滑动渐变效果`(`3.0.1`后)
 
 直接当做横向的`LinearLayout`使用方式即可, 无特殊要求.
 
@@ -85,12 +86,12 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.0.0'
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.0.1'
 
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.0.0'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.0.1'
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:3.0.0'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:3.0.1'
 }
 ```
 
