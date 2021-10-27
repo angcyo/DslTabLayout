@@ -1,8 +1,10 @@
 # DslTabLayout
-:hearts: Android界最万能的`TabLayout`(不仅仅是`TabLayout`). 高能自绘控件, 继承自`ViewGroup`, 非组合控件.
 
-[![](https://img.shields.io/badge/License-MIT-3A77AC)](https://github.com/angcyo/DslTabLayout/blob/master/LICENSE) [![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fangcyo%2FDslTabLayout?ref=badge_shield)
-[![](https://img.shields.io/badge/kotlin-yes-F48729)](https://www.kotlincn.net/docs/reference/android-overview.html)  [![](https://img.shields.io/badge/androidx-yes-80B44D)](https://developer.android.google.cn/jetpack/androidx)
+[![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=14) ![GitHub branch checks state](https://img.shields.io/github/checks-status/angcyo/DslTabLayout/master) ![GitHub](https://img.shields.io/github/license/angcyo/DslTabLayout) [![AndroidX](https://img.shields.io/badge/androidx-100%25-blue)](https://developer.android.google.cn/jetpack/androidx) ![GitHub top language](https://img.shields.io/github/languages/top/angcyo/DslTabLayout) ![JitPack](https://img.shields.io/jitpack/v/github/angcyo/DslTabLayout)
+
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/angcyo/DslTabLayout) ![GitHub repo size](https://img.shields.io/github/repo-size/angcyo/DslTabLayout) ![GitHub last commit](https://img.shields.io/github/last-commit/angcyo/DslTabLayout) ![GitHub issues](https://img.shields.io/github/issues/angcyo/DslTabLayout) ![GitHub Repo stars](https://img.shields.io/github/stars/angcyo/DslTabLayout?style=social) ![GitHub forks](https://img.shields.io/github/forks/angcyo/DslTabLayout?style=social)
+
+:hearts: Android界最万能的`TabLayout`(不仅仅是`TabLayout`). 高能自绘控件, 继承自`ViewGroup`, 非组合控件.
 
 [文档地址](https://angcyo.gitee.io/doc)
 
