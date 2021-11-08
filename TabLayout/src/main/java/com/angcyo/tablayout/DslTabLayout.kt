@@ -1078,6 +1078,22 @@ open class DslTabLayout(
         }
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        //check
+        restoreScroll()
+
+        if (dslSelector.dslSelectIndex < 0) {
+            //还没有选中
+            setCurrentItem(tabDefaultIndex)
+        } else {
+            if (_overScroller.isFinished) {
+                _scrollToTarget(dslSelector.dslSelectIndex, layoutScrollAnim)
+            }
+        }
+    }
+
     val isLayoutRtl: Boolean
         get() = ViewCompat.getLayoutDirection(this) == ViewCompat.LAYOUT_DIRECTION_RTL
 
@@ -1207,18 +1223,6 @@ open class DslTabLayout(
             )
 
             top += childView.measuredHeight + lp.bottomMargin
-        }
-
-        //check
-        restoreScroll()
-
-        if (dslSelector.dslSelectIndex < 0) {
-            //还没有选中
-            setCurrentItem(tabDefaultIndex)
-        } else {
-            if (_overScroller.isFinished) {
-                _scrollToTarget(dslSelector.dslSelectIndex, layoutScrollAnim)
-            }
         }
     }
 
@@ -1528,7 +1532,7 @@ open class DslTabLayout(
 
     /**检查是否需要重置滚动的位置*/
     fun restoreScroll() {
-        if (itemIsEquWidth) {
+        if (itemIsEquWidth || !needScroll) {
             if (scrollX != 0 || scrollY != 0) {
                 scrollTo(0, 0)
             }
