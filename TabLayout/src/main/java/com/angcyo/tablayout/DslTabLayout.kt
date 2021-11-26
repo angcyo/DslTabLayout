@@ -39,7 +39,8 @@ open class DslTabLayout(
     /**item是否等宽*/
     var itemIsEquWidth = false
 
-    /**智能判断Item是否等宽, 如果所有子项, 未撑满tab时, 开启等宽模式.此属性会覆盖[itemIsEquWidth]*/
+    /**智能判断Item是否等宽.
+     * 如果所有子项, 未撑满tab时, 则开启等宽模式.此属性会覆盖[itemIsEquWidth]*/
     var itemAutoEquWidth = false
 
     /**在等宽的情况下, 指定item的宽度, 小于0, 平分*/
