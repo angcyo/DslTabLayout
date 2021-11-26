@@ -334,22 +334,34 @@ open class DslTabLayout(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (dslSelector.dslSelectIndex < 0) {
+            //还没有选中
+            setCurrentItem(tabDefaultIndex)
+        }
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
     }
 
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+    }
+
     override fun onViewAdded(child: View?) {
         super.onViewAdded(child)
-        dslSelector.updateVisibleList()
-        dslSelector.updateStyle()
-        dslSelector.updateClickListener()
+        updateTabLayout()
     }
 
     override fun onViewRemoved(child: View?) {
         super.onViewRemoved(child)
+        updateTabLayout()
+    }
+
+    open fun updateTabLayout() {
         dslSelector.updateVisibleList()
+        dslSelector.updateStyle()
+        dslSelector.updateClickListener()
     }
 
     override fun draw(canvas: Canvas) {
