@@ -20,5 +20,6 @@ class SampleActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         show(SampleMainFragment())
+        //show(TestFragment())
     }
 }

@@ -1,0 +1,83 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="10dp"
+    android:paddingEnd="20dp">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#20000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tab_deselect_color="@color/colorAccent"
+        app:tab_enable_text_bold="true"
+        app:tab_select_color="@color/colorPrimaryDark"
+        app:tab_text_max_size="22sp"
+        app:tab_text_min_size="14sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="鱼塘" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="我的动态" />
+    </com.angcyo.tablayout.DslTabLayout>
+
+    <TextView
+        android:id="@+id/textView187"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_gravity="end"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:onClick="@{() -> view.onClickPosting()}"
+        android:paddingStart="16dp"
+        android:text="发布"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView39"
+        android:layout_width="30dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="23dp"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView187"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginBottom="11dp"
+        android:gravity="center"
+        android:minWidth="20dp"
+        android:paddingHorizontal="6dp"
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView39"
+        app:layout_constraintStart_toStartOf="@+id/imageView39"
+        tools:text="2"
+        tools:visibility="visible" />
+</androidx.constraintlayout.widget.ConstraintLayout>
