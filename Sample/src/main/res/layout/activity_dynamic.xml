@@ -217,6 +217,22 @@
             android:layout_height="wrap_content"
             android:text="循环设置"
             android:textAllCaps="false" />
+
+        <com.angcyo.tablayout.DslTabLayout
+            android:id="@+id/dynamic_tab_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@color/transparent10"
+            app:tab_deselect_color="#FF000000"
+            app:tab_enable_gradient_text_size="true"
+            app:tab_enable_text_bold="true"
+            app:tab_indicator_enable_flow="true"
+            app:tab_indicator_style="STYLE_BACKGROUND"
+            app:tab_indicator_width="WRAP_CONTENT"
+            app:tab_indicator_width_offset="14dp"
+            app:tab_select_color="#FFBB86FC"
+            app:tab_text_max_size="14sp"
+            app:tab_text_min_size="13sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

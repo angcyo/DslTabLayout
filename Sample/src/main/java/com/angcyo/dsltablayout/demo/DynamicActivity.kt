@@ -7,8 +7,6 @@ import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.IdRes
-import com.airbnb.lottie.LottieAnimationView
 import com.angcyo.dsladapter.L
 import com.angcyo.dsladapter.dpi
 import com.angcyo.dsladapter.inflate
@@ -84,6 +82,37 @@ class DynamicActivity : BaseActivity() {
         find<View>(R.id.loop_button)?.setOnClickListener {
             _currentIndex = 0
             loopSetCurrentItem()
+        }
+
+        //动态添加
+        find<DslTabLayout>(R.id.dynamic_tab_layout)?.apply {
+            //模拟网络请求后填充数据 则 第一个显示不全
+            postDelayed({
+                val tabs = arrayOf(
+                    "推荐",
+                    "家具家纺",
+                    "粮油副食",
+                    "休闲食品",
+                    "肉禽蛋品",
+                    "时令水果",
+                    "水产海鲜",
+                    "饮料冲调",
+                    "新鲜蔬菜",
+                    "生活用品",
+                    "生活电器",
+                    "汽车用品",
+                    "手机数码",
+                    "休闲娱乐"
+                )
+                removeAllViews()
+                for (tab in tabs) {
+                    val textView = TextView(context)
+                    textView.text = tab
+                    textView.gravity = Gravity.CENTER
+                    textView.setPadding(30, 0, 0, 16)
+                    addView(textView)
+                }
+            }, 600)
         }
     }
 
