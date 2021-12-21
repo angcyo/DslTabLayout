@@ -564,6 +564,12 @@ open class DslTabLayout(
     var _maxConvexHeight = 0
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+
+        if (dslSelector.dslSelectIndex < 0) {
+            //还没有选中
+            setCurrentItem(tabDefaultIndex)
+        }
+
         if (isHorizontal()) {
             measureHorizontal(widthMeasureSpec, heightMeasureSpec)
         } else {
