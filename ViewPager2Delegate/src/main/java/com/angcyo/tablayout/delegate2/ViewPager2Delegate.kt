@@ -11,15 +11,23 @@ import kotlin.math.absoluteValue
  * @author angcyo
  * @date 2019/12/14
  */
-open class ViewPager2Delegate(val viewPager: ViewPager2, val dslTabLayout: DslTabLayout?) :
-    ViewPager2.OnPageChangeCallback(), ViewPagerDelegate {
+open class ViewPager2Delegate(
+    val viewPager: ViewPager2,
+    val dslTabLayout: DslTabLayout?,
+    val forceSmoothScroll: Boolean? = null
+) : ViewPager2.OnPageChangeCallback(), ViewPagerDelegate {
 
     companion object {
-        fun install(viewPager: ViewPager2, dslTabLayout: DslTabLayout?) {
-            ViewPager2Delegate(
-                viewPager,
-                dslTabLayout
-            )
+
+        /**
+         * [forceSmoothScroll] 为 null, 只有切换左右page时, 才有VP的动画, 否则没有.
+         * */
+        fun install(
+            viewPager: ViewPager2,
+            dslTabLayout: DslTabLayout?,
+            forceSmoothScroll: Boolean? = null
+        ): ViewPager2Delegate {
+            return ViewPager2Delegate(viewPager, dslTabLayout, forceSmoothScroll)
         }
     }
 
@@ -33,7 +41,8 @@ open class ViewPager2Delegate(val viewPager: ViewPager2, val dslTabLayout: DslTa
     }
 
     override fun onSetCurrentItem(fromIndex: Int, toIndex: Int) {
-        viewPager.setCurrentItem(toIndex, (toIndex - fromIndex).absoluteValue <= 1)
+        val smoothScroll = forceSmoothScroll ?: ((toIndex - fromIndex).absoluteValue <= 1)
+        viewPager.setCurrentItem(toIndex, smoothScroll)
     }
 
     override fun onPageScrollStateChanged(state: Int) {
