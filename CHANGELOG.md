@@ -1,6 +1,6 @@
 # 2022-01-02
 
-版本: `3.0.5`, 更新日志:
+版本: `3.0.6`, 更新日志:
 
 + `ViewPagerDelegate`支持`forceSmoothScroll`参数
 
