@@ -110,6 +110,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
      * 宽高[WRAP_CONTENT]时, 内容view的定位索引
      * */
     var indicatorContentIndex = -1
+    var indicatorContentId = View.NO_ID
 
     /**切换时是否需要动画的支持*/
     var indicatorAnim = true
@@ -197,6 +198,10 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             R.styleable.DslTabLayout_tab_indicator_content_index,
             indicatorContentIndex
         )
+        indicatorContentId = typedArray.getResourceId(
+            R.styleable.DslTabLayout_tab_indicator_content_id,
+            indicatorContentId
+        )
         indicatorAnim = typedArray.getBoolean(
             R.styleable.DslTabLayout_tab_indicator_anim,
             indicatorAnim
@@ -280,26 +285,38 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         return drawable.tintDrawableColor(color)
     }
 
+    /**指示器需要参考的目标控件*/
+    open fun indicatorContentView(childView: View): View? {
+        val lp = childView.layoutParams as DslTabLayout.LayoutParams
+
+        val contentId =
+            if (lp.indicatorContentId != View.NO_ID) lp.indicatorContentId else indicatorContentId
+
+        if (contentId != View.NO_ID) {
+            return childView.findViewById(contentId)
+        }
+
+        //如果child强制指定了index, 就用指定的.
+        val contentIndex =
+            if (lp.indicatorContentIndex >= 0) lp.indicatorContentIndex else indicatorContentIndex
+
+        return if (contentIndex >= 0 && childView is ViewGroup && contentIndex in 0 until childView.childCount) {
+            //有指定
+            val contentChildView = childView.getChildAt(contentIndex)
+            contentChildView
+        } else {
+            //没有指定
+            null
+        }
+    }
+
     /**根据指定[index]索引, 获取目标[View]*/
     open fun targetChildView(
         index: Int,
         onChildView: (childView: View, contentChildView: View?) -> Unit
     ) {
         tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
-            val lp = childView.layoutParams as DslTabLayout.LayoutParams
-
-            //如果child强制指定了index, 就用指定的.
-            val contentIndex =
-                if (lp.indicatorContentIndex >= 0) lp.indicatorContentIndex else indicatorContentIndex
-
-            if (contentIndex >= 0 && childView is ViewGroup && contentIndex in 0 until childView.childCount) {
-                //有指定
-                val contentChildView = childView.getChildAt(contentIndex)
-                onChildView(childView, contentChildView)
-            } else {
-                //没有指定
-                onChildView(childView, null)
-            }
+            onChildView(childView, indicatorContentView(childView))
         }
     }
 
@@ -358,22 +375,8 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         when (indicatorWidth) {
             ViewGroup.LayoutParams.WRAP_CONTENT -> {
                 tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
-                    val lp = childView.layoutParams as DslTabLayout.LayoutParams
-
-                    //如果child强制指定了index, 就用指定的.
-                    val contentIndex =
-                        if (lp.indicatorContentIndex >= 0) lp.indicatorContentIndex else indicatorContentIndex
-
-                    result = childView.viewDrawWidth
-
-                    if (contentIndex >= 0) {
-                        //有指定
-                        if (childView is ViewGroup && contentIndex in 0 until childView.childCount) {
-                            val contentChildView = childView.getChildAt(contentIndex)
-
-                            result = contentChildView.viewDrawWidth
-                        }
-                    }
+                    result =
+                        indicatorContentView(childView)?.viewDrawWidth ?: childView.viewDrawWidth
                 }
             }
             ViewGroup.LayoutParams.MATCH_PARENT -> {
@@ -392,22 +395,8 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         when (indicatorHeight) {
             ViewGroup.LayoutParams.WRAP_CONTENT -> {
                 tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
-                    val lp = childView.layoutParams as DslTabLayout.LayoutParams
-
-                    //如果child强制指定了index, 就用指定的.
-                    val contentIndex =
-                        if (lp.indicatorContentIndex >= 0) lp.indicatorContentIndex else indicatorContentIndex
-
-                    result = childView.viewDrawHeight
-
-                    if (contentIndex >= 0) {
-                        //有指定
-                        if (childView is ViewGroup && contentIndex in 0 until childView.childCount) {
-                            val contentChildView = childView.getChildAt(contentIndex)
-
-                            result = contentChildView.viewDrawHeight
-                        }
-                    }
+                    result =
+                        indicatorContentView(childView)?.viewDrawHeight ?: childView.viewDrawHeight
                 }
             }
             ViewGroup.LayoutParams.MATCH_PARENT -> {

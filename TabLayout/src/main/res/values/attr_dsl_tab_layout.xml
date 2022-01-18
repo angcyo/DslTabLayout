@@ -80,6 +80,8 @@
         <attr name="tab_indicator_y_offset" format="dimension" />
         <!--指示器child的锚点索引, 用来辅助定位计算指示器的宽度,高度,中点坐标-->
         <attr name="tab_indicator_content_index" format="integer" />
+        <!--指示器child的锚点控件id, 用来辅助定位计算指示器的宽度,高度,中点坐标-->
+        <attr name="tab_indicator_content_id" format="reference" />
         <!--切换指示器时, 是否需要动画的支持-->
         <attr name="tab_indicator_anim" format="boolean" />
 
@@ -263,6 +265,8 @@
         <attr name="layout_tab_convex_height" format="dimension" />
         <!--单独指定child的锚点索引-->
         <attr name="layout_tab_indicator_content_index" format="integer" />
+        <!--单独指定child的锚点控件的id-->
+        <attr name="layout_tab_indicator_content_id" format="reference" />
         <!--android.widget.LinearLayout.LayoutParams.weight 剩余空间所占比例-->
         <attr name="layout_tab_weight" format="float" />
         <!--单独配置的drawable, 可以覆盖tab中的配置-->
