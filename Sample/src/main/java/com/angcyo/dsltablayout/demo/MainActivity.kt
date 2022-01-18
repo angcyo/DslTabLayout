@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.angcyo.dsladapter.L
-import com.angcyo.dsltablayout.demo.sample.SampleActivity
+import com.angcyo.dsltablayout.demo.sample.*
 
 class MainActivity : BaseActivity() {
 

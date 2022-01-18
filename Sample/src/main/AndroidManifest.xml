@@ -19,10 +19,10 @@
 
         </activity>
 
-        <activity android:name=".DynamicActivity" />
-        <activity android:name=".VerticalActivity" />
-        <activity android:name=".VerticalHintActivity" />
-        <activity android:name=".HorizontalHintActivity">
+        <activity android:name=".sample.DynamicActivity" />
+        <activity android:name=".sample.VerticalActivity" />
+        <activity android:name=".sample.VerticalHintActivity" />
+        <activity android:name=".sample.HorizontalHintActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

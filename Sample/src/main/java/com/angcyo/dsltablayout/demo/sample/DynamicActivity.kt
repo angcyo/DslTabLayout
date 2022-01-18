@@ -1,4 +1,4 @@
-package com.angcyo.dsltablayout.demo
+package com.angcyo.dsltablayout.demo.sample
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -10,6 +10,8 @@ import android.widget.TextView
 import com.angcyo.dsladapter.L
 import com.angcyo.dsladapter.dpi
 import com.angcyo.dsladapter.inflate
+import com.angcyo.dsltablayout.demo.BaseActivity
+import com.angcyo.dsltablayout.demo.R
 import com.angcyo.tablayout.DslTabLayout
 
 /**

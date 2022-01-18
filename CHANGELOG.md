@@ -1,3 +1,9 @@
+# 2022-1-18
+
+版本: `3.0.7`, 更新日志:
+
++ `tab_indicator_content_id` `layout_tab_indicator_content_id` 用来指定指示器`WRAP_CONTENT`参考的控件id
+
 # 2022-01-02
 
 版本: `3.0.6`, 更新日志:

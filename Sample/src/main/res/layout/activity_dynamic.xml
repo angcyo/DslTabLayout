@@ -65,11 +65,73 @@
     </com.angcyo.tablayout.DslTabLayout>
 
     <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/test2_tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_marginTop="@dimen/lib_xhdpi"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/test_tab_layout"
+        app:tab_default_index="0"
+        app:tab_deselect_color="#666666"
+        app:tab_draw_border="false"
+        app:tab_draw_indicator="true"
+        app:tab_enable_gradient_scale="true"
+        app:tab_enable_text_bold="true"
+        app:tab_indicator_drawable="@drawable/indicator_round_background_tran"
+        app:tab_indicator_height="WRAP_CONTENT"
+        app:tab_indicator_style="STYLE_BOTTOM"
+        app:tab_indicator_width="WRAP_CONTENT"
+        app:tab_item_is_equ_width="false"
+        app:tab_max_scale="1.0"
+        app:tab_min_scale="1.0"
+        app:tab_select_color="#333333">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:background="@color/transparent10"
+            android:gravity="center"
+            android:maxWidth="60dp"
+            android:text="转发"
+            android:textSize="15dp" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:layout_tab_indicator_content_id="@id/text_view"
+            app:layout_tab_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/transparent30"
+                android:gravity="center"
+                android:paddingStart="@dimen/lib_xxxhdpi"
+                android:paddingEnd="@dimen/lib_xxxhdpi"
+                android:text="点赞"
+                android:textSize="15dp" />
+        </FrameLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="16dp"
+            android:background="@color/transparent20"
+            android:gravity="center"
+            android:text="评论"
+            android:textSize="15dp" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+    <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/test_tab_layout"
+        app:layout_constraintTop_toBottomOf="@id/test2_tab_layout"
         app:tab_deselect_color="#333333"
         app:tab_item_auto_equ_width="true">
 

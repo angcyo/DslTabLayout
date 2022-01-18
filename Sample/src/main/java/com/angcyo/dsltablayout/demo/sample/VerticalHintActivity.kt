@@ -1,8 +1,9 @@
-package com.angcyo.dsltablayout.demo
+package com.angcyo.dsltablayout.demo.sample
 
 import android.os.Bundle
 import android.widget.TextView
-import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsltablayout.demo.BaseActivity
+import com.angcyo.dsltablayout.demo.R
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -12,10 +13,10 @@ import com.angcyo.tablayout.DslTabLayout
  * @date 2021/05/19
  * Copyright (c) 2020 ShenZhen Wayto Ltd. All rights reserved.
  */
-class HorizontalHintActivity : BaseActivity() {
+class VerticalHintActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.horizontal_hint_layout)
+        setContentView(R.layout.vertical_hint_layout)
 
         val tabLayout = find<DslTabLayout>(R.id.tab_layout)
         /*tabLayout.tabHighlight?.apply {
@@ -31,11 +32,6 @@ class HorizontalHintActivity : BaseActivity() {
                 }
                 false
             }
-        }
-
-        //page
-        DslViewPagerItem(supportFragmentManager).apply {
-            itemBind(DslViewHolder(window.decorView), 0, this, emptyList())
         }
     }
 }
