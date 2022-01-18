@@ -64,6 +64,8 @@ internal fun Int.have(value: Int): Boolean = if (this == 0 || value == 0) {
     ((this > 0 && value > 0) || (this < 0 && value < 0)) && this and value == value
 }
 
+internal fun Int.remove(value: Int): Int = this and value.inv()
+
 internal fun clamp(value: Float, min: Float, max: Float): Float {
     if (value < min) {
         return min

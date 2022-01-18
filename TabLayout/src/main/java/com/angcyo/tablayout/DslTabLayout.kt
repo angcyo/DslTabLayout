@@ -469,7 +469,7 @@ open class DslTabLayout(
         if (drawBorder) {
             tabBorder?.draw(canvas)
         }
-        if (drawIndicator && tabIndicator.indicatorStyle > 0x10) {
+        if (drawIndicator && tabIndicator.indicatorStyle > DslTabIndicator.INDICATOR_STYLE_DIVIDE) {
             tabIndicator.draw(canvas)
         }
         if (drawBadge) {
@@ -535,7 +535,7 @@ open class DslTabLayout(
         }
 
         //绘制在child的后面
-        if (drawIndicator && tabIndicator.indicatorStyle <= 0x10) {
+        if (drawIndicator && tabIndicator.indicatorStyle < DslTabIndicator.INDICATOR_STYLE_DIVIDE) {
             tabIndicator.draw(canvas)
         }
     }

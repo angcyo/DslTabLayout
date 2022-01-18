@@ -29,14 +29,20 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         /**不绘制指示器*/
         const val INDICATOR_STYLE_NONE = 0
 
-        /**指示器绘制[itemView]的背部, [itemView] 请不要设置background, 否则可能看不见*/
-        const val INDICATOR_STYLE_BACKGROUND = 0x1
+        //大于这个值, 绘制在前景, 小于这个值绘制在背景
+        const val INDICATOR_STYLE_DIVIDE = 0x1000
 
         /**指示器绘制在[itemView]的顶部*/
-        const val INDICATOR_STYLE_TOP = 0x11
+        const val INDICATOR_STYLE_TOP = 0x1
 
         /**指示器绘制在[itemView]的底部*/
-        const val INDICATOR_STYLE_BOTTOM = 0x12
+        const val INDICATOR_STYLE_BOTTOM = 0x2
+
+        /**指示器绘制[itemView]的背部, [itemView] 请不要设置background, 否则可能看不见*/
+        const val INDICATOR_STYLE_BACKGROUND = 0x9
+
+        /**前景绘制*/
+        const val INDICATOR_STYLE_FOREGROUND = INDICATOR_STYLE_DIVIDE or INDICATOR_STYLE_BACKGROUND
 
         /**指示器重力在开始的位置(横向左边, 纵向上边)*/
         const val INDICATOR_GRAVITY_START = 0x1
@@ -136,7 +142,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         )
 
         //初始化指示器的高度和宽度
-        if (indicatorStyle == INDICATOR_STYLE_BACKGROUND) {
+        if (indicatorStyle.remove(INDICATOR_STYLE_DIVIDE) == 0) {
             if (tabLayout.isHorizontal()) {
                 indicatorWidth = ViewGroup.LayoutParams.MATCH_PARENT
                 indicatorHeight = -1
@@ -514,21 +520,16 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             animExHeight = ((animEndHeight - drawHeight) * positionOffset).toInt()
         }
 
-        val drawTop = when (indicatorStyle) {
-            INDICATOR_STYLE_BOTTOM -> {
-                //底部绘制
-                viewHeight - drawHeight - indicatorYOffset
-            }
-            INDICATOR_STYLE_TOP -> {
-                //顶部绘制
-                0 + indicatorYOffset
-            }
-            else -> {
-                //居中绘制
-                paddingTop + viewDrawHeight / 2 - drawHeight / 2 + indicatorYOffset -
-                        animExHeight +
-                        (tabLayout._maxConvexHeight - _childConvexHeight(currentIndex)) / 2
-            }
+        //前景
+        val drawTop = when (indicatorStyle.remove(INDICATOR_STYLE_DIVIDE)) {
+            //底部绘制
+            INDICATOR_STYLE_BOTTOM -> viewHeight - drawHeight - indicatorYOffset
+            //顶部绘制
+            INDICATOR_STYLE_TOP -> 0 + indicatorYOffset
+            //居中绘制
+            else -> paddingTop + viewDrawHeight / 2 - drawHeight / 2 + indicatorYOffset -
+                    animExHeight +
+                    (tabLayout._maxConvexHeight - _childConvexHeight(currentIndex)) / 2
         }
 
         indicatorDrawable?.apply {
