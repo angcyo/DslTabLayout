@@ -1,5 +1,9 @@
 # 2022-1-18
 
+版本: `3.0.8`, 更新日志:
+
++ `STYLE_FOREGROUND` `STYLE_FOREGROUND_TOP` `STYLE_FOREGROUND_BOTTOM` `STYLE_BACKGROUND` `STYLE_BACKGROUND_TOP` `STYLE_BACKGROUND_BOTTOM` 更细粒度的指示器样式
+
 版本: `3.0.7`, 更新日志:
 
 + `tab_indicator_content_id` `layout_tab_indicator_content_id` 用来指定指示器`WRAP_CONTENT`参考的控件id

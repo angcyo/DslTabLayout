@@ -79,7 +79,7 @@
         app:tab_enable_text_bold="true"
         app:tab_indicator_drawable="@drawable/indicator_round_background_tran"
         app:tab_indicator_height="WRAP_CONTENT"
-        app:tab_indicator_style="STYLE_BOTTOM"
+        app:tab_indicator_style="STYLE_FOREGROUND"
         app:tab_indicator_width="WRAP_CONTENT"
         app:tab_item_is_equ_width="false"
         app:tab_max_scale="1.0"
