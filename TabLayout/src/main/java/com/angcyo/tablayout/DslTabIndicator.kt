@@ -68,6 +68,12 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
      * */
     var indicatorEnableFlow: Boolean = false
 
+    /**指示器闪现效果, 从当前位置直接跨越到目标位置*/
+    var indicatorEnableFlash: Boolean = false
+
+    /**使用clip的方式绘制闪现效果*/
+    var indicatorEnableFlashClip: Boolean = true
+
     /**当目标和当前的索引差值<=此值时, [Flow]效果才有效*/
     var indicatorFlowStep: Int = 1
 
@@ -190,6 +196,14 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         indicatorEnableFlow = typedArray.getBoolean(
             R.styleable.DslTabLayout_tab_indicator_enable_flow,
             indicatorEnableFlow
+        )
+        indicatorEnableFlash = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_indicator_enable_flash,
+            indicatorEnableFlash
+        )
+        indicatorEnableFlashClip = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_indicator_enable_flash_clip,
+            indicatorEnableFlashClip
         )
 
         indicatorWidthOffset = typedArray.getDimensionPixelOffset(
@@ -460,19 +474,33 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         //动画执行过程中, 高度额外变大的值
         var animExHeight = 0
 
+        //end value
+        val nextDrawTargetX = getChildTargetX(
+            _targetIndex,
+            INDICATOR_GRAVITY_CENTER
+        )
+        val nextDrawWidth = getIndicatorDrawWidth(_targetIndex)
+        val nextDrawLeft = nextDrawTargetX - nextDrawWidth / 2 + indicatorXOffset
+
+        var animEndWidth = nextDrawWidth
+        var animEndLeft = nextDrawLeft
+
         if (_targetIndex in 0 until childSize && _targetIndex != currentIndex) {
 
             //动画过程参数计算变量
             val animStartLeft = drawLeft
             val animStartWidth = drawWidth
-            val animEndWidth = getIndicatorDrawWidth(_targetIndex)
-            val animEndLeft = getChildTargetX(
-                _targetIndex,
-                INDICATOR_GRAVITY_CENTER
-            ) - animEndWidth / 2 + indicatorXOffset
+
             val animEndHeight = getIndicatorDrawHeight(_targetIndex)
 
-            if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
+            if (indicatorEnableFlash) {
+                //闪现效果
+                animWidth = (animWidth * (1 - positionOffset)).toInt()
+                animEndWidth = (animEndWidth * positionOffset).toInt()
+
+                animLeft = drawTargetX - animWidth / 2 + indicatorXOffset
+                animEndLeft = nextDrawLeft
+            } else if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
                 //激活了流动效果
 
                 val flowEndWidth: Int
@@ -502,6 +530,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
                     (animStartWidth + (flowEndWidth - animStartWidth) * positionOffset / 0.5f).toInt()
                 }
             } else {
+                //默认平移效果
                 if (_targetIndex > currentIndex) {
                     //目标在右边
                     animLeft =
@@ -533,13 +562,128 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         }
 
         indicatorDrawable?.apply {
-            setBounds(
-                animLeft,
-                drawTop,
-                animLeft + animWidth,
-                drawTop + drawHeight + animExHeight
-            )
-            draw(canvas)
+            if (indicatorEnableFlash) {
+                //flash
+                if (indicatorEnableFlashClip) {
+                    drawIndicatorClipHorizontal(
+                        this,
+                        canvas,
+                        drawLeft,
+                        drawTop,
+                        drawLeft + drawWidth,
+                        drawTop + drawHeight + animExHeight,
+                        animWidth,
+                        1 - positionOffset
+                    )
+                } else {
+                    drawIndicator(
+                        this, canvas, animLeft,
+                        drawTop,
+                        animLeft + animWidth,
+                        drawTop + drawHeight + animExHeight,
+                        1 - positionOffset
+                    )
+                }
+
+                if (_targetIndex in 0 until childSize) {
+                    if (indicatorEnableFlashClip) {
+                        drawIndicatorClipHorizontal(
+                            this,
+                            canvas,
+                            nextDrawLeft,
+                            drawTop,
+                            nextDrawLeft + nextDrawWidth,
+                            drawTop + drawHeight + animExHeight,
+                            animEndWidth,
+                            positionOffset
+                        )
+                    } else {
+                        drawIndicator(
+                            this, canvas, animEndLeft,
+                            drawTop,
+                            animEndLeft + animEndWidth,
+                            drawTop + drawHeight + animExHeight,
+                            positionOffset
+                        )
+                    }
+                }
+            } else {
+                //normal
+                drawIndicator(
+                    this, canvas, animLeft,
+                    drawTop,
+                    animLeft + animWidth,
+                    drawTop + drawHeight + animExHeight,
+                    1 - positionOffset
+                )
+            }
+        }
+    }
+
+    fun drawIndicator(
+        indicator: Drawable,
+        canvas: Canvas,
+        l: Int,
+        t: Int,
+        r: Int,
+        b: Int,
+        offset: Float
+    ) {
+        indicator.apply {
+            setBounds(l, t, r, b)
+            if (this is ITabIndicatorDraw) {
+                onDrawTabIndicator(this@DslTabIndicator, canvas, offset)
+            } else {
+                draw(canvas)
+            }
+        }
+    }
+
+    fun drawIndicatorClipHorizontal(
+        indicator: Drawable,
+        canvas: Canvas,
+        l: Int,
+        t: Int,
+        r: Int,
+        b: Int,
+        endWidth: Int,
+        offset: Float
+    ) {
+        indicator.apply {
+            canvas.save()
+            val dx = (r - l - endWidth) / 2
+            canvas.clipRect(l + dx, t, r - dx, b)
+            setBounds(l, t, r, b)
+            if (this is ITabIndicatorDraw) {
+                onDrawTabIndicator(this@DslTabIndicator, canvas, offset)
+            } else {
+                draw(canvas)
+            }
+            canvas.restore()
+        }
+    }
+
+    fun drawIndicatorClipVertical(
+        indicator: Drawable,
+        canvas: Canvas,
+        l: Int,
+        t: Int,
+        r: Int,
+        b: Int,
+        endHeight: Int,
+        offset: Float
+    ) {
+        indicator.apply {
+            canvas.save()
+            val dy = (b - t - endHeight) / 2
+            canvas.clipRect(l, t + dy, r, b - dy)
+            setBounds(l, t, r, b)
+            if (this is ITabIndicatorDraw) {
+                onDrawTabIndicator(this@DslTabIndicator, canvas, offset)
+            } else {
+                draw(canvas)
+            }
+            canvas.restore()
         }
     }
 
@@ -574,19 +718,33 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         //动画执行过程中, 宽度额外变大的值
         var animExWidth = 0
 
+        //end value
+        val nextDrawTargetY = getChildTargetY(
+            _targetIndex,
+            INDICATOR_GRAVITY_CENTER
+        )
+        val nextDrawHeight = getIndicatorDrawHeight(_targetIndex)
+        val nextDrawTop = nextDrawTargetY - nextDrawHeight / 2 + indicatorYOffset
+
+        var animEndHeight = nextDrawHeight
+        var animEndTop = nextDrawTop
+
         if (_targetIndex in 0 until childSize && _targetIndex != currentIndex) {
 
             //动画过程参数计算变量
             val animStartTop = drawTop
             val animStartHeight = drawHeight
-            val animEndHeight = getIndicatorDrawHeight(_targetIndex)
-            val animEndTop = getChildTargetY(
-                _targetIndex,
-                INDICATOR_GRAVITY_CENTER
-            ) - animEndHeight / 2 + indicatorYOffset
+
             val animEndWidth = getIndicatorDrawWidth(_targetIndex)
 
-            if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
+            if (indicatorEnableFlash) {
+                //闪现效果
+                animHeight = (animHeight * (1 - positionOffset)).toInt()
+                animEndHeight = (animEndHeight * positionOffset).toInt()
+
+                animTop = drawTargetY - animHeight / 2 + indicatorXOffset
+                animEndTop = nextDrawTargetY - animEndHeight / 2 + indicatorXOffset
+            } else if (indicatorEnableFlow && (_targetIndex - currentIndex).absoluteValue <= indicatorFlowStep) {
                 //激活了流动效果
 
                 val flowEndHeight: Int
@@ -649,13 +807,56 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         }
 
         indicatorDrawable?.apply {
-            setBounds(
-                drawLeft,
-                animTop,
-                drawLeft + drawWidth + animExWidth,
-                animTop + animHeight
-            )
-            draw(canvas)
+            //flash
+            if (indicatorEnableFlash) {
+                if (indicatorEnableFlashClip) {
+                    drawIndicatorClipVertical(
+                        this, canvas, drawLeft,
+                        drawTop,
+                        drawLeft + drawWidth + animExWidth,
+                        drawTop + drawHeight,
+                        animHeight,
+                        1 - positionOffset
+                    )
+                } else {
+                    drawIndicator(
+                        this, canvas, drawLeft,
+                        animTop,
+                        drawLeft + drawWidth + animExWidth,
+                        animTop + animHeight,
+                        1 - positionOffset
+                    )
+                }
+
+                if (_targetIndex in 0 until childSize) {
+                    if (indicatorEnableFlashClip) {
+                        drawIndicatorClipVertical(
+                            this, canvas, drawLeft,
+                            nextDrawTop,
+                            drawLeft + drawWidth + animExWidth,
+                            nextDrawTop + nextDrawHeight,
+                            animEndHeight,
+                            positionOffset
+                        )
+                    } else {
+                        drawIndicator(
+                            this, canvas, drawLeft,
+                            animEndTop,
+                            drawLeft + drawWidth + animExWidth,
+                            animEndTop + animEndHeight,
+                            positionOffset
+                        )
+                    }
+                }
+            } else {
+                drawIndicator(
+                    this, canvas, drawLeft,
+                    animTop,
+                    drawLeft + drawWidth + animExWidth,
+                    animTop + animHeight,
+                    1 - positionOffset
+                )
+            }
         }
     }
 

@@ -67,6 +67,10 @@
         </attr>
         <!--是否激活流式效果, ViewPager在滚动时, 指示器的宽度由小变大,再由大变小-->
         <attr name="tab_indicator_enable_flow" format="boolean" />
+        <!--闪现效果-->
+        <attr name="tab_indicator_enable_flash" format="boolean" />
+        <!--闪现效果使用clip处理-->
+        <attr name="tab_indicator_enable_flash_clip" format="boolean" />
         <!--tab child的索引相差多少值时, 才开启flow效果-->
         <attr name="tab_indicator_flow_step" format="integer" />
         <!--指示器的宽度-->
