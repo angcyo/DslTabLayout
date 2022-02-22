@@ -1,3 +1,9 @@
+# 2022-2-22
+
+版本: `3.1.0`, 更新日志:
+
++ 新增`闪现效果`, 可以通过`tab_indicator_enable_flash`激活. `tab_indicator_enable_flash_clip`开启`clip`模式.
+
 # 2022-1-18
 
 版本: `3.0.8`, 更新日志:

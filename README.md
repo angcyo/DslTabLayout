@@ -23,8 +23,9 @@
 11. 支持选中后`突出异形效果`(`2.2.0`后)
 12. 支持`RTL`(`3.0.0`后, `minSdk>=17`)
 13. 支持`指示器颜色滑动渐变效果`(`3.0.1`后)
+14. 支持`指示器闪现效果`(`3.1.0`后)
 
-直接当做横向的`LinearLayout`使用方式即可, 无特殊要求.
+直接当做`横向/竖向`的`LinearLayout`使用方式即可, 无特殊要求.
 
 [入门使用](https://github.com/angcyo/DslTabLayout/wiki/%E5%85%A5%E9%97%A8%E4%BD%BF%E7%94%A8)
 
@@ -58,9 +59,9 @@
 
 ## 竖向效果
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding_vertical.png)
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common_vertical.png)
 
 ![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
 
@@ -70,6 +71,9 @@
 
 ![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_horizontal.png)
 
+## 闪现效果
+
+![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/flash.gif)
 
 # 使用`JitPack`的方式, 引入库.
 
@@ -88,12 +92,12 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.0.8'
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.1.0'
 
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.0.8'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.1.0'
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:3.0.8'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:3.1.0'
 }
 ```
 
