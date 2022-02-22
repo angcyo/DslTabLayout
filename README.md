@@ -6,7 +6,7 @@
 
 :hearts: Android界最万能的`TabLayout`(不仅仅是`TabLayout`). 高能自绘控件, 继承自`ViewGroup`, 非组合控件.
 
-[Gitee仓库](https://gitee.com/angcyo/DslTabLayout)
+[Gitee仓库地址](https://gitee.com/angcyo/DslTabLayout)
 
 [文档地址](https://angcyo.gitee.io/doc)
 
