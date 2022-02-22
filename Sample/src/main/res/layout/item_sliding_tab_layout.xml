@@ -66,7 +66,7 @@
 
     <TextView
         style="@style/TabSlidingItemStyle"
-        android:text="设" />
+        android:text="设计" />
 
     <TextView
         style="@style/TabSlidingItemStyle"

@@ -16,6 +16,7 @@
         app:tab_highlight_width_offset="10dp"
         app:tab_indicator_drawable="@mipmap/ic_hint_horizontal"
         app:tab_indicator_height="16dp"
+        app:tab_indicator_style="STYLE_FOREGROUND_BOTTOM"
         app:tab_indicator_width="16dp"
         app:tab_indicator_y_offset="-3dp"
         app:tab_orientation="HORIZONTAL"
@@ -59,7 +60,7 @@
 
         <TextView
             style="@style/TabHorizontalItemStyle"
-            android:text="设" />
+            android:text="设计" />
 
         <TextView
             style="@style/TabHorizontalItemStyle"

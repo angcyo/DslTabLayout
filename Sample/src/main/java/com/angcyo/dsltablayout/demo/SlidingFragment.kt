@@ -133,17 +133,6 @@ class SlidingFragment : BaseTabLayoutFragment() {
                 }
             }
 
-//            slidingItem {
-//                itemBindOverride = { itemHolder, _, _, _ ->
-//                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
-//                        addTabLayout(this)
-//                        tabIndicator.indicatorWidth = 10 * dpi
-//                        tabIndicator.indicatorEnableFlow = true
-//                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
-//                    }
-//                }
-//            }
-
             slidingItem {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
@@ -159,6 +148,20 @@ class SlidingFragment : BaseTabLayoutFragment() {
 
 
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
+                    }
+                }
+            }
+
+            //闪现效果
+            slidingItem {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
+                        addTabLayout(this)
+                        tabIndicator.indicatorDrawable = getDrawable(R.drawable.indicator_flash)
+                        tabIndicator.indicatorEnableFlash = true
+                        tabIndicator.indicatorEnableFlashClip = true
+                        tabIndicator.indicatorWidth = 28 * dpi
+                        tabIndicator.indicatorHeight = 5 * dpi
                     }
                 }
             }
