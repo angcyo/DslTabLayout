@@ -49,33 +49,33 @@
 
 |带滚动效果和角标|
 |:--:|
-|![带滚动效果和角标](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding.gif)|
+|![带滚动效果和角标](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_sliding.gif)|
 
 |普通和高凸效果|
 |:--:|
-|![普通和高凸效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common.gif)|
+|![普通和高凸效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_common.gif)|
 
 |带边框,分割线和滑动选择效果|
 |:--:|
-|![分割线和滑动选择效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment.gif)|
+|![分割线和滑动选择效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_segment.gif)|
 
 ## 竖向效果
 
-![竖向效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding_vertical.png)
+![竖向效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_sliding_vertical.png)
 
-![竖向效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common_vertical.png)
+![竖向效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_common_vertical.png)
 
-![竖向效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
+![竖向效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_segment_vertical.png)
 
 ## 突出效果
 
-![突出效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_vertical.png)
+![突出效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_highlight_vertical.png)
 
-![突出效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_horizontal.png)
+![突出效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/tab_highlight_horizontal.png)
 
 ## 闪现效果
 
-![闪现效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/flash.gif)
+![闪现效果](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/flash.gif)
 
 # 使用`JitPack`的方式, 引入库.
 
@@ -109,7 +109,7 @@ dependencies {
 
 扫码安装
 
-![扫码安装](https://gitee.com/angcyo/DslTabLayout/raw/master/png/qrcode.png)
+![扫码安装](https://raw.githubusercontent.com/angcyo/DslTabLayout/master/png/qrcode.png)
 
 # License
 
