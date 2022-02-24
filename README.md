@@ -49,33 +49,33 @@
 
 |带滚动效果和角标|
 |:--:|
-|![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding.gif)|
+|![带滚动效果和角标](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding.gif)|
 
 |普通和高凸效果|
 |:--:|
-|![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common.gif)|
+|![普通和高凸效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common.gif)|
 
 |带边框,分割线和滑动选择效果|
 |:--:|
-|![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment.gif)|
+|![分割线和滑动选择效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment.gif)|
 
 ## 竖向效果
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding_vertical.png)
+![竖向效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_sliding_vertical.png)
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common_vertical.png)
+![竖向效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_common_vertical.png)
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
+![竖向效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_segment_vertical.png)
 
 ## 突出效果
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_vertical.png)
+![突出效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_vertical.png)
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_horizontal.png)
+![突出效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/tab_highlight_horizontal.png)
 
 ## 闪现效果
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/flash.gif)
+![闪现效果](https://gitee.com/angcyo/DslTabLayout/raw/master/png/flash.gif)
 
 # 使用`JitPack`的方式, 引入库.
 
@@ -109,7 +109,7 @@ dependencies {
 
 扫码安装
 
-![](https://gitee.com/angcyo/DslTabLayout/raw/master/png/qrcode.png)
+![扫码安装](https://gitee.com/angcyo/DslTabLayout/raw/master/png/qrcode.png)
 
 # License
 
@@ -124,6 +124,6 @@ dependencies {
 
 [开源地址](https://github.com/angcyo/DslTabLayout)
 
-![](https://gitee.com/angcyo/res/raw/master/code/all_in1.jpg)
+![扫码进群](https://gitee.com/angcyo/res/raw/master/code/all_in1.jpg)
 
-![](https://gitee.com/angcyo/res/raw/master/code/all_in2.jpg)
+![给点鼓励](https://gitee.com/angcyo/res/raw/master/code/all_in2.jpg)
