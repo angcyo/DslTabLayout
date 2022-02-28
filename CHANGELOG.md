@@ -1,3 +1,10 @@
+# 2022-2-28
+
+版本: `3.2.0`, 更新日志:
+
+* 修改函数签名`com.angcyo.tablayout.ViewPagerDelegate.onSetCurrentItem`
+
+
 # 2022-2-22
 
 版本: `3.1.0`, 更新日志:
