@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.L
+import com.angcyo.dsltablayout.demo.dslitem.DslColorItem
 import kotlin.random.Random.Default.nextInt
 
 /**

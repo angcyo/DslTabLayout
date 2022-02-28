@@ -1,10 +1,12 @@
-package com.angcyo.dsltablayout.demo
+package com.angcyo.dsltablayout.demo.dslitem
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsltablayout.demo.R
+import com.angcyo.dsltablayout.demo.getColorFragmentList
 
 /**
  *

@@ -1,7 +1,10 @@
-package com.angcyo.dsltablayout.demo
+package com.angcyo.dsltablayout.demo.dslitem
 
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsltablayout.demo.R
+import com.angcyo.dsltablayout.demo.getDrawable2
+import com.angcyo.dsltablayout.demo.randomColor
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -10,9 +13,10 @@ import com.angcyo.tablayout.DslTabLayout
  * @author angcyo
  * @date 2019/11/23
  */
-class DslSlidingTabLayoutItem : DslAdapterItem() {
+class DslCommonTabLayoutItem : DslAdapterItem() {
+
     init {
-        itemLayoutId = R.layout.item_sliding_tab_layout
+        itemLayoutId = R.layout.item_common_tab_layout
     }
 
     override fun onItemBind(
@@ -23,7 +27,13 @@ class DslSlidingTabLayoutItem : DslAdapterItem() {
         super.onItemBind(itemHolder, itemPosition, adapterItem)
 
         itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
-            setBackgroundColor(randomColor())
+
+            if (itemLayoutId == R.layout.item_common_tab_layout2 ||
+                itemLayoutId == R.layout.item_common_vertical_tab_layout2
+            ) {
+                setBackgroundColor(randomColor())
+            }
+
             tabIndicator.indicatorDrawable =
                 itemHolder.itemView.context.getDrawable2(R.drawable.indicator_white_line)
         }

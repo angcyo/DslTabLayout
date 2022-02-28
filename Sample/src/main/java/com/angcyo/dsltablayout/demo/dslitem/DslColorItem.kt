@@ -1,8 +1,9 @@
-package com.angcyo.dsltablayout.demo
+package com.angcyo.dsltablayout.demo.dslitem
 
 import android.graphics.Color
 import com.angcyo.dsladapter.DslAdapterItem
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsltablayout.demo.R
 
 /**
  *

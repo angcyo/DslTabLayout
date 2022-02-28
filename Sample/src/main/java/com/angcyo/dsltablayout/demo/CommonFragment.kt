@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dpi
+import com.angcyo.dsltablayout.demo.dslitem.DslCommonTabLayoutItem
 import com.angcyo.tablayout.DslTabIndicator
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.isHorizontal

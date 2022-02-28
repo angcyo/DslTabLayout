@@ -14,7 +14,10 @@ import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.SimpleColorFilter
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
-import com.angcyo.dsladapter.*
+import com.angcyo.dsladapter.DslAdapter
+import com.angcyo.dsladapter.DslItemDecoration
+import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsladapter.HoverItemDecoration
 
 /**
  *
@@ -63,7 +66,7 @@ open class BaseDslFragment : Fragment() {
     }
 
     open fun renderAdapter(render: DslAdapter.() -> Unit) {
-        dslAdapter.render()
+        dslAdapter.render(action = render)
     }
 
     fun show(f: Fragment, hide: Fragment? = null) {

@@ -12,7 +12,7 @@
         android:background="@color/transparent10"
         app:layout_constraintHorizontal_weight="0.3"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/text_view"
+        app:layout_constraintRight_toLeftOf="@id/recycler_view"
         app:tab_draw_highlight="true"
         app:tab_highlight_drawable="@mipmap/ic_hint_vertical_b"
         app:tab_highlight_height_offset="10dp"
@@ -89,8 +89,8 @@
 
     </com.angcyo.tablayout.DslTabLayout>
 
-    <TextView
-        android:id="@+id/text_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="@color/transparent20"

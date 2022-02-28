@@ -5,6 +5,8 @@ import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.angcyo.dsladapter.DslAdapter
 import com.angcyo.dsladapter.DslViewHolder
+import com.angcyo.dsltablayout.demo.dslitem.DslViewPager2Item
+import com.angcyo.dsltablayout.demo.dslitem.DslViewPagerItem
 import com.angcyo.tablayout.DslTabLayout
 import com.angcyo.tablayout.delegate.ViewPager1Delegate
 import com.angcyo.tablayout.delegate2.ViewPager2Delegate

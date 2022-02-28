@@ -2,8 +2,14 @@ package com.angcyo.dsltablayout.demo.sample
 
 import android.os.Bundle
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.angcyo.dsladapter.eachChild
+import com.angcyo.dsladapter.initDslAdapter
+import com.angcyo.dsladapter.resetLayoutManager
 import com.angcyo.dsltablayout.demo.BaseActivity
 import com.angcyo.dsltablayout.demo.R
+import com.angcyo.dsltablayout.demo.dslitem.DslVerticalHintItem
 import com.angcyo.tablayout.DslTabLayout
 
 /**
@@ -24,11 +30,44 @@ class VerticalHintActivity : BaseActivity() {
             highlightHeightOffset = 20 * dpi
         }*/
 
-        val textView = find<TextView>(R.id.text_view)
+        val recyclerView = find<RecyclerView>(R.id.recycler_view)
+        recyclerView.apply {
+            resetLayoutManager("V")
+            initDslAdapter {
+                render {
+                    tabLayout.eachChild { index, child ->
+                        if (child is TextView) {
+                            DslVerticalHintItem()() {
+                                text = child.text
+                            }
+                        }
+                    }
+                }
+            }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    recyclerView.getChildAt(0)?.layoutParams?.let {
+                        if (it is RecyclerView.LayoutParams) {
+                            tabLayout.setCurrentItem(it.absoluteAdapterPosition)
+                        }
+                    }
+                }
+            })
+        }
+
         tabLayout.configTabLayoutConfig {
             onSelectItemView = { itemView, index, select, fromUser ->
                 if (select && itemView is TextView) {
-                    textView.text = itemView.text
+                    if (fromUser) {
+                        recyclerView?.layoutManager?.let {
+                            if (it is LinearLayoutManager) {
+                                it.scrollToPositionWithOffset(index, 0)
+                            } else {
+                                recyclerView.scrollToPosition(index)
+                            }
+                        }
+                    }
                 }
                 false
             }
