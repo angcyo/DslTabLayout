@@ -98,7 +98,8 @@ class SlidingFragment : BaseTabLayoutFragment() {
                                     tabIndicator.indicatorColor = randomColor()
                                     _viewPagerDelegate?.onSetCurrentItem(
                                         fromIndex,
-                                        selectIndexList.last()
+                                        selectIndexList.last(),
+                                        reselect, fromUser
                                     )
                                 }
                         }

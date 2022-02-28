@@ -74,7 +74,12 @@ class MainFragment : BaseDslFragment() {
                 onSelectIndexChange = { fromIndex, selectIndexList, reselect, fromUser ->
                     val toIndex = selectIndexList.first()
 
-                    tabLayout._viewPagerDelegate?.onSetCurrentItem(toIndex, toIndex)
+                    tabLayout._viewPagerDelegate?.onSetCurrentItem(
+                        toIndex,
+                        toIndex,
+                        reselect,
+                        fromUser
+                    )
 
                     L.i("TabLayout选中改变:[$fromIndex]->[$toIndex]")
 
