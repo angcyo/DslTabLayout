@@ -40,9 +40,16 @@ open class ViewPager2Delegate(
         return viewPager.currentItem
     }
 
-    override fun onSetCurrentItem(fromIndex: Int, toIndex: Int) {
-        val smoothScroll = forceSmoothScroll ?: ((toIndex - fromIndex).absoluteValue <= 1)
-        viewPager.setCurrentItem(toIndex, smoothScroll)
+    override fun onSetCurrentItem(
+        fromIndex: Int,
+        toIndex: Int,
+        reselect: Boolean,
+        fromUser: Boolean
+    ) {
+        if (fromUser) {
+            val smoothScroll = forceSmoothScroll ?: ((toIndex - fromIndex).absoluteValue <= 1)
+            viewPager.setCurrentItem(toIndex, smoothScroll)
+        }
     }
 
     override fun onPageScrollStateChanged(state: Int) {

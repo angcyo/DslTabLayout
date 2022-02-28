@@ -17,5 +17,5 @@ interface ViewPagerDelegate {
     fun onGetCurrentItem(): Int
 
     /**设置当前的页面*/
-    fun onSetCurrentItem(fromIndex: Int, toIndex: Int)
+    fun onSetCurrentItem(fromIndex: Int, toIndex: Int, reselect: Boolean, fromUser: Boolean)
 }
