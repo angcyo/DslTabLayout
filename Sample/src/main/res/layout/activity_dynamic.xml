@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -295,6 +296,37 @@
             app:tab_select_color="#FFBB86FC"
             app:tab_text_max_size="14sp"
             app:tab_text_min_size="13sp" />
+
+        <com.angcyo.tablayout.DslTabLayout
+            android:id="@+id/states_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:minHeight="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            app:tab_convex_background="@android:color/white"
+            app:tab_deselect_color="#80454545"
+            app:tab_indicator_color="@color/colorAccent"
+            app:tab_indicator_content_id="@id/states_tv"
+            app:tab_indicator_drawable="@drawable/indicator_bottom_line"
+            app:tab_indicator_width="WRAP_CONTENT"
+            app:tab_select_color="@color/colorPrimaryDark"
+            tools:tab_default_index="0">
+
+            <include layout="@layout/tab_item_test1" />
+
+            <include layout="@layout/tab_item_test1" />
+
+            <include layout="@layout/tab_item_test1" />
+
+            <include layout="@layout/tab_item_test1" />
+
+            <include layout="@layout/tab_item_test1" />
+
+        </com.angcyo.tablayout.DslTabLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
