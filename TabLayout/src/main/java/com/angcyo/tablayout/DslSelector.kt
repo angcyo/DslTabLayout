@@ -383,7 +383,7 @@ open class DslSelectorConfig {
         }
 
     /**
-     * 选中[View]改变回调, 优先于[onSelectIndexChange]触发
+     * 选中[View]改变回调, 优先于[onSelectIndexChange]触发, 区别在于参数类型不一样
      * @param fromView 单选模式下有效, 表示之前选中的[View]
      * @param reselect 是否是重复选择, 只在单选模式下有效
      * @param fromUser 是否是用户产生的回调, 而非代码设置
