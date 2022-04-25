@@ -301,6 +301,21 @@ internal fun navBarHeight(context: Context): Int {
     return result
 }
 
+fun Collection<*>?.size() = this?.size ?: 0
+
+/**判断2个列表中的数据是否改变过*/
+internal fun <T> List<T>?.isChange(other: List<T>?): Boolean {
+    if (this.size() != other.size()) {
+        return true
+    }
+    this?.forEachIndexed { index, t ->
+        if (t != other?.getOrNull(index)) {
+            return true
+        }
+    }
+    return false
+}
+
 fun Int.isHorizontal() = this == LinearLayout.HORIZONTAL
 
 fun Int.isVertical() = this == LinearLayout.VERTICAL
