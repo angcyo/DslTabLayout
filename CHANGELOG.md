@@ -1,3 +1,11 @@
+# 2022-4-25
+
+版本: `3.2.2`, 更新日志:
+
+- `ItemView`支持`CompoundButton`
+- compileSdkVersion 变更为31
+
+
 # 2022-2-28
 
 版本: `3.2.1`, 更新日志:
