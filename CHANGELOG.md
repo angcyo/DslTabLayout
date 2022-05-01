@@ -1,3 +1,9 @@
+# 2022-5-1
+
+版本: `3.2.3`, 更新日志:
+
+- 修复`indicatorContentId` `indicatorContentIndex`对样式不生效的问题
+
 # 2022-4-25
 
 版本: `3.2.2`, 更新日志:

@@ -103,11 +103,35 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     var onGetTextStyleView: (itemView: View, index: Int) -> TextView? = { itemView, _ ->
         if (tabTextViewId == View.NO_ID) {
             var tv: TextView? = if (itemView is TextView) itemView else null
-            val lp = itemView.layoutParams
 
+            if (tabLayout.tabIndicator.indicatorContentIndex != -1) {
+                itemView.getChildOrNull(tabLayout.tabIndicator.indicatorContentIndex)?.let {
+                    if (it is TextView) {
+                        tv = it
+                    }
+                }
+            }
+
+            if (tabLayout.tabIndicator.indicatorContentId != View.NO_ID) {
+                itemView.findViewById<View>(tabLayout.tabIndicator.indicatorContentId)?.let {
+                    if (it is TextView) {
+                        tv = it
+                    }
+                }
+            }
+
+            val lp = itemView.layoutParams
             if (lp is DslTabLayout.LayoutParams) {
                 if (lp.indicatorContentIndex != -1 && itemView is ViewGroup) {
                     itemView.getChildOrNull(lp.indicatorContentIndex)?.let {
+                        if (it is TextView) {
+                            tv = it
+                        }
+                    }
+                }
+
+                if (lp.indicatorContentId != View.NO_ID) {
+                    itemView.findViewById<View>(lp.indicatorContentId)?.let {
                         if (it is TextView) {
                             tv = it
                         }
@@ -124,11 +148,29 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     var onGetIcoStyleView: (itemView: View, index: Int) -> View? = { itemView, _ ->
         if (tabIconViewId == View.NO_ID) {
             var iv: View? = itemView
-            val lp = itemView.layoutParams
 
+            if (tabLayout.tabIndicator.indicatorContentIndex != -1) {
+                itemView.getChildOrNull(tabLayout.tabIndicator.indicatorContentIndex)?.let {
+                    iv = it
+                }
+            }
+
+            if (tabLayout.tabIndicator.indicatorContentId != View.NO_ID) {
+                itemView.findViewById<View>(tabLayout.tabIndicator.indicatorContentId)?.let {
+                    iv = it
+                }
+            }
+
+            val lp = itemView.layoutParams
             if (lp is DslTabLayout.LayoutParams) {
                 if (lp.indicatorContentIndex != -1 && itemView is ViewGroup) {
                     iv = itemView.getChildOrNull(lp.indicatorContentIndex)
+                }
+
+                if (lp.indicatorContentId != View.NO_ID) {
+                    itemView.findViewById<View>(lp.indicatorContentId)?.let {
+                        iv = it
+                    }
                 }
             }
             iv
