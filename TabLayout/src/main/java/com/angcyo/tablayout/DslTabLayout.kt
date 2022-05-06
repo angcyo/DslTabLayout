@@ -309,6 +309,19 @@ open class DslTabLayout(
         dslSelector.updateStyle()
     }
 
+    /**观察index的改变回调*/
+    fun observeIndexChange(
+        config: DslTabLayoutConfig.() -> Unit = {},
+        action: (fromIndex: Int, toIndex: Int, reselect: Boolean, fromUser: Boolean) -> Unit
+    ) {
+        configTabLayoutConfig {
+            config()
+            onSelectIndexChange = { fromIndex, selectIndexList, reselect, fromUser ->
+                action(fromIndex, selectIndexList.first(), reselect, fromUser)
+            }
+        }
+    }
+
     fun getBadgeConfig(index: Int): TabBadgeConfig {
         return tabBadgeConfigMap.getOrElse(index) {
             tabBadge?.defaultBadgeConfig?.copy() ?: TabBadgeConfig()
