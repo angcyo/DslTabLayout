@@ -135,6 +135,7 @@ open class DslTabBorder : DslGradientDrawable() {
                 gradientSolidColor = this@DslTabBorder.gradientStrokeColor
 
                 if (isFirst && isLast) {
+                    //只有一个child
                     gradientRadii = this@DslTabBorder.gradientRadii
                 } else if (isFirst) {
                     if (tabLayout.isHorizontal()) {
