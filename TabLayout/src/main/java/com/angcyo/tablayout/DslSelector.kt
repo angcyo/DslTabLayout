@@ -53,11 +53,12 @@ open class DslSelector {
     //child 点击事件处理
     val _onChildClickListener = View.OnClickListener {
         val index = visibleViewList.indexOf(it)
-        val select = if (dslSelectorConfig.dslMultiMode) {
-            !it.isSe()
-        } else {
-            true
-        }
+        val select =
+            if (dslSelectorConfig.dslMultiMode || dslSelectorConfig.dslMinSelectLimit < 1) {
+                !it.isSe()
+            } else {
+                true
+            }
 
         if (!interceptSelector(index, select, true)) {
             selector(
