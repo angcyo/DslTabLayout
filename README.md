@@ -124,6 +124,6 @@ dependencies {
 
 [开源地址](https://github.com/angcyo/DslTabLayout)
 
-![扫码进群](https://gitee.com/angcyo/res/raw/master/code/all_in1.jpg)
+![扫码进群](https://raw.githubusercontent.com/angcyo/res/master/code/all_in1.jpg)
 
-![给点鼓励](https://gitee.com/angcyo/res/raw/master/code/all_in2.jpg)
+![给点鼓励](https://raw.githubusercontent.com/angcyo/res/master/code/all_in2.jpg)
