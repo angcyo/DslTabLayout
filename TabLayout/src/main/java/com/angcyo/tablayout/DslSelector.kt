@@ -196,12 +196,25 @@ open class DslSelector {
             needNotify = false
         }
 
-        if (needNotify) {
+        if (needNotify || reselect) {
             dslSelectIndex = selectorIndexList.lastOrNull() ?: -1
             if (notify) {
                 notifySelectChange(lastSelectorIndex ?: -1, reselect, fromUser)
             }
         }
+    }
+
+    /**选择所有
+     * [select] true:选择所有, false:取消所有*/
+    fun selectorAll(
+        select: Boolean = true,
+        notify: Boolean = true,
+        fromUser: Boolean = true
+    ) {
+        val indexList = visibleViewList.mapIndexedTo(mutableListOf()) { index, _ ->
+            index
+        }
+        selector(indexList, select, notify, fromUser)
     }
 
     /**
