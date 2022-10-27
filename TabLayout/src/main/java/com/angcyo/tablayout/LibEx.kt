@@ -10,12 +10,14 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.math.MathUtils
 
@@ -319,3 +321,14 @@ internal fun <T> List<T>?.isChange(other: List<T>?): Boolean {
 fun Int.isHorizontal() = this == LinearLayout.HORIZONTAL
 
 fun Int.isVertical() = this == LinearLayout.VERTICAL
+
+internal fun ViewGroup.inflate(@LayoutRes layoutId: Int, attachToRoot: Boolean = true): View {
+    if (layoutId == -1) {
+        return this
+    }
+    val rootView = LayoutInflater.from(context).inflate(layoutId, this, false)
+    if (attachToRoot) {
+        addView(rootView)
+    }
+    return rootView
+}

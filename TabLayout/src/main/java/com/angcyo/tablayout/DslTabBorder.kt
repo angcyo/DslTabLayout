@@ -8,7 +8,7 @@ import android.view.View
 import androidx.core.view.ViewCompat
 
 /**
- * 边框
+ * 边框绘制, 支持首尾圆角中间不圆角的样式
  * Email:angcyo@126.com
  * @author angcyo
  * @date 2019/11/27
@@ -22,6 +22,9 @@ open class DslTabBorder : DslGradientDrawable() {
      * */
     var borderDrawItemBackground: Boolean = true
 
+    /**是否保持每个[itemView]的圆角都一样, 否则首尾有圆角, 中间没有圆角*/
+    var borderKeepItemRadius: Boolean = false
+
     var borderBackgroundDrawable: Drawable? = null
 
     /**宽度补偿*/
@@ -29,6 +32,17 @@ open class DslTabBorder : DslGradientDrawable() {
 
     /**高度补偿*/
     var borderBackgroundHeightOffset: Int = 0
+
+    /**强制指定选中item的背景颜色*/
+    var borderItemBackgroundSolidColor: Int? = null
+
+    /**当item不可选中时的背景绘制颜色
+     * [com.angcyo.tablayout.DslTabLayout.itemEnableSelector]
+     * [borderItemBackgroundSolidColor]*/
+    var borderItemBackgroundSolidDisableColor: Int? = null
+
+    /**强制指定选中item的背景渐变颜色*/
+    var borderItemBackgroundGradientColors: IntArray? = null
 
     override fun initAttribute(context: Context, attributeSet: AttributeSet?) {
         val typedArray =
@@ -57,6 +71,11 @@ open class DslTabBorder : DslGradientDrawable() {
             borderDrawItemBackground
         )
 
+        borderKeepItemRadius = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_border_keep_item_radius,
+            borderKeepItemRadius
+        )
+
         borderBackgroundWidthOffset = typedArray.getDimensionPixelOffset(
             R.styleable.DslTabLayout_tab_border_item_background_width_offset,
             borderBackgroundWidthOffset
@@ -66,6 +85,34 @@ open class DslTabBorder : DslGradientDrawable() {
             R.styleable.DslTabLayout_tab_border_item_background_height_offset,
             borderBackgroundHeightOffset
         )
+
+        //
+        if (typedArray.hasValue(R.styleable.DslTabLayout_tab_border_item_background_solid_color)) {
+            borderItemBackgroundSolidColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_border_item_background_solid_color,
+                gradientStrokeColor
+            )
+        }
+        if (typedArray.hasValue(R.styleable.DslTabLayout_tab_border_item_background_solid_disable_color)) {
+            borderItemBackgroundSolidDisableColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_border_item_background_solid_disable_color,
+                borderItemBackgroundSolidColor ?: gradientStrokeColor
+            )
+        }
+
+        if (typedArray.hasValue(R.styleable.DslTabLayout_tab_border_item_background_gradient_start_color) ||
+            typedArray.hasValue(R.styleable.DslTabLayout_tab_border_item_background_gradient_end_color)
+        ) {
+            val startColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_border_item_background_gradient_start_color,
+                gradientStrokeColor
+            )
+            val endColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_border_item_background_gradient_end_color,
+                gradientStrokeColor
+            )
+            borderItemBackgroundGradientColors = intArrayOf(startColor, endColor)
+        }
 
         typedArray.recycle()
 
@@ -132,9 +179,17 @@ open class DslTabBorder : DslGradientDrawable() {
                 gradientWidthOffset = borderBackgroundWidthOffset
                 gradientHeightOffset = borderBackgroundHeightOffset
 
-                gradientSolidColor = this@DslTabBorder.gradientStrokeColor
+                gradientSolidColor =
+                    borderItemBackgroundSolidColor ?: this@DslTabBorder.gradientStrokeColor
+                if (!tabLayout.itemEnableSelector) {
+                    if (borderItemBackgroundSolidDisableColor != null) {
+                        gradientSolidColor = borderItemBackgroundSolidDisableColor!!
+                    }
+                }
 
-                if (isFirst && isLast) {
+                gradientColors = borderItemBackgroundGradientColors
+
+                if ((isFirst && isLast) || borderKeepItemRadius) {
                     //只有一个child
                     gradientRadii = this@DslTabBorder.gradientRadii
                 } else if (isFirst) {

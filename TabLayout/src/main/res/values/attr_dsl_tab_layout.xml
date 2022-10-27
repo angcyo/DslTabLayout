@@ -4,6 +4,8 @@
     <declare-styleable name="DslTabLayout">
         <!--Item是否等宽-->
         <attr name="tab_item_is_equ_width" format="boolean" />
+        <!--当子Item数量大于等于指定数量时,开启等宽,此属性优先级最高-->
+        <attr name="tab_item_equ_width_count" format="integer" />
         <!--智能判断Item是否等宽, 如果所有子项, 未撑满tab时, 开启等宽模式.此属性会覆盖[tab_item_is_equ_width]-->
         <attr name="tab_item_auto_equ_width" format="boolean" />
         <!--默认选中的索引值-->
@@ -29,6 +31,10 @@
         </attr>
         <attr name="tab_layout_scroll_anim" format="boolean" />
         <attr name="tab_scroll_anim_duration" format="integer" />
+        <!--预览的布局id-->
+        <attr name="tab_preview_item_layout_id" format="reference" />
+        <!--预览的布局数量-->
+        <attr name="tab_preview_item_count" format="integer" />
 
         <!--indicator 指示器相关属性-->
 
@@ -194,6 +200,11 @@
         <attr name="tab_border_item_background_height_offset" format="dimension" />
         <!--宽度补偿-->
         <attr name="tab_border_item_background_width_offset" format="dimension" />
+        <attr name="tab_border_keep_item_radius" format="boolean" />
+        <attr name="tab_border_item_background_solid_color" format="color" />
+        <attr name="tab_border_item_background_solid_disable_color" format="color" />
+        <attr name="tab_border_item_background_gradient_start_color" format="color" />
+        <attr name="tab_border_item_background_gradient_end_color" format="color" />
         <!--end...-->
 
         <!--Badge 角标相关属性-->

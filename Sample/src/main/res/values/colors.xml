@@ -6,4 +6,5 @@
 
     <color name="white">#ffffff</color>
     <color name="text">#A0A0A0</color>
+    <color name="colorFilter">#333AC4</color>
 </resources>

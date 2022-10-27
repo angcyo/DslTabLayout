@@ -36,11 +36,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation 'com.airbnb.android:lottie:3.2.0'
+    implementation 'com.airbnb.android:lottie:4.2.2'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
-    implementation 'com.github.angcyo:DslAdapter:4.1.0'
+    implementation 'com.github.angcyo:DslAdapter:5.2.0'
     implementation 'com.github.angcyo:RRes:1.0.1'
-    implementation 'com.github.angcyo:DslButton:1.1.0'
+    implementation 'com.github.angcyo:DslButton:1.2.0'
 
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation "androidx.viewpager:viewpager:1.0.0"

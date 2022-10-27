@@ -276,10 +276,12 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         (onGetTextStyleView(itemView, index))?.apply {
             //文本加粗
             paint?.apply {
-                flags = if (tabEnableTextBold && select) {
-                    paint.flags or Paint.FAKE_BOLD_TEXT_FLAG
+                if (tabEnableTextBold && select) {
+                    flags = flags or Paint.FAKE_BOLD_TEXT_FLAG
+                    isFakeBoldText = true
                 } else {
-                    paint.flags and Paint.FAKE_BOLD_TEXT_FLAG.inv()
+                    flags = flags and Paint.FAKE_BOLD_TEXT_FLAG.inv()
+                    isFakeBoldText = false
                 }
             }
 

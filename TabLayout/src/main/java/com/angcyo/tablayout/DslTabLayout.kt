@@ -39,6 +39,12 @@ open class DslTabLayout(
     /**item是否等宽*/
     var itemIsEquWidth = false
 
+    /**item是否支持选择, 只限制点击事件, 不限制滚动事件*/
+    var itemEnableSelector = true
+
+    /**当子Item数量大于等于指定数量时,开启等宽,此属性优先级最高, 负数不开启*/
+    var itemEquWidthCount = -1
+
     /**智能判断Item是否等宽.
      * 如果所有子项, 未撑满tab时, 则开启等宽模式.此属性会覆盖[itemIsEquWidth]*/
     var itemAutoEquWidth = false
@@ -192,11 +198,12 @@ open class DslTabLayout(
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DslTabLayout)
         itemIsEquWidth =
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_item_is_equ_width, itemIsEquWidth)
-        itemAutoEquWidth =
-            typedArray.getBoolean(
-                R.styleable.DslTabLayout_tab_item_auto_equ_width,
-                itemAutoEquWidth
-            )
+        itemEquWidthCount =
+            typedArray.getInt(R.styleable.DslTabLayout_tab_item_equ_width_count, itemEquWidthCount)
+        itemAutoEquWidth = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_item_auto_equ_width,
+            itemAutoEquWidth
+        )
         itemWidth =
             typedArray.getDimensionPixelOffset(R.styleable.DslTabLayout_tab_item_width, itemWidth)
         itemDefaultHeight = typedArray.getDimensionPixelOffset(
@@ -232,6 +239,19 @@ open class DslTabLayout(
             typedArray.getBoolean(R.styleable.DslTabLayout_tab_layout_scroll_anim, layoutScrollAnim)
         scrollAnimDuration =
             typedArray.getInt(R.styleable.DslTabLayout_tab_scroll_anim_duration, scrollAnimDuration)
+
+        //preview
+        if (isInEditMode) {
+            val layoutId =
+                typedArray.getResourceId(R.styleable.DslTabLayout_tab_preview_item_layout_id, -1)
+            val layoutCount =
+                typedArray.getResourceId(R.styleable.DslTabLayout_tab_preview_item_count, 3)
+            if (layoutId != -1) {
+                for (i in 0 until layoutCount) {
+                    inflate(layoutId, true)
+                }
+            }
+        }
 
         typedArray.recycle()
 
@@ -392,9 +412,9 @@ open class DslTabLayout(
             if (scrollX or scrollY == 0) {
                 draw(canvas)
             } else {
-                canvas.translate(scrollX.toFloat(), scrollY.toFloat())
-                draw(canvas)
-                canvas.translate(-scrollX.toFloat(), -scrollY.toFloat())
+                canvas.holdLocation {
+                    draw(canvas)
+                }
             }
         }
 
@@ -476,7 +496,10 @@ open class DslTabLayout(
             }
         }
         if (drawBorder) {
-            tabBorder?.draw(canvas)
+            //边框不跟随滚动
+            canvas.holdLocation {
+                tabBorder?.draw(canvas)
+            }
         }
         if (drawIndicator && tabIndicator.indicatorStyle > DslTabIndicator.INDICATOR_STYLE_DIVIDE) {
             tabIndicator.draw(canvas)
@@ -540,13 +563,23 @@ open class DslTabLayout(
         super.onDraw(canvas)
 
         if (drawBorder) {
-            tabBorder?.drawBorderBackground(canvas)
+            //边框不跟随滚动
+            canvas.holdLocation {
+                tabBorder?.drawBorderBackground(canvas)
+            }
         }
 
         //绘制在child的后面
         if (drawIndicator && tabIndicator.indicatorStyle < DslTabIndicator.INDICATOR_STYLE_DIVIDE) {
             tabIndicator.draw(canvas)
         }
+    }
+
+    /**保持位置不变*/
+    fun Canvas.holdLocation(action: () -> Unit) {
+        translate(scrollX.toFloat(), scrollY.toFloat())
+        action()
+        translate(-scrollX.toFloat(), -scrollY.toFloat())
     }
 
     override fun drawChild(canvas: Canvas, child: View, drawingTime: Long): Boolean {
@@ -653,6 +686,10 @@ open class DslTabLayout(
             }
 
             itemIsEquWidth = childMaxWidth <= widthSize
+        }
+
+        if (itemEquWidthCount >= 0) {
+            itemIsEquWidth = visibleChildCount >= itemEquWidthCount
         }
 
         //等宽时, child宽度的测量模式
@@ -911,6 +948,10 @@ open class DslTabLayout(
             }
 
             itemIsEquWidth = childMaxHeight <= heightSize
+        }
+
+        if (itemEquWidthCount >= 0) {
+            itemIsEquWidth = visibleChildCount >= itemEquWidthCount
         }
 
         //等宽时, child高度的测量模式
@@ -1399,29 +1440,48 @@ open class DslTabLayout(
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        var intercept = false
         if (needScroll) {
             if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
                 _overScroller.abortAnimation()
                 _scrollAnimator.cancel()
             }
-            return super.onInterceptTouchEvent(ev) || _gestureDetector.onTouchEvent(ev)
+            if (isEnabled) {
+                intercept = super.onInterceptTouchEvent(ev) || _gestureDetector.onTouchEvent(ev)
+            }
+        } else {
+            if (isEnabled) {
+                intercept = super.onInterceptTouchEvent(ev)
+            }
         }
-        return super.onInterceptTouchEvent(ev)
+        return if (isEnabled) {
+            if (itemEnableSelector) {
+                intercept
+            } else {
+                true
+            }
+        } else {
+            false
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (needScroll) {
-            _gestureDetector.onTouchEvent(event)
-            if (event.actionMasked == MotionEvent.ACTION_CANCEL ||
-                event.actionMasked == MotionEvent.ACTION_UP
-            ) {
-                parent.requestDisallowInterceptTouchEvent(false)
-            } else if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                _overScroller.abortAnimation()
+        if (isEnabled) {
+            if (needScroll) {
+                _gestureDetector.onTouchEvent(event)
+                if (event.actionMasked == MotionEvent.ACTION_CANCEL ||
+                    event.actionMasked == MotionEvent.ACTION_UP
+                ) {
+                    parent.requestDisallowInterceptTouchEvent(false)
+                } else if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                    _overScroller.abortAnimation()
+                }
+                return true
+            } else {
+                return (isEnabled && super.onTouchEvent(event))
             }
-            return true
         } else {
-            return super.onTouchEvent(event)
+            return false
         }
     }
 

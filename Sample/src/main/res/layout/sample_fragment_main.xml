@@ -49,7 +49,7 @@
                     android:id="@+id/lottie_view"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    app:lottie_colorFilter="#333AC4"
+                    app:lottie_colorFilter="@color/colorFilter"
                     app:lottie_rawRes="@raw/json_play" />
 
                 <com.angcyo.widget.DslButton
@@ -79,7 +79,7 @@
                 android:id="@+id/lottie_view"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:lottie_colorFilter="#333AC4"
+                app:lottie_colorFilter="@color/colorFilter"
                 app:lottie_rawRes="@raw/json_add" />
 
             <com.angcyo.widget.DslButton
@@ -104,7 +104,7 @@
                 android:id="@+id/lottie_view"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:lottie_colorFilter="#333AC4"
+                app:lottie_colorFilter="@color/colorFilter"
                 app:lottie_rawRes="@raw/json_home" />
 
             <com.angcyo.widget.DslButton

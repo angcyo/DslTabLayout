@@ -57,10 +57,22 @@ open class DslTabDivider : DslGradientDrawable() {
             dividerMarginBottom
         )
 
-        gradientSolidColor = typedArray.getColor(
-            R.styleable.DslTabLayout_tab_divider_solid_color,
-            gradientSolidColor
-        )
+        if (typedArray.hasValue(R.styleable.DslTabLayout_tab_divider_solid_color)) {
+            gradientSolidColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_divider_solid_color,
+                gradientSolidColor
+            )
+        } else if (typedArray.hasValue(R.styleable.DslTabLayout_tab_border_stroke_color)) {
+            gradientSolidColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_border_stroke_color,
+                gradientSolidColor
+            )
+        } else {
+            gradientSolidColor = typedArray.getColor(
+                R.styleable.DslTabLayout_tab_deselect_color,
+                gradientSolidColor
+            )
+        }
 
         gradientStrokeColor = typedArray.getColor(
             R.styleable.DslTabLayout_tab_divider_stroke_color,
