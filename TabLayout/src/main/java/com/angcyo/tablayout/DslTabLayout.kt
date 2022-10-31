@@ -15,6 +15,7 @@ import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.OverScroller
+import android.widget.TextView
 import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.ViewCompat
 import kotlin.math.abs
@@ -245,10 +246,18 @@ open class DslTabLayout(
             val layoutId =
                 typedArray.getResourceId(R.styleable.DslTabLayout_tab_preview_item_layout_id, -1)
             val layoutCount =
-                typedArray.getResourceId(R.styleable.DslTabLayout_tab_preview_item_count, 3)
+                typedArray.getInt(R.styleable.DslTabLayout_tab_preview_item_count, 3)
             if (layoutId != -1) {
                 for (i in 0 until layoutCount) {
-                    inflate(layoutId, true)
+                    inflate(layoutId, true).let {
+                        if (it is TextView) {
+                            if (it.text.isNullOrEmpty()) {
+                                it.text = "Item $i"
+                            } else {
+                                it.text = "${it.text}/$i"
+                            }
+                        }
+                    }
                 }
             }
         }
