@@ -127,3 +127,9 @@ dependencies {
 ![扫码进群](https://raw.githubusercontent.com/angcyo/res/master/code/all_in1.jpg)
 
 ![给点鼓励](https://raw.githubusercontent.com/angcyo/res/master/code/all_in2.jpg)
+
+
+# Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/angcyo/DslTabLayout.svg)](https://starchart.cc/angcyo/DslTabLayout)
+
