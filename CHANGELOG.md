@@ -1,6 +1,6 @@
 # 2022-11-24
 
-版本: `3.4.0`, 更新日志:
+版本: `3.4.1`, 更新日志:
 
 - 调整`tab_indicator_style`属性
 - 新增`tab_item_equ_width_count_range`属性, 支持`[3~5]`条件控制等宽
