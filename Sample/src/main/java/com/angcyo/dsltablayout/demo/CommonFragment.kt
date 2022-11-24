@@ -55,6 +55,7 @@ class CommonFragment : BaseTabLayoutFragment() {
                         if (orientation.isHorizontal()) {
                             tabIndicator.indicatorWidth = 20 * dpi
                         } else {
+                            tabIndicator.indicatorWidth = 3 * dpi
                             tabIndicator.indicatorHeight = 20 * dpi
                         }
                         tabIndicator.indicatorEnableFlow = true
@@ -85,7 +86,7 @@ class CommonFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorYOffset = 0
                         tabIndicator.indicatorEnableFlow = true
                         tabIndicator.indicatorColor = randomColor()
-                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_CENTER
 
                         configTabLayoutConfig {
                             tabEnableGradientColor = true
@@ -126,6 +127,7 @@ class CommonFragment : BaseTabLayoutFragment() {
                         if (isHorizontal()) {
                             tabIndicator.indicatorWidth = 20 * dpi
                         } else {
+                            tabIndicator.indicatorWidth = 3 * dpi
                             tabIndicator.indicatorHeight = 20 * dpi
                         }
                         tabIndicator.indicatorEnableFlow = true
@@ -162,7 +164,7 @@ class CommonFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorColor = Color.parseColor("#40000000")
                         tabIndicator.indicatorDrawable =
                             getDrawable(R.drawable.indicator_round_background_tran)
-                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_CENTER
 
                         configTabLayoutConfig {
                             tabEnableGradientColor = true
@@ -190,7 +192,7 @@ class CommonFragment : BaseTabLayoutFragment() {
                         }
 
                         tabIndicator.indicatorColor = Color.parseColor("#40000000")
-                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_CENTER
                     }
                 }
             }

@@ -128,6 +128,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         if (orientation.isHorizontal()) {
                             tabIndicator.indicatorWidth = -2
                         } else {
+                            tabIndicator.indicatorWidth = 3 * dpi
                             tabIndicator.indicatorHeight = -2
                         }
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
@@ -147,7 +148,6 @@ class SlidingFragment : BaseTabLayoutFragment() {
                             tabIndicator.indicatorWidth = 4 * dpi
                             tabIndicator.indicatorHeight = -1
                         }
-
 
                         tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
                     }
@@ -179,7 +179,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         tabIndicator.indicatorWidth = -2
                         tabIndicator.indicatorWidthOffset = 20 * dpi
                         tabIndicator.indicatorHeightOffset = -15 * dpi
-                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_CENTER
                     }
                 }
             }
@@ -191,7 +191,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                             getDrawable(R.drawable.ic_love)
                         tabIndicator.indicatorWidth = 40 * dpi
                         tabIndicator.indicatorHeight = 40 * dpi
-                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BACKGROUND
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_CENTER
                     }
                 }
             }
@@ -261,6 +261,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                         if (orientation.isHorizontal()) {
                             tabIndicator.indicatorWidth = 10 * dpi
                         } else {
+                            tabIndicator.indicatorWidth = 3 * dpi
                             tabIndicator.indicatorHeight = 10 * dpi
                         }
 

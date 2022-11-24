@@ -26,11 +26,10 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         /**非颜色值*/
         const val NO_COLOR = -2
 
+        //---style---
+
         /**不绘制指示器*/
         const val INDICATOR_STYLE_NONE = 0
-
-        //大于这个值, 绘制在前景, 小于这个值绘制在背景
-        const val INDICATOR_STYLE_DIVIDE = 0x1000
 
         /**指示器绘制在[itemView]的顶部*/
         const val INDICATOR_STYLE_TOP = 0x1
@@ -38,19 +37,14 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         /**指示器绘制在[itemView]的底部*/
         const val INDICATOR_STYLE_BOTTOM = 0x2
 
-        /**指示器绘制[itemView]的背部, [itemView] 请不要设置background, 否则可能看不见*/
-        const val INDICATOR_STYLE_BACKGROUND = 0x9
+        /**默认样式,指示器绘制在[itemView]的中心*/
+        const val INDICATOR_STYLE_CENTER = 0x4
 
-        /**前景绘制*/
-        const val INDICATOR_STYLE_FOREGROUND = INDICATOR_STYLE_DIVIDE or INDICATOR_STYLE_BACKGROUND
+        /**前景绘制,
+         * 默认是背景绘制, 指示器绘制[itemView]的背部, [itemView] 请不要设置background, 否则可能看不见*/
+        const val INDICATOR_STYLE_FOREGROUND = 0x1000
 
-        /**前景顶部*/
-        const val INDICATOR_STYLE_FOREGROUND_TOP =
-            INDICATOR_STYLE_DIVIDE or INDICATOR_STYLE_TOP
-
-        /**前景底部*/
-        const val INDICATOR_STYLE_FOREGROUND_BOTTOM =
-            INDICATOR_STYLE_DIVIDE or INDICATOR_STYLE_BOTTOM
+        //---gravity---
 
         /**指示器重力在开始的位置(横向左边, 纵向上边)*/
         const val INDICATOR_GRAVITY_START = 0x1
@@ -67,7 +61,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
 
     /**[indicatorStyle]*/
     val _indicatorDrawStyle: Int
-        get() = indicatorStyle.remove(INDICATOR_STYLE_DIVIDE)
+        get() = indicatorStyle.remove(INDICATOR_STYLE_FOREGROUND)
 
     /**优先将指示器显示在[DslTabLayout]的什么位置
      * [INDICATOR_GRAVITY_START] 开始的位置
@@ -160,7 +154,26 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         )
 
         //初始化指示器的高度和宽度
-        if (indicatorStyle.have(INDICATOR_STYLE_BACKGROUND)) {
+        if (indicatorStyle.have(INDICATOR_STYLE_FOREGROUND)) {
+            //前景绘制
+            indicatorWidth = typedArray.getLayoutDimension(
+                R.styleable.DslTabLayout_tab_indicator_width,
+                if (tabLayout.isHorizontal()) ViewGroup.LayoutParams.MATCH_PARENT else 3 * dpi
+            )
+            indicatorHeight = typedArray.getLayoutDimension(
+                R.styleable.DslTabLayout_tab_indicator_height,
+                if (tabLayout.isHorizontal()) 3 * dpi else ViewGroup.LayoutParams.MATCH_PARENT
+            )
+            indicatorXOffset = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_indicator_x_offset,
+                if (tabLayout.isHorizontal()) 0 else 2 * dpi
+            )
+            indicatorYOffset = typedArray.getDimensionPixelOffset(
+                R.styleable.DslTabLayout_tab_indicator_y_offset,
+                if (tabLayout.isHorizontal()) 2 * dpi else 0
+            )
+        } else {
+            //背景绘制样式
             if (tabLayout.isHorizontal()) {
                 indicatorWidth = ViewGroup.LayoutParams.MATCH_PARENT
                 indicatorHeight = ViewGroup.LayoutParams.MATCH_PARENT
@@ -183,23 +196,6 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             indicatorYOffset = typedArray.getDimensionPixelOffset(
                 R.styleable.DslTabLayout_tab_indicator_y_offset,
                 indicatorYOffset
-            )
-        } else {
-            indicatorWidth = typedArray.getLayoutDimension(
-                R.styleable.DslTabLayout_tab_indicator_width,
-                if (tabLayout.isHorizontal()) ViewGroup.LayoutParams.MATCH_PARENT else 3 * dpi
-            )
-            indicatorHeight = typedArray.getLayoutDimension(
-                R.styleable.DslTabLayout_tab_indicator_height,
-                if (tabLayout.isHorizontal()) 3 * dpi else ViewGroup.LayoutParams.MATCH_PARENT
-            )
-            indicatorXOffset = typedArray.getDimensionPixelOffset(
-                R.styleable.DslTabLayout_tab_indicator_x_offset,
-                if (tabLayout.isHorizontal()) 0 else 2 * dpi
-            )
-            indicatorYOffset = typedArray.getDimensionPixelOffset(
-                R.styleable.DslTabLayout_tab_indicator_y_offset,
-                if (tabLayout.isHorizontal()) 2 * dpi else 0
             )
         }
 

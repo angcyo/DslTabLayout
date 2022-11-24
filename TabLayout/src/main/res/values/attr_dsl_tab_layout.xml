@@ -6,6 +6,8 @@
         <attr name="tab_item_is_equ_width" format="boolean" />
         <!--当子Item数量大于等于指定数量时,开启等宽,此属性优先级最高-->
         <attr name="tab_item_equ_width_count" format="integer" />
+        <!--[~3] 小于等于3个 [3~] 大于等于3个 [3~5] 3<= <=5 -->
+        <attr name="tab_item_equ_width_count_range" format="string" />
         <!--智能判断Item是否等宽, 如果所有子项, 未撑满tab时, 开启等宽模式.此属性会覆盖[tab_item_is_equ_width]-->
         <attr name="tab_item_auto_equ_width" format="boolean" />
         <!--默认选中的索引值-->
@@ -42,25 +44,15 @@
         <attr name="tab_indicator_drawable" format="reference" />
         <!--强制指定Drawable的颜色-->
         <attr name="tab_indicator_color" format="color" />
-        <!--指示器的绘制类型-->
-        <attr name="tab_indicator_style" format="enum">
+        <!--指示器的绘制类型, 可以使用[STYLE_TOP|STYLE_FOREGROUND]组合配置-->
+        <attr name="tab_indicator_style" format="flags">
             <!--不绘制-->
-            <enum name="STYLE_NONE" value="0" />
-
+            <flag name="STYLE_NONE" value="0" />
+            <flag name="STYLE_TOP" value="0x1" />
+            <flag name="STYLE_BOTTOM" value="0x2" />
+            <flag name="STYLE_CENTER" value="0x4" />
             <!--前景绘制-->
-            <enum name="STYLE_FOREGROUND" value="0x1009" />
-            <!--绘制在顶部-->
-            <enum name="STYLE_TOP" value="0x1001" />
-            <enum name="STYLE_FOREGROUND_TOP" value="0x1001" />
-            <!--绘制在底部-->
-            <enum name="STYLE_BOTTOM" value="0x1002" />
-            <enum name="STYLE_FOREGROUND_BOTTOM" value="0x1002" />
-
-            <!--背景绘制-->
-            <enum name="STYLE_BACKGROUND" value="0x9" />
-            <enum name="STYLE_BACKGROUND_TOP" value="0x1" />
-            <enum name="STYLE_BACKGROUND_BOTTOM" value="0x2" />
-
+            <flag name="STYLE_FOREGROUND" value="0x1000" />
         </attr>
         <!--指示器的重力-->
         <attr name="tab_indicator_gravity" format="enum">

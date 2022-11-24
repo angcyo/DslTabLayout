@@ -18,7 +18,7 @@
         app:tab_highlight_height_offset="10dp"
         app:tab_indicator_drawable="@mipmap/ic_hint_vertical"
         app:tab_indicator_height="16dp"
-        app:tab_indicator_style="STYLE_FOREGROUND_TOP"
+        app:tab_indicator_style="STYLE_TOP|STYLE_FOREGROUND"
         app:tab_indicator_width="16dp"
         app:tab_orientation="VERTICAL"
         app:tab_select_color="@color/colorAccent">

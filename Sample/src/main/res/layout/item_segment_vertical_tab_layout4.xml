@@ -25,7 +25,7 @@
         app:tab_indicator_color="#EEE74D6E"
         app:tab_indicator_drawable="@drawable/indicator_round_background"
         app:tab_indicator_enable_flow="true"
-        app:tab_indicator_style="STYLE_BACKGROUND"
+        app:tab_indicator_style="STYLE_CENTER"
         app:tab_item_is_equ_width="true"
         app:tab_orientation="VERTICAL"
         app:tab_select_color="@color/white"

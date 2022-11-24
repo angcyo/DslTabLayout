@@ -290,7 +290,7 @@
             app:tab_enable_gradient_text_size="true"
             app:tab_enable_text_bold="true"
             app:tab_indicator_enable_flow="true"
-            app:tab_indicator_style="STYLE_BACKGROUND"
+            app:tab_indicator_style="STYLE_CENTER"
             app:tab_indicator_width="WRAP_CONTENT"
             app:tab_indicator_width_offset="14dp"
             app:tab_select_color="#FFBB86FC"
