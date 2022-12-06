@@ -1,10 +1,7 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
-import android.widget.TextView
-import com.angcyo.dsltablayout.demo.dslitem.DslViewPager2Item
 
 /**
  *
@@ -14,14 +11,15 @@ import com.angcyo.dsltablayout.demo.dslitem.DslViewPager2Item
  * Copyright (c) 2020 ShenZhen Wayto Ltd. All rights reserved.
  */
 class TestFragment : BaseDslFragment() {
-//    override fun getBaseLayoutId(): Int {
-//        return R.layout.item_common_vertical_tab_layout_convex ///R.layout.fragment_test
-//    }
+
+    override fun getBaseLayoutId(): Int {
+        return R.layout.fragment_test_wrap //R.layout.item_common_vertical_tab_layout_convex ///R.layout.fragment_test
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        baseViewHolder.click(R.id.remove_all) {
+        /*baseViewHolder.click(R.id.remove_all) {
             baseViewHolder.group(R.id.tab_layout)?.removeAllViews()
         }
 
@@ -37,6 +35,6 @@ class TestFragment : BaseDslFragment() {
             DslViewPager2Item(this@TestFragment)() {
                 itemLayoutId = R.layout.item_view_pager2_vertical_layout
             }
-        }
+        }*/
     }
 }

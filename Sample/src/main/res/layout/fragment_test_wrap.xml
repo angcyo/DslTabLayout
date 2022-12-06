@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#60ff0000"
+        app:tab_item_auto_equ_width="true">
+
+        <TextView
+            style="@style/TabSlidingItemStyle"
+            android:text="最新最新最新最新" />
+
+        <TextView
+            style="@style/TabCommonItemStyle"
+            android:drawableTop="@drawable/ic_home"
+            android:padding="@dimen/lib_xhdpi"
+            android:text="首页11233\nangcyo" />
+
+        <TextView
+            style="@style/TabSlidingItemStyle"
+            android:text="最新" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+</LinearLayout>
