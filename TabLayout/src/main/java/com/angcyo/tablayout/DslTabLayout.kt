@@ -663,7 +663,13 @@ open class DslTabLayout(
         if (visibleChildCount == 0) {
             setMeasuredDimension(
                 getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
-                getDefaultSize(suggestedMinimumHeight, heightMeasureSpec)
+                getDefaultSize(
+                    if (suggestedMinimumHeight > 0) {
+                        suggestedMinimumHeight
+                    } else {
+                        itemDefaultHeight
+                    }, heightMeasureSpec
+                )
             )
             return
         }
@@ -680,9 +686,14 @@ open class DslTabLayout(
         var childHeightSpec: Int = -1
         var childWidthSpec: Int = -1
 
-        if (heightMode == MeasureSpec.EXACTLY) {
+        //记录child最大的height, 用来实现tabLayout wrap_content
+        var childMaxHeight = 0 //child最大的高度
+
+        childHeightSpec = if (heightMode == MeasureSpec.EXACTLY) {
             //固定高度
-            childHeightSpec = exactlyMeasure(heightSize - paddingTop - paddingBottom)
+            exactlyMeasure(heightSize - paddingTop - paddingBottom)
+        } else {
+            atmostMeasure(Int.MAX_VALUE)
         }
 
         if (heightMode == MeasureSpec.UNSPECIFIED) {
@@ -869,6 +880,7 @@ open class DslTabLayout(
                 }
             }
 
+            childMaxHeight = max(childMaxHeight, childView.measuredHeight)
             allChildUsedWidth += childUsedWidth
             _childAllWidthSum += childUsedWidth
         }
@@ -897,22 +909,34 @@ open class DslTabLayout(
 
                 measureChild(childView)
 
+                childMaxHeight = max(childMaxHeight, childView.measuredHeight)
+
                 //上面已经处理了分割线和margin的距离了
                 _childAllWidthSum += childView.measuredWidth
             }
         }
         //...end
 
+        if (heightMode == MeasureSpec.AT_MOST) {
+            //wrap_content 情况下, 重新测量所有子view
+            childHeightSpec = exactlyMeasure(childMaxHeight)
+            visibleChildList.forEach { childView ->
+                measureChild(childView)
+            }
+        }
+
         if (widthMode != MeasureSpec.EXACTLY) {
             widthSize = min(_childAllWidthSum + paddingStart + paddingEnd, widthSize)
         }
 
-        if (heightMode == MeasureSpec.AT_MOST && visibleChildList.isEmpty()) {
+        if (visibleChildList.isEmpty()) {
             heightSize = if (suggestedMinimumHeight > 0) {
                 suggestedMinimumHeight
             } else {
                 itemDefaultHeight
             }
+        } else if (heightMode != MeasureSpec.EXACTLY) {
+            heightSize = max(childMaxHeight + paddingTop + paddingBottom, suggestedMinimumHeight)
         }
 
         setMeasuredDimension(widthSize, heightSize + _maxConvexHeight)
@@ -926,7 +950,13 @@ open class DslTabLayout(
 
         if (visibleChildCount == 0) {
             setMeasuredDimension(
-                getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
+                getDefaultSize(
+                    if (suggestedMinimumHeight > 0) {
+                        suggestedMinimumHeight
+                    } else {
+                        itemDefaultHeight
+                    }, widthMeasureSpec
+                ),
                 getDefaultSize(suggestedMinimumHeight, heightMeasureSpec)
             )
             return
@@ -1163,7 +1193,7 @@ open class DslTabLayout(
             heightSize = min(_childAllWidthSum + paddingTop + paddingBottom, heightSize)
         }
 
-        if (widthMode == MeasureSpec.AT_MOST && visibleChildList.isEmpty()) {
+        if (visibleChildList.isEmpty()) {
             widthSize = if (suggestedMinimumWidth > 0) {
                 suggestedMinimumWidth
             } else {
@@ -1401,6 +1431,10 @@ open class DslTabLayout(
             highlightDrawable =
                 a.getDrawable(R.styleable.DslTabLayout_Layout_layout_highlight_drawable)
             a.recycle()
+
+            if (gravity == UNSPECIFIED_GRAVITY) {
+                gravity = Gravity.CENTER
+            }
         }
 
         constructor(source: ViewGroup.LayoutParams) : super(source) {
