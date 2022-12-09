@@ -17,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.OverScroller
 import android.widget.TextView
 import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import kotlin.math.abs
 import kotlin.math.max
@@ -660,16 +661,17 @@ open class DslTabLayout(
         val visibleChildList = dslSelector.visibleViewList
         val visibleChildCount = visibleChildList.size
 
+        //控制最小大小
+        val tabMinHeight = if (suggestedMinimumHeight > 0) {
+            suggestedMinimumHeight
+        } else {
+            itemDefaultHeight
+        }
+
         if (visibleChildCount == 0) {
             setMeasuredDimension(
                 getDefaultSize(suggestedMinimumWidth, widthMeasureSpec),
-                getDefaultSize(
-                    if (suggestedMinimumHeight > 0) {
-                        suggestedMinimumHeight
-                    } else {
-                        itemDefaultHeight
-                    }, heightMeasureSpec
-                )
+                getDefaultSize(tabMinHeight, heightMeasureSpec)
             )
             return
         }
@@ -682,19 +684,10 @@ open class DslTabLayout(
 
         _maxConvexHeight = 0
 
-        //child高度测量模式
-        var childHeightSpec: Int = -1
         var childWidthSpec: Int = -1
 
-        //记录child最大的height, 用来实现tabLayout wrap_content
-        var childMaxHeight = 0 //child最大的高度
-
-        childHeightSpec = if (heightMode == MeasureSpec.EXACTLY) {
-            //固定高度
-            exactlyMeasure(heightSize - paddingTop - paddingBottom)
-        } else {
-            atmostMeasure(Int.MAX_VALUE)
-        }
+        //记录child最大的height, 用来实现tabLayout wrap_content, 包括突出的大小
+        var childMaxHeight = tabMinHeight //child最大的高度
 
         if (heightMode == MeasureSpec.UNSPECIFIED) {
             if (heightSize == 0) {
@@ -776,74 +769,57 @@ open class DslTabLayout(
 
         _childAllWidthSum = 0
 
-        var wrapContentHeight = false
-
         //没有设置weight属性的child宽度总和, 用于计算剩余空间
         var allChildUsedWidth = 0
 
-        fun measureChild(childView: View) {
+        fun measureChild(childView: View, heightSpec: Int? = null) {
             val lp = childView.layoutParams as LayoutParams
 
-            //横向布局, 不支持竖向margin支持
-            lp.topMargin = 0
-            lp.bottomMargin = 0
-
-            val childConvexHeight = lp.layoutConvexHeight
+            //child高度测量模式
+            var childHeightSpec: Int = -1
 
             val widthHeight = calcLayoutWidthHeight(
                 lp.layoutWidth, lp.layoutHeight,
                 widthSize, heightSize, 0, 0
             )
 
-            //计算高度测量模式
-            wrapContentHeight = false
-            if (childHeightSpec == -1) {
+            if (heightMode == MeasureSpec.EXACTLY) {
+                //固定高度
+                childHeightSpec =
+                    exactlyMeasure(heightSize - paddingTop - paddingBottom - lp.topMargin - lp.bottomMargin)
+            } else {
                 if (widthHeight[1] > 0) {
                     heightSize = widthHeight[1]
                     childHeightSpec = exactlyMeasure(heightSize)
                     heightSize += paddingTop + paddingBottom
-                }
-            }
-
-            if (childHeightSpec == -1) {
-                if (lp.height == ViewGroup.LayoutParams.MATCH_PARENT) {
-
-                    heightSize = if (suggestedMinimumHeight > 0) {
-                        suggestedMinimumHeight
-                    } else {
-                        itemDefaultHeight
-                    }
-
-                    childHeightSpec = exactlyMeasure(heightSize)
-
-                    heightSize += paddingTop + paddingBottom
                 } else {
-                    childHeightSpec = atmostMeasure(heightSize)
-                    wrapContentHeight = true
+                    childHeightSpec = if (lp.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+                        exactlyMeasure(tabMinHeight)
+                    } else {
+                        atmostMeasure(Int.MAX_VALUE)
+                    }
                 }
             }
+
+            val childConvexHeight = lp.layoutConvexHeight
+
             //...end
 
             //计算宽度测量模式
             childWidthSpec //no op
 
-            if (childConvexHeight > 0) {
-                _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
-                //需要凸起
-                val childConvexHeightSpec = MeasureSpec.makeMeasureSpec(
-                    MeasureSpec.getSize(childHeightSpec) + childConvexHeight,
-                    MeasureSpec.getMode(childHeightSpec)
-                )
-                childView.measure(childWidthSpec, childConvexHeightSpec)
+            if (heightSpec != null) {
+                childView.measure(childWidthSpec, heightSpec)
             } else {
                 childView.measure(childWidthSpec, childHeightSpec)
             }
-
-            if (wrapContentHeight) {
-                heightSize = childView.measuredHeight
-                childHeightSpec = exactlyMeasure(heightSize)
-                heightSize += paddingTop + paddingBottom
+            if (childConvexHeight > 0) {
+                _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
+                //需要凸起
+                val spec = exactlyMeasure(childView.measuredHeight + childConvexHeight)
+                childView.measure(childWidthSpec, spec)
             }
+            childMaxHeight = max(childMaxHeight, childView.measuredHeight)
         }
 
         visibleChildList.forEachIndexed { index, childView ->
@@ -919,9 +895,14 @@ open class DslTabLayout(
 
         if (heightMode == MeasureSpec.AT_MOST) {
             //wrap_content 情况下, 重新测量所有子view
-            childHeightSpec = exactlyMeasure(max(childMaxHeight, suggestedMinimumHeight))
+            val childHeightSpec = exactlyMeasure(
+                max(
+                    childMaxHeight - _maxConvexHeight,
+                    suggestedMinimumHeight - paddingTop - paddingBottom
+                )
+            )
             visibleChildList.forEach { childView ->
-                measureChild(childView)
+                measureChild(childView, childHeightSpec)
             }
         }
 
@@ -936,7 +917,10 @@ open class DslTabLayout(
                 itemDefaultHeight
             }
         } else if (heightMode != MeasureSpec.EXACTLY) {
-            heightSize = max(childMaxHeight + paddingTop + paddingBottom, suggestedMinimumHeight)
+            heightSize = max(
+                childMaxHeight - _maxConvexHeight + paddingTop + paddingBottom,
+                suggestedMinimumHeight
+            )
         }
 
         setMeasuredDimension(widthSize, heightSize + _maxConvexHeight)
@@ -1064,6 +1048,7 @@ open class DslTabLayout(
             lp.marginEnd = 0
 
             val childConvexHeight = lp.layoutConvexHeight
+            _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
 
             val widthHeight = calcLayoutWidthHeight(
                 lp.layoutWidth, lp.layoutHeight,
@@ -1103,7 +1088,6 @@ open class DslTabLayout(
             childHeightSpec //no op
 
             if (childConvexHeight > 0) {
-                _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
                 //需要凸起
                 val childConvexWidthSpec = MeasureSpec.makeMeasureSpec(
                     MeasureSpec.getSize(childWidthSpec) + childConvexHeight,
@@ -1261,6 +1245,7 @@ open class DslTabLayout(
         visibleChildList.forEachIndexed { index, childView ->
 
             val lp = childView.layoutParams as LayoutParams
+            val verticalGravity = lp.gravity and Gravity.VERTICAL_GRAVITY_MASK
 
             if (isRtl) {
                 right -= lp.marginEnd
@@ -1279,15 +1264,14 @@ open class DslTabLayout(
                 }
             }
 
-            childBottom = if (lp.gravity.have(Gravity.CENTER_VERTICAL)) {
-                measuredHeight - paddingBottom -
+            childBottom = when (verticalGravity) {
+                Gravity.CENTER_VERTICAL -> measuredHeight - paddingBottom -
                         ((measuredHeight - paddingTop - paddingBottom - _maxConvexHeight) / 2 -
                                 childView.measuredHeight / 2)
-            } else {
-                measuredHeight - paddingBottom
+                Gravity.BOTTOM -> measuredHeight - paddingBottom
+                else -> paddingTop + lp.topMargin + childView.measuredHeight
             }
 
-            /*默认垂直居中显示*/
             if (isRtl) {
                 childView.layout(
                     right - childView.measuredWidth,
@@ -1332,6 +1316,9 @@ open class DslTabLayout(
         visibleChildList.forEachIndexed { index, childView ->
 
             val lp = childView.layoutParams as LayoutParams
+            val layoutDirection = 0
+            val absoluteGravity = GravityCompat.getAbsoluteGravity(lp.gravity, layoutDirection)
+            val horizontalGravity = absoluteGravity and Gravity.HORIZONTAL_GRAVITY_MASK
 
             top += lp.topMargin
 
@@ -1341,11 +1328,11 @@ open class DslTabLayout(
                 }
             }
 
-            childLeft = if (lp.gravity.have(Gravity.CENTER_HORIZONTAL)) {
-                paddingStart + ((measuredWidth - paddingStart - paddingEnd - _maxConvexHeight) / 2 -
+            childLeft = when (horizontalGravity) {
+                Gravity.CENTER_HORIZONTAL -> paddingStart + ((measuredWidth - paddingStart - paddingEnd - _maxConvexHeight) / 2 -
                         childView.measuredWidth / 2)
-            } else {
-                paddingStart
+                Gravity.RIGHT -> measuredWidth - paddingRight - childView.measuredWidth - lp.rightMargin
+                else -> paddingLeft + lp.leftMargin
             }
 
             /*默认水平居中显示*/
@@ -1433,7 +1420,11 @@ open class DslTabLayout(
             a.recycle()
 
             if (gravity == UNSPECIFIED_GRAVITY) {
-                gravity = Gravity.CENTER
+                gravity = if (layoutConvexHeight > 0) {
+                    Gravity.BOTTOM
+                } else {
+                    Gravity.CENTER
+                }
             }
         }
 

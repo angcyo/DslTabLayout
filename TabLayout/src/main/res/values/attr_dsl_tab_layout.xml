@@ -113,6 +113,7 @@
         <attr name="tab_indicator_gradient_colors" format="string" />
         <attr name="tab_indicator_gradient_start_color" format="color" />
         <attr name="tab_indicator_gradient_end_color" format="color" />
+        <attr name="tab_indicator_ignore_child_padding" format="boolean" />
         <!--end...-->
 
         <!--TabLayoutConfig 相关属性-->
