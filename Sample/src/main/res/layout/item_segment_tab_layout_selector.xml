@@ -22,17 +22,17 @@
 
         <TextView
             style="@style/TabCommonItemStyle"
-            android:layout_margin="10dp"
+            android:layout_marginHorizontal="10dp"
             android:text="滑动选择" />
 
         <TextView
             style="@style/TabCommonItemStyle"
-            android:layout_margin="10dp"
+            android:layout_marginHorizontal="10dp"
             android:text="拍摄" />
 
         <TextView
             style="@style/TabCommonItemStyle"
-            android:layout_margin="10dp"
+            android:layout_marginHorizontal="10dp"
             android:text="录像" />
 
     </com.angcyo.tablayout.DslTabLayout>

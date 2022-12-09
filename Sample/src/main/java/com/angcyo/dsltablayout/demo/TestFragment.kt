@@ -13,7 +13,8 @@ import android.view.View
 class TestFragment : BaseDslFragment() {
 
     override fun getBaseLayoutId(): Int {
-        return R.layout.fragment_test_wrap //R.layout.item_common_vertical_tab_layout_convex ///R.layout.fragment_test
+        //return R.layout.fragment_test_wrap //R.layout.item_common_vertical_tab_layout_convex ///R.layout.fragment_test
+        return R.layout.item_common_tab_layout_convex
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

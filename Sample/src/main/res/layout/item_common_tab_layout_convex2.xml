@@ -17,11 +17,13 @@
 
     <TextView
         style="@style/TabCommonItemStyle"
+        android:layout_gravity="bottom"
         android:drawableTop="@drawable/ic_home"
         android:text="首页" />
 
     <TextView
         style="@style/TabCommonItemStyle"
+        android:layout_gravity="bottom"
         android:drawableTop="@drawable/ic_message"
         android:text="消息"
         app:layout_tab_convex_height="10dp" />
@@ -29,18 +31,21 @@
     <ImageView
         style="@style/TabCommonItemStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
         android:src="@drawable/ic_add"
         app:layout_tab_convex_height="20dp" />
 
     <TextView
         style="@style/TabCommonItemStyle"
+        android:layout_gravity="bottom"
         android:drawableTop="@drawable/ic_contact"
         android:text="联系人"
         app:layout_tab_convex_height="10dp" />
 
     <TextView
         style="@style/TabCommonItemStyle"
+        android:layout_gravity="bottom"
         android:drawableTop="@drawable/ic_setting"
         android:text="更多" />
 

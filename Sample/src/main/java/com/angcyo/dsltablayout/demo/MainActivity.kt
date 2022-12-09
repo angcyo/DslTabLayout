@@ -58,4 +58,11 @@ class MainActivity : BaseActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (BuildConfig.DEBUG) {
+            finish()
+        }
+    }
 }
