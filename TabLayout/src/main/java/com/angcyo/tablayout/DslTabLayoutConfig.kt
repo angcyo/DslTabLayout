@@ -3,6 +3,7 @@ package com.angcyo.tablayout
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -50,6 +51,10 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 
     /**是否开启Bold, 文本加粗*/
     var tabEnableTextBold = false
+
+    /**是否使用粗体字体的方式设置粗体, 否则使用[Paint.FAKE_BOLD_TEXT_FLAG]
+     * 需要先激活[tabEnableTextBold]*/
+    var tabUseTypefaceBold = false
 
     /**是否开启图标颜色*/
     var tabEnableIcoColor = true
@@ -237,6 +242,11 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
             tabEnableTextBold
         )
 
+        tabUseTypefaceBold = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_use_typeface_bold,
+            tabUseTypefaceBold
+        )
+
         tabEnableGradientScale = typedArray.getBoolean(
             R.styleable.DslTabLayout_tab_enable_gradient_scale,
             tabEnableGradientScale
@@ -277,11 +287,21 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
             //文本加粗
             paint?.apply {
                 if (tabEnableTextBold && select) {
-                    flags = flags or Paint.FAKE_BOLD_TEXT_FLAG
-                    isFakeBoldText = true
+                    //设置粗体
+                    if (tabUseTypefaceBold) {
+                        typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                    } else {
+                        flags = flags or Paint.FAKE_BOLD_TEXT_FLAG
+                        isFakeBoldText = true
+                    }
                 } else {
-                    flags = flags and Paint.FAKE_BOLD_TEXT_FLAG.inv()
-                    isFakeBoldText = false
+                    //取消粗体
+                    if (tabUseTypefaceBold) {
+                        typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+                    } else {
+                        flags = flags and Paint.FAKE_BOLD_TEXT_FLAG.inv()
+                        isFakeBoldText = false
+                    }
                 }
             }
 
