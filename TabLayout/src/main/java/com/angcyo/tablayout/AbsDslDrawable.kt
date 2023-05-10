@@ -160,7 +160,7 @@ abstract class AbsDslDrawable : Drawable() {
         return textPaint.isFilterBitmap
     }
 
-    override fun onBoundsChange(bounds: Rect?) {
+    override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
     }
 
@@ -168,7 +168,7 @@ abstract class AbsDslDrawable : Drawable() {
         return super.onLevelChange(level)
     }
 
-    override fun onStateChange(state: IntArray?): Boolean {
+    override fun onStateChange(state: IntArray): Boolean {
         return super.onStateChange(state)
     }
 
