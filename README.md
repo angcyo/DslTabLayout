@@ -129,7 +129,9 @@ dependencies {
 ![给点鼓励](https://raw.githubusercontent.com/angcyo/res/master/code/all_in2.jpg)
 
 
-# Stargazers over time
+# 趋势
 
 [![Stargazers over time](https://starchart.cc/angcyo/DslTabLayout.svg)](https://starchart.cc/angcyo/DslTabLayout)
 
+# 👏 感谢
+[![angcyo/DslTabLayout](https://reporoster.com/stars/angcyo/DslTabLayout)](https://github.com/angcyo/DslTabLayout/stargazers)
