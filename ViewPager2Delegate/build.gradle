@@ -26,3 +26,5 @@ dependencies {
     //https://mvnrepository.com/artifact/androidx.viewpager2/viewpager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 }
+
+apply from: "$gradleHost/master/publish.gradle"
