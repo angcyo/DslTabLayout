@@ -1,3 +1,13 @@
+# 2023-7-7
+
+版本: `3.5.4`, 更新日志:
+
+- 新增`layout_tab_text_view_index`属性
+- 新增`layout_tab_icon_view_index`属性
+- 新增`layout_tab_text_view_id`属性
+- 新增`layout_tab_icon_view_id`属性
+- 上述属性可以在每个不同的item上指定不同`id`对应的`TextView`和`ImageView`
+
 # 2023-1-7
 
 版本: `3.5.3`, 更新日志:
