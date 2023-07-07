@@ -1268,6 +1268,7 @@ open class DslTabLayout(
                 Gravity.CENTER_VERTICAL -> measuredHeight - paddingBottom -
                         ((measuredHeight - paddingTop - paddingBottom - _maxConvexHeight) / 2 -
                                 childView.measuredHeight / 2)
+
                 Gravity.BOTTOM -> measuredHeight - paddingBottom
                 else -> paddingTop + lp.topMargin + childView.measuredHeight
             }
@@ -1331,6 +1332,7 @@ open class DslTabLayout(
             childLeft = when (horizontalGravity) {
                 Gravity.CENTER_HORIZONTAL -> paddingStart + ((measuredWidth - paddingStart - paddingEnd - _maxConvexHeight) / 2 -
                         childView.measuredWidth / 2)
+
                 Gravity.RIGHT -> measuredWidth - paddingRight - childView.measuredWidth - lp.rightMargin
                 else -> paddingLeft + lp.leftMargin
             }
@@ -1388,6 +1390,18 @@ open class DslTabLayout(
         var indicatorContentIndex = -1
         var indicatorContentId = View.NO_ID
 
+        /**[com.angcyo.tablayout.DslTabLayoutConfig.getOnGetTextStyleView]*/
+        var contentTextViewIndex = -1
+
+        /**[com.angcyo.tablayout.DslTabLayoutConfig.getTabTextViewId]*/
+        var contentTextViewId = View.NO_ID
+
+        /**[com.angcyo.tablayout.DslTabLayoutConfig.getOnGetIcoStyleView]*/
+        var contentIconViewIndex = -1
+
+        /**[com.angcyo.tablayout.DslTabLayoutConfig.getTabIconViewId]*/
+        var contentIconViewId = View.NO_ID
+
         /**
          * 剩余空间占比, 1f表示占满剩余空间, 0.5f表示使用剩余空间的0.5倍
          * [android.widget.LinearLayout.LayoutParams.weight]*/
@@ -1417,6 +1431,24 @@ open class DslTabLayout(
             weight = a.getFloat(R.styleable.DslTabLayout_Layout_layout_tab_weight, weight)
             highlightDrawable =
                 a.getDrawable(R.styleable.DslTabLayout_Layout_layout_highlight_drawable)
+
+            contentTextViewIndex = a.getInt(
+                R.styleable.DslTabLayout_Layout_layout_tab_text_view_index,
+                contentTextViewIndex
+            )
+            contentIconViewIndex = a.getInt(
+                R.styleable.DslTabLayout_Layout_layout_tab_text_view_index,
+                contentIconViewIndex
+            )
+            contentTextViewId = a.getResourceId(
+                R.styleable.DslTabLayout_Layout_layout_tab_text_view_id,
+                contentTextViewId
+            )
+            contentIconViewId = a.getResourceId(
+                R.styleable.DslTabLayout_Layout_layout_tab_icon_view_id,
+                contentIconViewIndex
+            )
+
             a.recycle()
 
             if (gravity == UNSPECIFIED_GRAVITY) {
@@ -1779,6 +1811,7 @@ open class DslTabLayout(
                     val viewCenterX = measuredWidth / 2
                     childTargetX - viewCenterX - scrollX
                 }
+
                 isLayoutRtl -> {
                     if (childTargetX < viewDrawTargetX) {
                         childTargetX - viewDrawTargetX - scrollX
@@ -1786,6 +1819,7 @@ open class DslTabLayout(
                         -scrollX
                     }
                 }
+
                 else -> {
                     if (childTargetX > viewDrawTargetX) {
                         childTargetX - viewDrawTargetX - scrollX
@@ -1803,9 +1837,11 @@ open class DslTabLayout(
                     val viewCenterY = measuredHeight / 2
                     childTargetY - viewCenterY - scrollY
                 }
+
                 childTargetY > viewDrawTargetY -> {
                     childTargetY - viewDrawTargetY - scrollY
                 }
+
                 else -> {
                     if (tabIndicator.indicatorGravity == DslTabIndicator.INDICATOR_GRAVITY_END &&
                         childTargetY < viewDrawTargetY

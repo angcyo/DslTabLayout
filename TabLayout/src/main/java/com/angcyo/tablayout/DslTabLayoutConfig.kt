@@ -142,6 +142,22 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                         }
                     }
                 }
+
+                if (lp.contentTextViewIndex != -1 && itemView is ViewGroup) {
+                    itemView.getChildOrNull(lp.contentTextViewIndex)?.let {
+                        if (it is TextView) {
+                            tv = it
+                        }
+                    }
+                }
+
+                if (lp.contentTextViewId != View.NO_ID) {
+                    itemView.findViewById<View>(lp.contentTextViewId)?.let {
+                        if (it is TextView) {
+                            tv = it
+                        }
+                    }
+                }
             }
             tv
         } else {
@@ -174,6 +190,16 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 
                 if (lp.indicatorContentId != View.NO_ID) {
                     itemView.findViewById<View>(lp.indicatorContentId)?.let {
+                        iv = it
+                    }
+                }
+
+                if (lp.contentIconViewIndex != -1 && itemView is ViewGroup) {
+                    iv = itemView.getChildOrNull(lp.contentIconViewIndex)
+                }
+
+                if (lp.contentIconViewId != View.NO_ID) {
+                    itemView.findViewById<View>(lp.contentIconViewId)?.let {
                         iv = it
                     }
                 }
