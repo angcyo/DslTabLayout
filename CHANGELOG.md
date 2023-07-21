@@ -1,3 +1,9 @@
+# 2023-7-21
+
+版本: `3.5.5`, 更新日志:
+
+- 修复渐变Drawable指示器绘制问题
+
 # 2023-7-7
 
 版本: `3.5.4`, 更新日志:
@@ -68,7 +74,6 @@
 - `ItemView`支持`CompoundButton`
 - compileSdkVersion 变更为31
 
-
 # 2022-2-28
 
 版本: `3.2.1`, 更新日志:
@@ -76,18 +81,19 @@
 * 修改函数签名`com.angcyo.tablayout.ViewPagerDelegate.onSetCurrentItem`
 * `ViewPagerDelegate` minSdkVersion修成成17
 
-
 # 2022-2-22
 
 版本: `3.1.0`, 更新日志:
 
-+ 新增`闪现效果`, 可以通过`tab_indicator_enable_flash`激活. `tab_indicator_enable_flash_clip`开启`clip`模式.
++ 新增`闪现效果`, 可以通过`tab_indicator_enable_flash`激活. `tab_indicator_enable_flash_clip`
+  开启`clip`模式.
 
 # 2022-1-18
 
 版本: `3.0.8`, 更新日志:
 
-+ `STYLE_FOREGROUND` `STYLE_FOREGROUND_TOP` `STYLE_FOREGROUND_BOTTOM` `STYLE_BACKGROUND` `STYLE_BACKGROUND_TOP` `STYLE_BACKGROUND_BOTTOM` 更细粒度的指示器样式
++ `STYLE_FOREGROUND` `STYLE_FOREGROUND_TOP` `STYLE_FOREGROUND_BOTTOM` `STYLE_BACKGROUND` `STYLE_BACKGROUND_TOP` `STYLE_BACKGROUND_BOTTOM`
+  更细粒度的指示器样式
 
 版本: `3.0.7`, 更新日志:
 
@@ -117,7 +123,6 @@
 
 - 修复高度变化时, 滚动状态异常的bug
 
-
 # 2021-10-14
 
 版本: `3.0.1`, 更新日志:
@@ -141,9 +146,9 @@
 版本: `2.1.0`, 更新日志:
 
 - 新增指示器属性`indicatorGravity`
-  - INDICATOR_GRAVITY_START  指示器靠左显示
-  - INDICATOR_GRAVITY_END    指示器靠右显示
-  - INDICATOR_GRAVITY_CENTER 指示器居中显示
+    - INDICATOR_GRAVITY_START 指示器靠左显示
+    - INDICATOR_GRAVITY_END 指示器靠右显示
+    - INDICATOR_GRAVITY_CENTER 指示器居中显示
 
 # 2021-4-28
 
@@ -158,7 +163,6 @@
 版本: `2.0.2`, 更新日志:
 
 - 修复`setCurrentItem`后, `Item`没有滚动居中的问题
-
 
 # 2020-12-14
 
@@ -249,7 +253,6 @@
 - `badge` 定位支持忽略锚点`padding`属性`tab_badge_ignore_child_padding`
 - 调整`DslGravity`定位计算默认输出目标的中心坐标. 可以通过属性`gravityRelativeCenter`关闭.
 
-
 # 2020-3-12
 
 版本: `1.4.4`, 更新日志:
@@ -257,6 +260,7 @@
 - `DslTabLayoutConfig`支持文本大小渐变属性配置.
 
 可以通过:
+
 ```
 tabLayout.configTabLayoutConfig {
     tabTextMinSize = 9 * dp
@@ -266,7 +270,7 @@ tabLayout.configTabLayoutConfig {
 
 # 2020-02-29
 
-> 特殊版本 用于不使用`AndroidX`的开发者. 
+> 特殊版本 用于不使用`AndroidX`的开发者.
 
 > 未特殊说明 所有版本都将基于`AndroidX`开发 如果需要非`AndroidX`版本 请关注`-support`结尾的版本更新.
 
@@ -292,16 +296,15 @@ tabLayout.configTabLayoutConfig {
 
 ```groovy
     implementation 'com.github.angcyo.DslTabLayout:ViewPager1Delegate:1.4.2'
-    implementation 'com.github.angcyo.DslTabLayout:ViewPager2Delegate:1.4.2'
+implementation 'com.github.angcyo.DslTabLayout:ViewPager2Delegate:1.4.2'
 ```
 
 原库的使用方式变成了:
 
 ```groovy
     //implementation 'com.github.angcyo:DslTabLayout:1.4.2' 之前
-    implementation 'com.github.angcyo.DslTabLayout:TabLayout:1.4.2'
+implementation 'com.github.angcyo.DslTabLayout:TabLayout:1.4.2'
 ```
-
 
 # 2020-01-06
 
@@ -328,11 +331,12 @@ tabLayout.configTabLayoutConfig {
 版本: `1.3.0` ,更新日志:
 
 1. 支持`ViewPager2`
-> 库不依赖`ViewPager`和`ViewPager2`,通过`ViewPagerDelegate`转发事件. 
+
+> 库不依赖`ViewPager`和`ViewPager2`,通过`ViewPagerDelegate`转发事件.
 
 [请查看WIKI使用说明](https://github.com/angcyo/DslTabLayout/wiki/ViewPager1%E5%92%8CViewPager2)
 
-# 2019-12-13 
+# 2019-12-13
 
 版本: `1.2.0` ,更新日志:
 
