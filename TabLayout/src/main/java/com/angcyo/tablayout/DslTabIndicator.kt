@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.withSave
 import java.util.*
 import kotlin.math.absoluteValue
 import kotlin.math.max
@@ -671,11 +672,17 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
         offset: Float
     ) {
         indicator.apply {
-            setBounds(l, t, r, b)
             if (this is ITabIndicatorDraw) {
+                setBounds(l, t, r, b)
                 onDrawTabIndicator(this@DslTabIndicator, canvas, offset)
             } else {
-                draw(canvas)
+                val width = r - l
+                val height = b - t
+                setBounds(0, 0, width, height)
+                canvas.withSave {
+                    translate(l.toFloat(), t.toFloat())
+                    draw(canvas)
+                }
             }
         }
     }
