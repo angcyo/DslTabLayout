@@ -235,22 +235,17 @@ class SlidingFragment : BaseTabLayoutFragment() {
                     }
                 }
             }
-//            slidingItem {
-//                itemBindOverride = { itemHolder, _, _, _ ->
-//                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
-//                        addTabLayout(this)
-//                        tabIndicator.indicatorWidth = 10 * dpi
-//                        tabIndicator.indicatorEnableFlow = true
-//                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
-//
-//                        setTabLayoutConfig {
-//                            tabEnableGradientScale = true
-//                            tabEnableGradientColor = true
-//                            tabSelectColor = resources.getColor(R.color.colorAccent)
-//                        }
-//                    }
-//                }
-//            }
+
+            //渐变指示器
+            slidingItem {
+                itemBindOverride = { itemHolder, _, _, _ ->
+                    itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
+                        addTabLayout(this)
+                        tabIndicator.indicatorStyle = DslTabIndicator.INDICATOR_STYLE_BOTTOM
+                        tabIndicator.indicatorDrawable = getDrawable(R.drawable.indicator_gradient)
+                    }
+                }
+            }
 
             //角标配置
             slidingItem {
@@ -289,20 +284,24 @@ class SlidingFragment : BaseTabLayoutFragment() {
                                     tabBadge.badgeOffsetX = 10 * dpi
                                     tabBadge.badgeOffsetY = 4 * dpi
                                 }
+
                                 2 -> {
                                     tabBadge.badgeGravity = Gravity.RIGHT or Gravity.TOP
                                     tabBadge.badgeText = "99"
                                 }
+
                                 3 -> {
                                     tabBadge.badgeGravity = Gravity.RIGHT or Gravity.BOTTOM
                                     tabBadge.badgeText = "99+"
                                     tabBadge.gradientStrokeColor = Color.BLACK
                                     tabBadge.gradientStrokeWidth = 2 * dpi
                                 }
+
                                 4 -> {
                                     tabBadge.badgeGravity = Gravity.LEFT or Gravity.BOTTOM
                                     tabBadge.badgeText = "999+"
                                 }
+
                                 5 -> {
                                     tabBadge.badgeCircleOffsetX = 14 * dpi
                                     tabBadge.badgeCircleOffsetY = 6 * dpi
@@ -311,6 +310,7 @@ class SlidingFragment : BaseTabLayoutFragment() {
                                     tabBadge.gradientStrokeColor = Color.BLUE
                                     tabBadge.gradientStrokeWidth = 2 * dpi
                                 }
+
                                 else -> {
                                     tabBadge.badgeGravity = Gravity.CENTER
                                     tabBadge.badgeText = ""
