@@ -79,7 +79,7 @@
 
 # 使用`JitPack`的方式, 引入库.
 
-## `AGP 8.+` 根目录中的 `build.gradle`
+## `AGP 8.+` 根目录中的 `settings.gradle`
 
 ```groovy
 dependencyResolutionManagement {
@@ -91,7 +91,7 @@ dependencyResolutionManagement {
 }
 ```
 
-## `AGP 8.-` 根目录中的 `settings.gradle`
+## `AGP 8.-` 根目录中的 `build.gradle`
 
 ```groovy
 allprojects {
@@ -140,10 +140,10 @@ dependencies {
 
 ![给点鼓励](https://raw.githubusercontent.com/angcyo/res/master/code/all_in2.jpg)
 
-
 # 趋势
 
 [![Stargazers over time](https://starchart.cc/angcyo/DslTabLayout.svg)](https://starchart.cc/angcyo/DslTabLayout)
 
 # 👏 感谢
+
 [![angcyo/DslTabLayout](https://reporoster.com/stars/angcyo/DslTabLayout)](https://github.com/angcyo/DslTabLayout/stargazers)
