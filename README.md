@@ -79,9 +79,21 @@
 
 # 使用`JitPack`的方式, 引入库.
 
-## 根目录中的 `build.gradle`
+## `AGP 8.+` 根目录中的 `build.gradle`
 
-```kotlin
+```groovy
+dependencyResolutionManagement {
+    ...
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+## `AGP 8.-` 根目录中的 `settings.gradle`
+
+```groovy
 allprojects {
     repositories {
         ...
