@@ -115,6 +115,9 @@ dependencies {
 }
 ```
 
+如果无法从`jitpack`获取库可以尝试使用`group`:`com.github.angcyo.DslTabLayout:xxx`
+
+
 [更新日志](https://github.com/angcyo/DslTabLayout/blob/master/CHANGELOG.md)
 
 # 下载体验
