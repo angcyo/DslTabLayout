@@ -3,6 +3,7 @@ package com.angcyo.dsltablayout.demo.sample
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -13,6 +14,7 @@ import com.angcyo.dsladapter.inflate
 import com.angcyo.dsltablayout.demo.BaseActivity
 import com.angcyo.dsltablayout.demo.R
 import com.angcyo.tablayout.DslTabLayout
+import java.util.Random
 
 /**
  *
@@ -26,7 +28,7 @@ class DynamicActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dynamic)
 
-        val tabLayout: DslTabLayout = find(R.id.tab_layout)
+        val tabLayout = find<DslTabLayout>(R.id.tab_layout)
 
         tabLayout.configTabLayoutConfig {
             onSelectIndexChange = { fromIndex, selectIndexList, reselect, fromUser ->
@@ -116,6 +118,13 @@ class DynamicActivity : BaseActivity() {
                 }
             }, 600)
         }
+
+        //动态调整背景
+        find<View>(R.id.border_solid_button)?.setOnClickListener {
+            val stateTabLayout = find<DslTabLayout>(R.id.states_tab_layout)
+            stateTabLayout.tabBorder?.updateBorderBackgroundSolidColor(randomColorIn())
+            stateTabLayout.invalidate()
+        }
     }
 
     var _currentIndex = 0
@@ -129,4 +138,25 @@ class DynamicActivity : BaseActivity() {
             }, 100L * _currentIndex) //10L * _currentIndex
         }
     }
+}
+
+/**
+ * 随机颜色, 设置一个最小值, 设置一个最大值, 第三个值在这2者之间随机改变
+ */
+fun randomColorIn(
+    random: Random = Random(SystemClock.elapsedRealtime()),
+    minValue: Int = 120,
+    maxValue: Int = 250
+): Int {
+    val a = minValue + random.nextInt(maxValue - minValue)
+    val list1: MutableList<Int> = ArrayList()
+    val list2: MutableList<Int> = ArrayList()
+    list1.add(a)
+    list1.add(minValue)
+    list1.add(maxValue)
+    while (list2.size != 3) {
+        val i = random.nextInt(list1.size)
+        list2.add(list1.removeAt(i))
+    }
+    return Color.rgb(list2[0], list2[1], list2[2])
 }

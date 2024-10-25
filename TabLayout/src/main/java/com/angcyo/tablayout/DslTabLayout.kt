@@ -44,7 +44,7 @@ open class DslTabLayout(
     /**item是否支持选择, 只限制点击事件, 不限制滚动事件*/
     var itemEnableSelector = true
 
-    /**当子Item数量在此范围内时,开启等宽,此属性优先级最高
+    /**当子Item数量在此范围内时,开启等宽,此属性优先级最高 [min~max]
      * [~3] 小于等于3个
      * [3~] 大于等于3个
      * [3~5] 3<= <=5
@@ -212,19 +212,7 @@ open class DslTabLayout(
         if (typedArray.hasValue(R.styleable.DslTabLayout_tab_item_equ_width_count_range)) {
             val equWidthCountRangeString =
                 typedArray.getString(R.styleable.DslTabLayout_tab_item_equ_width_count_range)
-            if (equWidthCountRangeString.isNullOrBlank()) {
-                itemEquWidthCountRange = null
-            } else {
-                val rangeList = equWidthCountRangeString.split("~")
-                if (rangeList.size() >= 2) {
-                    val min = rangeList.getOrNull(0)?.toIntOrNull() ?: 0
-                    val max = rangeList.getOrNull(1)?.toIntOrNull() ?: Int.MAX_VALUE
-                    itemEquWidthCountRange = IntRange(min, max)
-                } else {
-                    val min = rangeList.getOrNull(0)?.toIntOrNull() ?: Int.MAX_VALUE
-                    itemEquWidthCountRange = IntRange(min, Int.MAX_VALUE)
-                }
-            }
+            updateItemEquWidthCountRange(equWidthCountRangeString)
         }
         itemAutoEquWidth = typedArray.getBoolean(
             R.styleable.DslTabLayout_tab_item_auto_equ_width,
@@ -394,6 +382,24 @@ open class DslTabLayout(
         tabBadgeConfigMap[index] = badgeConfig
         badgeConfig.config()
         postInvalidate()
+    }
+
+    /**更新等宽范围, 从字符串中*/
+    fun updateItemEquWidthCountRange(range: String?) {
+        if (range.isNullOrBlank()) {
+            itemEquWidthCountRange = null
+        } else {
+            val rangeList = range.split("~")
+            if (rangeList.size() >= 2) {
+                val min = rangeList.getOrNull(0)?.toIntOrNull() ?: 0
+                val max = rangeList.getOrNull(1)?.toIntOrNull() ?: Int.MAX_VALUE
+                itemEquWidthCountRange = IntRange(min, max)
+            } else {
+                val min = rangeList.getOrNull(0)?.toIntOrNull() ?: Int.MAX_VALUE
+                itemEquWidthCountRange = IntRange(min, Int.MAX_VALUE)
+            }
+        }
+        requestLayout()
     }
 
     //</editor-fold desc="可操作性方法">

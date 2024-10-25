@@ -49,7 +49,8 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     /**未选中的文本颜色*/
     var tabDeselectColor: Int = Color.parseColor("#999999")
 
-    /**是否开启Bold, 文本加粗*/
+    /**是否开启Bold, 文本选中后加粗
+     * [tabUseTypefaceBold] 控制变粗的方式*/
     var tabEnableTextBold = false
 
     /**是否使用粗体字体的方式设置粗体, 否则使用[Paint.FAKE_BOLD_TEXT_FLAG]

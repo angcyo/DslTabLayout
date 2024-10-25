@@ -25,6 +25,7 @@ open class DslTabBorder : DslGradientDrawable() {
     /**是否保持每个[itemView]的圆角都一样, 否则首尾有圆角, 中间没有圆角*/
     var borderKeepItemRadius: Boolean = false
 
+    /**[GradientDrawable]*/
     var borderBackgroundDrawable: Drawable? = null
 
     /**宽度补偿*/
@@ -118,15 +119,14 @@ open class DslTabBorder : DslGradientDrawable() {
 
         if (originDrawable == null) {
             //无自定义的drawable, 那么自绘.
-            borderBackgroundDrawable = DslGradientDrawable().configDrawable {
-                gradientSolidColor = borderBackgroundColor
-                gradientRadii = this@DslTabBorder.gradientRadii
-            }.originDrawable
-
+            updateBorderBackgroundSolidColor(borderBackgroundColor)
             updateOriginDrawable()
         }
     }
 
+    /**
+     * [DslTabLayout.draw]驱动
+     * */
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
@@ -141,6 +141,9 @@ open class DslTabBorder : DslGradientDrawable() {
         }
     }
 
+    /**
+     * [DslTabLayout.onDraw]驱动
+     * */
     fun drawBorderBackground(canvas: Canvas) {
         super.draw(canvas)
 
@@ -275,5 +278,13 @@ open class DslTabBorder : DslGradientDrawable() {
         } else {
             ViewCompat.setBackground(itemView, itemDeselectBgDrawable)
         }
+    }
+
+    /**更新边框的背景颜色*/
+    open fun updateBorderBackgroundSolidColor(borderBackgroundColor: Int) {
+        borderBackgroundDrawable = DslGradientDrawable().configDrawable {
+            gradientSolidColor = borderBackgroundColor
+            gradientRadii = this@DslTabBorder.gradientRadii
+        }.originDrawable
     }
 }

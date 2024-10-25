@@ -58,7 +58,7 @@ open class DslSelector {
                 !it.isSe()
             } else {
                 true
-            }
+            }//当前view 是要选中 还是要取消选中
 
         if (!interceptSelector(index, select, true)) {
             selector(
@@ -321,7 +321,7 @@ open class DslSelector {
         //Limit 过滤
         if (select) {
             val sum = selectorViewList.size + 1
-            if (sum > dslSelectorConfig.dslMaxSelectLimit) {
+            if (dslSelectorConfig.dslMultiMode && sum > dslSelectorConfig.dslMaxSelectLimit) {
                 //不允许选择
                 return false
             }

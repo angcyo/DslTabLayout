@@ -307,8 +307,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tab_layout"
+            app:tab_border_solid_color="@color/transparent10"
             app:tab_convex_background="@android:color/white"
             app:tab_deselect_color="#80454545"
+            app:tab_draw_border="true"
             app:tab_indicator_color="@color/colorAccent"
             app:tab_indicator_content_id="@id/states_tv"
             app:tab_indicator_drawable="@drawable/indicator_bottom_line"
@@ -327,6 +329,13 @@
             <include layout="@layout/tab_item_test1" />
 
         </com.angcyo.tablayout.DslTabLayout>
+
+        <Button
+            android:id="@+id/border_solid_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="调整背景"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
