@@ -1489,7 +1489,7 @@ open class DslTabLayout(
     val _gestureDetector: GestureDetectorCompat by lazy {
         GestureDetectorCompat(context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onFling(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 velocityX: Float,
                 velocityY: Float
@@ -1510,7 +1510,7 @@ open class DslTabLayout(
             }
 
             override fun onScroll(
-                e1: MotionEvent,
+                e1: MotionEvent?,
                 e2: MotionEvent,
                 distanceX: Float,
                 distanceY: Float

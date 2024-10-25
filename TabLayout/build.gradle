@@ -2,11 +2,12 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion Integer.parseInt(C_SDK)
+    if (project.android.hasProperty("namespace")) namespace 'com.angcyo.tablayout'
+    compileSdk Integer.parseInt(C_SDK)
 
     defaultConfig {
-        minSdkVersion Integer.parseInt(M_SDK)
-        targetSdkVersion Integer.parseInt(T_SDK)
+        minSdk Integer.parseInt(M_SDK)
+        targetSdk Integer.parseInt(T_SDK)
 
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -17,10 +18,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.13.1'
 }
 
 apply from: "$gradleHost/master/publish.gradle"
