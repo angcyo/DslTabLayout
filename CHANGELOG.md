@@ -2,7 +2,10 @@
 
 版本: `3.6.0`, 更新日志:
 
-- 修复渐变Drawable指示器绘制问题
+- 更新`AGP`为`8.7.1`
+- 更新`compileSdk`为`34`
+- 更新`minSdk`为`21`
+- 新增部分`api`
 
 # 2023-7-21
 
@@ -98,7 +101,8 @@
 
 版本: `3.0.8`, 更新日志:
 
-+ `STYLE_FOREGROUND` `STYLE_FOREGROUND_TOP` `STYLE_FOREGROUND_BOTTOM` `STYLE_BACKGROUND` `STYLE_BACKGROUND_TOP` `STYLE_BACKGROUND_BOTTOM`
++ `STYLE_FOREGROUND` `STYLE_FOREGROUND_TOP` `STYLE_FOREGROUND_BOTTOM` `STYLE_BACKGROUND`
+  `STYLE_BACKGROUND_TOP` `STYLE_BACKGROUND_BOTTOM`
   更细粒度的指示器样式
 
 版本: `3.0.7`, 更新日志:
