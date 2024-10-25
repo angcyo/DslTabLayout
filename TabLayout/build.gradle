@@ -31,4 +31,4 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.13.1'
 }
 
-//apply from: "$gradleHost/master/publish.gradle"
+apply from: "$gradleHost/master/publish.gradle"

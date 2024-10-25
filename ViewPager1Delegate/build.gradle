@@ -34,4 +34,4 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.0.0'
 }
 
-//apply from: "$gradleHost/master/publish.gradle"
+apply from: "$gradleHost/master/publish.gradle"
