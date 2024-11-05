@@ -119,6 +119,13 @@ class DynamicActivity : BaseActivity() {
             }, 600)
         }
 
+        //重新布局
+        find<View>(R.id.request_layout_button)?.setOnClickListener {
+            window.decorView.requestLayout()
+            val slidingTabLayout = find<DslTabLayout>(R.id.sliding_tab_layout)
+            slidingTabLayout.requestLayout()
+        }
+
         //动态调整背景
         find<View>(R.id.border_solid_button)?.setOnClickListener {
             val stateTabLayout = find<DslTabLayout>(R.id.states_tab_layout)

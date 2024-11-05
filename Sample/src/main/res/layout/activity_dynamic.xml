@@ -330,12 +330,25 @@
 
         </com.angcyo.tablayout.DslTabLayout>
 
-        <Button
-            android:id="@+id/border_solid_button"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="调整背景"
-            android:textAllCaps="false" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/request_layout_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="重新布局"
+                android:textAllCaps="false" />
+
+            <Button
+                android:id="@+id/border_solid_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="调整背景"
+                android:textAllCaps="false" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
