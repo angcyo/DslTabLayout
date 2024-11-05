@@ -148,6 +148,13 @@ open class DslTabLayout(
     /**滚动动画的时长*/
     var scrollAnimDuration = 250
 
+    /**是否需要在每次布局后滚动到目标位置
+     * [_scrollToTarget]*/
+    var layoutScrollToTarget = false
+
+    /**是否是第一次布局, 第一次布局会自动[_scrollToTarget]*/
+    var isFirstLayout = true
+
     //<editor-fold desc="内部属性">
 
     //fling 速率阈值
@@ -1212,8 +1219,9 @@ open class DslTabLayout(
             //还没有选中
             setCurrentItem(tabDefaultIndex)
         } else {
-            if (_overScroller.isFinished) {
+            if (layoutScrollToTarget || isFirstLayout) {
                 _scrollToTarget(dslSelector.dslSelectIndex, layoutScrollAnim)
+                isFirstLayout = false
             }
         }
     }
@@ -1296,18 +1304,6 @@ open class DslTabLayout(
                     childBottom
                 )
                 left += childView.measuredWidth + lp.marginEnd
-            }
-        }
-
-        //check
-        restoreScroll()
-
-        if (dslSelector.dslSelectIndex < 0) {
-            //还没有选中
-            setCurrentItem(tabDefaultIndex)
-        } else {
-            if (_overScroller.isFinished) {
-                _scrollToTarget(dslSelector.dslSelectIndex, layoutScrollAnim)
             }
         }
     }
