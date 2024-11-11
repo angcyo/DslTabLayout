@@ -127,8 +127,13 @@ class DynamicActivity : BaseActivity() {
         }
 
         //动态调整背景
+        val stateTabLayout = find<DslTabLayout>(R.id.states_tab_layout)
+        stateTabLayout.configTabLayoutConfig {
+            onGetTextStyleViewList = { itemView, index ->
+                listOf(itemView.findViewById(R.id.states_tv2))
+            }
+        }
         find<View>(R.id.border_solid_button)?.setOnClickListener {
-            val stateTabLayout = find<DslTabLayout>(R.id.states_tab_layout)
             stateTabLayout.tabBorder?.updateBorderBackgroundSolidColor(randomColorIn())
             stateTabLayout.invalidate()
         }

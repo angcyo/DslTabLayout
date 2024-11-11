@@ -315,7 +315,7 @@
             app:tab_indicator_content_id="@id/states_tv"
             app:tab_indicator_drawable="@drawable/indicator_bottom_line"
             app:tab_indicator_width="WRAP_CONTENT"
-            app:tab_select_color="@color/colorPrimaryDark"
+            app:tab_select_color="@color/colorPrimary"
             tools:tab_default_index="0">
 
             <include layout="@layout/tab_item_test1" />

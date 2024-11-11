@@ -13,6 +13,13 @@
         android:text="未服务" />
 
     <TextView
+        android:id="@+id/states_tv2"
+        style="@style/LibBodyTextStyle"
+        android:layout_marginTop="8dp"
+        android:text="未服务"
+        android:textSize="9dp" />
+
+    <TextView
         android:id="@+id/count_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
