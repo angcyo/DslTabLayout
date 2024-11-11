@@ -166,6 +166,10 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         }
     }
 
+    /**返回一组额外的text控件列表, 用于同步text样式
+     * [onGetTextStyleView]*/
+    var onGetTextStyleViewList: (itemView: View, index: Int) -> List<TextView?>? = { _, _ -> null }
+
     /**返回用于配置ico样式的控件*/
     var onGetIcoStyleView: (itemView: View, index: Int) -> View? = { itemView, _ ->
         if (tabIconViewId == View.NO_ID) {
@@ -211,6 +215,10 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
         }
     }
 
+    /**返回一组额外的ico控件列表, 用于同步ico样式
+     * [onGetIcoStyleView]*/
+    var onGetIcoStyleViewList: (itemView: View, index: Int) -> List<View?>? = { _, _ -> null }
+
     /**获取渐变结束时,指示器的颜色.*/
     var onGetGradientIndicatorColor: (fromIndex: Int, toIndex: Int, positionOffset: Float) -> Int =
         { fromIndex, toIndex, positionOffset ->
@@ -233,68 +241,56 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
 
         tabSelectColor =
             typedArray.getColor(R.styleable.DslTabLayout_tab_select_color, tabSelectColor)
-        tabDeselectColor =
-            typedArray.getColor(
-                R.styleable.DslTabLayout_tab_deselect_color,
-                tabDeselectColor
-            )
+        tabDeselectColor = typedArray.getColor(
+            R.styleable.DslTabLayout_tab_deselect_color, tabDeselectColor
+        )
         tabIcoSelectColor =
             typedArray.getColor(R.styleable.DslTabLayout_tab_ico_select_color, NO_COLOR)
         tabIcoDeselectColor =
             typedArray.getColor(R.styleable.DslTabLayout_tab_ico_deselect_color, NO_COLOR)
 
         tabEnableTextColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_enable_text_color,
-            tabEnableTextColor
+            R.styleable.DslTabLayout_tab_enable_text_color, tabEnableTextColor
         )
         tabEnableIndicatorGradientColor = typedArray.getBoolean(
             R.styleable.DslTabLayout_tab_enable_indicator_gradient_color,
             tabEnableIndicatorGradientColor
         )
         tabEnableGradientColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_enable_gradient_color,
-            tabEnableGradientColor
+            R.styleable.DslTabLayout_tab_enable_gradient_color, tabEnableGradientColor
         )
         tabEnableIcoColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_enable_ico_color,
-            tabEnableIcoColor
+            R.styleable.DslTabLayout_tab_enable_ico_color, tabEnableIcoColor
         )
         tabEnableIcoGradientColor = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_enable_ico_gradient_color,
-            tabEnableIcoGradientColor
+            R.styleable.DslTabLayout_tab_enable_ico_gradient_color, tabEnableIcoGradientColor
         )
 
         tabEnableTextBold = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_enable_text_bold,
-            tabEnableTextBold
+            R.styleable.DslTabLayout_tab_enable_text_bold, tabEnableTextBold
         )
 
         tabUseTypefaceBold = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_use_typeface_bold,
-            tabUseTypefaceBold
+            R.styleable.DslTabLayout_tab_use_typeface_bold, tabUseTypefaceBold
         )
 
         tabEnableGradientScale = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_enable_gradient_scale,
-            tabEnableGradientScale
+            R.styleable.DslTabLayout_tab_enable_gradient_scale, tabEnableGradientScale
         )
         tabMinScale = typedArray.getFloat(R.styleable.DslTabLayout_tab_min_scale, tabMinScale)
         tabMaxScale = typedArray.getFloat(R.styleable.DslTabLayout_tab_max_scale, tabMaxScale)
 
         tabEnableGradientTextSize = typedArray.getBoolean(
-            R.styleable.DslTabLayout_tab_enable_gradient_text_size,
-            tabEnableGradientTextSize
+            R.styleable.DslTabLayout_tab_enable_gradient_text_size, tabEnableGradientTextSize
         )
         if (typedArray.hasValue(R.styleable.DslTabLayout_tab_text_min_size)) {
             tabTextMinSize = typedArray.getDimensionPixelOffset(
-                R.styleable.DslTabLayout_tab_text_min_size,
-                tabTextMinSize.toInt()
+                R.styleable.DslTabLayout_tab_text_min_size, tabTextMinSize.toInt()
             ).toFloat()
         }
         if (typedArray.hasValue(R.styleable.DslTabLayout_tab_text_max_size)) {
             tabTextMaxSize = typedArray.getDimensionPixelOffset(
-                R.styleable.DslTabLayout_tab_text_max_size,
-                tabTextMaxSize.toInt()
+                R.styleable.DslTabLayout_tab_text_max_size, tabTextMaxSize.toInt()
             ).toFloat()
         }
 
@@ -310,47 +306,25 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     open fun onUpdateItemStyle(itemView: View, index: Int, select: Boolean) {
         //"$itemView\n$index\n$select".logw()
 
+        //TextView
         (onGetTextStyleView(itemView, index))?.apply {
-            //文本加粗
-            paint?.apply {
-                if (tabEnableTextBold && select) {
-                    //设置粗体
-                    if (tabUseTypefaceBold) {
-                        typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-                    } else {
-                        flags = flags or Paint.FAKE_BOLD_TEXT_FLAG
-                        isFakeBoldText = true
-                    }
-                } else {
-                    //取消粗体
-                    if (tabUseTypefaceBold) {
-                        typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
-                    } else {
-                        flags = flags and Paint.FAKE_BOLD_TEXT_FLAG.inv()
-                        isFakeBoldText = false
-                    }
-                }
-            }
-
-            if (tabEnableTextColor) {
-                //文本颜色
-                setTextColor(if (select) tabSelectColor else tabDeselectColor)
-            }
-
-            if (tabTextMaxSize > 0 || tabTextMinSize > 0) {
-                //文本字体大小
-                val minTextSize = min(tabTextMinSize, tabTextMaxSize)
-                val maxTextSize = max(tabTextMinSize, tabTextMaxSize)
-                setTextSize(
-                    TypedValue.COMPLEX_UNIT_PX,
-                    if (select) maxTextSize else minTextSize
-                )
+            _updateTextStyle(this, select)
+        }
+        onGetTextStyleViewList(itemView, index)?.forEach {
+            it?.apply {
+                _updateTextStyle(this, select)
             }
         }
 
+        //ImageView
         if (tabEnableIcoColor) {
             onGetIcoStyleView(itemView, index)?.apply {
                 _updateIcoColor(this, if (select) tabIcoSelectColor else tabIcoDeselectColor)
+            }
+            onGetIcoStyleViewList(itemView, index)?.forEach {
+                it?.apply {
+                    _updateIcoColor(this, if (select) tabIcoSelectColor else tabIcoDeselectColor)
+                }
             }
         }
 
@@ -433,11 +407,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
                 _gradientScale(toView, tabMinScale, tabMaxScale, positionOffset)
             }
 
-            if (tabEnableGradientTextSize &&
-                tabTextMaxSize > 0 &&
-                tabTextMinSize > 0 &&
-                tabTextMinSize != tabTextMaxSize
-            ) {
+            if (tabEnableGradientTextSize && tabTextMaxSize > 0 && tabTextMinSize > 0 && tabTextMinSize != tabTextMaxSize) {
 
                 //文本字体大小渐变
                 _gradientTextSize(
@@ -473,14 +443,50 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     }
 
     open fun _gradientTextSize(
-        view: TextView?,
-        startTextSize: Float,
-        endTextSize: Float,
-        percent: Float
+        view: TextView?, startTextSize: Float, endTextSize: Float, percent: Float
     ) {
         tabGradientCallback.onGradientTextSize(view, startTextSize, endTextSize, percent)
     }
 
+    /**更新文本的样式*/
+    open fun _updateTextStyle(textView: TextView, select: Boolean) {
+        //文本加粗
+        textView.paint?.apply {
+            if (tabEnableTextBold && select) {
+                //设置粗体
+                if (tabUseTypefaceBold) {
+                    typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                } else {
+                    flags = flags or Paint.FAKE_BOLD_TEXT_FLAG
+                    isFakeBoldText = true
+                }
+            } else {
+                //取消粗体
+                if (tabUseTypefaceBold) {
+                    typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+                } else {
+                    flags = flags and Paint.FAKE_BOLD_TEXT_FLAG.inv()
+                    isFakeBoldText = false
+                }
+            }
+        }
+
+        if (tabEnableTextColor) {
+            //文本颜色
+            textView.setTextColor(if (select) tabSelectColor else tabDeselectColor)
+        }
+
+        if (tabTextMaxSize > 0 || tabTextMinSize > 0) {
+            //文本字体大小
+            val minTextSize = min(tabTextMinSize, tabTextMaxSize)
+            val maxTextSize = max(tabTextMinSize, tabTextMaxSize)
+            textView.setTextSize(
+                TypedValue.COMPLEX_UNIT_PX, if (select) maxTextSize else minTextSize
+            )
+        }
+    }
+
+    /**更新ico的颜色*/
     open fun _updateIcoColor(view: View?, color: Int) {
         tabGradientCallback.onUpdateIcoColor(view, color)
     }
@@ -512,10 +518,7 @@ open class TabGradientCallback {
     }
 
     open fun onGradientTextSize(
-        view: TextView?,
-        startTextSize: Float,
-        endTextSize: Float,
-        percent: Float
+        view: TextView?, startTextSize: Float, endTextSize: Float, percent: Float
     ) {
         view?.apply {
             setTextSize(
