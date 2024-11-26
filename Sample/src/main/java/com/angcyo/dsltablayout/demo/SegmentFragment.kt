@@ -1,6 +1,7 @@
 package com.angcyo.dsltablayout.demo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import com.angcyo.dsladapter.DslViewHolder
 import com.angcyo.dsladapter.dp
@@ -82,12 +83,14 @@ class SegmentFragment : BaseTabLayoutFragment() {
                                     tabBadge.badgeOffsetX = 20 * dpi
                                     tabBadge.badgeOffsetY = -6 * dpi
                                 }
+
                                 2 -> {
                                     tabBadge.badgeGravity = Gravity.LEFT or Gravity.TOP
                                     tabBadge.badgeText = "99"
                                     tabBadge.badgeOffsetX = 10 * dpi
                                     tabBadge.badgeOffsetY = 4 * dpi
                                 }
+
                                 else -> {
                                     tabBadge.badgeGravity = Gravity.CENTER
                                     tabBadge.badgeText = ""
@@ -171,11 +174,17 @@ class SegmentFragment : BaseTabLayoutFragment() {
                 itemBindOverride = { itemHolder, _, _, _ ->
                     itemHolder.v<DslTabLayout>(R.id.tab_layout)?.apply {
                         addTabLayout(this)
+                        observeIndexChange { fromIndex, toIndex, reselect, fromUser ->
+                            Log.d(
+                                "angcyo",
+                                "fromIndex: $fromIndex, toIndex: $toIndex, reselect: $reselect, fromUser: $fromUser"
+                            );
+                        }
                     }
                 }
             }
 
-           pageItem()
+            pageItem()
         }
     }
 }
