@@ -1641,15 +1641,15 @@ open class DslTabLayout(
             if (tabEnableSelectorMode) {
                 if (isHorizontal() && isLayoutRtl) {
                     if (velocity < 0) {
-                        setCurrentItem(dslSelector.dslSelectIndex - 1)
+                        setCurrentItem(dslSelector.dslSelectIndex - 1, fromUser = true)
                     } else if (velocity > 0) {
-                        setCurrentItem(dslSelector.dslSelectIndex + 1)
+                        setCurrentItem(dslSelector.dslSelectIndex + 1, fromUser = true)
                     }
                 } else {
                     if (velocity < 0) {
-                        setCurrentItem(dslSelector.dslSelectIndex + 1)
+                        setCurrentItem(dslSelector.dslSelectIndex + 1, fromUser = true)
                     } else if (velocity > 0) {
-                        setCurrentItem(dslSelector.dslSelectIndex - 1)
+                        setCurrentItem(dslSelector.dslSelectIndex - 1, fromUser = true)
                     }
                 }
             } else {
