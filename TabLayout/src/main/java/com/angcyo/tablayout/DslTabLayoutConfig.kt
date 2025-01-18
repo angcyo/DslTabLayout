@@ -57,6 +57,14 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
      * 需要先激活[tabEnableTextBold]*/
     var tabUseTypefaceBold = false
 
+    /**加粗时使用的字体
+     * 需要激活[tabUseTypefaceBold]*/
+    var tabTypefaceBold: Typeface? = null
+
+    /**正常时使用的字体
+     * 需要激活[tabUseTypefaceBold]*/
+    var tabTypefaceNormal: Typeface? = null
+
     /**是否开启图标颜色*/
     var tabEnableIcoColor = true
 
@@ -455,7 +463,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
             if (tabEnableTextBold && select) {
                 //设置粗体
                 if (tabUseTypefaceBold) {
-                    typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+                    typeface = tabTypefaceBold ?: Typeface.defaultFromStyle(Typeface.BOLD)
                 } else {
                     flags = flags or Paint.FAKE_BOLD_TEXT_FLAG
                     isFakeBoldText = true
@@ -463,7 +471,7 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
             } else {
                 //取消粗体
                 if (tabUseTypefaceBold) {
-                    typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+                    typeface = tabTypefaceNormal ?: Typeface.defaultFromStyle(Typeface.NORMAL)
                 } else {
                     flags = flags and Paint.FAKE_BOLD_TEXT_FLAG.inv()
                     isFakeBoldText = false
