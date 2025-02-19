@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.angcyo.tablayout.DslTabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:background="@color/white"
+        app:tab_default_index="0"
+        app:tab_deselect_color="#666666"
+        app:tab_draw_border="false"
+        app:tab_draw_indicator="true"
+        app:tab_enable_gradient_scale="true"
+        app:tab_enable_text_bold="true"
+        app:tab_indicator_color="#333333"
+        app:tab_indicator_drawable="@drawable/indicator_bottom_line"
+        app:tab_indicator_height="2dp"
+        app:tab_indicator_style="STYLE_BOTTOM"
+        app:tab_indicator_width="WRAP_CONTENT"
+        app:tab_item_is_equ_width="false"
+        app:tab_max_scale="1.0"
+        app:tab_min_scale="1.0"
+        app:tab_select_color="#333333">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:background="@color/transparent10"
+            android:gravity="center"
+            android:maxWidth="60dp"
+            android:text="转发"
+            android:textSize="15dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="24dp"
+            android:background="@color/transparent20"
+            android:gravity="center"
+            android:text="评论"
+            android:textSize="15dp" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="30dp"
+            app:layout_tab_indicator_content_index="0"
+            app:layout_tab_weight="1">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_marginStart="24dp"
+                android:background="@color/transparent30"
+                android:gravity="center"
+                android:text="点赞"
+                android:textSize="15dp" />
+        </FrameLayout>
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+    <Button
+        android:id="@+id/test_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Test"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

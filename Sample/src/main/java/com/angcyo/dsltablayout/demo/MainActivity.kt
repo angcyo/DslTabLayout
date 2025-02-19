@@ -5,7 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.angcyo.dsladapter.L
-import com.angcyo.dsltablayout.demo.sample.*
+import com.angcyo.dsltablayout.demo.sample.DynamicActivity
+import com.angcyo.dsltablayout.demo.sample.HorizontalHintActivity
+import com.angcyo.dsltablayout.demo.sample.SampleActivity
+import com.angcyo.dsltablayout.demo.sample.TestActivity
+import com.angcyo.dsltablayout.demo.sample.VerticalActivity
+import com.angcyo.dsltablayout.demo.sample.VerticalHintActivity
 
 class MainActivity : BaseActivity() {
 
@@ -39,22 +44,32 @@ class MainActivity : BaseActivity() {
                 startActivity(Intent(this, DynamicActivity::class.java))
                 true
             }
+
             R.id.action_vertical -> {
                 startActivity(Intent(this, VerticalActivity::class.java))
                 true
             }
+
             R.id.action_vertical_hint -> {
                 startActivity(Intent(this, VerticalHintActivity::class.java))
                 true
             }
+
             R.id.action_horizontal_hint -> {
                 startActivity(Intent(this, HorizontalHintActivity::class.java))
                 true
             }
+
             R.id.action_sample -> {
                 startActivity(Intent(this, SampleActivity::class.java))
                 true
             }
+
+            R.id.action_test -> {
+                startActivity(Intent(this, TestActivity::class.java))
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
