@@ -287,4 +287,20 @@ open class DslTabBorder : DslGradientDrawable() {
             gradientRadii = this@DslTabBorder.gradientRadii
         }.originDrawable
     }
+
+    /**从另一个对象中赋值属性*/
+    open fun copyFrom(from: DslTabBorder?): DslTabBorder {
+        if (from == null) {
+            return this
+        }
+        borderDrawItemBackground = from.borderDrawItemBackground
+        borderKeepItemRadius = from.borderKeepItemRadius
+        borderBackgroundDrawable = from.borderBackgroundDrawable
+        borderBackgroundWidthOffset = from.borderBackgroundWidthOffset
+        borderBackgroundHeightOffset = from.borderBackgroundHeightOffset
+        borderItemBackgroundSolidColor = from.borderItemBackgroundSolidColor
+        borderItemBackgroundSolidDisableColor = from.borderItemBackgroundSolidDisableColor
+        borderItemBackgroundGradientColors = from.borderItemBackgroundGradientColors
+        return this
+    }
 }

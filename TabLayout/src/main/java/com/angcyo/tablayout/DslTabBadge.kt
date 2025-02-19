@@ -171,6 +171,15 @@ open class DslTabBadge : DslBadgeDrawable() {
         badgeMinWidth = badgeConfig.badgeMinWidth
         badgeText = badgeConfig.badgeText
     }
+
+    /**从另一个对象中赋值属性*/
+    open fun copyFrom(from: DslTabBadge?): DslTabBadge {
+        if (from == null) {
+            return this
+        }
+        xmlBadgeText = from.xmlBadgeText
+        return this
+    }
 }
 
 /**角标绘制参数配置*/

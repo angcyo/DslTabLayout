@@ -928,4 +928,31 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
 
     /**滚动目标的index*/
     var _targetIndex = -1
+
+    /**从另一个对象中赋值属性*/
+    open fun copyFrom(from: DslTabIndicator?): DslTabIndicator {
+        if (from == null) {
+            return this
+        }
+        //复制DslTabIndicator中的属性
+        indicatorStyle = from.indicatorStyle
+        indicatorGravity = from.indicatorGravity
+        indicatorEnableFlow = from.indicatorEnableFlow
+        indicatorEnableFlash = from.indicatorEnableFlash
+        indicatorEnableFlashClip = from.indicatorEnableFlashClip
+        indicatorFlowStep = from.indicatorFlowStep
+        indicatorDrawable = from.indicatorDrawable
+        indicatorColor = from.indicatorColor
+        indicatorWidth = from.indicatorWidth
+        indicatorWidthOffset = from.indicatorWidthOffset
+        indicatorHeight = from.indicatorHeight
+        indicatorHeightOffset = from.indicatorHeightOffset
+        indicatorXOffset = from.indicatorXOffset
+        indicatorYOffset = from.indicatorYOffset
+        indicatorContentIndex = from.indicatorContentIndex
+        indicatorContentId = from.indicatorContentId
+        indicatorAnim = from.indicatorAnim
+        ignoreChildPadding = from.ignoreChildPadding
+        return this
+    }
 }

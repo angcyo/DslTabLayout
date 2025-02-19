@@ -150,4 +150,19 @@ open class DslTabDivider : DslGradientDrawable() {
         }
         return false
     }
+
+    /**从另一个对象中赋值属性*/
+    open fun copyFrom(from: DslTabDivider?): DslTabDivider {
+        if (from == null) {
+            return this
+        }
+        dividerWidth = from.dividerWidth
+        dividerHeight = from.dividerHeight
+        dividerMarginLeft = from.dividerMarginLeft
+        dividerMarginRight = from.dividerMarginRight
+        dividerMarginTop = from.dividerMarginTop
+        dividerMarginBottom = from.dividerMarginBottom
+        dividerShowMode = from.dividerShowMode
+        return this
+    }
 }

@@ -64,7 +64,7 @@ open class DslTabLayout(
     /**指示器*/
     var tabIndicator: DslTabIndicator = DslTabIndicator(this)
         set(value) {
-            field = value
+            field = value.copyFrom(field)
             field.initAttribute(context, attributeSet)
         }
 
@@ -77,15 +77,14 @@ open class DslTabLayout(
     /**回调监听器和样式配置器*/
     var tabLayoutConfig: DslTabLayoutConfig? = null
         set(value) {
-            field = value
-
+            field = value?.copyFrom(field)
             field?.initAttribute(context, attributeSet)
         }
 
     /**边框绘制*/
     var tabBorder: DslTabBorder? = null
         set(value) {
-            field = value
+            field = value?.copyFrom(field)
             field?.callback = this
             field?.initAttribute(context, attributeSet)
         }
@@ -94,7 +93,7 @@ open class DslTabLayout(
     /**垂直分割线*/
     var tabDivider: DslTabDivider? = null
         set(value) {
-            field = value
+            field = value?.copyFrom(field)
             field?.callback = this
             field?.initAttribute(context, attributeSet)
         }
@@ -103,7 +102,7 @@ open class DslTabLayout(
     /**未读数角标*/
     var tabBadge: DslTabBadge? = null
         set(value) {
-            field = value
+            field = value?.copyFrom(field)
             field?.callback = this
             field?.initAttribute(context, attributeSet)
         }

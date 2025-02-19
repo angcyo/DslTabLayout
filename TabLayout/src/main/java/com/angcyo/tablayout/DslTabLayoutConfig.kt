@@ -498,6 +498,41 @@ open class DslTabLayoutConfig(val tabLayout: DslTabLayout) : DslSelectorConfig()
     open fun _updateIcoColor(view: View?, color: Int) {
         tabGradientCallback.onUpdateIcoColor(view, color)
     }
+
+    /**从另一个对象中赋值属性*/
+    open fun copyFrom(from: DslTabLayoutConfig?): DslTabLayoutConfig {
+        if (from == null) {
+            return this
+        }
+        tabEnableTextColor = from.tabEnableTextColor
+        tabEnableGradientColor = from.tabEnableGradientColor
+        tabEnableIndicatorGradientColor = from.tabEnableIndicatorGradientColor
+        tabSelectColor = from.tabSelectColor
+        tabDeselectColor = from.tabDeselectColor
+        tabEnableTextBold = from.tabEnableTextBold
+        tabUseTypefaceBold = from.tabUseTypefaceBold
+        tabTypefaceBold = from.tabTypefaceBold
+        tabTypefaceNormal = from.tabTypefaceNormal
+        tabEnableIcoColor = from.tabEnableIcoColor
+        tabEnableIcoGradientColor = from.tabEnableIcoGradientColor
+        tabIcoSelectColor = from.tabIcoSelectColor
+        tabIcoDeselectColor = from.tabIcoDeselectColor
+        tabEnableGradientScale = from.tabEnableGradientScale
+        tabMinScale = from.tabMinScale
+        tabMaxScale = from.tabMaxScale
+        tabEnableGradientTextSize = from.tabEnableGradientTextSize
+        tabTextMinSize = from.tabTextMinSize
+        tabTextMaxSize = from.tabTextMaxSize
+        tabGradientCallback = from.tabGradientCallback
+        tabTextViewId = from.tabTextViewId
+        tabIconViewId = from.tabIconViewId
+        onGetTextStyleView = from.onGetTextStyleView
+        onGetTextStyleViewList = from.onGetTextStyleViewList
+        onGetIcoStyleView = from.onGetIcoStyleView
+        onGetIcoStyleViewList = from.onGetIcoStyleViewList
+        onGetGradientIndicatorColor = from.onGetGradientIndicatorColor
+        return this
+    }
 }
 
 open class TabGradientCallback {
