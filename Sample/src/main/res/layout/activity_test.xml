@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.angcyo.tablayout.DslTabLayout
         android:id="@+id/tab_layout"
@@ -69,7 +70,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="Test"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        android:text="Test" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.angcyo.tablayout.DslTabLayout
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:background="@color/white"
+        app:tab_enable_gradient_text_size="false"
+        app:tab_enable_text_bold="false"
+        app:tab_enable_text_color="false"
+        app:tab_indicator_style="STYLE_NONE">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/shape_test_background_selector"
+            android:gravity="center"
+            android:padding="@dimen/lib_xhdpi"
+            android:text="Open Trades"
+            android:textColor="@color/shape_text_selector"
+            android:textSize="15dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/shape_test_background_selector"
+            android:gravity="center"
+            android:padding="@dimen/lib_xhdpi"
+            android:text="Pending Orders"
+            android:textColor="@color/shape_text_selector"
+            android:textSize="15dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/shape_test_background_selector"
+            android:gravity="center"
+            android:padding="@dimen/lib_xhdpi"
+            android:text="History"
+            android:textColor="@color/shape_text_selector"
+            android:textSize="15dp" />
+
+    </com.angcyo.tablayout.DslTabLayout>
+
+</LinearLayout>
