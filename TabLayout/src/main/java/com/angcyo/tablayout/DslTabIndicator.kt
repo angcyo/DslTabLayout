@@ -445,6 +445,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
                     result = getChildTargetWidth(indicatorContentView(childView) ?: childView)
                 }
             }
+
             ViewGroup.LayoutParams.MATCH_PARENT -> {
                 tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
                     result = childView.measuredWidth
@@ -464,6 +465,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
                     result = getChildTargetHeight(indicatorContentView(childView) ?: childView)
                 }
             }
+
             ViewGroup.LayoutParams.MATCH_PARENT -> {
                 tabLayout.dslSelector.visibleViewList.getOrNull(index)?.also { childView ->
                     result = childView.measuredHeight
@@ -600,7 +602,7 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
             //居中绘制
             else -> paddingTop + viewDrawHeight / 2 - drawHeight / 2 + indicatorYOffset -
                     animExHeight +
-                    (tabLayout._maxConvexHeight - _childConvexHeight(currentIndex)) / 2
+                    (tabLayout._maxConvexSize - _childConvexHeight(currentIndex)) / 2
         }
 
         indicatorDrawable?.apply {
@@ -840,14 +842,16 @@ open class DslTabIndicator(val tabLayout: DslTabLayout) : DslGradientDrawable() 
                 //右边/底部绘制
                 viewWidth - drawWidth - indicatorXOffset
             }
+
             INDICATOR_STYLE_TOP -> {
                 //左边/顶部绘制
                 0 + indicatorXOffset
             }
+
             else -> {
                 //居中绘制
                 paddingLeft + indicatorXOffset + (viewDrawWidth / 2 - drawWidth / 2) -
-                        (tabLayout._maxConvexHeight - _childConvexHeight(currentIndex)) / 2
+                        (tabLayout._maxConvexSize - _childConvexHeight(currentIndex)) / 2
             }
         }
 

@@ -332,6 +332,11 @@ open class DslTabLayout(
             return
         }
         dslSelector.selector(index, true, notify, fromUser)
+        if (!notify) {
+            if (!needScroll) {
+                _scrollToDefault(tabIndicator.indicatorAnim)
+            }
+        }
     }
 
     /**关联[ViewPagerDelegate]*/
@@ -436,6 +441,18 @@ open class DslTabLayout(
 
     open fun updateTabLayout() {
         dslSelector.updateVisibleList()
+
+        _childAllSizeSum = 0
+        val visibleChildList = dslSelector.visibleViewList
+        visibleChildList.forEachIndexed { index, childView ->
+            val lp = childView.layoutParams as LayoutParams
+            _childAllSizeSum += if (isHorizontal()) {
+                childView.measuredWidth + lp.marginStart + lp.marginEnd
+            } else {
+                childView.measuredHeight + lp.topMargin + lp.bottomMargin
+            }
+        }
+
         dslSelector.updateStyle()
         dslSelector.updateClickListener()
     }
@@ -450,9 +467,9 @@ open class DslTabLayout(
         //自定义的背景
         tabConvexBackgroundDrawable?.apply {
             if (isHorizontal()) {
-                setBounds(0, _maxConvexHeight, right - left, bottom - top)
+                setBounds(0, _maxConvexSize, right - left, bottom - top)
             } else {
-                setBounds(0, 0, measuredWidth - _maxConvexHeight, bottom - top)
+                setBounds(0, 0, measuredWidth - _maxConvexSize, bottom - top)
             }
 
             if (scrollX or scrollY == 0) {
@@ -647,11 +664,11 @@ open class DslTabLayout(
 
     //<editor-fold desc="布局相关">
 
-    //所有child的总宽度, 不包含parent的padding
-    var _childAllWidthSum = 0
+    //所有child的总宽度/高度, 不包含parent的padding
+    var _childAllSizeSum = 0
 
-    //最大的凸起高度
-    var _maxConvexHeight = 0
+    //最大的凸起高度/宽度
+    var _maxConvexSize = 0
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
@@ -694,7 +711,7 @@ open class DslTabLayout(
         var heightSize = MeasureSpec.getSize(heightMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
 
-        _maxConvexHeight = 0
+        _maxConvexSize = 0
 
         var childWidthSpec: Int = -1
 
@@ -779,7 +796,7 @@ open class DslTabLayout(
 
         //...end
 
-        _childAllWidthSum = 0
+        _childAllSizeSum = 0
 
         //没有设置weight属性的child宽度总和, 用于计算剩余空间
         var allChildUsedWidth = 0
@@ -826,7 +843,7 @@ open class DslTabLayout(
                 childView.measure(childWidthSpec, childHeightSpec)
             }
             if (childConvexHeight > 0) {
-                _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
+                _maxConvexSize = max(_maxConvexSize, childConvexHeight)
                 //需要凸起
                 val spec = exactlyMeasure(childView.measuredHeight + childConvexHeight)
                 childView.measure(childWidthSpec, spec)
@@ -870,7 +887,7 @@ open class DslTabLayout(
 
             childMaxHeight = max(childMaxHeight, childView.measuredHeight)
             allChildUsedWidth += childUsedWidth
-            _childAllWidthSum += childUsedWidth
+            _childAllSizeSum += childUsedWidth
         }
 
         //剩余空间
@@ -900,7 +917,7 @@ open class DslTabLayout(
                 childMaxHeight = max(childMaxHeight, childView.measuredHeight)
 
                 //上面已经处理了分割线和margin的距离了
-                _childAllWidthSum += childView.measuredWidth
+                _childAllSizeSum += childView.measuredWidth
             }
         }
         //...end
@@ -909,7 +926,7 @@ open class DslTabLayout(
             //wrap_content 情况下, 重新测量所有子view
             val childHeightSpec = exactlyMeasure(
                 max(
-                    childMaxHeight - _maxConvexHeight,
+                    childMaxHeight - _maxConvexSize,
                     suggestedMinimumHeight - paddingTop - paddingBottom
                 )
             )
@@ -919,7 +936,7 @@ open class DslTabLayout(
         }
 
         if (widthMode != MeasureSpec.EXACTLY) {
-            widthSize = min(_childAllWidthSum + paddingStart + paddingEnd, widthSize)
+            widthSize = min(_childAllSizeSum + paddingStart + paddingEnd, widthSize)
         }
 
         if (visibleChildList.isEmpty()) {
@@ -930,12 +947,12 @@ open class DslTabLayout(
             }
         } else if (heightMode != MeasureSpec.EXACTLY) {
             heightSize = max(
-                childMaxHeight - _maxConvexHeight + paddingTop + paddingBottom,
+                childMaxHeight - _maxConvexSize + paddingTop + paddingBottom,
                 suggestedMinimumHeight
             )
         }
 
-        setMeasuredDimension(widthSize, heightSize + _maxConvexHeight)
+        setMeasuredDimension(widthSize, heightSize + _maxConvexSize)
     }
 
     fun measureVertical(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -964,7 +981,7 @@ open class DslTabLayout(
         var heightSize = MeasureSpec.getSize(heightMeasureSpec)
         val heightMode = MeasureSpec.getMode(heightMeasureSpec)
 
-        _maxConvexHeight = 0
+        _maxConvexSize = 0
 
         //child高度测量模式
         var childHeightSpec: Int = -1
@@ -1045,7 +1062,7 @@ open class DslTabLayout(
 
         //...end
 
-        _childAllWidthSum = 0
+        _childAllSizeSum = 0
 
         var wrapContentWidth = false
 
@@ -1060,7 +1077,7 @@ open class DslTabLayout(
             lp.marginEnd = 0
 
             val childConvexHeight = lp.layoutConvexHeight
-            _maxConvexHeight = max(_maxConvexHeight, childConvexHeight)
+            _maxConvexSize = max(_maxConvexSize, childConvexHeight)
 
             val widthHeight = calcLayoutWidthHeight(
                 lp.layoutWidth, lp.layoutHeight,
@@ -1152,7 +1169,7 @@ open class DslTabLayout(
             }
 
             allChildUsedHeight += childUsedHeight
-            _childAllWidthSum += childUsedHeight
+            _childAllSizeSum += childUsedHeight
         }
 
         //剩余空间
@@ -1180,13 +1197,13 @@ open class DslTabLayout(
                 measureChild(childView)
 
                 //上面已经处理了分割线和margin的距离了
-                _childAllWidthSum += childView.measuredHeight
+                _childAllSizeSum += childView.measuredHeight
             }
         }
         //...end
 
         if (heightMode != MeasureSpec.EXACTLY) {
-            heightSize = min(_childAllWidthSum + paddingTop + paddingBottom, heightSize)
+            heightSize = min(_childAllSizeSum + paddingTop + paddingBottom, heightSize)
         }
 
         if (visibleChildList.isEmpty()) {
@@ -1197,7 +1214,7 @@ open class DslTabLayout(
             }
         }
 
-        setMeasuredDimension(widthSize + _maxConvexHeight, heightSize)
+        setMeasuredDimension(widthSize + _maxConvexSize, heightSize)
     }
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
@@ -1280,7 +1297,7 @@ open class DslTabLayout(
 
             childBottom = when (verticalGravity) {
                 Gravity.CENTER_VERTICAL -> measuredHeight - paddingBottom -
-                        ((measuredHeight - paddingTop - paddingBottom - _maxConvexHeight) / 2 -
+                        ((measuredHeight - paddingTop - paddingBottom - _maxConvexSize) / 2 -
                                 childView.measuredHeight / 2)
 
                 Gravity.BOTTOM -> measuredHeight - paddingBottom
@@ -1332,7 +1349,7 @@ open class DslTabLayout(
             }
 
             childLeft = when (horizontalGravity) {
-                Gravity.CENTER_HORIZONTAL -> paddingStart + ((measuredWidth - paddingStart - paddingEnd - _maxConvexHeight) / 2 -
+                Gravity.CENTER_HORIZONTAL -> paddingStart + ((measuredWidth - paddingStart - paddingEnd - _maxConvexSize) / 2 -
                         childView.measuredWidth / 2)
 
                 Gravity.RIGHT -> measuredWidth - paddingRight - childView.measuredWidth - lp.rightMargin
@@ -1626,10 +1643,10 @@ open class DslTabLayout(
 
     /**view最大的宽度*/
     val maxWidth: Int
-        get() = _childAllWidthSum + paddingStart + paddingEnd
+        get() = _childAllSizeSum + paddingStart + paddingEnd
 
     val maxHeight: Int
-        get() = _childAllWidthSum + paddingTop + paddingBottom
+        get() = _childAllSizeSum + paddingTop + paddingBottom
 
     open fun onFlingChange(velocity: Float /*瞬时值*/) {
         if (needScroll) {
@@ -1709,12 +1726,14 @@ open class DslTabLayout(
         postInvalidate()
     }
 
-    fun startScroll(dv: Int) {
+    /**[dv] 主方向滚动的距离
+     * [cdv] 交叉方向滚动的距离*/
+    fun startScroll(dv: Int, cdv: Int = 0) {
         _overScroller.abortAnimation()
         if (isHorizontal()) {
-            _overScroller.startScroll(scrollX, scrollY, dv, 0, scrollAnimDuration)
+            _overScroller.startScroll(scrollX, scrollY, dv, cdv, scrollAnimDuration)
         } else {
-            _overScroller.startScroll(scrollX, scrollY, 0, dv, scrollAnimDuration)
+            _overScroller.startScroll(scrollX, scrollY, cdv, dv, scrollAnimDuration)
         }
         ViewCompat.postInvalidateOnAnimation(this)
     }
@@ -1795,6 +1814,7 @@ open class DslTabLayout(
     /**将[index]位置显示在TabLayout的中心*/
     fun _scrollToTarget(index: Int, scrollAnim: Boolean) {
         if (!needScroll) {
+            _scrollToDefault(scrollAnim)
             return
         }
 
@@ -1869,6 +1889,26 @@ open class DslTabLayout(
                 scrollBy(0, dv)
             } else {
                 startScroll(dv)
+            }
+        }
+    }
+
+    /**滚动到默认位置, 通常是0,0的位置*/
+    fun _scrollToDefault(scrollAnim: Boolean) {
+        if (scrollX != 0 || scrollY != 0) {
+            if (isInEditMode || !scrollAnim) {
+                _overScroller.abortAnimation()
+                scrollBy(-scrollX, -scrollY)
+            } else {
+                _overScroller.abortAnimation()
+                _overScroller.startScroll(
+                    scrollX,
+                    scrollY,
+                    -scrollX,
+                    -scrollY,
+                    scrollAnimDuration
+                )
+                ViewCompat.postInvalidateOnAnimation(this)
             }
         }
     }
