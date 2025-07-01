@@ -107,12 +107,12 @@ allprojects {
 
 ```kotlin
 dependencies {
-    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.7.1'
+    implementation 'com.github.angcyo.DslTablayout:TabLayout:3.7.2'
 
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.7.1'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager1Delegate:3.7.2'
     //可选
-    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:3.7.1'
+    implementation 'com.github.angcyo.DslTablayout:ViewPager2Delegate:3.7.2'
 }
 ```
 
