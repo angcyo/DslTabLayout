@@ -145,6 +145,11 @@ open class DslTabBadge : DslBadgeDrawable() {
             defaultBadgeConfig.badgeMinHeight
         )
 
+        defaultBadgeConfig.badgeAutoCircle = typedArray.getBoolean(
+            R.styleable.DslTabLayout_tab_badge_auto_circle,
+            defaultBadgeConfig.badgeAutoCircle
+        )
+
         typedArray.recycle()
         super.initAttribute(context, attributeSet)
     }
@@ -170,6 +175,7 @@ open class DslTabBadge : DslBadgeDrawable() {
         badgeMinHeight = badgeConfig.badgeMinHeight
         badgeMinWidth = badgeConfig.badgeMinWidth
         badgeText = badgeConfig.badgeText
+        badgeAutoCircle = badgeConfig.badgeAutoCircle
     }
 
     /**从另一个对象中赋值属性*/
@@ -190,6 +196,8 @@ data class TabBadgeConfig(
      * 其他  正常绘制
      * */
     var badgeText: String? = null,
+    /**当[badgeText]只有1个字符时, 使用圆形背景*/
+    var badgeAutoCircle: Boolean = true,
     /**重力*/
     var badgeGravity: Int = Gravity.CENTER,
     /**角标背景颜色*/

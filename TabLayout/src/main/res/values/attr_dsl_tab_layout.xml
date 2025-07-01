@@ -256,6 +256,7 @@
         <attr name="tab_badge_min_height" format="dimension">
             <flag name="NONE" value="-2" />
         </attr>
+        <attr name="tab_badge_auto_circle" format="boolean" />
 
         <!--Highlight 突出相关属性-->
         <attr name="tab_draw_highlight" format="boolean" />

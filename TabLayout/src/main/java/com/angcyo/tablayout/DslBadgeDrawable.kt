@@ -46,7 +46,8 @@ open class DslBadgeDrawable : DslGradientDrawable() {
     /**圆点状态时的半径大小*/
     var badgeCircleRadius = 4 * dpi
 
-    /**原点状态下, 单独配置的偏移*/
+    /**原点状态下, 单独配置的偏移
+     * 默认等于[badgeTextOffsetX] [badgeTextOffsetY]*/
     var badgeCircleOffsetX: Int = 0
     var badgeCircleOffsetY: Int = 0
 
@@ -92,7 +93,7 @@ open class DslBadgeDrawable : DslGradientDrawable() {
     val textHeight: Float
         get() = textPaint.textHeight()
 
-    //原型状态
+    /**是否是圆点状态*/
     val isCircle: Boolean
         get() = TextUtils.isEmpty(badgeText)
 
@@ -111,15 +112,9 @@ open class DslBadgeDrawable : DslGradientDrawable() {
         with(dslGravity) {
             gravity = if (isViewRtl) {
                 when (badgeGravity) {
-                    Gravity.RIGHT -> {
-                        Gravity.LEFT
-                    }
-                    Gravity.LEFT -> {
-                        Gravity.RIGHT
-                    }
-                    else -> {
-                        badgeGravity
-                    }
+                    Gravity.RIGHT -> Gravity.LEFT
+                    Gravity.LEFT -> Gravity.RIGHT
+                    else -> badgeGravity
                 }
             } else {
                 badgeGravity
@@ -128,18 +123,18 @@ open class DslBadgeDrawable : DslGradientDrawable() {
             setGravityBounds(bounds)
 
             if (isCircle) {
-                gravityOffsetX = badgeCircleOffsetX
-                gravityOffsetY = badgeCircleOffsetY
+                gravityOffsetX = badgeCircleOffsetX.toFloat()
+                gravityOffsetY = badgeCircleOffsetY.toFloat()
             } else {
-                gravityOffsetX = badgeOffsetX
-                gravityOffsetY = badgeOffsetY
+                gravityOffsetX = badgeOffsetX.toFloat()
+                gravityOffsetY = badgeOffsetY.toFloat()
             }
 
             val textWidth = textPaint.textWidth(badgeText)
             val textHeight = textPaint.textHeight()
 
             val drawHeight = if (isCircle) {
-                badgeCircleRadius.toFloat()
+                badgeCircleRadius.toFloat() * 2
             } else {
                 val height = textHeight + badgePaddingTop + badgePaddingBottom
                 if (badgeMinHeight > 0) {
@@ -150,7 +145,7 @@ open class DslBadgeDrawable : DslGradientDrawable() {
             }
 
             val drawWidth = if (isCircle) {
-                badgeCircleRadius.toFloat()
+                badgeCircleRadius.toFloat() * 2
             } else {
                 val width = textWidth + badgePaddingLeft + badgePaddingRight
                 if (badgeMinWidth == -1) {
@@ -165,17 +160,18 @@ open class DslBadgeDrawable : DslGradientDrawable() {
             applyGravity(drawWidth, drawHeight) { centerX, centerY ->
 
                 if (isCircle) {
+                    //圆点状态
                     textPaint.color = gradientSolidColor
 
                     //圆心计算
                     val cx: Float
                     val cy: Float
-                    if (gravity.isCenter()) {
-                        cx = centerX.toFloat()
-                        cy = centerY.toFloat()
+                    if (gravity.isGravityCenter()) {
+                        cx = centerX
+                        cy = centerY
                     } else {
-                        cx = centerX.toFloat() + _gravityOffsetX
-                        cy = centerY.toFloat() + _gravityOffsetY
+                        cx = centerX + _gravityOffsetX
+                        cy = centerY + _gravityOffsetY
                     }
 
                     //绘制圆
@@ -208,21 +204,36 @@ open class DslBadgeDrawable : DslGradientDrawable() {
                     }
 
                 } else {
+                    //文本+背景状态
+                    val oldWidth = textPaint.strokeWidth
+                    val oldStyle = textPaint.style
+
                     textPaint.color = badgeTextColor
 
                     val textDrawX: Float = centerX - textWidth / 2
                     val textDrawY: Float = centerY + textHeight / 2
 
-                    val bgLeft = _gravityLeft
-                    val bgTop = _gravityTop
+                    val bgLeft = _gravityLeft.toInt()
+                    val bgTop = _gravityTop.toInt()
 
                     //绘制背景
                     if (badgeAutoCircle && badgeText?.length == 1) {
                         if (gradientSolidColor != Color.TRANSPARENT) {
+                            textPaint.style = Paint.Style.FILL
                             textPaint.color = gradientSolidColor
                             canvas.drawCircle(
-                                centerX.toFloat(),
-                                centerY.toFloat(),
+                                centerX,
+                                centerY,
+                                max(maxWidth, maxHeight).toFloat() / 2,
+                                textPaint
+                            )
+                        }
+                        if (gradientStrokeWidth > 0 && gradientStrokeColor != Color.TRANSPARENT) {
+                            textPaint.color = gradientStrokeColor
+                            textPaint.style = Paint.Style.STROKE
+                            canvas.drawCircle(
+                                centerX,
+                                centerY,
                                 max(maxWidth, maxHeight).toFloat() / 2,
                                 textPaint
                             )
@@ -246,6 +257,10 @@ open class DslBadgeDrawable : DslGradientDrawable() {
                         textDrawY - textPaint.descent() + badgeTextOffsetY,
                         textPaint
                     )
+
+                    //
+                    textPaint.strokeWidth = oldWidth
+                    textPaint.style = oldStyle
                 }
             }
         }
@@ -253,20 +268,20 @@ open class DslBadgeDrawable : DslGradientDrawable() {
 
     override fun getIntrinsicWidth(): Int {
         val width = if (isCircle) {
-            badgeCircleRadius * 2
+            badgeCircleRadius * 2 + badgeCircleOffsetX
         } else if (badgeAutoCircle && badgeText?.length == 1) {
-            max(maxWidth, maxHeight)
+            max(maxWidth, maxHeight) + badgeCircleOffsetX
         } else {
-            maxWidth
+            maxWidth + badgeOffsetX
         }
         return max(badgeMinWidth, width)
     }
 
     override fun getIntrinsicHeight(): Int {
         val height = if (isCircle) {
-            badgeCircleRadius * 2
+            badgeCircleRadius * 2 + badgeCircleOffsetY
         } else if (badgeAutoCircle && badgeText?.length == 1) {
-            max(maxWidth, maxHeight)
+            max(maxWidth, maxHeight) + badgeCircleOffsetY
         } else {
             maxHeight
         }
