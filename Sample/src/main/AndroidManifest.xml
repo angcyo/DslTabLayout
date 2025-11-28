@@ -56,6 +56,10 @@
         <activity
             android:name=".sample.TestActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".sample.ViewPage2SampleActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

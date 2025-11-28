@@ -11,6 +11,7 @@ import com.angcyo.dsltablayout.demo.sample.SampleActivity
 import com.angcyo.dsltablayout.demo.sample.TestActivity
 import com.angcyo.dsltablayout.demo.sample.VerticalActivity
 import com.angcyo.dsltablayout.demo.sample.VerticalHintActivity
+import com.angcyo.dsltablayout.demo.sample.ViewPage2SampleActivity
 
 class MainActivity : BaseActivity() {
 
@@ -57,6 +58,11 @@ class MainActivity : BaseActivity() {
 
             R.id.action_horizontal_hint -> {
                 startActivity(Intent(this, HorizontalHintActivity::class.java))
+                true
+            }
+
+            R.id.action_view_page2 -> {
+                startActivity(Intent(this, ViewPage2SampleActivity::class.java))
                 true
             }
 

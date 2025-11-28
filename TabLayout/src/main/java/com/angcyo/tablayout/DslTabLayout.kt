@@ -10,7 +10,12 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Parcelable
 import android.util.AttributeSet
-import android.view.*
+import android.view.GestureDetector
+import android.view.Gravity
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewConfiguration
+import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
@@ -154,6 +159,9 @@ open class DslTabLayout(
     /**是否是第一次布局, 第一次布局会自动[_scrollToTarget]*/
     var isFirstLayout = true
 
+    /**拦截事件的滚动阈值*/
+    var interceptTouchSlop = 0
+
     //<editor-fold desc="内部属性">
 
     //fling 速率阈值
@@ -286,6 +294,7 @@ open class DslTabLayout(
         val vc = ViewConfiguration.get(context)
         _minFlingVelocity = vc.scaledMinimumFlingVelocity
         _maxFlingVelocity = vc.scaledMaximumFlingVelocity
+        interceptTouchSlop = vc.scaledTouchSlop - 1
         //_touchSlop = vc.scaledTouchSlop
 
         if (drawIndicator) {
@@ -1550,20 +1559,46 @@ open class DslTabLayout(
         })
     }
 
+    private var mInitialTouchX = 0
+    private var mInitialTouchY = 0
+    private var mLastTouchX = 0
+    private var mLastTouchY = 0
+
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
+        //Log.w("angcyo", "onInterceptTouchEvent->$ev")
         var intercept = false
         if (needScroll) {
             if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
+                mInitialTouchX = (ev.x + 0.5f).toInt().also { mLastTouchX = it }
+                mInitialTouchY = (ev.y + 0.5f).toInt().also { mLastTouchY = it }
                 _overScroller.abortAnimation()
                 _scrollAnimator.cancel()
+            } else if (ev.actionMasked == MotionEvent.ACTION_MOVE) {
+                val x = (ev.x + 0.5f).toInt()
+                val y = (ev.y + 0.5f).toInt()
+                val dx = x - mLastTouchX
+                val dy = y - mLastTouchY
+                intercept = if (isHorizontal()) {
+                    abs(dx) >= interceptTouchSlop && canHorizontalScroll(dx)
+                } else {
+                    abs(dy) >= interceptTouchSlop && canVerticalScroll(dy)
+                }
+                if (intercept) {
+                    mLastTouchX = x
+                    mLastTouchY = y
+                }
             }
             if (isEnabled) {
-                intercept = super.onInterceptTouchEvent(ev) || _gestureDetector.onTouchEvent(ev)
+                intercept = super.onInterceptTouchEvent(ev) || intercept
+                intercept = _gestureDetector.onTouchEvent(ev) || intercept
             }
         } else {
             if (isEnabled) {
                 intercept = super.onInterceptTouchEvent(ev)
             }
+        }
+        if (intercept) {
+            parent.requestDisallowInterceptTouchEvent(true)
         }
         return if (isEnabled) {
             if (itemEnableSelector) {
@@ -1577,6 +1612,7 @@ open class DslTabLayout(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        //Log.w("angcyo", "onTouchEvent->$event");
         if (isEnabled) {
             if (needScroll) {
                 _gestureDetector.onTouchEvent(event)
@@ -1736,6 +1772,34 @@ open class DslTabLayout(
             _overScroller.startScroll(scrollX, scrollY, cdv, dv, scrollAnimDuration)
         }
         ViewCompat.postInvalidateOnAnimation(this)
+    }
+
+    /**横向是否可以滚动指定的距离*/
+    fun canHorizontalScroll(distance: Int): Boolean {
+        return if (distance > 0) {
+            //向右滑动
+            if (isLayoutRtl) {
+                scrollX < maxScrollX
+            } else {
+                scrollX > minScrollX
+            }
+        } else {
+            //向左滑动
+            if (isLayoutRtl) {
+                scrollX > minScrollX
+            } else {
+                scrollX < maxScrollX
+            }
+        }
+    }
+
+    /**纵向是否可以滚动指定的距离*/
+    fun canVerticalScroll(distance: Int): Boolean {
+        return if (distance > 0) {
+            scrollY > minScrollY
+        } else {
+            scrollY < maxScrollY
+        }
     }
 
     /**检查是否需要重置滚动的位置*/

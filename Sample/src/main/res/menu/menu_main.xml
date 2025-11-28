@@ -24,6 +24,11 @@
         android:title="HorizontalHint"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_view_page2"
+        android:orderInCategory="100"
+        android:title="ViewPage2Sample"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_sample"
         android:orderInCategory="100"
         android:title="Sample"
