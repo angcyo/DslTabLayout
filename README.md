@@ -152,5 +152,3 @@ dependencies {
 
 [![angcyo/DslTabLayout](https://reporoster.com/stars/angcyo/DslTabLayout)](https://github.com/angcyo/DslTabLayout/stargazers)
 
-## 访问统计
-<img height="30px" src = "https://profile-counter.glitch.me/DslTabLayout/count.svg" alt ="Loading">
