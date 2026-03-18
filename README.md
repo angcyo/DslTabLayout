@@ -105,8 +105,9 @@ allprojects {
 
 ## APP目录中的 `build.gradle`
 
-```kotlin
+```groovy
 dependencies {
+    ...
     implementation 'com.github.angcyo.DslTablayout:TabLayout:3.7.2'
 
     //可选
@@ -117,6 +118,35 @@ dependencies {
 ```
 
 如果无法从`jitpack`获取库可以尝试使用`group`:`com.github.angcyo.DslTabLayout:xxx`
+
+# 使用`Maven Central`的方式, 引入库.
+
+> 仅支持`>=3.7.2`版本.
+
+## 配置仓库
+
+```groovy
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral() //this is important!
+    }
+}
+```
+
+## 添加依赖
+
+```groovy
+dependencies {
+    ...
+    implementation "io.github.angcyo.DslTablayout:TabLayout:3.7.2"
+    //可选
+    implementation "io.github.angcyo.DslTablayout:ViewPager1Delegate:3.7.2"
+    //可选
+    implementation "io.github.angcyo.DslTablayout:ViewPager2Delegate:3.7.2"
+}
+```
 
 
 [更新日志](https://github.com/angcyo/DslTabLayout/blob/master/CHANGELOG.md)
