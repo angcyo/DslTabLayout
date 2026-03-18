@@ -7,6 +7,7 @@ buildscript {
 
         google()
         mavenCentral()
+        gradlePluginPortal()
         maven { url 'https://jcenter.bintray.com' }
         maven { url 'https://jitpack.io' }
     }
@@ -15,6 +16,9 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        //JReleaser Gradle Plugin: https://plugins.gradle.org/plugin/org.jreleaser
+        classpath("org.jreleaser:org.jreleaser.gradle.plugin:1.23.0")
     }
 }
 
@@ -32,3 +36,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+apply from: "$gradleHost/master/local.gradle"

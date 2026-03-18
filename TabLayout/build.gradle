@@ -32,3 +32,4 @@ dependencies {
 }
 
 apply from: "$gradleHost/master/publish.gradle"
+apply from: "../gradle/jreleaser.gradle"

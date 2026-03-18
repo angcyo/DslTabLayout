@@ -1,0 +1,90 @@
+apply plugin: 'org.jreleaser'
+
+def projectName = project.name
+
+def JRELEASER_GPG_PUBLIC_KEY = project.property('JRELEASER_GPG_PUBLIC_KEY')
+def JRELEASER_GPG_SECRET_KEY = project.property('JRELEASER_GPG_SECRET_KEY')
+def JRELEASER_GPG_PASSPHRASE = project.property('JRELEASER_GPG_PASSPHRASE')
+
+def JRELEASER_MAVENCENTRAL_USERNAME = project.property('JRELEASER_MAVENCENTRAL_USERNAME')
+def JRELEASER_MAVENCENTRAL_PASSPHRASE = project.property('JRELEASER_MAVENCENTRAL_PASSPHRASE')
+
+def JRELEASER_GITHUB_TOKEN = project.property('JRELEASER_GITHUB_TOKEN')
+
+def libGroupId = project.hasProperty('libGroupId') ? project.property('libGroupId') : 'com.angcyo'
+def versionName = project.hasProperty('libVersionName') ? project.property('libVersionName') : 'master-SNAPSHOT'//'0.0.1'
+
+def winRepo = project.hasProperty('libWinRepo') ? project.property('libWinRepo') : 'E:/maven'
+def macRepo = project.hasProperty('libMacRepo') ? project.property('libMacRepo') : '/Users/angcyo/maven'
+def os = System.getProperty("os.name").toLowerCase()
+def repoPath = file(os.contains("window") ? winRepo : macRepo).absolutePath
+
+version versionName
+group 'io.github.angcyo'
+
+jreleaser {
+    gitRootSearch = true
+    dryrun = false
+
+    project {
+        name = projectName
+        description = 'a angcyo DslTabLayout library.'
+        authors = ['angcyo']
+        website = 'https://github.com/angcyo/DslTabLayout'
+        license = 'MIT'
+        java {
+            groupId = libGroupId
+            version = this.version
+        }
+    }
+
+    release {
+        github {
+            //active = 'NEVER' // 强制关闭 GitHub Release 功能
+            enabled = true
+            skipTag = true
+            skipRelease = true
+            //owner('angcyo')
+            name = projectName
+            token = System.getenv("JRELEASER_GITHUB_TOKEN") ?: JRELEASER_GITHUB_TOKEN
+        }
+    }
+
+    signing {
+        pgp {
+            active = 'ALWAYS'
+            armored = true
+
+            // 对应错误：signing.pgp.publicKey must not be blank
+            publicKey = rootProject.file(System.getenv("JRELEASER_GPG_PUBLIC_KEY") ?: JRELEASER_GPG_PUBLIC_KEY).text
+            // 对应错误：signing.pgp.secretKey must not be blank
+            secretKey = rootProject.file( System.getenv("JRELEASER_GPG_SECRET_KEY") ?: JRELEASER_GPG_SECRET_KEY).text
+            passphrase = System.getenv("JRELEASER_GPG_PASSPHRASE") ?: JRELEASER_GPG_PASSPHRASE
+        }
+    }
+
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    //active = 'ALWAYS'
+                    active = 'RELEASE'
+                    username = System.getenv("JRELEASER_MAVENCENTRAL_USERNAME") ?: JRELEASER_MAVENCENTRAL_USERNAME
+                    password = System.getenv("JRELEASER_MAVENCENTRAL_PASSPHRASE") ?: JRELEASER_MAVENCENTRAL_PASSPHRASE
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    //stagingRepository('build/staging-deploy')
+                    stagingRepository(repoPath)
+
+                    // 专门为AAR包装类型配置artifact覆盖
+                    artifactOverride {
+                        groupId = libGroupId
+                        artifactId = projectName
+                        verifyPom = false
+                        sourceJar = false
+                        javadocJar = false
+                    }
+                }
+            }
+        }
+    }
+}
